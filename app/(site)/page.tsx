@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { Button } from "@/components/site/Button";
 import { CtaBand } from "@/components/site/CtaBand";
 import { Figure } from "@/components/ui/Figure";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResultFinder } from "@/components/sections/ResultFinder";
+import { HeroCarousel } from "@/components/sections/HeroCarousel";
 import { LogoCloud } from "@/components/site/LogoCloud";
-import { capabilities } from "@/lib/nav";
 
 const stats = [
   {
@@ -84,58 +83,8 @@ const press = ["Digiday", "Glossy", "Modern Retail", "Racked", "Modern Shipper",
 export default function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-ink text-white">
-        <div className="bg-ecom-dark absolute inset-0 opacity-50" aria-hidden="true" />
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(60% 110% at 78% -5%, rgba(43,148,219,0.30), transparent 55%)" }}
-          aria-hidden="true"
-        />
-        <div className="container-kw relative grid gap-12 py-20 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-          <div>
-            <p className="eyebrow-light">Marketplace growth for consumer brands</p>
-            <h1 className="h-display mt-4 text-5xl leading-[1.03] md:text-7xl">
-              Measured growth.
-              <br />
-              Beautiful work.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-              Since 2016, we have run marketplace businesses on Amazon, Walmart,
-              Target Plus and five more channels. One senior team owns all of it:
-              your plan, advertising, creative and operations. We report weekly
-              and are measured on your sales, return on ad spend and margin.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button href="/contact" variant="light" size="lg">
-                Request a marketplace review
-              </Button>
-              <Button href="/work" variant="outline-light" size="lg">
-                Read 14 client case studies
-              </Button>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
-              One team runs all of it
-            </p>
-            <ul className="mt-4 divide-y divide-white/10">
-              {capabilities.map((c) => (
-                <li key={c.href}>
-                  <Link
-                    href={c.href}
-                    className="group flex items-center justify-between gap-4 py-3 text-[0.975rem] font-medium text-white/85 transition hover:text-white"
-                  >
-                    {c.label}
-                    <ArrowRight className="shrink-0 text-white/30 transition group-hover:translate-x-0.5 group-hover:text-accent" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      {/* Hero carousel */}
+      <HeroCarousel />
 
       {/* Results across channels and markets */}
       <section className="bg-ink text-white">
