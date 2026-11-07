@@ -4,18 +4,56 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0d1320;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: #2b94db;
+    color: #ffffff;
+  }
+  a {
+    text-decoration: none;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container-kw {
+    @apply mx-auto w-full max-w-container px-6 md:px-10;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-600;
+  }
+  .eyebrow-light {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-300;
+  }
+  .h-display {
+    @apply font-sans font-semibold tracking-tightish;
+  }
+  .link-underline {
+    @apply relative inline-flex items-center gap-1 font-medium text-brand-600 transition hover:text-brand-700;
+  }
+  .prose-kw p {
+    @apply text-[1.0625rem] leading-relaxed text-slate-600;
+  }
+}
+
+/* Subtle dotted texture used behind dark hero blocks */
+.hero-texture {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
 }
