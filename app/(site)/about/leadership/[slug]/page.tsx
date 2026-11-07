@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand } from "@/components/site/CtaBand";
 import { Figure } from "@/components/ui/Figure";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { personLd, breadcrumbLd } from "@/lib/seo";
 import { leaders, getLeader } from "@/lib/content/leadership";
 
 export function generateStaticParams() {
@@ -17,7 +19,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const l = getLeader(slug);
   if (!l) return {};
-  return { title: l.name, description: `${l.name} — ${l.role} at Kwontified.` };
+  return {
+    title: l.name,
+    description: `${l.name} — ${l.role} at Kwontified.`,
+    alternates: { canonical: `/about/leadership/${l.slug}` },
+  };
 }
 
 export default async function LeaderPage({
@@ -31,6 +37,17 @@ export default async function LeaderPage({
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+            { name: "Leadership", path: "/about/leadership" },
+            { name: l.name, path: `/about/leadership/${l.slug}` },
+          ]),
+          personLd({ name: l.name, role: l.role, bio: l.bio, path: `/about/leadership/${l.slug}` }),
+        ]}
+      />
       <section className="bg-white">
         <div className="container-kw py-14">
           <nav className="mb-8 flex items-center gap-2 text-sm text-muted">

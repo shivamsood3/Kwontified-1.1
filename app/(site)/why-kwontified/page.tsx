@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand } from "@/components/site/CtaBand";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqLd, breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Why Kwontified",
   description:
     "Operators who have run marketplace businesses, working from your data and holding your account to the standard your brand holds itself to.",
+  alternates: { canonical: "/why-kwontified" },
 };
 
 const sections = [
@@ -57,6 +60,15 @@ const faqs = [
 export default function WhyKwontifiedPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Why Kwontified", path: "/why-kwontified" },
+          ]),
+          faqLd(faqs.map((f) => ({ q: f.q, a: f.a }))),
+        ]}
+      />
       {/* Hero (light) */}
       <section className="bg-white">
         <div className="container-kw py-16">

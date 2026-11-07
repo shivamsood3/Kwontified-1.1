@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/site/Button";
 import { cn } from "@/lib/cn";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbLd } from "@/lib/seo";
 
 export type Crumb = { label: string; href?: string };
 
@@ -27,6 +29,13 @@ export function PageHero({
   const centered = align === "center" || !children;
   return (
     <section className="relative overflow-hidden bg-ink text-white">
+      {crumbs && crumbs.length > 0 && (
+        <JsonLd
+          data={breadcrumbLd(
+            crumbs.map((c) => ({ name: c.label, path: c.href })),
+          )}
+        />
+      )}
       <div className="bg-ecom-dark absolute inset-0 opacity-50" aria-hidden="true" />
       <div
         className="absolute inset-0"

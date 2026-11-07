@@ -1,3 +1,6 @@
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqLd } from "@/lib/seo";
+
 const faqs = [
   {
     q: "How does an engagement start?",
@@ -32,6 +35,7 @@ const faqs = [
 export function ExecFaq() {
   return (
     <section className="bg-white">
+      <JsonLd data={faqLd(faqs.map((f) => ({ q: f.q, a: f.a })))} />
       <div className="container-kw py-20">
         <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-start">
           <div>

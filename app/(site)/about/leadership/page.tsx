@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Leadership",
   description:
     "The team that runs Kwontified — operators who have run marketplace businesses inside Amazon, as brand owners and as agency operators.",
+  alternates: { canonical: "/about/leadership" },
 };
 
 export default function LeadershipPage() {

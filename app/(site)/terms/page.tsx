@@ -4,6 +4,7 @@ import { LegalPage } from "@/components/sections/LegalPage";
 export const metadata: Metadata = {
   title: "Terms of Use",
   description: "The terms that govern your use of kwontified.com.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

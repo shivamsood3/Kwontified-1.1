@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Creative work",
   description:
     "Photography, video, A+ Content and Storefronts from the Creative Studio — every piece shown with the client, the channel and the result.",
+  alternates: { canonical: "/work/creative" },
 };
 
 export default function CreativePage() {

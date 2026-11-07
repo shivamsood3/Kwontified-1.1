@@ -4,6 +4,7 @@ import { LegalPage } from "@/components/sections/LegalPage";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Kwontified LLC collects, uses and protects personal information.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

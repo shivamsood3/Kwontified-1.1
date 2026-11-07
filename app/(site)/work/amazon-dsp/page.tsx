@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "$1.8M from DSP, with search intact",
   description:
     "A national beauty brand added Amazon DSP to a mature search program and returned 9.4x DSP ROAS on $192K of spend, with new-to-brand sales up 28% and search ROAS held.",
+  alternates: { canonical: "/work/amazon-dsp" },
 };
 
 const meta = [

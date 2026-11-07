@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationLd, websiteLd } from "@/lib/seo";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -19,6 +21,36 @@ export const metadata: Metadata = {
   },
   description:
     "Kwontified runs Amazon, Walmart, Target Plus and global marketplaces for brands — advertising, creative, operations and analytics under one team that reads the numbers and makes the work that moves them.",
+  applicationName: "Kwontified",
+  authors: [{ name: "Kwontified" }],
+  creator: "Kwontified",
+  publisher: "Kwontified LLC",
+  category: "Ecommerce marketplace agency",
+  keywords: [
+    "ecommerce agency",
+    "Amazon agency",
+    "Amazon advertising",
+    "Amazon DSP",
+    "retail media",
+    "Walmart Connect",
+    "Target Plus",
+    "marketplace management",
+    "Amazon Vendor Central",
+    "AI commerce",
+    "Amazon Rufus",
+    "ecommerce analytics",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     title: "Kwontified — Measured growth. Beautiful work.",
     description:
@@ -27,6 +59,7 @@ export const metadata: Metadata = {
     siteName: "Kwontified",
     images: ["/brand/opengraph-image.png"],
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
@@ -47,6 +80,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={dmSans.variable}>
       <body className="min-h-screen bg-white text-ink antialiased">
+        <JsonLd data={[organizationLd(), websiteLd()]} />
         {children}
       </body>
     </html>

@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Request a marketplace review",
   description:
     "Tell us where you sell and what you want to grow. A member of our team reviews every request and replies within one business day.",
+  alternates: { canonical: "/contact" },
 };
 
 const next = [

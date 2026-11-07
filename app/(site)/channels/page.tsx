@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Channels",
   description:
     "Every marketplace, one business. Amazon, Walmart, Target Plus, international platforms and social commerce — run from one plan and one P&L.",
+  alternates: { canonical: "/channels" },
 };
 
 const hubNodes = [

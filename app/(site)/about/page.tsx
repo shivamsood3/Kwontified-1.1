@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Kwontified is built by marketplace operators — people who have managed marketplace businesses firsthand across platforms, countries and stages of growth.",
+  alternates: { canonical: "/about" },
 };
 
 const related = [

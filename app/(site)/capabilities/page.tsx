@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Capabilities",
   description:
     "Six capabilities, one team: retail media, creative, operations, analytics, AI commerce and revenue recovery — all sharing one plan and one data set.",
+  alternates: { canonical: "/capabilities" },
 };
 
 export default function CapabilitiesOverview() {

@@ -7,6 +7,7 @@ const amazon = getChannel("amazon")!;
 export const metadata: Metadata = {
   title: amazon.name,
   description: amazon.intro,
+  alternates: { canonical: "/channels/amazon" },
 };
 
 export default function AmazonChannelPage() {

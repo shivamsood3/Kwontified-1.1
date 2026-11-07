@@ -17,7 +17,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const c = getChannel(slug);
   if (!c) return {};
-  return { title: c.name, description: c.intro };
+  return {
+    title: c.name,
+    description: c.intro,
+    alternates: { canonical: `/channels/${c.slug}` },
+  };
 }
 
 export default async function ChannelPage({

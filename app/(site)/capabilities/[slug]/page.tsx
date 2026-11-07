@@ -5,6 +5,8 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Button } from "@/components/site/Button";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { serviceLd } from "@/lib/seo";
 import {
   capabilitiesContent,
   getCapability,
@@ -22,7 +24,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const c = getCapability(slug);
   if (!c) return {};
-  return { title: c.name, description: c.intro };
+  return {
+    title: c.name,
+    description: c.intro,
+    alternates: { canonical: `/capabilities/${c.slug}` },
+  };
 }
 
 export default async function CapabilityPage({
@@ -38,6 +44,9 @@ export default async function CapabilityPage({
 
   return (
     <>
+      <JsonLd
+        data={serviceLd({ name: c.name, description: c.intro, path: `/capabilities/${c.slug}` })}
+      />
       <PageHero
         eyebrow="Capability"
         title={c.h1}

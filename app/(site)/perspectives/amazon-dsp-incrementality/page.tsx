@@ -1,11 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand } from "@/components/site/CtaBand";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleLd, breadcrumbLd } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const POST = {
   title: "Is your Amazon DSP spend incremental?",
   description:
     "Attributed ROAS shows what DSP touched; lift studies and AMC path analysis show what it caused. The test design we use before scaling a DSP budget.",
+  path: "/perspectives/amazon-dsp-incrementality",
+  author: "Priyanka Shah",
+  section: "Retail media",
+};
+
+export const metadata: Metadata = {
+  title: POST.title,
+  description: POST.description,
+  alternates: { canonical: POST.path },
+  authors: [{ name: POST.author }],
+  openGraph: {
+    type: "article",
+    title: POST.title,
+    description: POST.description,
+    authors: [POST.author],
+    section: POST.section,
+  },
 };
 
 const sections = [
@@ -46,6 +65,22 @@ const related = [
 export default function DspIncrementalityPost() {
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Perspectives", path: "/perspectives" },
+            { name: POST.title, path: POST.path },
+          ]),
+          articleLd({
+            title: POST.title,
+            description: POST.description,
+            path: POST.path,
+            authorName: POST.author,
+            section: POST.section,
+          }),
+        ]}
+      />
       <article className="bg-white">
         <div className="container-kw py-14">
           <nav className="mb-6 flex items-center gap-2 text-sm text-muted">

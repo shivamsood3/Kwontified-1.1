@@ -22,9 +22,17 @@ Items to resolve before taking the site live.
   top-notch royalty-free (CC0) stock chosen per category; replace with the
   client's own product/creative photography if/when available.
 
+- [ ] **Verify in Search Console / Bing + submit sitemap.** Add the
+  verification meta tag (or DNS record) for `kwontified.com`, then submit
+  `https://kwontified.com/sitemap.xml`. (Needs the client's accounts.)
+
 ## ✅ Done
 
 - Public site built to match the Figma 1.1.1 design (34 pages).
+- Technical SEO / AEO / GEO: JSON-LD structured data (Organization, WebSite,
+  BreadcrumbList, FAQPage, Article, Person, Service), per-page canonicals,
+  Open Graph + Twitter cards, sitemap.xml, robots.txt (AI crawlers explicitly
+  allowed), `llms.txt`, web manifest, and rich-result robots directives.
 - Real client logos, press logos, social icons + real profile links.
 - Real royalty-free category photography across the creative galleries.
 - Animated hero carousel matching the prototype.

@@ -5,6 +5,7 @@ import { brandPrograms } from "@/lib/content/channels";
 export const metadata: Metadata = {
   title: brandPrograms.name,
   description: brandPrograms.intro,
+  alternates: { canonical: "/channels/amazon/brand-programs" },
 };
 
 export default function BrandProgramsPage() {

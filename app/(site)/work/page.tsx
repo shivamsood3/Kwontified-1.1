@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Work",
   description:
     "Case studies across Amazon, Walmart and Target Plus — each with its starting point, what we did, and the outcome in numbers.",
+  alternates: { canonical: "/work" },
 };
 
 export default function WorkPage() {

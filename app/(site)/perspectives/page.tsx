@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Perspectives",
   description:
     "What we learn running marketplaces for premium brands — written by the people doing the work, and dated so you know it is current.",
+  alternates: { canonical: "/perspectives" },
 };
 
 export default function PerspectivesPage() {

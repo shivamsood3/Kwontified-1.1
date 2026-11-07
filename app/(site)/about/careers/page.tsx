@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Careers",
   description:
     "Work on brands people know. Design Amazon advertising programs, build catalog structures for prestige brands and work on AI commerce — alongside credentialed specialists.",
+  alternates: { canonical: "/about/careers" },
 };
 
 const traits = [

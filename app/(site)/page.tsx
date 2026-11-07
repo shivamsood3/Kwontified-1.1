@@ -5,6 +5,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResultFinder } from "@/components/sections/ResultFinder";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
 import { LogoCloud } from "@/components/site/LogoCloud";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const stats = [
   {
