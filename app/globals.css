@@ -57,3 +57,15 @@
   );
   background-size: 22px 22px;
 }
+
+/* Brand ecommerce-icon pattern (from the Kwontified design system) */
+.bg-ecom-dark {
+  background-image: url("/brand/pattern-dark.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.bg-ecom-blue {
+  background-image: url("/brand/pattern-blue.jpg");
+  background-size: cover;
+  background-position: center;
+}

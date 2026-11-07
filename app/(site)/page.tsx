@@ -5,6 +5,7 @@ import { Figure } from "@/components/ui/Figure";
 import { Stat } from "@/components/ui/Stat";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResultFinder } from "@/components/sections/ResultFinder";
+import { LogoCloud } from "@/components/site/LogoCloud";
 import { capabilities } from "@/lib/nav";
 
 const stats = [
@@ -12,8 +13,6 @@ const stats = [
   { value: "+47%", label: "New-to-brand sales", sub: "Year-over-year, luxury swimwear on Amazon", href: "/work" },
   { value: "$14.0M", label: "Annual revenue recovered", sub: "Vendor account, PO fill rate up to 92%", href: "/capabilities/revenue-recovery" },
 ];
-
-const brands = ["Timberland", "Kipling", "TULA", "The Honest Co.", "Verman", "Burt’s Bees"];
 
 const pillars = [
   {
@@ -85,7 +84,7 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-white">
-        <div className="hero-texture absolute inset-0 opacity-60" aria-hidden="true" />
+        <div className="bg-ecom-dark absolute inset-0 opacity-50" aria-hidden="true" />
         <div
           className="absolute inset-0"
           style={{
@@ -172,20 +171,8 @@ export default function HomePage() {
 
       {/* Logo cloud */}
       <section className="border-b border-line bg-white">
-        <div className="container-kw py-12">
-          <p className="text-center text-sm text-muted">
-            Trusted by leading brands for over a decade
-          </p>
-          <div className="mt-6 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-6">
-            {brands.map((b) => (
-              <div
-                key={b}
-                className="text-center text-base font-semibold tracking-tight text-slate-400"
-              >
-                {b}
-              </div>
-            ))}
-          </div>
+        <div className="container-kw py-14">
+          <LogoCloud />
         </div>
       </section>
 

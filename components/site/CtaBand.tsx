@@ -11,7 +11,7 @@ export function CtaBand({
 }) {
   return (
     <section className="relative overflow-hidden bg-brand-700">
-      <div className="hero-texture absolute inset-0 opacity-70" aria-hidden="true" />
+      <div className="bg-ecom-blue absolute inset-0 opacity-45" aria-hidden="true" />
       <div
         className="absolute inset-0 opacity-30"
         style={{

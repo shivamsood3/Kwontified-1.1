@@ -27,7 +27,7 @@ export function PageHero({
   const centered = align === "center" || !children;
   return (
     <section className="relative overflow-hidden bg-ink text-white">
-      <div className="hero-texture absolute inset-0 opacity-60" aria-hidden="true" />
+      <div className="bg-ecom-dark absolute inset-0 opacity-50" aria-hidden="true" />
       <div
         className="absolute inset-0"
         style={{
