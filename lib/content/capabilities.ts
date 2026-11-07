@@ -104,11 +104,11 @@ export const capabilitiesContent: Capability[] = [
     h1: "Be the answer when shoppers ask AI.",
     intro:
       "Shoppers increasingly ask Amazon Rufus, ChatGPT, Gemini and Claude what to buy. We structure product data and content so your brand is the one these assistants can read, trust and recommend.",
-    metric: { value: "First", label: "result to publish" },
+    metric: { value: "4", label: "AI assistants, one feed" },
     heroStats: [
-      { value: "4", label: "Assistants covered" },
       { value: "100%", label: "Attribute coverage" },
       { value: "Rufus-ready", label: "Content model" },
+      { value: "24/7", label: "Assistant monitoring" },
     ],
     services: [
       { title: "Structured product data", body: "Complete, consistent attributes, materials, use cases and compatibility across the catalog, so an assistant can match your product to the question a shopper actually asked." },

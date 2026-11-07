@@ -297,8 +297,34 @@ function VisualCreative() {
     <Panel dark={false}>
       <CapDark>Premium skincare brand, Amazon US</CapDark>
       <div className="mt-4 grid grid-cols-2 gap-4">
-        <Swatch label="Main image, before" tone="#cfd8df" muted />
-        <Swatch label="Winning variant" tone={BLUE} />
+        <figure>
+          <div className="aspect-[4/3] overflow-hidden rounded-lg border border-[rgba(38,37,36,.1)]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/creative/test-product.jpg"
+              alt="Main image, before"
+              className="h-full w-full object-cover"
+              style={{ filter: "grayscale(1) brightness(0.96)" }}
+            />
+          </div>
+          <p className="mt-1.5 text-[0.7rem]" style={{ color: "rgba(38,37,36,.55)" }}>
+            Main image, before
+          </p>
+        </figure>
+        <figure>
+          <div className="aspect-[4/3] overflow-hidden rounded-lg" style={{ boxShadow: `0 0 0 2px ${BLUE}` }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/creative/test-product.jpg"
+              alt="Winning variant"
+              className="h-full w-full object-cover"
+              style={{ filter: "saturate(1.15) contrast(1.05)" }}
+            />
+          </div>
+          <p className="mt-1.5 text-[0.7rem] font-medium" style={{ color: BLUE }}>
+            Winning variant
+          </p>
+        </figure>
       </div>
       <div className="mt-5 flex items-end gap-5">
         <Bar h={66} label="Before" value="8.2%" tone="#c3d3dd" />
@@ -404,19 +430,6 @@ function Bar({ h, label, value, tone, dark, small }: { h: number; label: string;
         <div className="w-full rounded-t" style={{ height: `${h}%`, background: tone }} />
       </div>
       <span className="text-center text-[0.7rem]" style={{ color: dark ? "rgba(255,255,255,.5)" : "rgba(38,37,36,.55)" }}>{label}</span>
-    </div>
-  );
-}
-
-function Swatch({ label, tone, muted }: { label: string; tone: string; muted?: boolean }) {
-  return (
-    <div>
-      <div className="flex aspect-[4/3] items-center justify-center rounded-lg" style={{ background: muted ? tone : `linear-gradient(135deg, ${tone}, #003f5c)` }}>
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={muted ? "rgba(38,37,36,.4)" : "rgba(255,255,255,.7)"} strokeWidth="1.5" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9.5" r="1.8" /><path d="M21 16l-5-5L5 20" />
-        </svg>
-      </div>
-      <p className="mt-1.5 text-[0.7rem]" style={{ color: "rgba(38,37,36,.55)" }}>{label}</p>
     </div>
   );
 }

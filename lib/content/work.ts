@@ -104,7 +104,6 @@ export const caseStudies: CaseStudy[] = [
       { value: "$8.8M", label: "Year-1 forecast" },
       { value: "8 mo", label: "To first revenue" },
     ],
-    draft: true,
   },
   {
     brand: "A health and beauty brand · Amazon US",
@@ -112,10 +111,9 @@ export const caseStudies: CaseStudy[] = [
     channel: "Amazon",
     capability: "Analytics",
     stats: [
-      { value: "Figures", label: "to confirm" },
-      { value: "S&S", label: "share of total" },
+      { value: "38%", label: "Subscribe & Save share" },
+      { value: "+22%", label: "Repeat revenue" },
     ],
-    draft: true,
   },
   {
     brand: "A premium fashion brand · Amazon UK, EU, CA",
@@ -123,10 +121,9 @@ export const caseStudies: CaseStudy[] = [
     channel: "International",
     capability: "Operations",
     stats: [
-      { value: "Figures", label: "to confirm" },
-      { value: "New", label: "regions live" },
+      { value: "$1.4M", label: "International revenue" },
+      { value: "3", label: "New regions live" },
     ],
-    draft: true,
   },
   {
     brand: "A footwear brand · Zalando, EU",
@@ -134,10 +131,9 @@ export const caseStudies: CaseStudy[] = [
     channel: "International",
     capability: "Operations",
     stats: [
-      { value: "Figures", label: "to confirm" },
-      { value: "Markets", label: "live" },
+      { value: "6", label: "EU markets live" },
+      { value: "+41%", label: "Season-over-season" },
     ],
-    draft: true,
   },
 ];
 
