@@ -20,14 +20,15 @@ const slides = [
 export function HeroCarousel() {
   const [i, setI] = useState(0);
   const [playing, setPlaying] = useState(true);
+  const [animate, setAnimate] = useState(true);
   const hover = useRef(false);
-  const reduced = useRef(false);
 
   useEffect(() => {
-    reduced.current =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduced.current) setPlaying(false);
+    // Keep auto-rotation on even with reduced motion; just drop the per-slide
+    // entrance animation for those users.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setAnimate(false);
+    }
   }, []);
 
   const next = useCallback(() => setI((v) => (v + 1) % slides.length), []);
@@ -37,7 +38,7 @@ export function HeroCarousel() {
     if (!playing) return;
     const id = setInterval(() => {
       if (!hover.current && !document.hidden) next();
-    }, 6500);
+    }, 5000);
     return () => clearInterval(id);
   }, [playing, next]);
 
@@ -60,7 +61,7 @@ export function HeroCarousel() {
       <div className="container-kw relative">
         <div
           key={i}
-          className="grid animate-fade-up gap-12 py-16 md:py-20 lg:min-h-[560px] lg:grid-cols-2 lg:items-center"
+          className={`grid gap-12 py-16 md:py-20 lg:min-h-[560px] lg:grid-cols-2 lg:items-center ${animate ? "animate-fade-up" : ""}`}
         >
           <Slide index={i} dark={dark} />
         </div>

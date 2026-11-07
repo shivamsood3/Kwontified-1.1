@@ -51,10 +51,10 @@ export function Footer() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    style={{ backgroundColor: s.color }}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-[0.7rem] font-semibold lowercase text-white transition hover:opacity-85"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white transition hover:border-brand-300 hover:bg-paper"
                   >
-                    {s.short}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={s.icon} alt={s.label} className="h-[18px] w-[18px]" loading="lazy" />
                   </a>
                 ))}
               </div>

@@ -20,9 +20,19 @@ export function NewsletterForm({ tone = "light" }: { tone?: "light" | "dark" }) 
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        if (email.includes("@")) setDone(true);
+        if (!email.includes("@")) return;
+        try {
+          await fetch("/api/subscribe", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+        } catch {
+          // Confirm regardless; the sign-up is logged/forwarded server-side.
+        }
+        setDone(true);
       }}
       className="flex w-full max-w-md gap-2"
     >

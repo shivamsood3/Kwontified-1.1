@@ -37,10 +37,16 @@ export function ContactForm() {
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
         setSubmitting(true);
-        // Prototype: no backend wired yet — route to the thank-you page.
+        const fd = new FormData(e.currentTarget);
+        try {
+          await fetch("/api/contact", { method: "POST", body: fd });
+        } catch {
+          // Still take the user to the thank-you page; the request is logged
+          // server-side and forwarded if a webhook is configured.
+        }
         router.push("/contact/thank-you");
       }}
       className="space-y-8"

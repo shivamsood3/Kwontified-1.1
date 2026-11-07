@@ -24,15 +24,13 @@ export const site = {
       lines: ["1201 Third Avenue, Suite 2200", "Seattle, WA 98101"],
     },
   ],
+  // Real profiles + official brand icons, matching the live site.
   social: [
-    { label: "LinkedIn", short: "in", href: "https://www.linkedin.com/company/kwontified", color: "#0A66C2" },
-    { label: "YouTube", short: "YT", href: "https://www.youtube.com/@kwontified", color: "#FF0000" },
-    { label: "Instagram", short: "IG", href: "https://www.instagram.com/kwontified", color: "#E4405F" },
-    { label: "Facebook", short: "f", href: "https://www.facebook.com/kwontified", color: "#1877F2" },
-    { label: "X", short: "X", href: "https://x.com/kwontified", color: "#111111" },
-    { label: "Threads", short: "@", href: "https://www.threads.net/@kwontified", color: "#111111" },
-    { label: "Bluesky", short: "bs", href: "https://bsky.app/profile/kwontified.com", color: "#0285FF" },
-    { label: "TikTok", short: "tk", href: "https://www.tiktok.com/@kwontified", color: "#111111" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/kwontified", icon: "/social/linkedin.svg" },
+    { label: "Instagram", href: "https://www.instagram.com/kwontified/", icon: "/social/instagram.svg" },
+    { label: "Facebook", href: "https://www.facebook.com/kwontified", icon: "/social/facebook.svg" },
+    { label: "X", href: "https://twitter.com/kwontified", icon: "/social/x.svg" },
+    { label: "YouTube", href: "https://www.youtube.com/channel/UCvJbuLKclXWQ8y8Al-aAyjA", icon: "/social/youtube.svg" },
   ],
   clientSignInUrl: "https://clients.kwontified.com/sign-in",
 } as const;
