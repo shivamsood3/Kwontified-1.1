@@ -65,11 +65,11 @@ const budgetChannels = [
 ];
 
 const creative = [
-  { label: "DSP creative, beauty brand", caption: "National beauty brand, Amazon DSP. +28% new-to-brand sales.", img: "/work-img/cs-beauty.jpg", ratio: "4/3" as const, span: "md:col-span-2" },
-  { label: "Main image set, accessories brand", caption: "Global accessories, Amazon and Target Plus. 11.1x Amazon ROAS on 17% less spend.", img: "/work-img/cs-launch.jpg", ratio: "1/1" as const, span: "" },
-  { label: "Storefront hero, luxury swimwear", caption: "Luxury swimwear, Amazon US, EU and UK. +204% over three years, without discounting.", img: "/stock/target-hero.jpg", ratio: "1/1" as const, span: "" },
-  { label: "Lifestyle, men’s outdoor apparel", caption: "Men’s outdoor apparel, Amazon launch. $4.5M in the first nine months.", img: "/stock/tiktok-hero.jpg", ratio: "4/3" as const, span: "md:col-span-2" },
-  { label: "Main image test, premium skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%, worth $4.2M.", img: "/work-img/cs-creator.jpg", ratio: "4/3" as const, span: "md:col-span-2" },
+  { label: "DSP creative, beauty brand", caption: "National beauty brand, Amazon DSP. +28% new-to-brand sales.", img: "/creative/beauty.png", ratio: "4/3" as const, span: "md:col-span-2" },
+  { label: "Main image set, accessories brand", caption: "Global accessories, Amazon and Target Plus. 11.1x Amazon ROAS on 17% less spend.", img: "/creative/accessories.png", ratio: "1/1" as const, span: "" },
+  { label: "Storefront hero, luxury swimwear", caption: "Luxury swimwear, Amazon US, EU and UK. +204% over three years, without discounting.", img: "/creative/swimwear.png", ratio: "1/1" as const, span: "" },
+  { label: "Lifestyle, men’s outdoor apparel", caption: "Men’s outdoor apparel, Amazon launch. $4.5M in the first nine months.", img: "/creative/outdoor.png", ratio: "4/3" as const, span: "md:col-span-2" },
+  { label: "Main image test, premium skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%, worth $4.2M.", img: "/creative/skincare.png", ratio: "4/3" as const, span: "md:col-span-2" },
 ];
 
 const perspectives = [
