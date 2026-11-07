@@ -44,7 +44,7 @@ export default async function LeaderPage({
           </nav>
 
           <div className="grid gap-10 md:grid-cols-[0.4fr_1fr] md:items-start">
-            <Figure ratio="3/4" label={`Portrait — ${l.name}`} />
+            <Figure ratio="1/1" src={l.image} alt={l.name} />
             <div>
               <h1 className="h-display text-4xl text-ink md:text-5xl">{l.name}</h1>
               <p className="mt-2 text-lg text-brand-600">{l.role}</p>

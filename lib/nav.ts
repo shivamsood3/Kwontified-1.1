@@ -58,12 +58,14 @@ export const primaryNav = [
   { label: "Capabilities", href: "/capabilities" },
   { label: "Channels", href: "/channels" },
   { label: "Work", href: "/work" },
+  { label: "Why Kwontified", href: "/why-kwontified" },
   { label: "Perspectives", href: "/perspectives" },
   { label: "About", href: "/about" },
 ] as const;
 
 export const companyNav: NavItem[] = [
   { label: "About", href: "/about" },
+  { label: "Why Kwontified", href: "/why-kwontified" },
   { label: "Leadership", href: "/about/leadership" },
   { label: "Work", href: "/work" },
   { label: "Perspectives", href: "/perspectives" },

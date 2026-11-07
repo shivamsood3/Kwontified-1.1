@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
+import { Figure } from "@/components/ui/Figure";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -40,7 +41,9 @@ export default function CareersPage() {
           { label: "Careers" },
         ]}
         cta={{ href: "/contact", label: "See open roles" }}
-      />
+      >
+        <Figure src="/stock/careers-hero.jpg" alt="Working at Kwontified" ratio="4/3" priority />
+      </PageHero>
 
       <section className="bg-white">
         <div className="container-kw py-16">

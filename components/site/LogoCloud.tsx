@@ -25,7 +25,7 @@ export function LogoCloud({
             <img
               src={l.file}
               alt={l.name}
-              className="h-7 w-auto max-w-[140px] object-contain opacity-55 grayscale transition hover:opacity-90 hover:grayscale-0"
+              className="h-8 w-auto max-w-[150px] object-contain opacity-90 transition hover:opacity-100"
               loading="lazy"
             />
           </div>

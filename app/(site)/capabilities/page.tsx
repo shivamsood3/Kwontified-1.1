@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
+import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Stat } from "@/components/ui/Stat";
 import { capabilitiesContent } from "@/lib/content/capabilities";
 
@@ -60,7 +61,13 @@ export default function CapabilitiesOverview() {
         </div>
       </section>
 
-      <CtaBand />
+      <ExecFaq />
+
+      <CtaBand
+        title="Start where the return is highest."
+        body="Share your channels and goals. We return a first read on which capability, from retail media to operations, would add the most margin first."
+        cta={{ href: "/contact", label: "Request a growth review" }}
+      />
     </>
   );
 }

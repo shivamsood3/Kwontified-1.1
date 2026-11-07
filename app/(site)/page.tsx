@@ -2,82 +2,84 @@ import Link from "next/link";
 import { Button } from "@/components/site/Button";
 import { CtaBand } from "@/components/site/CtaBand";
 import { Figure } from "@/components/ui/Figure";
-import { Stat } from "@/components/ui/Stat";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResultFinder } from "@/components/sections/ResultFinder";
 import { LogoCloud } from "@/components/site/LogoCloud";
 import { capabilities } from "@/lib/nav";
 
 const stats = [
-  { value: "9.4x", label: "DSP ROAS", sub: "National beauty brand, search ROAS held", href: "/work/amazon-dsp" },
-  { value: "+47%", label: "New-to-brand sales", sub: "Year-over-year, luxury swimwear on Amazon", href: "/work" },
-  { value: "$14.0M", label: "Annual revenue recovered", sub: "Vendor account, PO fill rate up to 92%", href: "/capabilities/revenue-recovery" },
+  {
+    value: "+19%",
+    title: "Walmart revenue",
+    body: "Combined Walmart revenue for a consumer health brand through a major SKU transition, with supplier ROAS up from 3.0x to 4.2x.",
+    link: { href: "/work", label: "Read the Walmart case study" },
+    before: 74,
+    after: 100,
+  },
+  {
+    value: "$1.4M",
+    title: "International revenue",
+    body: "International revenue across the UK, EU and Canada for a premium fashion brand that had sold only in the US.",
+    link: { href: "/work", label: "Read the international case study" },
+    before: 6,
+    after: 100,
+  },
+  {
+    value: "$6.2M",
+    title: "Amazon business, restored",
+    body: "A leading CPG brand’s collapsed $6.2M Amazon business, restored, with annualized revenue up 68%.",
+    link: { href: "/work", label: "Read the account health case study" },
+    before: 60,
+    after: 100,
+  },
 ];
 
-const pillars = [
-  {
-    kicker: "Measured",
-    title: "We read the numbers.",
-    body: "Retail media and analytics judged on incremental return, not last-click ROAS. One data set connects spend to revenue across every channel.",
-    href: "/capabilities/retail-media",
-    label: "Retail Media and Analytics",
-  },
-  {
-    kicker: "Made",
-    title: "We make the work.",
-    body: "Creative strategy, product photography, A+ Content, Storefronts and video for each platform — briefed from the conversion data, on brand.",
-    href: "/capabilities/creative-studio",
-    label: "Creative Studio",
-  },
-  {
-    kicker: "Run",
-    title: "We run the operation.",
-    body: "Catalog, inventory, pricing and compliance, 1P and 3P, plus shortage and chargeback recovery — the operations that protect margin.",
-    href: "/capabilities/marketplace-operations",
-    label: "Marketplace Operations",
-  },
+const oneTeam = [
+  { k: "Measured", cap: "Retail media", href: "/capabilities/retail-media", desc: "Sponsored ads, DSP, Walmart Connect and Roundel, managed on incremental return and new-to-brand growth, with TACoS held to the plan.", connect: "Budgets ease off before a product stocks out, so ads never send shoppers to an empty listing." },
+  { k: "Made", cap: "Creative Studio", href: "/capabilities/creative-studio", desc: "Product photography, image editing, AI image and video, A+ Content and Storefronts, finished to your brand’s own standard.", connect: "Briefs start from the search terms and conversion data the advertising team reads every day." },
+  { k: "Run", cap: "Marketplace operations", href: "/capabilities/marketplace-operations", desc: "Catalog, inventory, 1P and 3P operations, promotions and account health, in every market you sell in.", connect: "Promotions are planned with the stock to support them and the advertising to drive them." },
+  { k: "Found", cap: "AI commerce", href: "/capabilities/ai-commerce", desc: "Complete, structured product data, so Amazon Rufus, ChatGPT, Google Gemini and Claude can recommend your products accurately.", connect: "Built on the catalog the operations team already maintains, so nothing is written twice." },
+  { k: "Reported", cap: "Analytics", href: "/capabilities/analytics", desc: "Dashboards and sales, budget and inventory forecasts in conservative, standard and reach scenarios: one version of the numbers for brand managers and the board.", connect: "Advertising, stock and promotions all plan to the same forecast." },
+  { k: "Recovered", cap: "Revenue recovery", href: "/capabilities/revenue-recovery", desc: "Vendor Central shortages, chargebacks and accruals, and Seller Central FBA reimbursements, audited, filed and followed inside Amazon’s claim windows.", connect: "The operations team fixes the causes, so the same losses stop coming back." },
+];
+
+const oneTeamBullets = [
+  "One named team and one inbox for every channel you sell in.",
+  "One plan, with sales, margin, advertising and inventory targets you approve.",
+  "A weekly update, plus monthly and quarterly business reviews against that plan.",
+  "Senior leaders who stay involved long after onboarding.",
 ];
 
 const budgetChannels = [
-  { label: "Amazon Seller Central", href: "/channels/amazon" },
-  { label: "Amazon Vendor Central", href: "/channels/amazon" },
-  { label: "Walmart", href: "/channels/walmart" },
-  { label: "Target Plus", href: "/channels/target-plus" },
-  { label: "Zalando", href: "/channels/zalando" },
-  { label: "Mercado Libre", href: "/channels/mercado-libre" },
-  { label: "Temu", href: "/channels/temu" },
-  { label: "TikTok Shop", href: "/channels/tiktok-shop" },
-  { label: "Instagram Shop", href: "/channels/instagram-shop" },
-  { label: "AI shopping assistants", href: "/capabilities/ai-commerce" },
+  { label: "Amazon Seller Central", sub: "Advertising, content and FBA for 3P sellers", href: "/channels/amazon" },
+  { label: "Amazon Vendor Central", sub: "1P margin, fill rates and shortage recovery", href: "/channels/amazon" },
+  { label: "Walmart", sub: "Marketplace sellers and suppliers, with Walmart Connect", href: "/channels/walmart" },
+  { label: "Target Plus", sub: "Run to Target’s standards, with Roundel", href: "/channels/target-plus" },
+  { label: "International", sub: "Canada, Mexico, the UK and the EU", href: "/channels/international" },
+  { label: "Zalando", sub: "Fashion across Europe’s markets and seasons", href: "/channels/zalando" },
+  { label: "Mercado Libre", sub: "Latin America, set up country by country", href: "/channels/mercado-libre" },
+  { label: "Temu", sub: "On your brand’s terms, with price floors", href: "/channels/temu" },
+  { label: "TikTok Shop", sub: "Creators, shoppable video and GMV Max", href: "/channels/tiktok-shop" },
+  { label: "Instagram Shop", sub: "Shoppable content and Meta advertising", href: "/channels/instagram-shop" },
+  { label: "AI shopping assistants", sub: "Rufus, ChatGPT, Gemini and Claude", href: "/capabilities/ai-commerce" },
 ];
 
 const creative = [
-  { label: "Storefront refresh — national beauty brand", ratio: "4/3" as const, span: "md:col-span-2" },
-  { label: "A+ comparison modules — electronics", ratio: "1/1" as const, span: "" },
-  { label: "Product photography — skincare line", ratio: "1/1" as const, span: "" },
-  { label: "DSP video — luxury swimwear", ratio: "4/3" as const, span: "md:col-span-2" },
+  { label: "DSP creative, beauty brand", caption: "National beauty brand, Amazon DSP. +28% new-to-brand sales.", img: "/work-img/cs-beauty.jpg", ratio: "4/3" as const, span: "md:col-span-2" },
+  { label: "Main image set, accessories brand", caption: "Global accessories, Amazon and Target Plus. 11.1x Amazon ROAS on 17% less spend.", img: "/work-img/cs-launch.jpg", ratio: "1/1" as const, span: "" },
+  { label: "Storefront hero, luxury swimwear", caption: "Luxury swimwear, Amazon US, EU and UK. +204% over three years, without discounting.", img: "/stock/target-hero.jpg", ratio: "1/1" as const, span: "" },
+  { label: "Lifestyle, men’s outdoor apparel", caption: "Men’s outdoor apparel, Amazon launch. $4.5M in the first nine months.", img: "/stock/tiktok-hero.jpg", ratio: "4/3" as const, span: "md:col-span-2" },
+  { label: "Main image test, premium skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%, worth $4.2M.", img: "/work-img/cs-creator.jpg", ratio: "4/3" as const, span: "md:col-span-2" },
 ];
 
 const perspectives = [
-  {
-    kicker: "Retail media · Amazon",
-    title: "Is your Amazon DSP spend incremental?",
-    body: "A method for separating incremental revenue from reach you were already getting.",
-    href: "/perspectives/amazon-dsp-incrementality",
-  },
-  {
-    kicker: "Operations · Target Plus",
-    title: "What Target Plus’ invitation requires — and how to keep it.",
-    body: "The standards Target Plus holds sellers to, and how to run to them.",
-    href: "/perspectives",
-  },
-  {
-    kicker: "Analytics",
-    title: "TACoS or ROAS: which number to run an Amazon business on.",
-    body: "Why the metric you optimise decides the business you build.",
-    href: "/perspectives",
-  },
+  { kicker: "Retail media · Amazon · Priyanka Shah", title: "Is your Amazon DSP spend incremental?", body: "Attributed ROAS shows what DSP touched. Lift studies and AMC path analysis show what it caused.", href: "/perspectives/amazon-dsp-incrementality" },
+  { kicker: "AI commerce · Amazon · Jordan Taylor", title: "What Rufus reads on a listing, and what it ignores", body: "How shopping assistants parse your detail page — and the fields that decide the answer.", href: "/perspectives" },
+  { kicker: "Creative and conversion · Amazon", title: "What moved conversion from 8.2% to 12.1%", body: "The image tests and A+ modules behind a premium skincare brand’s conversion lift.", href: "/perspectives" },
+  { kicker: "Operations · Amazon Vendor Central", title: "The five Vendor Central chargeback causes that cost the most", body: "Where 1P deductions come from, and how to stop them at the source.", href: "/perspectives" },
 ];
+
+const press = ["Digiday", "Glossy", "Modern Retail", "Racked", "Modern Shipper", "Amazon Ads"];
 
 export default function HomePage() {
   return (
@@ -87,39 +89,36 @@ export default function HomePage() {
         <div className="bg-ecom-dark absolute inset-0 opacity-50" aria-hidden="true" />
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(60% 110% at 78% -5%, rgba(43,148,219,0.30), transparent 55%)",
-          }}
+          style={{ background: "radial-gradient(60% 110% at 78% -5%, rgba(43,148,219,0.30), transparent 55%)" }}
           aria-hidden="true"
         />
         <div className="container-kw relative grid gap-12 py-20 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
           <div>
-            <p className="eyebrow-light">Ecommerce, simplified</p>
+            <p className="eyebrow-light">Marketplace growth for consumer brands</p>
             <h1 className="h-display mt-4 text-5xl leading-[1.03] md:text-7xl">
               Measured growth.
               <br />
               Beautiful work.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
-              Kwontified runs Amazon, Walmart, Target Plus and global
-              marketplaces for brands — advertising, creative, operations and
-              analytics under one team that reads the numbers and makes the work
-              that moves them.
+              Since 2016, we have run marketplace businesses on Amazon, Walmart,
+              Target Plus and five more channels. One senior team owns all of it:
+              your plan, advertising, creative and operations. We report weekly
+              and are measured on your sales, return on ad spend and margin.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/contact" variant="light" size="lg">
                 Request a marketplace review
               </Button>
               <Button href="/work" variant="outline-light" size="lg">
-                See our work
+                Read 14 client case studies
               </Button>
             </div>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
-              What one team runs
+              One team runs all of it
             </p>
             <ul className="mt-4 divide-y divide-white/10">
               {capabilities.map((c) => (
@@ -129,42 +128,41 @@ export default function HomePage() {
                     className="group flex items-center justify-between gap-4 py-3 text-[0.975rem] font-medium text-white/85 transition hover:text-white"
                   >
                     {c.label}
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className="shrink-0 text-white/30 transition group-hover:translate-x-0.5 group-hover:text-accent"
-                      aria-hidden="true"
-                    >
-                      <path d="M5 12h14M13 6l6 6-6 6" />
-                    </svg>
+                    <ArrowRight className="shrink-0 text-white/30 transition group-hover:translate-x-0.5 group-hover:text-accent" />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
+      </section>
 
-        {/* Results row */}
-        <div className="relative border-t border-white/10">
-          <div className="container-kw py-12">
-            <p className="eyebrow-light">Results from accounts we run</p>
-            <div className="mt-6 grid gap-8 sm:grid-cols-3">
-              {stats.map((s) => (
-                <Link key={s.label} href={s.href} className="group block">
-                  <Stat value={s.value} label={s.label} sub={s.sub} tone="dark" />
-                  <span className="mt-3 inline-flex items-center gap-1 text-sm text-brand-300 transition group-hover:text-white">
-                    Read the case study
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                      <path d="M5 12h14M13 6l6 6-6 6" />
-                    </svg>
-                  </span>
+      {/* Results across channels and markets */}
+      <section className="bg-ink text-white">
+        <div className="container-kw border-t border-white/10 py-16">
+          <SectionHeading
+            tone="dark"
+            eyebrow="Results"
+            title="Results across channels and markets."
+            intro="Every figure comes from an account we run and has a published case study behind it."
+            link={{ href: "/work", label: "See all case studies" }}
+          />
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {stats.map((s) => (
+              <div key={s.value} className="rounded-2xl border border-white/10 bg-white/[0.03] p-7">
+                <div className="h-display text-5xl text-white">{s.value}</div>
+                <div className="mt-1 text-sm font-medium text-white/80">{s.title}</div>
+                <div className="mt-6 flex items-end gap-3" aria-hidden="true">
+                  <Bar h={s.before} label="Before" />
+                  <Bar h={s.after} label="After" accent />
+                </div>
+                <p className="mt-6 text-sm leading-relaxed text-white/60">{s.body}</p>
+                <Link href={s.link.href} className="mt-4 inline-flex items-center gap-1 text-sm text-brand-300 transition hover:text-white">
+                  {s.link.label}
+                  <ArrowRight small />
                 </Link>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -172,35 +170,48 @@ export default function HomePage() {
       {/* Logo cloud */}
       <section className="border-b border-line bg-white">
         <div className="container-kw py-14">
-          <LogoCloud />
+          <LogoCloud heading="Selected clients" />
         </div>
       </section>
 
       {/* One team owns the plan and the work */}
       <section className="bg-white">
-        <div className="container-kw py-20">
-          <SectionHeading
-            eyebrow="One team"
-            title="One team owns the plan and the work."
-            intro="Many brands split ecommerce across agencies and internal teams — advertising in one place, catalog in another, reporting somewhere else. We consolidate all of it under one roof, so media, creative and operations never work against each other."
-          />
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {pillars.map((p) => (
-              <div
-                key={p.kicker}
-                className="flex flex-col rounded-2xl border border-line bg-paper p-7 transition hover:shadow-card"
-              >
-                <span className="eyebrow">{p.kicker}</span>
-                <h3 className="h-display mt-3 text-xl text-ink">{p.title}</h3>
-                <p className="mt-3 flex-1 text-[0.975rem] leading-relaxed text-slate-600">
-                  {p.body}
+        <div className="container-kw grid gap-12 py-20 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <SectionHeading
+              eyebrow="One team"
+              title="One team owns the plan and the work."
+              intro="Most brands split advertising, creative and operations across separate agencies, then lose margin where those plans disagree: ads that drive shoppers to products about to stock out, creative briefed without the search data, promotions with no stock behind them. We run all of it as one plan, reviewed against one P&L."
+            />
+            <div className="mt-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                What one team means for you
+              </p>
+              <ul className="mt-4 space-y-3">
+                {oneTeamBullets.map((b) => (
+                  <li key={b} className="flex gap-3 text-[0.975rem] text-slate-600">
+                    <Check />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="divide-y divide-line border-y border-line">
+            {oneTeam.map((r) => (
+              <div key={r.k} className="py-7">
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="h-display text-xl text-ink">{r.k}</h3>
+                  <Link href={r.href} className="text-sm font-medium text-brand-600 hover:text-brand-700">
+                    {r.cap}
+                  </Link>
+                </div>
+                <p className="mt-3 text-[0.975rem] leading-relaxed text-slate-600">{r.desc}</p>
+                <p className="mt-3 rounded-lg bg-paper px-4 py-2.5 text-sm text-muted">
+                  <span className="font-semibold text-ink">How it connects. </span>
+                  {r.connect}
                 </p>
-                <Link href={p.href} className="link-underline mt-5 text-sm">
-                  {p.label}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </Link>
               </div>
             ))}
           </div>
@@ -209,28 +220,43 @@ export default function HomePage() {
 
       {/* Budget goes where it earns most */}
       <section className="bg-paper">
-        <div className="container-kw grid gap-12 py-20 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-          <div>
-            <SectionHeading
-              eyebrow="Where we operate"
-              title="Budget goes where it earns most."
-              intro="We maintain certified, platform-specific expertise for each marketplace, and move budget across channels based on where the next dollar returns — because the same team manages all of them."
-              link={{ href: "/channels", label: "All channels" }}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
-            {budgetChannels.map((c) => (
-              <Link
-                key={c.label}
-                href={c.href}
-                className="group flex items-center justify-between gap-3 bg-white px-5 py-4 text-[0.95rem] font-medium text-ink transition hover:bg-brand-50"
-              >
-                {c.label}
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-line transition group-hover:text-brand-500" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </Link>
-            ))}
+        <div className="container-kw py-20">
+          <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+            <div>
+              <SectionHeading
+                eyebrow="Where we operate"
+                title="Budget goes where it earns most."
+                intro="We manage every marketplace as one business. Spend moves between channels on measured return, catalog work is done once and adapted, and reporting shows the whole P&L in one view."
+              />
+              <div className="mt-8 rounded-2xl border border-line bg-white p-6">
+                <div className="h-display text-4xl text-brand-600">5.0x to 6.8x</div>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  Amazon ROAS for a natural oral care brand after we consolidated
+                  reporting across Amazon and Walmart, with Amazon ad spend down 29%.
+                </p>
+                <Link href="/capabilities/analytics" className="link-underline mt-3 text-sm">
+                  How we report across channels
+                  <ArrowRight small />
+                </Link>
+              </div>
+            </div>
+            <div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+              {budgetChannels.map((c) => (
+                <Link
+                  key={c.label}
+                  href={c.href}
+                  className="group bg-white px-5 py-4 transition hover:bg-brand-50"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[0.95rem] font-semibold text-ink group-hover:text-brand-700">
+                      {c.label}
+                    </span>
+                    <ArrowRight small className="text-line transition group-hover:text-brand-500" />
+                  </div>
+                  <p className="mt-1 text-xs leading-snug text-muted">{c.sub}</p>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -242,13 +268,13 @@ export default function HomePage() {
             eyebrow="Creative Studio"
             title="Creative that sells, still on brand."
             intro="Photography, video, A+ Content and Storefronts built from the conversion data — then measured on what they do to the numbers."
-            link={{ href: "/work/creative", label: "See the Creative Book" }}
+            link={{ href: "/work/creative", label: "See the Creative Studio" }}
           />
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-4">
             {creative.map((c) => (
               <div key={c.label} className={c.span}>
-                <Figure ratio={c.ratio} label={c.label} />
-                <p className="mt-2 text-sm text-muted">{c.label}</p>
+                <Figure ratio={c.ratio} src={c.img} alt={c.label} />
+                <p className="mt-2 text-sm text-muted">{c.caption}</p>
               </div>
             ))}
           </div>
@@ -264,27 +290,40 @@ export default function HomePage() {
             title="What we’re seeing in the market."
             link={{ href: "/perspectives", label: "All Perspectives" }}
           />
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {perspectives.map((p) => (
               <Link
                 key={p.title}
                 href={p.href}
-                className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition hover:border-white/25 hover:bg-white/[0.06]"
+                className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/25 hover:bg-white/[0.06]"
               >
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-300">
+                <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-brand-300">
                   {p.kicker}
                 </span>
-                <h3 className="h-display mt-3 text-xl text-white">{p.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-white/60">
-                  {p.body}
-                </p>
+                <h3 className="h-display mt-3 text-lg text-white">{p.title}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-white/60">{p.body}</p>
                 <span className="mt-5 inline-flex items-center gap-1 text-sm text-brand-300 transition group-hover:text-white">
                   Read
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
+                  <ArrowRight small />
                 </span>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured in */}
+      <section className="border-b border-line bg-white">
+        <div className="container-kw py-12">
+          <p className="text-center text-sm text-muted">Featured in</p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+            {press.map((p) => (
+              <span
+                key={p}
+                className="text-lg font-semibold tracking-tight text-slate-400"
+              >
+                {p}
+              </span>
             ))}
           </div>
         </div>
@@ -300,7 +339,7 @@ export default function HomePage() {
             </blockquote>
             <figcaption className="mt-6 text-sm text-muted">
               <span className="font-semibold text-ink">VP of Ecommerce</span> ·
-              national beauty brand
+              skincare brand
             </figcaption>
           </figure>
         </div>
@@ -315,5 +354,36 @@ export default function HomePage() {
 
       <CtaBand />
     </>
+  );
+}
+
+function Bar({ h, label, accent }: { h: number; label: string; accent?: boolean }) {
+  return (
+    <div className="flex flex-1 flex-col items-center gap-2">
+      <div className="flex h-24 w-full items-end">
+        <div
+          className={`w-full rounded-t ${accent ? "bg-accent" : "bg-white/20"}`}
+          style={{ height: `${h}%` }}
+        />
+      </div>
+      <span className="text-[0.7rem] text-white/50">{label}</span>
+    </div>
+  );
+}
+
+function ArrowRight({ className, small }: { className?: string; small?: boolean }) {
+  const s = small ? 13 : 16;
+  return (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function Check() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 shrink-0 text-brand-500" aria-hidden="true">
+      <path d="M20 6L9 17l-5-5" />
+    </svg>
   );
 }

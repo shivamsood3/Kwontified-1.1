@@ -95,7 +95,12 @@ export default function DspIncrementalityPost() {
             {/* Sidebar */}
             <aside className="space-y-6">
               <div className="rounded-2xl border border-line bg-paper p-6">
-                <div className="h-14 w-14 rounded-full bg-gradient-to-br from-brand-500 to-brand-800" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/team/priyanka-shah.jpg"
+                  alt="Priyanka Shah"
+                  className="h-14 w-14 rounded-full object-cover"
+                />
                 <h3 className="mt-4 text-base font-semibold text-ink">
                   Priyanka Shah
                 </h3>

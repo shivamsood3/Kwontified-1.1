@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work/creative",
     "/perspectives",
     "/perspectives/amazon-dsp-incrementality",
+    "/why-kwontified",
     "/about",
     "/about/leadership",
     "/about/careers",

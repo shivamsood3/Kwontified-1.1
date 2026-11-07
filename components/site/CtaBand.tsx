@@ -2,7 +2,7 @@ import { Button } from "./Button";
 
 export function CtaBand({
   title = "See what your marketplaces could return.",
-  body = "Share your channels and goals. A member of our team replies within one business day with a first read of where the growth is.",
+  body = "Share your channels and goals. A member of our team replies within one business day with a first read on where the growth is.",
   cta = { href: "/contact", label: "Request a marketplace review" },
 }: {
   title?: string;

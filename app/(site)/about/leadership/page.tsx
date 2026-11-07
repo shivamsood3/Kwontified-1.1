@@ -32,7 +32,7 @@ export default function LeadershipPage() {
               key={l.slug}
               className="grid gap-8 rounded-2xl border border-line bg-paper p-8 md:grid-cols-[0.5fr_1fr] md:items-start"
             >
-              <Figure ratio="3/4" label={`Portrait — ${l.name}`} rounded="rounded-xl" />
+              <Figure ratio="1/1" src={l.image} alt={l.name} rounded="rounded-xl" />
               <div>
                 <h2 className="h-display text-2xl text-ink">{l.name}</h2>
                 <p className="mt-1 text-sm font-medium text-brand-600">{l.role}</p>

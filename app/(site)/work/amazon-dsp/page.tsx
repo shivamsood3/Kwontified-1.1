@@ -33,9 +33,9 @@ const did = [
 ];
 
 const theWork = [
-  { label: "Prospecting creative, lifestyle", caption: "Prospecting: lifestyle imagery for in-market audiences" },
-  { label: "Retargeting creative, product-led", caption: "Retargeting: product-led creative for high-intent browsers" },
-  { label: "Win-back creative, Subscribe and Save", caption: "Win-back: lapsed subscribers and overdue reorders" },
+  { label: "Prospecting creative, lifestyle", img: "/work-img/cs-beauty.jpg", caption: "Prospecting: lifestyle imagery for in-market audiences" },
+  { label: "Retargeting creative, product-led", img: "/work-img/cs-launch.jpg", caption: "Retargeting: product-led creative for high-intent browsers" },
+  { label: "Win-back creative, Subscribe and Save", img: "/work-img/cs-creator.jpg", caption: "Win-back: lapsed subscribers and overdue reorders" },
 ];
 
 const related = [
@@ -129,7 +129,7 @@ export default function AmazonDspCaseStudy() {
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {theWork.map((w) => (
               <div key={w.label}>
-                <Figure ratio="4/3" label={w.label} />
+                <Figure ratio="4/3" src={w.img} alt={w.label} />
                 <p className="mt-2 text-sm text-muted">{w.caption}</p>
               </div>
             ))}

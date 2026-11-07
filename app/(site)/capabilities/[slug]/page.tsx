@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
+import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Button } from "@/components/site/Button";
 import {
   capabilitiesContent,
@@ -120,6 +121,8 @@ export default async function CapabilityPage({
           </div>
         </div>
       </section>
+
+      <ExecFaq />
 
       <CtaBand />
     </>

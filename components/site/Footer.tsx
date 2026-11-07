@@ -23,11 +23,11 @@ export function Footer() {
           </div>
           <div className="md:justify-self-end">
             <h2 className="h-display text-2xl text-ink">
-              Get Perspectives twice a month.
+              Get our marketplace briefing once a month.
             </h2>
             <p className="mt-2 max-w-sm text-[0.95rem] text-muted">
-              One email with new guides and marketplace updates. Unsubscribe in
-              one click.
+              The marketplace changes that matter, what they mean for your brand
+              and our latest guides. Unsubscribe in one click.
             </p>
             <div className="mt-5">
               <NewsletterForm />
@@ -51,7 +51,8 @@ export function Footer() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-[0.7rem] font-semibold text-white transition hover:bg-brand-600"
+                    style={{ backgroundColor: s.color }}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-[0.7rem] font-semibold lowercase text-white transition hover:opacity-85"
                   >
                     {s.short}
                   </a>

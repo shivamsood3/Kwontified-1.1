@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
+import { Figure } from "@/components/ui/Figure";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,7 +27,9 @@ export default function AboutPage() {
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
         cta={{ href: "/about/leadership", label: "Meet the leadership" }}
         secondaryCta={{ href: "/about/careers", label: "See open roles" }}
-      />
+      >
+        <Figure src="/stock/about-hero.jpg" alt="The Kwontified team at work" ratio="4/3" priority />
+      </PageHero>
 
       {/* Three offices */}
       <section className="bg-ink text-white">

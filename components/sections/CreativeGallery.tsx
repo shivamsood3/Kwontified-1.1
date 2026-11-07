@@ -8,6 +8,7 @@ type Item = {
   category: string;
   label: string;
   caption: string;
+  img: string;
   ratio: "4/3" | "1/1" | "3/4" | "16/9";
 };
 
@@ -22,15 +23,15 @@ const categories = [
 ];
 
 const items: Item[] = [
-  { category: "Storefronts", label: "Storefront hero, luxury swimwear, Amazon Luxury Stores", caption: "Luxury swimwear, Amazon US, EU and UK. +204% over three years.", ratio: "4/3" },
-  { category: "A+ Content", label: "Premium A+ comparison module, premium skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%.", ratio: "1/1" },
-  { category: "Photography", label: "Main image set, accessories brand", caption: "Global accessories, Amazon and Target Plus. 11.1x Amazon ROAS.", ratio: "3/4" },
-  { category: "Photography", label: "Lifestyle photography, beauty", caption: "National beauty brand, Amazon US. Prospecting creative for DSP.", ratio: "4/3" },
-  { category: "AI image and video", label: "AI product scenes, home goods", caption: "Home goods, Amazon. On-brand volume for A+ and ads.", ratio: "1/1" },
-  { category: "Video", label: "DSP video, luxury swimwear", caption: "Streaming TV and online video for in-market audiences.", ratio: "16/9" },
-  { category: "Social", label: "Creator content, TikTok Shop", caption: "Creator partnerships briefed from what converts.", ratio: "3/4" },
-  { category: "Storefronts", label: "Brand Store refresh, outdoor gear", caption: "Rebuilt navigation around best sellers and new launches.", ratio: "4/3" },
-  { category: "A+ Content", label: "Premium A+ brand story, supplements", caption: "Review-led modules that answer the shopper’s real questions.", ratio: "1/1" },
+  { category: "A+ Content", label: "Premium A+ module, skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%.", img: "/work-img/cs-beauty.jpg", ratio: "4/3" },
+  { category: "Photography", label: "Product and packaging, DTC launch", caption: "Launch photography, kept on brand across the catalog.", img: "/work-img/cs-launch.jpg", ratio: "3/4" },
+  { category: "Video", label: "Video and streaming, Amazon DSP", caption: "Streaming TV and online video for in-market audiences.", img: "/work-img/cs-creator.jpg", ratio: "4/3" },
+  { category: "Social", label: "Creator content, TikTok Shop", caption: "Creator partnerships briefed from what converts.", img: "/stock/tiktok-hero.jpg", ratio: "3/4" },
+  { category: "Storefronts", label: "Storefront and retail, home & lifestyle", caption: "Storefront design mirrored to the retail environment.", img: "/stock/target-hero.jpg", ratio: "4/3" },
+  { category: "AI image and video", label: "AI-generated scenes", caption: "On-brand volume for A+ and advertising, test-and-learn.", img: "/stock/ai-hero.jpg", ratio: "1/1" },
+  { category: "Storefronts", label: "Marketplace storefront, grocery & retail", caption: "Navigation rebuilt around best sellers and new launches.", img: "/stock/walmart-hero.jpg", ratio: "4/3" },
+  { category: "A+ Content", label: "Comparison modules, dashboard-driven", caption: "Modules briefed from the conversion data, not guesswork.", img: "/stock/mk-hero.jpg", ratio: "1/1" },
+  { category: "Photography", label: "Creative review and reporting", caption: "Every piece measured on what it does to the numbers.", img: "/stock/ourwork-hero.jpg", ratio: "3/4" },
 ];
 
 export function CreativeGallery() {
@@ -60,7 +61,7 @@ export function CreativeGallery() {
       <div className="mt-8 columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5 [&>*]:break-inside-avoid">
         {filtered.map((i) => (
           <figure key={i.label}>
-            <Figure ratio={i.ratio} label={i.label} />
+            <Figure ratio={i.ratio} src={i.img} alt={i.label} />
             <figcaption className="mt-2 text-sm text-muted">{i.caption}</figcaption>
           </figure>
         ))}

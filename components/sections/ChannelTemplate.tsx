@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageHero, type Crumb } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
+import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Button } from "@/components/site/Button";
 import { capabilities } from "@/lib/nav";
 import type { ChannelProblem } from "@/lib/content/channels";
@@ -116,6 +117,8 @@ export function ChannelTemplate({
           )}
         </div>
       </section>
+
+      <ExecFaq />
 
       <CtaBand />
     </>

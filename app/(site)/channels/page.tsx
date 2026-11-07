@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
+import { ExecFaq } from "@/components/sections/ExecFaq";
 import {
   channelsContent,
   channelGroups,
@@ -102,6 +103,8 @@ export default function ChannelsOverview() {
           })}
         </div>
       </section>
+
+      <ExecFaq />
 
       <CtaBand />
     </>

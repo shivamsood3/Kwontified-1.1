@@ -41,6 +41,9 @@ export function Header() {
           <TopLink href="/work" onEnter={() => setOpen(null)}>
             Work
           </TopLink>
+          <TopLink href="/why-kwontified" onEnter={() => setOpen(null)}>
+            Why Kwontified
+          </TopLink>
           <TopLink href="/perspectives" onEnter={() => setOpen(null)}>
             Perspectives
           </TopLink>
@@ -104,7 +107,7 @@ export function Header() {
             Client sign-in
           </a>
           <Button href="/contact" size="md">
-            Request a review
+            Let’s talk
           </Button>
         </div>
 
@@ -128,12 +131,13 @@ export function Header() {
             <MobileGroup title="Channels" href="/channels" items={[...channelMarketplaces, ...channelSocial]} onNav={() => setMobile(false)} />
             <div className="flex flex-col gap-3 border-t border-line pt-4 text-[0.95rem] font-medium">
               <Link href="/work" onClick={() => setMobile(false)}>Work</Link>
+              <Link href="/why-kwontified" onClick={() => setMobile(false)}>Why Kwontified</Link>
               <Link href="/perspectives" onClick={() => setMobile(false)}>Perspectives</Link>
               <Link href="/about" onClick={() => setMobile(false)}>About</Link>
               <a href={site.clientSignInUrl}>Client sign-in</a>
             </div>
             <Button href="/contact" size="lg" className="w-full">
-              Request a marketplace review
+              Let’s talk
             </Button>
           </div>
         </div>
