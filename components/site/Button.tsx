@@ -1,24 +1,36 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
+import { ui } from "@/lib/icons";
 
-type Variant = "primary" | "light" | "outline" | "outline-light" | "ghost";
-type Size = "md" | "lg";
+type Variant =
+  | "primary"
+  | "secondary-light"
+  | "outline"
+  | "outline-light"
+  | "text-link"
+  | "light" // alias → secondary-light
+  | "ghost"; // alias → text-link
+type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2";
+  "group inline-flex items-center justify-center gap-2 font-normal transition-colors focus-visible:outline-none active:scale-[0.97]";
 
-const variants: Record<Variant, string> = {
+const variants: Record<string, string> = {
   primary: "bg-brand-600 text-white hover:bg-brand-700",
-  light: "bg-white text-ink hover:bg-brand-50",
-  outline: "border border-line text-ink hover:border-brand-400 hover:text-brand-700",
-  "outline-light":
-    "border border-white/30 text-white hover:bg-white/10 focus-visible:ring-offset-ink",
-  ghost: "text-brand-600 hover:text-brand-700",
+  "secondary-light": "bg-white text-brand-600 hover:bg-brand-100 hover:text-brand-700",
+  light: "bg-white text-brand-600 hover:bg-brand-100 hover:text-brand-700",
+  outline: "border border-ink-300 text-ink hover:border-brand-600 hover:text-brand-700",
+  "outline-light": "border border-white/35 text-white hover:bg-white/10",
+  "text-link":
+    "px-0 text-brand-600 underline decoration-[0.07em] underline-offset-[0.2em] hover:text-brand-700",
+  ghost:
+    "px-0 text-brand-600 underline decoration-[0.07em] underline-offset-[0.2em] hover:text-brand-700",
 };
 
 const sizes: Record<Size, string> = {
-  md: "h-10 px-4 text-sm",
-  lg: "h-12 px-6 text-[0.95rem]",
+  sm: "h-9 px-3 text-[15px]",
+  md: "h-11 px-[14px] text-[16px]",
+  lg: "h-[52px] px-7 text-[18px]",
 };
 
 export function Button({
@@ -27,25 +39,51 @@ export function Button({
   variant = "primary",
   size = "md",
   className,
+  arrow,
+  type,
+  onClick,
 }: {
-  href: string;
+  href?: string;
   children: React.ReactNode;
   variant?: Variant;
   size?: Size;
   className?: string;
+  arrow?: boolean;
+  type?: "button" | "submit";
+  onClick?: () => void;
 }) {
-  const external = href.startsWith("http");
-  const cls = cn(base, variants[variant], sizes[size], className);
-  if (external) {
+  const isLink = variant === "text-link" || variant === "ghost";
+  const cls = cn(base, variants[variant], isLink ? "text-[16px]" : sizes[size], className);
+  const content = (
+    <>
+      {children}
+      {arrow && (
+        <ui.ArrowRight
+          size={18}
+          weight="light"
+          className="transition-transform group-hover:translate-x-1"
+        />
+      )}
+    </>
+  );
+
+  if (!href) {
+    return (
+      <button type={type ?? "button"} onClick={onClick} className={cls}>
+        {content}
+      </button>
+    );
+  }
+  if (href.startsWith("http")) {
     return (
       <a href={href} className={cls} target="_blank" rel="noreferrer">
-        {children}
+        {content}
       </a>
     );
   }
   return (
     <Link href={href} className={cls}>
-      {children}
+      {content}
     </Link>
   );
 }

@@ -4,7 +4,8 @@ import { Figure } from "@/components/ui/Figure";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ResultFinder } from "@/components/sections/ResultFinder";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
-import { LogoCloud } from "@/components/site/LogoCloud";
+import { LogoMarquee, LogoGrid } from "@/components/ui/LogoMarquee";
+import { clientLogos, pressLogos } from "@/lib/logos";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
@@ -81,11 +82,6 @@ const perspectives = [
   { kicker: "Operations · Amazon Vendor Central", title: "The five Vendor Central chargeback causes that cost the most", body: "Where 1P deductions come from, and how to stop them at the source.", href: "/perspectives" },
 ];
 
-const press = [
-  { name: "GeekWire", file: "/press/geekwire.png" },
-  { name: "Total Retail", file: "/press/total-retail.png" },
-];
-
 export default function HomePage() {
   return (
     <>
@@ -122,10 +118,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Logo cloud */}
-      <section className="border-b border-line bg-white">
-        <div className="container-kw py-14">
-          <LogoCloud heading="Selected clients" />
+      {/* Selected clients (§7.3) */}
+      <section className="border-y border-line bg-white">
+        <div className="container-kw py-16">
+          <LogoMarquee logos={clientLogos} rows={2} label="Selected clients" />
         </div>
       </section>
 
@@ -267,22 +263,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured in */}
-      <section className="border-b border-line bg-white">
-        <div className="container-kw py-12">
-          <p className="text-center text-sm text-muted">Featured in</p>
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-16 gap-y-6">
-            {press.map((p) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={p.name}
-                src={p.file}
-                alt={p.name}
-                className="h-7 w-auto max-w-[190px] object-contain opacity-80 transition hover:opacity-100"
-                loading="lazy"
-              />
-            ))}
-          </div>
+      {/* Featured in (§7.9) */}
+      <section className="border-b border-line bg-paper">
+        <div className="container-kw py-14">
+          <p className="text-center text-caption text-muted">Featured in</p>
+          <LogoGrid logos={pressLogos} height={26} className="mt-8" />
         </div>
       </section>
 

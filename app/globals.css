@@ -134,6 +134,39 @@
   }
 }
 
+/* §4.8 — logo marquee */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 40s linear infinite;
+}
+.marquee-track.rev {
+  animation-name: marquee-right;
+}
+.marquee:hover .marquee-track,
+.marquee-track.paused {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+  }
+}
+
 /* Faint icon-pattern texture behind dark/brand blocks (white-on-dark only) */
 .bg-ecom-dark {
   background-image: url("/brand/pattern-dark.jpg");

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
-type Ratio = "16/9" | "4/3" | "3/2" | "1/1" | "3/4" | "21/9";
+type Ratio = "16/9" | "4/3" | "3/2" | "1/1" | "3/4" | "4/5" | "21/9";
 
 const ratioClass: Record<Ratio, string> = {
   "16/9": "aspect-video",
@@ -9,6 +9,7 @@ const ratioClass: Record<Ratio, string> = {
   "3/2": "aspect-[3/2]",
   "1/1": "aspect-square",
   "3/4": "aspect-[3/4]",
+  "4/5": "aspect-[4/5]",
   "21/9": "aspect-[21/9]",
 };
 
