@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/site/Button";
+import { IconTile } from "@/components/ui/IconTile";
 import { capabilities } from "@/lib/nav";
+import { capabilityIcons } from "@/lib/icons";
 
 const BLUE = "#00618D";
 const INK = "#262524";
@@ -69,22 +71,41 @@ export function HeroCarousel() {
         {/* Controls */}
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 border-t py-4"
              style={{ borderColor: dark ? "rgba(255,255,255,.14)" : "rgba(38,37,36,.14)" }}>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {slides.map((sl, n) => (
-              <button
-                key={sl.label}
-                type="button"
-                onClick={() => setI(n)}
-                aria-current={n === i}
-                className="text-sm transition"
-                style={{
-                  color: n === i ? (dark ? "#fff" : INK) : dark ? "rgba(255,255,255,.5)" : "rgba(38,37,36,.5)",
-                  fontWeight: n === i ? 600 : 400,
-                }}
-              >
-                {sl.label}
-              </button>
-            ))}
+          <div className="flex flex-wrap gap-x-5 gap-y-3">
+            {slides.map((sl, n) => {
+              const on = n === i;
+              const track = dark ? "rgba(255,255,255,.18)" : "rgba(38,37,36,.14)";
+              const fill = dark ? "#fff" : BLUE;
+              return (
+                <div key={sl.label} className="flex flex-col gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setI(n)}
+                    aria-current={on}
+                    className="text-sm transition"
+                    style={{
+                      color: on ? (dark ? "#fff" : INK) : dark ? "rgba(255,255,255,.5)" : "rgba(38,37,36,.5)",
+                      fontWeight: on ? 600 : 400,
+                    }}
+                  >
+                    {sl.label}
+                  </button>
+                  <span
+                    aria-hidden="true"
+                    className="h-0.5 w-full overflow-hidden"
+                    style={{ background: track }}
+                  >
+                    {on && (
+                      <span
+                        key={i}
+                        className={`block h-full w-full ${playing ? "hero-progress-fill" : ""}`}
+                        style={{ background: fill, transform: playing ? undefined : "scaleX(1)" }}
+                      />
+                    )}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <div className="ml-auto flex items-center gap-3 text-sm" style={{ color: dark ? "rgba(255,255,255,.7)" : "rgba(38,37,36,.6)" }}>
             <span>{i + 1} of {slides.length}</span>
@@ -201,20 +222,28 @@ function SlideHome() {
           <Button href="/work" variant="outline-light" size="lg">Read 14 client case studies</Button>
         </div>
       </div>
-      <nav aria-label="Capabilities" className="lg:justify-self-end">
-        <ul className="flex flex-col gap-1">
-          {capabilities.map((c) => (
-            <li key={c.href}>
-              <Link
-                href={c.href}
-                className="group flex items-center gap-3 py-1.5 text-2xl font-medium text-white/85 transition hover:text-white md:text-[2rem]"
-                style={{ letterSpacing: "-0.02em" }}
-              >
-                <span className="h-px w-6 bg-white/25 transition group-hover:w-10 group-hover:bg-[color:#99c0d1]" />
-                {c.label}
-              </Link>
-            </li>
-          ))}
+      <nav aria-label="Capabilities" className="lg:justify-self-end lg:max-w-md">
+        <ul className="flex flex-col divide-y divide-white/10 border-y border-white/10">
+          {capabilities.map((c) => {
+            const slug = c.href.split("/").pop() ?? "";
+            const Icon = capabilityIcons[slug];
+            return (
+              <li key={c.href}>
+                <Link
+                  href={c.href}
+                  className="group flex items-center gap-4 py-3 text-white/85 transition hover:text-white"
+                >
+                  {Icon && <IconTile icon={Icon} tone="dark" />}
+                  <span className="flex-1 text-lg font-medium" style={{ letterSpacing: "-0.01em" }}>
+                    {c.label}
+                  </span>
+                  <span className="shrink-0 text-white/30 transition group-hover:translate-x-0.5 group-hover:text-[color:#99c0d1]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </>
@@ -233,9 +262,11 @@ function SlideProof({
     <>
       <div>
         <p className="text-xs font-normal" style={{ color: eye }}>{eyebrow}</p>
-        <h2 className="h-display mt-4 text-4xl leading-[1.08] md:text-5xl" style={{ color: dark ? "#fff" : INK }}>
+        {/* h1 lives on the active slide; only one slide is mounted, so the
+            document always has exactly one h1. */}
+        <h1 className="h-display mt-4 text-4xl leading-[1.08] md:text-5xl" style={{ color: dark ? "#fff" : INK }}>
           {heading}
-        </h2>
+        </h1>
         <p className="mt-5 max-w-lg text-lg leading-relaxed" style={{ color: sub }}>{body}</p>
         <Link
           href={cta.href}
@@ -408,12 +439,13 @@ function VisualLift() {
       <Cap>Lift study: the test design</Cap>
       <div className="mt-6 flex items-end gap-6">
         <Bar h={58} label="Unexposed audience" value="" tone="rgba(255,255,255,.25)" dark />
-        <div className="relative flex-1">
-          <Bar h={100} label="Exposed audience" value="" tone="#99c0d1" dark />
-          <span className="absolute -right-1 top-0 text-[0.7rem] text-[color:#99c0d1]">incremental lift</span>
-        </div>
+        <Bar h={100} label="Exposed audience" value="" tone="#99c0d1" dark />
       </div>
-      <p className="mt-5 text-xs text-white/50">Purchase rate · illustration of the method, not client data</p>
+      <p className="mt-4 flex items-center gap-2 text-[0.7rem] text-[color:#99c0d1]">
+        <span className="inline-block h-2 w-2" style={{ background: "#99c0d1" }} aria-hidden="true" />
+        Incremental lift: the gap between exposed and unexposed
+      </p>
+      <p className="mt-2 text-xs text-white/50">Purchase rate · illustration of the method, not client data</p>
     </Panel>
   );
 }

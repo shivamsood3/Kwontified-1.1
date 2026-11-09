@@ -1,24 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Button } from "./Button";
+import { IconTile } from "@/components/ui/IconTile";
 import {
   capabilities,
   channelMarketplaces,
   channelSocial,
 } from "@/lib/nav";
+import { capabilityIcons, channelIcons, type Icon } from "@/lib/icons";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 export function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobile, setMobile] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="container-kw flex h-16 items-center justify-between gap-6">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b bg-white/90 backdrop-blur transition-[border-color,box-shadow] supports-[backdrop-filter]:bg-white/80",
+        scrolled ? "border-line shadow-[0_1px_0_rgba(38,37,36,0.04),0_8px_24px_-16px_rgba(38,37,36,0.25)]" : "border-transparent",
+      )}
+    >
+      <div
+        className={cn(
+          "container-kw flex items-center justify-between gap-6 transition-[height] duration-200",
+          scrolled ? "h-14" : "h-16",
+        )}
+      >
         <Logo tone="dark" />
 
         {/* Desktop nav */}
@@ -55,7 +75,11 @@ export function Header() {
             <MegaPanel onEnter={() => setOpen("cap")}>
               <div className="grid grid-cols-2 gap-x-8 gap-y-1">
                 {capabilities.map((c) => (
-                  <PanelLink key={c.href} item={c} />
+                  <PanelLink
+                    key={c.href}
+                    item={c}
+                    icon={capabilityIcons[c.href.split("/").pop() ?? ""]}
+                  />
                 ))}
               </div>
               <PanelFooter href="/capabilities" label="All capabilities" />
@@ -69,7 +93,12 @@ export function Header() {
                   <PanelHeading>Marketplaces</PanelHeading>
                   <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                     {channelMarketplaces.map((c) => (
-                      <PanelLink key={c.href} item={c} compact />
+                      <PanelLink
+                        key={c.href}
+                        item={c}
+                        compact
+                        icon={channelIcons[c.href.split("/").pop() ?? ""]}
+                      />
                     ))}
                   </div>
                 </div>
@@ -77,7 +106,12 @@ export function Header() {
                   <PanelHeading>Social commerce</PanelHeading>
                   <div className="grid gap-y-1">
                     {channelSocial.map((c) => (
-                      <PanelLink key={c.href} item={c} compact />
+                      <PanelLink
+                        key={c.href}
+                        item={c}
+                        compact
+                        icon={channelIcons[c.href.split("/").pop() ?? ""]}
+                      />
                     ))}
                   </div>
                 </div>
@@ -204,7 +238,7 @@ function MegaPanel({
   return (
     <div
       onMouseEnter={onEnter}
-      className="absolute left-0 right-0 top-16 z-40"
+      className="absolute left-0 right-0 top-full z-40"
     >
       <div className="container-kw">
         <div
@@ -228,18 +262,29 @@ function PanelHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PanelLink({ item, compact }: { item: { label: string; href: string; blurb?: string }; compact?: boolean }) {
+function PanelLink({
+  item,
+  compact,
+  icon,
+}: {
+  item: { label: string; href: string; blurb?: string };
+  compact?: boolean;
+  icon?: Icon;
+}) {
   return (
     <Link
       href={item.href}
-      className="group rounded-lg px-3 py-2 transition hover:bg-paper"
+      className="group flex items-start gap-3 px-3 py-2 transition hover:bg-paper"
     >
-      <div className="text-sm font-semibold text-ink group-hover:text-brand-700">
-        {item.label}
+      {icon && <IconTile icon={icon} />}
+      <div className="min-w-0">
+        <div className="text-sm font-semibold text-ink group-hover:text-brand-700">
+          {item.label}
+        </div>
+        {!compact && item.blurb && (
+          <div className="mt-0.5 text-xs leading-snug text-muted">{item.blurb}</div>
+        )}
       </div>
-      {!compact && item.blurb && (
-        <div className="mt-0.5 text-xs leading-snug text-muted">{item.blurb}</div>
-      )}
     </Link>
   );
 }

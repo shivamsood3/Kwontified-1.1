@@ -36,4 +36,23 @@ Items to resolve before taking the site live.
 - Real client logos, press logos, social icons + real profile links.
 - Real royalty-free category photography across the creative galleries.
 - Animated hero carousel matching the prototype.
+- **Final Build Brief (§3–§11) executed:** design-token palette + square
+  geometry + weight-400 headings applied site-wide; component library (§4)
+  with IconTile, Chip, Callout, Quote, Stat, BeforeAfterBars, Card, ListRow,
+  Field, LogoMarquee/Grid; styleguide at `/styleguide`.
+- Hero carousel (§7.2): exactly one `<h1>` in the DOM on every slide, tab
+  progress bars, IconTiles on slide 1, slide-6 "incremental lift" overflow
+  fixed; auto-rotation + reduced-motion handling.
+- Header (§7.1): mega-menu with IconTiles, sticky shrink-on-scroll.
+- Footer (§7.12): phone/email/office icons (MapPin), social links hidden
+  without a URL, Accessibility link → `/accessibility`.
+- Case-study detail template wired (`/work/[slug]`): Walmart, International,
+  account-health — linked from the homepage results, ResultFinder and the
+  `/work` grid (previously 404 / linked to `/work`).
+- `/accessibility` statement page (WCAG 2.2 AA commitment).
+- Inner-page parity (§8): IconTiles on capability + channel templates; full
+  32-client logo grid on `/about` and `/work`; sitemap updated.
+- QA (§10): verified one `<h1>` per page and no horizontal scroll at 375px
+  across home, work, case study, capability, channel, about, accessibility;
+  production build clean (47 routes).
 - Deployed to Vercel (`kwontified` team); Vercel Authentication disabled.

@@ -5,8 +5,10 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Button } from "@/components/site/Button";
+import { IconTile } from "@/components/ui/IconTile";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { serviceLd } from "@/lib/seo";
+import { capabilityIcons } from "@/lib/icons";
 import {
   capabilitiesContent,
   getCapability,
@@ -59,6 +61,9 @@ export default async function CapabilityPage({
         cta={{ href: "/contact", label: "Request a marketplace review" }}
       >
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
+          {capabilityIcons[c.slug] && (
+            <IconTile icon={capabilityIcons[c.slug]} tone="dark" size="lg" className="mb-6" />
+          )}
           <div className="h-display text-5xl text-white md:text-6xl">
             {c.metric.value}
           </div>
@@ -119,8 +124,11 @@ export default async function CapabilityPage({
               <Link
                 key={o.slug}
                 href={`/capabilities/${o.slug}`}
-                className="group rounded-xl border border-line p-5 transition hover:border-brand-300 hover:bg-paper"
+                className="group border border-line p-5 transition hover:border-brand-600 hover:bg-paper"
               >
+                {capabilityIcons[o.slug] && (
+                  <IconTile icon={capabilityIcons[o.slug]} className="mb-3" />
+                )}
                 <div className="text-sm font-semibold text-ink group-hover:text-brand-700">
                   {o.name}
                 </div>

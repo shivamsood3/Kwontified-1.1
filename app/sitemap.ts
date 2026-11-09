@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { capabilitiesContent } from "@/lib/content/capabilities";
 import { channelsContent } from "@/lib/content/channels";
 import { leaders } from "@/lib/content/leadership";
+import { caseStudyDetails } from "@/lib/content/caseStudies";
 
 const base = "https://kwontified.com";
 
@@ -24,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy",
     "/terms",
+    "/accessibility",
   ];
 
   const capPaths = capabilitiesContent.map((c) => `/capabilities/${c.slug}`);
@@ -31,8 +33,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((c) => c.slug !== "amazon")
     .map((c) => `/channels/${c.slug}`);
   const leaderPaths = leaders.map((l) => `/about/leadership/${l.slug}`);
+  const caseStudyPaths = caseStudyDetails.map((c) => `/work/${c.slug}`);
 
-  const all = [...staticPaths, ...capPaths, ...chanPaths, ...leaderPaths];
+  const all = [
+    ...staticPaths,
+    ...capPaths,
+    ...chanPaths,
+    ...leaderPaths,
+    ...caseStudyPaths,
+  ];
 
   return all.map((path) => ({
     url: `${base}${path}`,

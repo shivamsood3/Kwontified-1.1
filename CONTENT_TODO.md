@@ -13,3 +13,5 @@ Per the build brief, Appendix A. Each item blocks a specific page/section.
 | TODO(content) | URLs for Substack, Threads, Bluesky, TikTok — or confirmation to drop. Hidden until a URL exists. | Footer §7.12 |
 | TODO(content) | Final approval of the 32-logo client set + 24 press logos (restored from the prototype sprite). | Selected clients / Featured in §6 |
 | TODO(content) | Confirm case-study detail content for the results links (Walmart +19%, International $1.4M, account-health $6.2M). | Home §7.4 / §9 |
+| TODO(content) | Approved client quote + attribution (name, title, brand) for each case-study detail page. Currently a marked placeholder. | /work/[slug] detail pages (§8.2.4) |
+| TODO(content) | Author profile/bio pages for Perspectives authors without a leadership page (e.g. Priyanka Shah). Bylines currently render as text and link to /perspectives. | Perspectives §8 |

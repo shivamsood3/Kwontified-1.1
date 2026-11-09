@@ -3,6 +3,8 @@ import Link from "next/link";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
 import { Figure } from "@/components/ui/Figure";
+import { LogoGrid } from "@/components/ui/LogoMarquee";
+import { clientLogos } from "@/lib/logos";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -63,8 +65,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Related */}
+      {/* Selected clients */}
       <section className="bg-white">
+        <div className="container-kw py-16">
+          <h2 className="h-display text-h2 text-ink">Brands we have grown.</h2>
+          <p className="mt-3 max-w-xl text-body text-muted">
+            A selection of the consumer brands we have run marketplace businesses
+            for across Amazon, Walmart, Target Plus and beyond.
+          </p>
+          <LogoGrid logos={clientLogos} className="mt-10" />
+        </div>
+      </section>
+
+      {/* Related */}
+      <section className="bg-paper">
         <div className="container-kw py-16">
           <div className="grid gap-6 md:grid-cols-3">
             {related.map((r) => (

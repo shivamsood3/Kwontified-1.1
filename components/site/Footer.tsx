@@ -4,6 +4,10 @@ import { Button } from "./Button";
 import { NewsletterForm } from "./NewsletterForm";
 import { capabilities, channelsAll, companyNav } from "@/lib/nav";
 import { site } from "@/lib/site";
+import { ui } from "@/lib/icons";
+
+// §7.12 — only render social links that have a real URL.
+const socialWithUrls = site.social.filter((s) => s.href && s.href.length > 0);
 
 export function Footer() {
   return (
@@ -44,14 +48,14 @@ export function Footer() {
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted">Follow Kwontified</span>
               <div className="flex gap-1.5">
-                {site.social.map((s) => (
+                {socialWithUrls.map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white transition hover:border-brand-300 hover:bg-paper"
+                    className="flex h-9 w-9 items-center justify-center border border-line bg-white transition hover:border-brand-300 hover:bg-paper"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={s.icon} alt={s.label} className="h-[18px] w-[18px]" loading="lazy" />
@@ -60,11 +64,13 @@ export function Footer() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1 text-sm md:items-end">
-            <a href={site.phoneHref} className="font-medium text-ink hover:text-brand-700">
+          <div className="flex flex-col gap-2 text-sm md:items-end">
+            <a href={site.phoneHref} className="flex items-center gap-2 font-medium text-ink hover:text-brand-700">
+              <ui.Phone size={16} className="text-brand-600" aria-hidden="true" />
               {site.phone}
             </a>
-            <a href={`mailto:${site.email}`} className="text-brand-600 hover:text-brand-700">
+            <a href={`mailto:${site.email}`} className="flex items-center gap-2 text-brand-600 hover:text-brand-700">
+              <ui.Email size={16} aria-hidden="true" />
               {site.email}
             </a>
           </div>
@@ -78,16 +84,19 @@ export function Footer() {
             <ColTitle>Offices</ColTitle>
             <ul className="space-y-4">
               {site.offices.map((o) => (
-                <li key={o.label} className="text-sm leading-snug text-muted">
-                  <span className="font-semibold text-ink">
-                    {o.label}
-                    {o.note ? ` (${o.note})` : ""}
-                  </span>
-                  {o.lines.map((l) => (
-                    <span key={l} className="block">
-                      {l}
+                <li key={o.label} className="flex gap-2 text-sm leading-snug text-muted">
+                  <ui.MapPin size={16} className="mt-0.5 shrink-0 text-brand-600" aria-hidden="true" />
+                  <span>
+                    <span className="font-semibold text-ink">
+                      {o.label}
+                      {o.note ? ` (${o.note})` : ""}
                     </span>
-                  ))}
+                    {o.lines.map((l) => (
+                      <span key={l} className="block">
+                        {l}
+                      </span>
+                    ))}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -101,7 +110,7 @@ export function Footer() {
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-ink">Privacy</Link>
             <Link href="/terms" className="hover:text-ink">Terms</Link>
-            <Link href="/contact" className="hover:text-ink">Accessibility</Link>
+            <Link href="/accessibility" className="hover:text-ink">Accessibility</Link>
           </div>
         </div>
       </div>

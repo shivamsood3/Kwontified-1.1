@@ -56,6 +56,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
+    slug: "account-health-restore",
     brand: "A leading CPG brand · Amazon",
     title: "Restoring a $6.2M Amazon business",
     channel: "Amazon",
@@ -86,6 +87,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
+    slug: "walmart-sku-transition",
     brand: "A consumer-health brand · Walmart",
     title: "+19% Walmart revenue on a smaller ad budget",
     channel: "Walmart",
@@ -116,6 +118,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
+    slug: "international-expansion",
     brand: "A premium fashion brand · Amazon UK, EU, CA",
     title: "Growing into new international markets",
     channel: "International",

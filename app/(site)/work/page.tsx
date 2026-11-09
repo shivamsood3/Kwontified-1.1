@@ -3,6 +3,8 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
 import { WorkGrid } from "@/components/sections/WorkGrid";
 import { Stat } from "@/components/ui/Stat";
+import { LogoGrid } from "@/components/ui/LogoMarquee";
+import { clientLogos } from "@/lib/logos";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -39,6 +41,17 @@ export default function WorkPage() {
       <section className="bg-white">
         <div className="container-kw py-16">
           <WorkGrid />
+        </div>
+      </section>
+
+      {/* Selected clients */}
+      <section className="bg-paper">
+        <div className="container-kw py-16">
+          <h2 className="h-display text-h2 text-ink">Brands behind the numbers.</h2>
+          <p className="mt-3 max-w-xl text-body text-muted">
+            A selection of the consumer brands whose marketplace businesses we run.
+          </p>
+          <LogoGrid logos={clientLogos} className="mt-10" />
         </div>
       </section>
 

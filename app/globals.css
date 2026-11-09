@@ -167,6 +167,25 @@
   }
 }
 
+/* §7.2 — hero carousel tab progress bar */
+@keyframes hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.hero-progress-fill {
+  transform-origin: left center;
+  animation: hero-progress 5s linear forwards;
+}
+.hero-progress-fill.paused {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-progress-fill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
 /* Faint icon-pattern texture behind dark/brand blocks (white-on-dark only) */
 .bg-ecom-dark {
   background-image: url("/brand/pattern-dark.jpg");

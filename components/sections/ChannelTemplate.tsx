@@ -3,7 +3,9 @@ import { PageHero, type Crumb } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/site/CtaBand";
 import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Button } from "@/components/site/Button";
+import { IconTile } from "@/components/ui/IconTile";
 import { capabilities } from "@/lib/nav";
+import { capabilityIcons } from "@/lib/icons";
 import type { ChannelProblem } from "@/lib/content/channels";
 
 export function ChannelTemplate({
@@ -75,18 +77,22 @@ export function ChannelTemplate({
               How each capability works on {name}
             </h2>
             <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {capabilities.map((c) => (
-                <Link
-                  key={c.href}
-                  href={c.href}
-                  className="group rounded-xl border border-line bg-white p-6 transition hover:border-brand-300 hover:shadow-card"
-                >
-                  <h3 className="text-sm font-semibold text-ink group-hover:text-brand-700">
-                    {c.label}
-                  </h3>
-                  <p className="mt-2 text-sm leading-snug text-muted">{c.blurb}</p>
-                </Link>
-              ))}
+              {capabilities.map((c) => {
+                const Icon = capabilityIcons[c.href.split("/").pop() ?? ""];
+                return (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="group border border-line bg-white p-6 transition hover:border-brand-600"
+                  >
+                    {Icon && <IconTile icon={Icon} className="mb-4" />}
+                    <h3 className="text-sm font-semibold text-ink group-hover:text-brand-700">
+                      {c.label}
+                    </h3>
+                    <p className="mt-2 text-sm leading-snug text-muted">{c.blurb}</p>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>

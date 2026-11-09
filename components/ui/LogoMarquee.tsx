@@ -54,19 +54,19 @@ export function LogoGrid({
   return (
     <div
       className={cn(
-        "grid grid-cols-3 items-center gap-x-8 gap-y-10 sm:grid-cols-4 lg:grid-cols-6",
+        "grid grid-cols-2 items-center gap-x-8 gap-y-10 sm:grid-cols-4 lg:grid-cols-6",
         className,
       )}
     >
       {logos.map((l) => (
-        <div key={l.src} className="flex items-center justify-center">
+        <div key={l.src} className="flex min-w-0 items-center justify-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={l.src}
             alt={l.label}
             loading="lazy"
             style={{ height }}
-            className="w-auto max-w-[140px] object-contain opacity-60 grayscale transition hover:opacity-100"
+            className="w-auto max-w-full object-contain opacity-60 grayscale transition hover:opacity-100"
           />
         </div>
       ))}
