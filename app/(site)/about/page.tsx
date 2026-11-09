@@ -42,7 +42,7 @@ export default function AboutPage() {
                 <div key={o.label}>
                   <h3 className="h-display text-xl text-white">{o.label}</h3>
                   {o.note && (
-                    <p className="text-xs uppercase tracking-[0.14em] text-brand-300">
+                    <p className="text-xs text-brand-300">
                       {o.note}
                     </p>
                   )}
@@ -69,7 +69,7 @@ export default function AboutPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {related.map((r) => (
               <Link key={r.title} href={r.href} className="group">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                <p className="text-xs font-normal text-muted">
                   {r.kicker}
                 </p>
                 <h3 className="h-display mt-2 text-lg text-ink group-hover:text-brand-700">

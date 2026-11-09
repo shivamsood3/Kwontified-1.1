@@ -53,7 +53,7 @@ export default function CareersPage() {
             {traits.map((t) => (
               <div key={t.title}>
                 <h3 className="text-lg font-semibold text-ink">{t.title}</h3>
-                <p className="mt-2 text-[1.0625rem] leading-relaxed text-slate-600">
+                <p className="mt-2 text-[1.0625rem] leading-relaxed text-ink-700">
                   {t.body}
                 </p>
               </div>

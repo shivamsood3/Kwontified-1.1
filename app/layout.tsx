@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationLd, websiteLd } from "@/lib/seo";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
+// TODO(licence): self-host Neue Haas Grotesk Text/Display Pro via next/font/local
+// once the web licence + WOFF2 files are supplied. Until then the CSS stack in
+// globals.css falls back to Helvetica Neue / Arial.
 
 const siteUrl = "https://kwontified.com";
 
@@ -78,7 +74,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={dmSans.variable}>
+    <html lang="en">
       <body className="min-h-screen bg-white text-ink antialiased">
         <JsonLd data={[organizationLd(), websiteLd()]} />
         {children}

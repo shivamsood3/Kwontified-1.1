@@ -80,7 +80,7 @@ export function ResultFinder() {
           <span className="h-display text-5xl text-brand-600">{result.stat}</span>
           <span className="text-sm font-medium text-muted">{result.label}</span>
         </div>
-        <p className="mt-4 text-[0.975rem] leading-relaxed text-slate-600">
+        <p className="mt-4 text-[0.975rem] leading-relaxed text-ink-700">
           {result.body}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -97,7 +97,7 @@ export function ResultFinder() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+      <span className="mb-1.5 block text-xs font-normal text-muted">
         {label}
       </span>
       {children}

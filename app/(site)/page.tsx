@@ -139,12 +139,12 @@ export default function HomePage() {
               intro="Most brands split advertising, creative and operations across separate agencies, then lose margin where those plans disagree: ads that drive shoppers to products about to stock out, creative briefed without the search data, promotions with no stock behind them. We run all of it as one plan, reviewed against one P&L."
             />
             <div className="mt-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+              <p className="text-xs font-normal text-muted">
                 What one team means for you
               </p>
               <ul className="mt-4 space-y-3">
                 {oneTeamBullets.map((b) => (
-                  <li key={b} className="flex gap-3 text-[0.975rem] text-slate-600">
+                  <li key={b} className="flex gap-3 text-[0.975rem] text-ink-700">
                     <Check />
                     <span>{b}</span>
                   </li>
@@ -162,7 +162,7 @@ export default function HomePage() {
                     {r.cap}
                   </Link>
                 </div>
-                <p className="mt-3 text-[0.975rem] leading-relaxed text-slate-600">{r.desc}</p>
+                <p className="mt-3 text-[0.975rem] leading-relaxed text-ink-700">{r.desc}</p>
                 <p className="mt-3 rounded-lg bg-paper px-4 py-2.5 text-sm text-muted">
                   <span className="font-semibold text-ink">How it connects. </span>
                   {r.connect}
@@ -252,7 +252,7 @@ export default function HomePage() {
                 href={p.href}
                 className="group flex flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/25 hover:bg-white/[0.06]"
               >
-                <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-brand-300">
+                <span className="text-[0.7rem] font-normal text-brand-300">
                   {p.kicker}
                 </span>
                 <h3 className="h-display mt-3 text-lg text-white">{p.title}</h3>

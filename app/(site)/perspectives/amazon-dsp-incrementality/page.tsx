@@ -101,7 +101,7 @@ export default function DspIncrementalityPost() {
           <div className="mt-12 grid gap-12 lg:grid-cols-[1.6fr_0.8fr]">
             {/* Body */}
             <div>
-              <p className="text-xl leading-relaxed text-slate-700">
+              <p className="text-xl leading-relaxed text-ink-800">
                 Attributed ROAS shows which ads a buyer saw before purchase, not
                 which ads caused the purchase. To judge DSP, compare exposed and
                 unexposed audiences with a lift study, check AMC
@@ -113,7 +113,7 @@ export default function DspIncrementalityPost() {
                 <section key={s.h} className="mt-10">
                   <h2 className="h-display text-2xl text-ink">{s.h}</h2>
                   {s.p.map((para, i) => (
-                    <p key={i} className="mt-4 text-[1.0625rem] leading-relaxed text-slate-600">
+                    <p key={i} className="mt-4 text-[1.0625rem] leading-relaxed text-ink-700">
                       {para}
                     </p>
                   ))}
@@ -152,7 +152,7 @@ export default function DspIncrementalityPost() {
                 href="/work/amazon-dsp"
                 className="group block rounded-2xl bg-ink p-6 text-white"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-300">
+                <p className="text-xs font-normal text-brand-300">
                   Related case study
                 </p>
                 <p className="h-display mt-2 text-lg">
@@ -170,7 +170,7 @@ export default function DspIncrementalityPost() {
             <div className="grid gap-6 md:grid-cols-3">
               {related.map((r) => (
                 <Link key={r.title} href={r.href} className="group">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                  <p className="text-xs font-normal text-muted">
                     {r.kicker}
                   </p>
                   <h3 className="h-display mt-2 text-lg text-ink group-hover:text-brand-700">

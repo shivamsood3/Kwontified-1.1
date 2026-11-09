@@ -61,7 +61,7 @@ export default function ChannelsOverview() {
             const items = channelsContent.filter((c) => c.group === group);
             return (
               <div key={group}>
-                <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">
+                <h2 className="text-xs font-normal text-brand-600">
                   {group}
                 </h2>
                 <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -74,7 +74,7 @@ export default function ChannelsOverview() {
                       <h3 className="h-display text-lg text-ink group-hover:text-brand-700">
                         {c.h1.replace(/\.$/, "")}
                       </h3>
-                      <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-700">
                         {c.intro}
                       </p>
                       <span className="mt-4 text-xs font-medium text-muted">
@@ -87,13 +87,13 @@ export default function ChannelsOverview() {
                       href="/channels/amazon/brand-programs"
                       className="group flex flex-col rounded-2xl border border-dashed border-line bg-paper p-7 transition hover:border-brand-300"
                     >
-                      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">
+                      <span className="text-xs font-normal text-brand-600">
                         Amazon programs
                       </span>
                       <h3 className="h-display mt-2 text-lg text-ink group-hover:text-brand-700">
                         {brandPrograms.h1.replace(/\.$/, "")}
                       </h3>
-                      <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-700">
                         {brandPrograms.intro}
                       </p>
                     </Link>

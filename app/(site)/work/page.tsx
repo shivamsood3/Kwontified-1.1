@@ -22,7 +22,7 @@ export default function WorkPage() {
         cta={{ href: "/work/amazon-dsp", label: "Read the featured case study" }}
       >
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
+          <p className="text-xs font-normal text-white/50">
             Featured · Amazon DSP, national beauty brand
           </p>
           <p className="h-display mt-3 text-xl text-white">

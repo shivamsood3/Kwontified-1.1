@@ -182,7 +182,7 @@ function SlideHome() {
   return (
     <>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: "rgba(255,255,255,.55)" }}>
+        <p className="text-xs font-normal" style={{ color: "rgba(255,255,255,.55)" }}>
           Marketplace growth for consumer brands
         </p>
         <h1 className="h-display mt-4 text-5xl leading-[1.02] text-white md:text-7xl">
@@ -210,7 +210,7 @@ function SlideHome() {
                 className="group flex items-center gap-3 py-1.5 text-2xl font-medium text-white/85 transition hover:text-white md:text-[2rem]"
                 style={{ letterSpacing: "-0.02em" }}
               >
-                <span className="h-px w-6 bg-white/25 transition group-hover:w-10 group-hover:bg-[color:#2b94db]" />
+                <span className="h-px w-6 bg-white/25 transition group-hover:w-10 group-hover:bg-[color:#99c0d1]" />
                 {c.label}
               </Link>
             </li>
@@ -232,7 +232,7 @@ function SlideProof({
   return (
     <>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: eye }}>{eyebrow}</p>
+        <p className="text-xs font-normal" style={{ color: eye }}>{eyebrow}</p>
         <h2 className="h-display mt-4 text-4xl leading-[1.08] md:text-5xl" style={{ color: dark ? "#fff" : INK }}>
           {heading}
         </h2>
@@ -240,7 +240,7 @@ function SlideProof({
         <Link
           href={cta.href}
           className="mt-6 inline-flex items-center gap-1.5 text-[0.95rem] font-medium"
-          style={{ color: dark ? "#8fd0f2" : BLUE }}
+          style={{ color: dark ? "#99c0d1" : BLUE }}
         >
           {cta.label}
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
@@ -269,10 +269,10 @@ function Panel({ dark, children }: { dark: boolean; children: React.ReactNode })
 }
 
 function Cap({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/50">{children}</p>;
+  return <p className="text-xs font-normal text-white/50">{children}</p>;
 }
 function CapDark({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: "rgba(38,37,36,.5)" }}>{children}</p>;
+  return <p className="text-xs font-normal" style={{ color: "rgba(38,37,36,.5)" }}>{children}</p>;
 }
 
 function VisualRetail() {
@@ -281,7 +281,7 @@ function VisualRetail() {
       <Cap>Amazon DSP, national beauty brand</Cap>
       <div className="mt-5 flex items-end gap-5">
         <Bar h={14} label="DSP spend" value="$192K" tone="rgba(255,255,255,.25)" dark />
-        <Bar h={100} label="Attributed revenue" value="$1.8M" tone="#2b94db" dark />
+        <Bar h={100} label="Attributed revenue" value="$1.8M" tone="#99c0d1" dark />
       </div>
       <div className="mt-6 grid grid-cols-3 gap-4 border-t border-white/10 pt-5">
         <Mini v="9.4x" l="DSP ROAS" dark />
@@ -327,7 +327,7 @@ function VisualCreative() {
         </figure>
       </div>
       <div className="mt-5 flex items-end gap-5">
-        <Bar h={66} label="Before" value="8.2%" tone="#c3d3dd" />
+        <Bar h={66} label="Before" value="8.2%" tone="#c7dce6" />
         <Bar h={100} label="After the test" value="12.1%" tone={BLUE} />
       </div>
       <div className="mt-5 grid grid-cols-2 gap-4 border-t pt-4" style={{ borderColor: "rgba(38,37,36,.1)" }}>
@@ -409,8 +409,8 @@ function VisualLift() {
       <div className="mt-6 flex items-end gap-6">
         <Bar h={58} label="Unexposed audience" value="" tone="rgba(255,255,255,.25)" dark />
         <div className="relative flex-1">
-          <Bar h={100} label="Exposed audience" value="" tone="#2b94db" dark />
-          <span className="absolute -right-1 top-0 text-[0.7rem] text-[color:#8fd0f2]">incremental lift</span>
+          <Bar h={100} label="Exposed audience" value="" tone="#99c0d1" dark />
+          <span className="absolute -right-1 top-0 text-[0.7rem] text-[color:#99c0d1]">incremental lift</span>
         </div>
       </div>
       <p className="mt-5 text-xs text-white/50">Purchase rate · illustration of the method, not client data</p>

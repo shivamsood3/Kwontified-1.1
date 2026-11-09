@@ -55,7 +55,7 @@ export function ExecFaq() {
                     </svg>
                   </span>
                 </summary>
-                <p className="mt-4 text-[1.0625rem] leading-relaxed text-slate-600">{f.a}</p>
+                <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-700">{f.a}</p>
               </details>
             ))}
           </div>

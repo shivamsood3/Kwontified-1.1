@@ -16,7 +16,7 @@ export function Logo({
   href?: string;
   withWordmark?: boolean;
 }) {
-  const color = tone === "light" ? "#ffffff" : "#0d1320";
+  const color = tone === "light" ? "#ffffff" : "#262524";
   return (
     <Link
       href={href}
@@ -48,7 +48,7 @@ function Monogram({ color }: { color: string }) {
       className="shrink-0"
     >
       <path d="M6 4 H14 V44 H6 Z" fill={color} />
-      <path d="M14 24 L30 4 H40 L20 24 Z" fill="#2b94db" />
+      <path d="M14 24 L30 4 H40 L20 24 Z" fill="#00618d" />
       <path d="M20 24 L40 44 H30 L14 26 Z" fill={color} />
     </svg>
   );

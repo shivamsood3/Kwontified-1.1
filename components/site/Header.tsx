@@ -222,7 +222,7 @@ function MegaPanel({
 
 function PanelHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+    <div className="mb-2 text-xs font-normal text-muted">
       {children}
     </div>
   );

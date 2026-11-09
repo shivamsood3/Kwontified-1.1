@@ -65,7 +65,7 @@ export default async function LeaderPage({
             <div>
               <h1 className="h-display text-4xl text-ink md:text-5xl">{l.name}</h1>
               <p className="mt-2 text-lg text-brand-600">{l.role}</p>
-              <p className="mt-6 text-[1.125rem] leading-relaxed text-slate-700">
+              <p className="mt-6 text-[1.125rem] leading-relaxed text-ink-800">
                 {l.bio}
               </p>
             </div>
@@ -75,7 +75,7 @@ export default async function LeaderPage({
 
       <section className="bg-paper">
         <div className="container-kw py-14">
-          <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+          <h2 className="text-xs font-normal text-muted">
             Speaks and writes on
           </h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">

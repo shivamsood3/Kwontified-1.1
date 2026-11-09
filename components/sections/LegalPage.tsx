@@ -26,13 +26,13 @@ export function LegalPage({
         <p className="mt-3 text-sm text-muted">Last updated {updated}</p>
 
         <div className="mt-8 max-w-3xl">
-          <p className="text-[1.0625rem] leading-relaxed text-slate-600">{intro}</p>
+          <p className="text-[1.0625rem] leading-relaxed text-ink-700">{intro}</p>
 
           {sections.map((s) => (
             <section key={s.h} className="mt-10">
               <h2 className="h-display text-xl text-ink">{s.h}</h2>
               {s.body.map((p, i) => (
-                <p key={i} className="mt-3 text-[1.0625rem] leading-relaxed text-slate-600">
+                <p key={i} className="mt-3 text-[1.0625rem] leading-relaxed text-ink-700">
                   {p}
                 </p>
               ))}

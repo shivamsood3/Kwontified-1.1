@@ -84,7 +84,7 @@ export default async function CapabilityPage({
             {c.services.map((s) => (
               <div key={s.title}>
                 <h3 className="text-base font-semibold text-ink">{s.title}</h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed text-slate-600">
+                <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-700">
                   {s.body}
                 </p>
               </div>

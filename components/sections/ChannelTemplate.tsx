@@ -58,7 +58,7 @@ export function ChannelTemplate({
                   className="rounded-2xl border border-line bg-paper p-8"
                 >
                   <h2 className="h-display text-xl text-ink">{a.title}</h2>
-                  <p className="mt-3 text-[0.975rem] leading-relaxed text-slate-600">
+                  <p className="mt-3 text-[0.975rem] leading-relaxed text-ink-700">
                     {a.body}
                   </p>
                 </div>
@@ -99,7 +99,7 @@ export function ChannelTemplate({
             {problems.map((p) => (
               <div key={p.problem} className="grid gap-2 py-6 md:grid-cols-5 md:gap-8">
                 <h3 className="font-semibold text-ink md:col-span-2">{p.problem}</h3>
-                <p className="text-[0.975rem] leading-relaxed text-slate-600 md:col-span-3">
+                <p className="text-[0.975rem] leading-relaxed text-ink-700 md:col-span-3">
                   {p.solution}
                 </p>
               </div>

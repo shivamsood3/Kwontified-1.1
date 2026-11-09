@@ -65,7 +65,7 @@ export default function AmazonDspCaseStudy() {
           <div className="mt-10 grid gap-6 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4">
             {meta.map((m) => (
               <div key={m.label}>
-                <div className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                <div className="text-xs font-normal text-muted">
                   {m.label}
                 </div>
                 <div className="mt-1 text-sm text-ink">{m.value}</div>
@@ -97,7 +97,7 @@ export default function AmazonDspCaseStudy() {
       <section className="bg-white">
         <div className="container-kw grid gap-8 py-16 md:grid-cols-[0.8fr_1.2fr]">
           <h2 className="h-display text-3xl text-ink">The situation</h2>
-          <p className="prose-kw max-w-2xl text-lg leading-relaxed text-slate-600">
+          <p className="prose-kw max-w-2xl text-lg leading-relaxed text-ink-700">
             The brand earned $7.5M a year on Amazon with a mature search program
             at 5.8x ROAS. Search was efficient but close to its ceiling. Growth
             had to come from shoppers who were not yet searching for the
@@ -114,7 +114,7 @@ export default function AmazonDspCaseStudy() {
             {did.map((d) => (
               <div key={d.title} className="rounded-2xl border border-line bg-white p-7">
                 <h3 className="text-base font-semibold text-ink">{d.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-slate-600">
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-700">
                   {d.body}
                 </p>
               </div>
@@ -160,7 +160,7 @@ export default function AmazonDspCaseStudy() {
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {related.map((r) => (
               <Link key={r.title} href={r.href} className="group">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                <p className="text-xs font-normal text-muted">
                   {r.kicker}
                 </p>
                 <h3 className="h-display mt-2 text-lg text-ink group-hover:text-brand-700">

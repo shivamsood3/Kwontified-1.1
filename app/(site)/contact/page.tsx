@@ -42,7 +42,7 @@ export default function ContactPage() {
           <ContactForm />
 
           <aside className="space-y-5">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+            <h2 className="text-xs font-normal text-muted">
               What happens next
             </h2>
             {next.map((n) => (

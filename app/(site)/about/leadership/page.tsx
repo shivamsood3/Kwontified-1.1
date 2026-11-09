@@ -37,7 +37,7 @@ export default function LeadershipPage() {
               <div>
                 <h2 className="h-display text-2xl text-ink">{l.name}</h2>
                 <p className="mt-1 text-sm font-medium text-brand-600">{l.role}</p>
-                <p className="mt-4 text-[1.0625rem] leading-relaxed text-slate-600">
+                <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-700">
                   {l.bio}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">

@@ -16,7 +16,7 @@ export function CtaBand({
         className="absolute inset-0 opacity-30"
         style={{
           background:
-            "radial-gradient(60% 120% at 85% 0%, rgba(43,148,219,0.55), transparent 60%)",
+            "radial-gradient(60% 120% at 85% 0%, rgba(255,255,255,0.14), transparent 60%)",
         }}
         aria-hidden="true"
       />

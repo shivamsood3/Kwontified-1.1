@@ -3,62 +3,138 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #0d1320;
+  /* Brand blue */
+  --blue-800: #003a55;
+  --blue-700: #004869;
+  --blue-600: #00618d; /* PRIMARY */
+  --blue-300: #99c0d1;
+  --blue-200: #c7dce6;
+  --blue-100: #e6eff4;
+  --blue-50: #f3f7fa;
+
+  /* Warm charcoal neutrals */
+  --ink-900: #262524;
+  --ink-800: #31302e;
+  --ink-700: #4a4b4d;
+  --ink-500: #626366;
+  --ink-300: #c9cacc;
+  --ink-200: #e1e2e3;
+  --ink-100: #f2f3f3;
+  --white: #ffffff;
+
+  /* Semantic */
+  --bg: var(--white);
+  --bg-alt: var(--ink-100);
+  --bg-dark: var(--ink-900);
+  --bg-brand: var(--blue-600);
+  --text: var(--ink-900);
+  --text-muted: var(--ink-500);
+  --text-on-dark: var(--white);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.72);
+  --accent-on-dark: var(--blue-300);
+  --link: var(--blue-600);
+  --link-hover: var(--blue-700);
+  --border: var(--ink-300);
+  --focus: var(--blue-600);
+
+  /* Type */
+  --font-sans: "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Text",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Neue Haas Grotesk Display Pro", var(--font-sans);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 640ms;
+
+  --background: var(--white);
+  --foreground: var(--ink-900);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    color: var(--ink-900);
   }
   body {
     color: var(--foreground);
     background: var(--background);
-    font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
   ::selection {
-    background: #2b94db;
+    background: var(--blue-600);
     color: #ffffff;
   }
   a {
     text-decoration: none;
   }
+  input,
+  select,
+  textarea,
+  button,
+  kbd,
+  optgroup {
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
 }
 
 @layer components {
+  /* Container: 1312px, gutters 64 / 32 / 16 */
   .container-kw {
-    @apply mx-auto w-full max-w-container px-6 md:px-10;
+    @apply mx-auto w-full max-w-container px-4 md:px-8 xl:px-16;
   }
+  /* Eyebrows: sentence case, 15px, muted, no uppercase / tracking / blue */
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-600;
+    @apply text-[15px] font-normal text-muted;
   }
   .eyebrow-light {
-    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-300;
+    @apply text-[15px] font-normal text-[color:var(--text-on-dark-muted)];
   }
   .h-display {
-    @apply font-sans font-semibold tracking-tightish;
+    @apply font-display font-normal tracking-tightish;
   }
   .link-underline {
-    @apply relative inline-flex items-center gap-1 font-medium text-brand-600 transition hover:text-brand-700;
+    @apply relative inline-flex items-center gap-1 font-medium text-brand-600 underline decoration-[0.07em] underline-offset-[0.2em] transition hover:text-brand-700;
   }
   .prose-kw p {
-    @apply text-[1.0625rem] leading-relaxed text-slate-600;
+    @apply text-body leading-relaxed text-muted;
   }
 }
 
-/* Subtle dotted texture used behind dark hero blocks */
-.hero-texture {
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.06) 1px,
-    transparent 1px
-  );
-  background-size: 22px 22px;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-/* Brand ecommerce-icon pattern (from the Kwontified design system) */
+/* Faint icon-pattern texture behind dark/brand blocks (white-on-dark only) */
 .bg-ecom-dark {
   background-image: url("/brand/pattern-dark.jpg");
   background-size: cover;

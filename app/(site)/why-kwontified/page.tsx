@@ -115,17 +115,17 @@ export default function WhyKwontifiedPage() {
             <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-start">
               <h2 className="h-display text-3xl text-ink">{s.title}</h2>
               <div>
-                <p className="text-[1.0625rem] leading-relaxed text-slate-600">{s.body}</p>
+                <p className="text-[1.0625rem] leading-relaxed text-ink-700">{s.body}</p>
                 {s.link && (
                   <Link href={s.link.href} className="link-underline mt-4 inline-flex text-sm">
                     {s.link.label} →
                   </Link>
                 )}
                 <div className="mt-6 rounded-xl border-l-2 border-brand-500 bg-white/60 p-5 shadow-card">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">
+                  <p className="text-xs font-normal text-brand-600">
                     What you see
                   </p>
-                  <p className="mt-2 text-[0.975rem] leading-relaxed text-slate-600">{s.see}</p>
+                  <p className="mt-2 text-[0.975rem] leading-relaxed text-ink-700">{s.see}</p>
                 </div>
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function WhyKwontifiedPage() {
               <div key={v.n} className="rounded-2xl border border-line bg-white p-6">
                 <div className="text-sm font-semibold text-brand-400">{v.n}</div>
                 <h3 className="mt-2 text-base font-semibold text-ink">{v.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{v.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-700">{v.body}</p>
               </div>
             ))}
           </div>
@@ -169,7 +169,7 @@ export default function WhyKwontifiedPage() {
                       </svg>
                     </span>
                   </summary>
-                  <p className="mt-4 text-[1.0625rem] leading-relaxed text-slate-600">{f.a}</p>
+                  <p className="mt-4 text-[1.0625rem] leading-relaxed text-ink-700">{f.a}</p>
                 </details>
               ))}
             </div>

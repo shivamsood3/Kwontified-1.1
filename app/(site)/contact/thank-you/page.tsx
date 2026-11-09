@@ -28,7 +28,7 @@ export default function ThankYouPage() {
           <div className="mt-8 grid gap-8 md:grid-cols-3">
             {recent.map((r) => (
               <Link key={r.title} href={r.href} className="group">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                <p className="text-xs font-normal text-muted">
                   {r.kicker}
                 </p>
                 <h3 className="h-display mt-2 text-lg text-ink group-hover:text-brand-700">

@@ -58,7 +58,7 @@ function FilterRow({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="mr-1 w-20 shrink-0 text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+      <span className="mr-1 w-20 shrink-0 text-xs font-normal text-muted">
         {label}
       </span>
       {options.map((o) => (

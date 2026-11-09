@@ -24,7 +24,7 @@ export default function CapabilitiesOverview() {
         cta={{ href: "/contact", label: "Request a marketplace review" }}
       >
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
+          <p className="text-xs font-normal text-white/50">
             Every channel judged on incremental return
           </p>
           <div className="mt-6 grid grid-cols-3 gap-6">
@@ -47,7 +47,7 @@ export default function CapabilitiesOverview() {
                 <h2 className="h-display text-xl text-ink group-hover:text-brand-700">
                   {c.name}
                 </h2>
-                <p className="mt-3 flex-1 text-[0.95rem] leading-relaxed text-slate-600">
+                <p className="mt-3 flex-1 text-[0.95rem] leading-relaxed text-ink-700">
                   {c.intro}
                 </p>
                 <div className="mt-5 flex items-center justify-between">

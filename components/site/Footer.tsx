@@ -111,7 +111,7 @@ export function Footer() {
 
 function ColTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink">
+    <div className="mb-3 text-xs font-normal text-ink">
       {children}
     </div>
   );

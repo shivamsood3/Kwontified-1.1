@@ -42,7 +42,7 @@ export function Figure({
       ? "bg-ink-800 text-white/70"
       : tone === "brand"
         ? "bg-gradient-to-br from-brand-600 to-brand-800 text-white/80"
-        : "bg-gradient-to-br from-slate-100 to-slate-200 text-slate-400";
+        : "bg-gradient-to-br from-ink-100 to-ink-200 text-ink-300";
 
   return (
     <div

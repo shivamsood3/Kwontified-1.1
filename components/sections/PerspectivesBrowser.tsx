@@ -36,7 +36,7 @@ export function PerspectivesBrowser() {
       <div className="rounded-2xl border border-line bg-paper p-5">
         <div className="grid gap-4 md:grid-cols-[1fr_auto_auto_auto]">
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+            <label className="mb-1.5 block text-xs font-normal text-muted">
               Search Perspectives
             </label>
             <input
@@ -64,7 +64,7 @@ export function PerspectivesBrowser() {
         >
           <div className="grid md:grid-cols-[1.3fr_1fr]">
             <div className="p-8 md:p-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-300">
+              <p className="text-xs font-normal text-brand-300">
                 {featured.topic} · {featured.channel}
               </p>
               <h2 className="h-display mt-3 text-3xl text-white">{featured.title}</h2>
@@ -98,13 +98,13 @@ function PostCard({ p }: { p: Perspective }) {
       href={p.slug ? `/perspectives/${p.slug}` : "/perspectives"}
       className="group flex flex-col rounded-2xl border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:shadow-card"
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-600">
+      <p className="text-xs font-normal text-brand-600">
         {p.topic}
       </p>
       <h3 className="h-display mt-3 text-lg text-ink group-hover:text-brand-700">
         {p.title}
       </h3>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{p.excerpt}</p>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-700">{p.excerpt}</p>
       <p className="mt-5 text-sm text-muted">{p.author}</p>
     </Link>
   );
@@ -123,7 +123,7 @@ function SelectField({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+      <label className="mb-1.5 block text-xs font-normal text-muted">
         {label}
       </label>
       <select
