@@ -17,10 +17,13 @@ const base =
 
 const variants: Record<string, string> = {
   primary: "bg-brand-600 text-white hover:bg-brand-700",
-  "secondary-light": "bg-white text-brand-600 hover:bg-brand-100 hover:text-brand-700",
-  light: "bg-white text-brand-600 hover:bg-brand-100 hover:text-brand-700",
+  // White button for use on the blue CTA band only. Hover → ink-100 (never
+  // light blue, which would read as a button-on-panel elsewhere). (fixes 0a)
+  "secondary-light": "bg-white text-brand-600 hover:bg-ink-100",
+  light: "bg-white text-brand-600 hover:bg-ink-100",
   outline: "border border-ink-300 text-ink hover:border-brand-600 hover:text-brand-700",
-  "outline-light": "border border-white/35 text-white hover:bg-white/10",
+  // Hero secondary CTA on dark: transparent, faint white border → solid on hover. (fixes 0a)
+  "outline-light": "border border-white/40 text-white hover:border-white hover:bg-white/[0.08]",
   "text-link":
     "px-0 text-brand-600 underline decoration-[0.07em] underline-offset-[0.2em] hover:text-brand-700",
   ghost:

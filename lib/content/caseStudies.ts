@@ -35,9 +35,9 @@ export const caseStudyDetails: CaseStudyDetail[] = [
       { value: "−34%", label: "Ad budget" },
     ],
     beforeAfter: {
-      metric: "Walmart revenue",
-      before: { label: "Before", value: "$4.1M", height: 72 },
-      after: { label: "After", value: "$4.9M", height: 100 },
+      metric: "Combined Walmart revenue",
+      before: { label: "Before", value: "$2.83M", height: 84 },
+      after: { label: "After", value: "$3.38M", height: 100 },
     },
     challenge:
       "A SKU transition risks resetting item history: ranking, reviews and the Walmart supplier scorecard. The brand needed to migrate without a revenue dip and without overspending on Walmart Connect to prop up the new items.",
@@ -90,11 +90,8 @@ export const caseStudyDetails: CaseStudyDetail[] = [
       { value: "+68%", label: "Annualized revenue" },
       { value: "147", label: "Listings restored" },
     ],
-    beforeAfter: {
-      metric: "Annualized revenue",
-      before: { label: "Before", value: "$2.83M", height: 60 },
-      after: { label: "After", value: "$3.38M", height: 100 },
-    },
+    // No verified before/after pair for this account — the Results strip
+    // shows the confirmed stats ($6.2M restored, +68%, 147 listings) instead. (fix 1)
     challenge:
       "Suppressed listings, broken parent-child families and account-health flags had capped a $6.2M business. Advertising could not scale against a catalog that kept breaking.",
     whatWeDid: [
@@ -104,6 +101,34 @@ export const caseStudyDetails: CaseStudyDetail[] = [
     ],
     results:
       "147 listings were restored, annualized revenue grew 68%, and the $6.2M business was brought back to health.",
+  },
+  {
+    slug: "vendor-central-recovery",
+    category: "Home goods brand",
+    channel: "Amazon Vendor Central",
+    title: "Restoring PO fill rate on a 1P account.",
+    intro:
+      "A home goods brand’s Amazon Vendor Central business was losing margin to low fill rates, chargebacks and unclaimed shortages. We fixed the operations and recovered the revenue they covered.",
+    capabilities: ["Revenue Recovery", "Marketplace Operations", "Analytics and Forecasting"],
+    stats: [
+      { value: "71% → 92%", label: "PO fill rate" },
+      { value: "$14.0M", label: "Annual revenue" },
+      { value: "$450K", label: "Shortage claims recovered" },
+    ],
+    beforeAfter: {
+      metric: "Annual revenue",
+      before: { label: "Before", value: "$10.5M", height: 75 },
+      after: { label: "After", value: "$14.0M", height: 100 },
+    },
+    challenge:
+      "Purchase-order fill rate sat at 71%, chargebacks were eroding margin, and shortage claims were going unfiled inside Amazon’s windows. Revenue could not grow while operations leaked at every step.",
+    whatWeDid: [
+      { title: "Lifted fill rate", body: "We fixed the catalog, cost and lead-time data behind PO confirmations so the account could accept and ship a far larger share of what Amazon ordered." },
+      { title: "Stopped the chargebacks", body: "The most expensive chargeback causes were traced to their operational source and corrected, so the same deductions stopped recurring." },
+      { title: "Recovered what was owed", body: "Shortage and price-claim disputes were audited, filed and followed inside Amazon’s claim windows, returning cash the account had written off." },
+    ],
+    results:
+      "PO fill rate rose from 71% to 92%, shortage disputes recovered $450K, and annual revenue grew from $10.5M to $14.0M.",
   },
 ];
 

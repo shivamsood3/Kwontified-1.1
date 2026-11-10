@@ -10,12 +10,13 @@ import { capabilityIcons } from "@/lib/icons";
 const BLUE = "#00618D";
 const INK = "#262524";
 
+// All slides are charcoal with the faint texture and dark chart panels (fix 10).
 const slides = [
   { label: "Kwontified", bg: INK, dark: true },
   { label: "Retail media", bg: INK, dark: true },
-  { label: "Creative", bg: "#E6EFF4", dark: false },
-  { label: "AI commerce", bg: BLUE, dark: true },
-  { label: "Operations", bg: "#F2F3F3", dark: false },
+  { label: "Creative", bg: INK, dark: true },
+  { label: "AI commerce", bg: INK, dark: true },
+  { label: "Operations", bg: INK, dark: true },
   { label: "Perspectives", bg: INK, dark: true },
 ];
 
@@ -61,6 +62,9 @@ export function HeroCarousel() {
       )}
 
       <div className="container-kw relative">
+        {/* The page H1 is constant; the home slide renders it visibly, other
+            slides keep it present but hidden so there is always one h1. (fix 17) */}
+        {i !== 0 && <h1 className="sr-only">Measured growth. Beautiful work.</h1>}
         <div
           key={i}
           className={`grid gap-12 py-16 md:py-20 lg:min-h-[560px] lg:grid-cols-2 lg:items-center ${animate ? "animate-fade-up" : ""}`}
@@ -218,7 +222,7 @@ function SlideHome() {
           are measured on your sales, return on ad spend and margin.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/contact" variant="light" size="lg">Request a marketplace review</Button>
+          <Button href="/contact" variant="primary" size="lg">Request a marketplace review</Button>
           <Button href="/work" variant="outline-light" size="lg">Read 14 client case studies</Button>
         </div>
       </div>
@@ -262,11 +266,11 @@ function SlideProof({
     <>
       <div>
         <p className="text-xs font-normal" style={{ color: eye }}>{eyebrow}</p>
-        {/* h1 lives on the active slide; only one slide is mounted, so the
-            document always has exactly one h1. */}
-        <h1 className="h-display mt-4 text-4xl leading-[1.08] md:text-5xl" style={{ color: dark ? "#fff" : INK }}>
+        {/* Proof-slide headings are h2; the page H1 is the persistent
+            "Measured growth. Beautiful work." rendered by the carousel. (fix 17) */}
+        <h2 className="h-display mt-4 text-4xl leading-[1.08] md:text-5xl" style={{ color: dark ? "#fff" : INK }}>
           {heading}
-        </h1>
+        </h2>
         <p className="mt-5 max-w-lg text-lg leading-relaxed" style={{ color: sub }}>{body}</p>
         <Link
           href={cta.href}
@@ -302,9 +306,6 @@ function Panel({ dark, children }: { dark: boolean; children: React.ReactNode })
 function Cap({ children }: { children: React.ReactNode }) {
   return <p className="text-xs font-normal text-white/50">{children}</p>;
 }
-function CapDark({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs font-normal" style={{ color: "rgba(38,37,36,.5)" }}>{children}</p>;
-}
 
 function VisualRetail() {
   return (
@@ -325,25 +326,23 @@ function VisualRetail() {
 
 function VisualCreative() {
   return (
-    <Panel dark={false}>
-      <CapDark>Premium skincare brand, Amazon US</CapDark>
+    <Panel dark>
+      <Cap>Premium skincare brand, Amazon US</Cap>
       <div className="mt-4 grid grid-cols-2 gap-4">
         <figure>
-          <div className="aspect-[4/3] overflow-hidden rounded-lg border border-[rgba(38,37,36,.1)]">
+          <div className="aspect-[4/3] overflow-hidden border border-white/15">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/creative/test-product.jpg"
               alt="Main image, before"
               className="h-full w-full object-cover"
-              style={{ filter: "grayscale(1) brightness(0.96)" }}
+              style={{ filter: "grayscale(1) brightness(0.9)" }}
             />
           </div>
-          <p className="mt-1.5 text-[0.7rem]" style={{ color: "rgba(38,37,36,.55)" }}>
-            Main image, before
-          </p>
+          <p className="mt-1.5 text-[0.7rem] text-white/55">Main image, before</p>
         </figure>
         <figure>
-          <div className="aspect-[4/3] overflow-hidden rounded-lg" style={{ boxShadow: `0 0 0 2px ${BLUE}` }}>
+          <div className="aspect-[4/3] overflow-hidden" style={{ boxShadow: "0 0 0 2px #99c0d1" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/creative/test-product.jpg"
@@ -352,18 +351,18 @@ function VisualCreative() {
               style={{ filter: "saturate(1.15) contrast(1.05)" }}
             />
           </div>
-          <p className="mt-1.5 text-[0.7rem] font-medium" style={{ color: BLUE }}>
+          <p className="mt-1.5 text-[0.7rem] font-medium" style={{ color: "#99c0d1" }}>
             Winning variant
           </p>
         </figure>
       </div>
       <div className="mt-5 flex items-end gap-5">
-        <Bar h={66} label="Before" value="8.2%" tone="#c7dce6" />
-        <Bar h={100} label="After the test" value="12.1%" tone={BLUE} />
+        <Bar h={66} label="Before" value="8.2%" tone="rgba(255,255,255,.25)" dark />
+        <Bar h={100} label="After the test" value="12.1%" tone="#99c0d1" dark />
       </div>
-      <div className="mt-5 grid grid-cols-2 gap-4 border-t pt-4" style={{ borderColor: "rgba(38,37,36,.1)" }}>
-        <Mini v="+47%" l="Conversion rate" />
-        <Mini v="$4.2M" l="Incremental revenue" />
+      <div className="mt-5 grid grid-cols-2 gap-4 border-t border-white/10 pt-4">
+        <Mini v="+47%" l="Conversion rate" dark />
+        <Mini v="$4.2M" l="Incremental revenue" dark />
       </div>
     </Panel>
   );
@@ -376,58 +375,61 @@ function VisualAI() {
     { name: "Daily vitamin C drops, 15 ml", tags: "Fragrance-free", you: false },
   ];
   return (
-    <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-lift">
-      <div className="rounded-xl bg-paper px-4 py-3 text-sm font-medium text-ink">
+    <Panel dark>
+      <div className="border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white">
         Which vitamin C serum suits sensitive skin?
       </div>
-      <p className="mt-4 text-sm text-muted">Three products match what you asked for:</p>
+      <p className="mt-4 text-sm text-white/60">Three products match what you asked for:</p>
       <ul className="mt-3 space-y-2">
         {prods.map((p) => (
           <li
             key={p.name}
-            className="flex items-center justify-between gap-3 rounded-lg border px-3 py-2.5"
-            style={{ borderColor: p.you ? BLUE : "rgba(38,37,36,.1)", background: p.you ? "rgba(0,97,141,.05)" : "#fff" }}
+            className="flex items-center justify-between gap-3 border px-3 py-2.5"
+            style={{
+              borderColor: p.you ? "#99c0d1" : "rgba(255,255,255,.12)",
+              background: p.you ? "rgba(153,192,209,.08)" : "transparent",
+            }}
           >
             <div>
-              <div className="text-sm font-semibold text-ink">{p.name}</div>
-              <div className="text-xs text-muted">{p.tags}</div>
+              <div className="text-sm font-semibold text-white">{p.name}</div>
+              <div className="text-xs text-white/50">{p.tags}</div>
             </div>
             {p.you && (
-              <span className="shrink-0 rounded-full px-2 py-0.5 text-[0.65rem] font-semibold text-white" style={{ background: BLUE }}>
+              <span className="shrink-0 px-2 py-0.5 text-[0.65rem] font-semibold text-ink" style={{ background: "#99c0d1" }}>
                 Your listing
               </span>
             )}
           </li>
         ))}
       </ul>
-      <p className="mt-3 text-[0.7rem] text-muted">Illustration: an AI shopping assistant answer</p>
-    </div>
+      <p className="mt-3 text-[0.7rem] text-white/45">Illustration: an AI shopping assistant answer</p>
+    </Panel>
   );
 }
 
 function VisualOps() {
   return (
-    <Panel dark={false}>
-      <CapDark>Home goods brand, Amazon Vendor Central</CapDark>
+    <Panel dark>
+      <Cap>Home goods brand, Amazon Vendor Central</Cap>
       <div className="mt-5 grid grid-cols-2 gap-6">
         <div>
-          <div className="text-xs font-medium" style={{ color: "rgba(38,37,36,.55)" }}>PO fill rate</div>
+          <div className="text-xs font-medium text-white/55">PO fill rate</div>
           <div className="mt-2 flex items-end gap-3">
-            <Bar h={71} label="Before" value="71%" tone="#cfd8df" small />
-            <Bar h={92} label="After" value="92%" tone={BLUE} small />
+            <Bar h={71} label="Before" value="71%" tone="rgba(255,255,255,.25)" dark small />
+            <Bar h={92} label="After" value="92%" tone="#99c0d1" dark small />
           </div>
         </div>
         <div>
-          <div className="text-xs font-medium" style={{ color: "rgba(38,37,36,.55)" }}>Annual revenue</div>
+          <div className="text-xs font-medium text-white/55">Annual revenue</div>
           <div className="mt-2 flex items-end gap-3">
-            <Bar h={75} label="Before" value="$10.5M" tone="#cfd8df" small />
-            <Bar h={100} label="After" value="$14.0M" tone={BLUE} small />
+            <Bar h={75} label="Before" value="$10.5M" tone="rgba(255,255,255,.25)" dark small />
+            <Bar h={100} label="After" value="$14.0M" tone="#99c0d1" dark small />
           </div>
         </div>
       </div>
-      <div className="mt-5 grid grid-cols-2 gap-4 border-t pt-4" style={{ borderColor: "rgba(38,37,36,.1)" }}>
-        <Mini v="$450K" l="Shortage claims recovered" />
-        <Mini v="60%" l="Lower chargeback fees" />
+      <div className="mt-5 grid grid-cols-2 gap-4 border-t border-white/10 pt-4">
+        <Mini v="$450K" l="Shortage claims recovered" dark />
+        <Mini v="60%" l="Lower chargeback fees" dark />
       </div>
     </Panel>
   );

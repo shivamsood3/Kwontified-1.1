@@ -27,7 +27,7 @@ const results: Record<string, Result> = {
     stat: "$14.0M",
     label: "Annual revenue, Vendor Central",
     body: "Annual revenue for a Vendor Central business that was flat at $10.5M before we fixed chargebacks, fill rates and shortage claims.",
-    href: "/work/account-health-restore",
+    href: "/work/vendor-central-recovery",
   },
   Walmart: {
     stat: "+19%",

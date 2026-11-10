@@ -71,9 +71,11 @@ export function PerspectivesBrowser() {
               <p className="mt-4 max-w-md text-[0.975rem] leading-relaxed text-white/65">
                 {featured.excerpt}
               </p>
-              <p className="mt-6 text-sm text-white/80">
-                <span className="font-semibold">{featured.author}</span>
-              </p>
+              {featured.author && (
+                <p className="mt-6 text-sm text-white/80">
+                  <span className="font-semibold">{featured.author}</span>
+                </p>
+              )}
             </div>
             <div className="hidden bg-gradient-to-br from-brand-700 to-ink-900 md:block" />
           </div>
@@ -105,7 +107,7 @@ function PostCard({ p }: { p: Perspective }) {
         {p.title}
       </h3>
       <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-700">{p.excerpt}</p>
-      <p className="mt-5 text-sm text-muted">{p.author}</p>
+      {p.author && <p className="mt-5 text-sm text-muted">{p.author}</p>}
     </Link>
   );
 }

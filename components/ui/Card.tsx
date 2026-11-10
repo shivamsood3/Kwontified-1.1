@@ -14,6 +14,7 @@ export function Card({
   img,
   imgAlt,
   ratio = "3/2",
+  visual,
   chips,
   meta,
   title,
@@ -24,6 +25,8 @@ export function Card({
   img?: string;
   imgAlt?: string;
   ratio?: Ratio;
+  /** Render a custom node (e.g. a chart) in the image slot instead of a photo. */
+  visual?: React.ReactNode;
   chips?: string[];
   meta?: string;
   title: string;
@@ -36,13 +39,17 @@ export function Card({
   return (
     <Cmp {...(props as { href: string })} className={cn("group flex flex-col", className)}>
       <div className="overflow-hidden">
-        <Figure
-          src={img}
-          alt={imgAlt ?? title}
-          ratio={ratio}
-          rounded=""
-          className="transition-transform duration-500 group-hover:scale-[1.03]"
-        />
+        {visual ? (
+          visual
+        ) : (
+          <Figure
+            src={img}
+            alt={imgAlt ?? title}
+            ratio={ratio}
+            rounded=""
+            className="transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+        )}
       </div>
       {(chips?.length || meta) && (
         <div className="mt-4 flex flex-wrap items-center gap-2">

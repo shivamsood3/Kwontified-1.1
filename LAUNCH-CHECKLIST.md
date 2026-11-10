@@ -26,6 +26,33 @@ Items to resolve before taking the site live.
   verification meta tag (or DNS record) for `kwontified.com`, then submit
   `https://kwontified.com/sitemap.xml`. (Needs the client's accounts.)
 
+## ✅ Done — Round 2 (AntiAlias QA, 9 Nov 2026)
+
+**P0**
+- Hero CTAs use the standard blue `primary` button (secondary = transparent/white-border); white button kept only on the blue CTA band, hover → ink-100. No light-blue button fills anywhere.
+- Mega-menu: fixed the hover dead zone (single hover container, full-height trigger, `pt-2` bridge, 120ms open / 200ms close intent, instant switch), keyboard + Esc + outside-click + touch support, square popover with ink-300 border and shadow-pop at full container width, plus a featured case-study rail.
+- Results numbers corrected: Walmart $2.83M→$3.38M; account-health shows Stats ($6.2M restored, +68%) not bars. All three cards now derive from a single source (`lib/data/metrics.ts`) so they can't drift from the case studies.
+- Logo replaced with the exact prototype wordmark SVG (header, footer, favicon `app/icon.svg`, OG image, apple-touch-icon all regenerated).
+- No square-bracket placeholders render anywhere; testimonial shows without attribution; a build step (`scripts/check-placeholders.mjs`) fails the build if any `[Name]`-style placeholder reaches rendered HTML.
+- Invented Perspectives authors/read-times removed (only the DSP guide keeps its byline).
+
+**P1**
+- New `/work/vendor-central-recovery` case study (ResultFinder + work grid point to it).
+- Three Perspectives posts created as "full article coming soon" pages; `/thank-you`, `/work/gallery`, and `/perspectives/authors/[priyanka-shah|jordan-taylor]` added and in the sitemap.
+- Footer social icons are monochrome (ink-700 → blue-600), no brand colours.
+- Creative grid row equalised (no dead space), swimwear crop fixed, metric chips no longer wrap.
+- Perspectives featured visual is now an on-palette lift-study chart, not the duplicated photo.
+- All six hero slides are charcoal with dark chart panels.
+- Capability "other capabilities" cards show labelled metrics; the case-study panel upgraded to a Stat + summary + before/after chart.
+- Mega-menu descriptors now match site copy word-for-word.
+
+**P2**
+- Client/press logos normalised into a uniform responsive box (32×120 mobile / 40×150 desktop, object-contain).
+- Channels: 11th item spans both columns as a highlighted row; list arrows darkened to ink-500.
+- Hero H1 is always "Measured growth. Beautiful work." (home slide visible; other slides keep it as an sr-only H1 and use H2 for their titles).
+- Major homepage sections use 120px desktop section padding.
+- Font: no web-font loads (so no layout shift); Neue Haas remains a `TODO(licence)`.
+
 ## ✅ Done
 
 - Public site built to match the Figma 1.1.1 design (34 pages).

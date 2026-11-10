@@ -3,7 +3,9 @@ export type Perspective = {
   title: string;
   topic: string;
   channel: string;
-  author: string;
+  // Only confirmed when present. The prototype left author/date as placeholders
+  // for every post except the DSP guide, so the rest ship without a byline. (fix 4)
+  author?: string;
   excerpt: string;
   featured?: boolean;
 };
@@ -23,7 +25,6 @@ export const perspectives: Perspective[] = [
     title: "TACoS or ROAS: which number to run an Amazon business on",
     topic: "Analytics",
     channel: "Amazon",
-    author: "Jordan Taylor",
     excerpt:
       "Why the metric you optimise decides the business you build — and when each number tells the truth.",
   },
@@ -31,7 +32,6 @@ export const perspectives: Perspective[] = [
     title: "Walmart Connect or Amazon Ads: where the next dollar should go",
     topic: "Retail media",
     channel: "Walmart",
-    author: "Priyanka Shah",
     excerpt:
       "A framework for moving budget between marketplaces based on incremental return, not channel loyalty.",
   },
@@ -39,7 +39,6 @@ export const perspectives: Perspective[] = [
     title: "What Target Plus’ invitation requires — and how to keep it",
     topic: "Operations",
     channel: "Target Plus",
-    author: "Elaine Kwon",
     excerpt:
       "The standards Target holds sellers to on content, price and service, and how to run to them.",
   },
@@ -47,7 +46,6 @@ export const perspectives: Perspective[] = [
     title: "Content structured for AI shopping assistants",
     topic: "AI commerce",
     channel: "Amazon",
-    author: "Jordan Taylor",
     excerpt:
       "How to structure product data and content so Rufus, ChatGPT, Gemini and Claude can read and recommend your brand.",
   },
@@ -56,5 +54,6 @@ export const perspectives: Perspective[] = [
 export const perspectiveFilters = {
   topics: ["All topics", "Retail media", "Analytics", "Operations", "AI commerce", "Creative"],
   channels: ["All channels", "Amazon", "Walmart", "Target Plus", "International"],
-  authors: ["All authors", "Elaine Kwon", "Jordan Taylor", "Priyanka Shah"],
+  // Only confirmed bylines are offered as filters (fix 4).
+  authors: ["All authors", "Priyanka Shah"],
 };

@@ -46,6 +46,7 @@ export const caseStudies: CaseStudy[] = [
     ],
   },
   {
+    slug: "vendor-central-recovery",
     brand: "A home goods brand · Amazon Vendor Central",
     title: "Restoring PO fill rate on a 1P account",
     channel: "Amazon",

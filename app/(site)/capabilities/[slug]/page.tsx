@@ -6,6 +6,8 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { ExecFaq } from "@/components/sections/ExecFaq";
 import { Button } from "@/components/site/Button";
 import { IconTile } from "@/components/ui/IconTile";
+import { Stat } from "@/components/ui/Stat";
+import { BeforeAfterBars } from "@/components/ui/BeforeAfterBars";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { serviceLd } from "@/lib/seo";
 import { capabilityIcons } from "@/lib/icons";
@@ -43,6 +45,26 @@ export default async function CapabilityPage({
   if (!c) notFound();
 
   const others = capabilitiesContent.filter((x) => x.slug !== c.slug);
+
+  // Build a before/after chart from a "A → B" metric (e.g. "8.2% → 12.1%"). (fix 12)
+  const num = (s: string) => {
+    const m = s.match(/[\d.]+/);
+    return m ? parseFloat(m[0]) : null;
+  };
+  let beforeAfter: {
+    before: { label: string; value: string; height: number };
+    after: { label: string; value: string; height: number };
+  } | null = null;
+  if (c.metric.value.includes("→")) {
+    const [bStr, aStr] = c.metric.value.split("→").map((s) => s.trim());
+    const b = num(bStr);
+    const a = num(aStr);
+    const bh = b && a ? Math.max(14, Math.round((b / a) * 100)) : 72;
+    beforeAfter = {
+      before: { label: "Before", value: bStr, height: bh },
+      after: { label: "After", value: aStr, height: 100 },
+    };
+  }
 
   return (
     <>
@@ -98,19 +120,41 @@ export default async function CapabilityPage({
         </div>
       </section>
 
-      {/* Case study callout */}
+      {/* Case study callout (fix 12) */}
       <section className="bg-paper">
         <div className="container-kw py-16">
-          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-line bg-white p-8 md:flex-row md:items-center">
+          <div className="grid gap-8 border border-line bg-white p-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
             <div>
               <p className="eyebrow">{c.caseStudy.eyebrow}</p>
-              <h3 className="h-display mt-2 text-2xl text-ink">
-                {c.caseStudy.title}
-              </h3>
+              <h3 className="h-display mt-2 text-h3 text-ink">{c.caseStudy.title}</h3>
+              <div className="mt-6 flex flex-wrap items-end gap-x-10 gap-y-4">
+                <Stat value={c.metric.value} label={c.metric.label} tone="light" />
+                {!beforeAfter &&
+                  c.heroStats
+                    .slice(0, 1)
+                    .map((s) => <Stat key={s.label} value={s.value} label={s.label} tone="light" />)}
+              </div>
+              <div className="mt-6">
+                <Button href={c.caseStudy.href} variant="outline">
+                  Read the case study
+                </Button>
+              </div>
             </div>
-            <Button href={c.caseStudy.href} variant="outline">
-              Read the case study
-            </Button>
+            <div className="md:border-l md:border-line md:pl-8">
+              {beforeAfter ? (
+                <BeforeAfterBars
+                  before={beforeAfter.before}
+                  after={beforeAfter.after}
+                  tone="light"
+                />
+              ) : (
+                <div className="flex flex-wrap gap-x-8 gap-y-4">
+                  {c.heroStats.slice(0, 2).map((s) => (
+                    <Stat key={s.label} value={s.value} label={s.label} tone="light" />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -132,7 +176,10 @@ export default async function CapabilityPage({
                 <div className="text-sm font-semibold text-ink group-hover:text-brand-700">
                   {o.name}
                 </div>
-                <div className="mt-2 text-xs text-muted">{o.metric.value}</div>
+                <div className="mt-2 text-xs text-muted">
+                  <span className="font-semibold text-brand-600">{o.metric.value}</span>{" "}
+                  {o.metric.label}
+                </div>
               </Link>
             ))}
           </div>

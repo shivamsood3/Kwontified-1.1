@@ -10,14 +10,13 @@ function Row({
   logos,
   reverse,
   paused,
-  h,
 }: {
   logos: LogoItem[];
   reverse?: boolean;
   paused: boolean;
-  h: number;
 }) {
-  // Duplicate the set so the loop is seamless; the copy is hidden from AT.
+  // Each logo is normalised into the same box: 32×120 on mobile, 40×150 on
+  // desktop, object-contain so none renders oversized (fix 14).
   const render = (ariaHidden: boolean) =>
     logos.map((l, i) => (
       // eslint-disable-next-line @next/next/no-img-element
@@ -27,8 +26,7 @@ function Row({
         alt={ariaHidden ? "" : l.label}
         aria-hidden={ariaHidden || undefined}
         loading="lazy"
-        style={{ height: h }}
-        className="mx-8 w-auto max-w-[150px] shrink-0 object-contain opacity-60 grayscale transition hover:opacity-100"
+        className="mx-6 h-8 w-auto max-w-[120px] shrink-0 object-contain opacity-60 grayscale transition hover:opacity-100 sm:mx-8 sm:h-10 sm:max-w-[150px]"
       />
     ));
   return (
@@ -44,10 +42,11 @@ function Row({
 /** Static wrapped grid (Featured-in, full client grid on /about and /work). */
 export function LogoGrid({
   logos,
-  height = 28,
+  height = 32,
   className,
 }: {
   logos: LogoItem[];
+  /** Desktop height in px; capped to 32px on mobile so nothing renders oversized. */
   height?: number;
   className?: string;
 }) {
@@ -66,7 +65,7 @@ export function LogoGrid({
             alt={l.label}
             loading="lazy"
             style={{ height }}
-            className="w-auto max-w-full object-contain opacity-60 grayscale transition hover:opacity-100"
+            className="max-h-8 w-auto max-w-full object-contain opacity-70 grayscale transition hover:opacity-100 sm:max-h-none"
           />
         </div>
       ))}
@@ -77,12 +76,10 @@ export function LogoGrid({
 export function LogoMarquee({
   logos,
   rows = 2,
-  height = 28,
   label,
 }: {
   logos: LogoItem[];
   rows?: 1 | 2;
-  height?: number;
   label?: string;
 }) {
   const [paused, setPaused] = useState(false);
@@ -105,7 +102,7 @@ export function LogoMarquee({
       </div>
       <div className="mt-6 space-y-6">
         {rowSets.map((set, i) => (
-          <Row key={i} logos={set} reverse={i % 2 === 1} paused={paused} h={height} />
+          <Row key={i} logos={set} reverse={i % 2 === 1} paused={paused} />
         ))}
       </div>
     </div>

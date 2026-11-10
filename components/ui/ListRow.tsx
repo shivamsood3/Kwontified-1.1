@@ -54,7 +54,7 @@ export function ListRow({
         weight="light"
         className={cn(
           "shrink-0 transition-transform group-hover:translate-x-1",
-          dark ? "text-white/50" : "text-ink-300",
+          dark ? "text-white/50" : "text-ink-500",
         )}
         aria-hidden="true"
       />

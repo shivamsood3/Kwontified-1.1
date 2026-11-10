@@ -5,7 +5,6 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { Button } from "@/components/site/Button";
 import { Stat } from "@/components/ui/Stat";
 import { Chip } from "@/components/ui/Chip";
-import { Quote } from "@/components/ui/Quote";
 import { BeforeAfterBars } from "@/components/ui/BeforeAfterBars";
 import { caseStudyDetails, getCaseStudyDetail } from "@/lib/content/caseStudies";
 
@@ -138,15 +137,8 @@ export default async function CaseStudyPage({
         </div>
       </section>
 
-      {/* Quote — TODO(content): client quote pending approval */}
-      <section className="bg-brand-50">
-        <div className="container-kw py-16">
-          {/* TODO(content): replace with an approved client quote and real attribution. */}
-          <Quote name="[Name]" title="[Title]" company={`[${cs.category} brand]`}>
-            [Client quote pending approval.]
-          </Quote>
-        </div>
-      </section>
+      {/* TODO(content): add an approved client quote + attribution per case study.
+          The quote block is omitted until then — no placeholders ship (fix 3). */}
 
       {/* Related */}
       <section className="bg-white">

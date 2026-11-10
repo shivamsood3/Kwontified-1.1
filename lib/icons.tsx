@@ -32,6 +32,11 @@ import {
   Quotes,
   Pause,
   Play,
+  LinkedinLogo,
+  InstagramLogo,
+  FacebookLogo,
+  XLogo,
+  YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
 
@@ -87,6 +92,15 @@ export const budgetChannelIcons: Record<string, Icon> = {
 
 /** "What one team means for you" bullets, in order. */
 export const oneTeamMeansIcons: Icon[] = [UsersThree, Target, CalendarCheck, Handshake];
+
+/** Footer social icons — monochrome glyphs (currentColor), keyed by label. */
+export const socialIcons: Record<string, Icon> = {
+  LinkedIn: LinkedinLogo,
+  Instagram: InstagramLogo,
+  Facebook: FacebookLogo,
+  X: XLogo,
+  YouTube: YoutubeLogo,
+};
 
 export const ui = {
   ArrowRight,

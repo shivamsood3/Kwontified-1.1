@@ -4,36 +4,37 @@ export type NavItem = {
   blurb?: string;
 };
 
+// Menu descriptors reuse each capability page's own h1, word for word (fix 13).
 export const capabilities: NavItem[] = [
   {
     label: "Retail Media and Advertising",
     href: "/capabilities/retail-media",
-    blurb: "Amazon Ads, DSP and Marketing Cloud, judged on incremental return.",
+    blurb: "Retail media measured on lift.",
   },
   {
     label: "Creative Studio",
     href: "/capabilities/creative-studio",
-    blurb: "Photography, video, A+ Content and Storefronts briefed from what converts.",
+    blurb: "Creative built from what converts.",
   },
   {
     label: "Marketplace Operations",
     href: "/capabilities/marketplace-operations",
-    blurb: "Catalog, inventory, pricing and compliance — 1P and 3P.",
+    blurb: "Operations that protect margin.",
   },
   {
     label: "Analytics and Forecasting",
     href: "/capabilities/analytics",
-    blurb: "Dashboards, audits and forecasts a CFO can plan against.",
+    blurb: "Forecasts a CFO can plan against.",
   },
   {
     label: "AI Commerce",
     href: "/capabilities/ai-commerce",
-    blurb: "Be the answer when shoppers ask AI to recommend a product.",
+    blurb: "Be the answer when shoppers ask AI.",
   },
   {
     label: "Revenue Recovery",
     href: "/capabilities/revenue-recovery",
-    blurb: "Shortage, price-claim and chargeback audits for vendor accounts.",
+    blurb: "Recover what marketplaces owe you.",
   },
 ];
 

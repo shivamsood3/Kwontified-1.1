@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/site/CtaBand";
 import { Figure } from "@/components/ui/Figure";
@@ -12,41 +13,21 @@ import { Stat } from "@/components/ui/Stat";
 import { Quote } from "@/components/ui/Quote";
 import { Card } from "@/components/ui/Card";
 import { ListRow } from "@/components/ui/ListRow";
+import { IconTile } from "@/components/ui/IconTile";
 import { BeforeAfterBars } from "@/components/ui/BeforeAfterBars";
+import { LiftStudyChart } from "@/components/ui/LiftStudyChart";
 import { clientLogos, pressLogos } from "@/lib/logos";
 import { budgetChannelIcons, oneTeamMeansIcons, ui } from "@/lib/icons";
+import { homepageResults } from "@/lib/data/metrics";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-const stats = [
-  {
-    value: "+19%",
-    chip: "Walmart",
-    body: "Combined Walmart revenue for a consumer health brand through a major SKU transition, with supplier ROAS up from 3.0x to 4.2x.",
-    before: { label: "Before", value: "$4.1M", height: 72 },
-    after: { label: "After", value: "$4.9M", height: 100 },
-    href: "/work/walmart-sku-transition",
-    link: "Read the Walmart case study",
-  },
-  {
-    value: "$1.4M",
-    chip: "UK · EU · CA",
-    body: "International revenue across the UK, EU and Canada for a premium fashion brand that had sold only in the US.",
-    before: { label: "Before", value: "$0", height: 4 },
-    after: { label: "After", value: "$1.4M", height: 100 },
-    href: "/work/international-expansion",
-    link: "Read the international case study",
-  },
-  {
-    value: "$6.2M",
-    chip: "Amazon",
-    body: "A leading CPG brand’s collapsed $6.2M Amazon business, restored, with annualized revenue up 68%.",
-    before: { label: "Before", value: "$2.83M", height: 60 },
-    after: { label: "After", value: "$3.38M", height: 100 },
-    href: "/work/account-health-restore",
-    link: "Read the account health case study",
-  },
-];
+// TODO(content): publish the testimonial with a real name/title/company once the
+// client approves attribution. Until then it shows unattributed (fix 3).
+const SHOW_TESTIMONIAL = true;
+
+// Results cards come from a single source derived from the case studies. (fix 1)
+const stats = homepageResults;
 
 const oneTeam = [
   { k: "Measured", cap: "Retail media", href: "/capabilities/retail-media", desc: "Sponsored ads, DSP, Walmart Connect and Roundel, managed on incremental return and new-to-brand growth, with TACoS held to the plan.", connect: "Budgets ease off before a product stocks out, so ads never send shoppers to an empty listing." },
@@ -78,19 +59,37 @@ const budgetChannels = [
   { label: "AI shopping assistants", sub: "Rufus, ChatGPT, Gemini and Claude", href: "/capabilities/ai-commerce" },
 ];
 
-const creative = [
-  { caption: "National beauty brand, Amazon DSP.", metric: "+28% NTB", img: "/creative/beauty.jpg", ratio: "3/2" as const, span: "lg:col-span-7" },
-  { caption: "Global accessories, Amazon and Target Plus, on 17% less spend.", metric: "11.1x ROAS", img: "/creative/accessories.jpg", ratio: "4/5" as const, span: "lg:col-span-5" },
-  { caption: "Luxury swimwear, Amazon US, EU and UK, without discounting.", metric: "+204%", img: "/creative/swimwear.jpg", ratio: "4/3" as const, span: "lg:col-span-4" },
-  { caption: "Men’s outdoor apparel, Amazon launch, first nine months.", metric: "$4.5M", img: "/creative/outdoor.jpg", ratio: "4/3" as const, span: "lg:col-span-4" },
-  { caption: "Premium skincare, Amazon US, on the same ad budget.", metric: "12.1% CVR", img: "/creative/skincare.jpg", ratio: "4/3" as const, span: "lg:col-span-4" },
+const creative: {
+  caption: string;
+  metric: string;
+  img: string;
+  ratio: "3/2" | "4/5" | "4/3";
+  span: string;
+  objectPosition?: string;
+}[] = [
+  { caption: "National beauty brand, Amazon DSP.", metric: "+28% NTB", img: "/creative/beauty.jpg", ratio: "3/2", span: "lg:col-span-7" },
+  { caption: "Global accessories, Amazon and Target Plus, on 17% less spend.", metric: "11.1x ROAS", img: "/creative/accessories.jpg", ratio: "4/5", span: "lg:col-span-5" },
+  { caption: "Luxury swimwear, Amazon US, EU and UK, without discounting.", metric: "+204%", img: "/creative/swimwear.jpg", ratio: "4/3", span: "lg:col-span-4", objectPosition: "center 22%" },
+  { caption: "Men’s outdoor apparel, Amazon launch, first nine months.", metric: "$4.5M", img: "/creative/outdoor.jpg", ratio: "4/3", span: "lg:col-span-4" },
+  { caption: "Premium skincare, Amazon US, on the same ad budget.", metric: "12.1% CVR", img: "/creative/skincare.jpg", ratio: "4/3", span: "lg:col-span-4" },
 ];
 
-const perspectives = [
-  { topic: "Retail media", channel: "Amazon", author: "Priyanka Shah", read: "6 min", title: "Is your Amazon DSP spend incremental?", body: "Attributed ROAS shows what DSP touched. Lift studies and AMC path analysis show what it caused — the test design we use before scaling a DSP budget.", href: "/perspectives/amazon-dsp-incrementality", img: "/creative/skincare.jpg", featured: true },
-  { topic: "AI commerce", channel: "Amazon", author: "Jordan Taylor", read: "5 min", title: "What Rufus reads on a listing, and what it ignores", body: "How shopping assistants parse your detail page.", href: "/perspectives" },
-  { topic: "Creative", channel: "Amazon", author: "Priyanka Shah", read: "4 min", title: "What moved conversion from 8.2% to 12.1%", body: "The image tests and A+ modules behind a skincare lift.", href: "/perspectives" },
-  { topic: "Operations", channel: "Vendor Central", author: "Jordan Taylor", read: "7 min", title: "The five Vendor Central chargeback causes that cost the most", body: "Where 1P deductions come from, and how to stop them.", href: "/perspectives" },
+// Only the DSP guide has a confirmed byline; the rest ship without an author or
+// read time until confirmed (fix 4). Non-DSP links resolve to real posts (fix 5).
+const perspectives: {
+  topic: string;
+  channel: string;
+  author?: string;
+  title: string;
+  body: string;
+  href: string;
+  img?: string;
+  featured?: boolean;
+}[] = [
+  { topic: "Retail media", channel: "Amazon", author: "Priyanka Shah", title: "Is your Amazon DSP spend incremental?", body: "Attributed ROAS shows what DSP touched. Lift studies and AMC path analysis show what it caused — the test design we use before scaling a DSP budget.", href: "/perspectives/amazon-dsp-incrementality", img: "/creative/skincare.jpg", featured: true },
+  { topic: "AI commerce", channel: "Amazon", title: "What Rufus reads on a listing, and what it ignores", body: "How shopping assistants parse your detail page.", href: "/perspectives/rufus-listing-signals" },
+  { topic: "Creative", channel: "Amazon", title: "What moved conversion from 8.2% to 12.1%", body: "The image tests and A+ modules behind a skincare lift.", href: "/perspectives/conversion-8-to-12" },
+  { topic: "Operations", channel: "Vendor Central", title: "The five Vendor Central chargeback causes that cost the most", body: "Where 1P deductions come from, and how to stop them.", href: "/perspectives/vendor-central-chargebacks" },
 ];
 
 export default function HomePage() {
@@ -102,7 +101,7 @@ export default function HomePage() {
 
       {/* Results across channels and markets (§7.4) */}
       <section className="bg-ink text-white">
-        <div className="container-kw border-t border-white/10 py-20">
+        <div className="container-kw border-t border-white/10 py-20 lg:py-[120px]">
           <SectionHeading
             tone="dark"
             eyebrow="Results"
@@ -112,13 +111,27 @@ export default function HomePage() {
           />
           <div className="mt-12 grid gap-10 md:grid-cols-3 md:divide-x md:divide-white/12">
             {stats.map((s) => (
-              <div key={s.value} className="md:px-8 md:first:pl-0">
-                <div className="flex items-baseline gap-3">
+              <div key={s.slug} className="md:px-8 md:first:pl-0">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
                   <Stat value={s.value} label="" tone="dark" size="lg" className="[&>div:nth-child(2)]:hidden" />
                   <Chip tone="dark">{s.chip}</Chip>
                 </div>
                 <div className="mt-6">
-                  <BeforeAfterBars before={s.before} after={s.after} tone="dark" />
+                  {s.beforeAfter ? (
+                    <BeforeAfterBars
+                      before={s.beforeAfter.before}
+                      after={s.beforeAfter.after}
+                      tone="dark"
+                    />
+                  ) : (
+                    s.stats && (
+                      <div className="flex flex-wrap gap-x-10 gap-y-4">
+                        {s.stats.map((st) => (
+                          <Stat key={st.label} value={st.value} label={st.label} tone="dark" />
+                        ))}
+                      </div>
+                    )
+                  )}
                 </div>
                 <p className="mt-6 text-small leading-relaxed text-white/60">{s.body}</p>
                 <Link
@@ -143,7 +156,7 @@ export default function HomePage() {
 
       {/* One team owns the plan and the work (§7.5) */}
       <section className="bg-paper">
-        <div className="container-kw grid gap-12 py-20 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="container-kw grid gap-12 py-20 lg:py-[120px] lg:grid-cols-[0.8fr_1.2fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading
               eyebrow="One team"
@@ -171,7 +184,7 @@ export default function HomePage() {
 
       {/* Budget goes where it earns most (§7.6) */}
       <section className="bg-white">
-        <div className="container-kw grid gap-12 py-20 md:grid-cols-[0.85fr_1.15fr] md:items-start">
+        <div className="container-kw grid gap-12 py-20 lg:py-[120px] md:grid-cols-[0.85fr_1.15fr] md:items-start">
           <div className="md:sticky md:top-28">
             <SectionHeading
               eyebrow="Where we operate"
@@ -189,31 +202,71 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+          {/* First ten channels in two columns; the 11th spans both as a
+              highlighted row so it never sits alone (fix 16). */}
           <div className="grid border-t border-line sm:grid-cols-2 sm:gap-x-10">
-            {budgetChannels.map((c) => (
+            {budgetChannels.slice(0, 10).map((c) => (
               <ListRow key={c.label} href={c.href} title={c.label} sub={c.sub} icon={budgetChannelIcons[c.label]} />
             ))}
           </div>
+          {budgetChannels.slice(10).map((c) => (
+            <Link
+              key={c.label}
+              href={c.href}
+              className="group flex items-center gap-4 border-t border-brand-600 bg-brand-50 px-3 py-4 transition-colors hover:bg-brand-100"
+            >
+              <IconTile icon={budgetChannelIcons[c.label]} />
+              <span className="min-w-0 flex-1">
+                <span className="block text-h3 font-medium text-ink decoration-[0.07em] underline-offset-4 group-hover:underline">
+                  {c.label}
+                </span>
+                <span className="mt-0.5 block text-small text-muted">{c.sub}</span>
+              </span>
+              <ui.ArrowRight size={20} weight="light" className="shrink-0 text-ink-500 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+          ))}
         </div>
       </section>
 
       {/* Creative that sells (§7.7) */}
       <section className="bg-paper">
-        <div className="container-kw py-20">
+        <div className="container-kw py-20 lg:py-[120px]">
           <SectionHeading
             eyebrow="Creative Studio"
             title="Creative that sells, still on brand."
             intro="Photography, video, A+ Content and Storefronts built from the conversion data — then measured on what they do to the numbers."
             link={{ href: "/work/creative", label: "See the Creative Studio" }}
           />
+          {/* Row 1 — two tiles share one fixed height, object-cover (fix 8) */}
           <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-12">
-            {creative.map((c) => (
+            {creative.slice(0, 2).map((c) => (
               <figure key={c.caption} className={c.span}>
-                <div className="overflow-hidden">
-                  <Figure ratio={c.ratio} src={c.img} alt={c.caption} rounded="" className="transition-transform duration-500 hover:scale-[1.03]" />
+                <div className="relative h-64 overflow-hidden sm:h-80 lg:h-[400px]">
+                  <Image
+                    src={c.img}
+                    alt={c.caption}
+                    fill
+                    className="object-cover transition-transform duration-500 hover:scale-[1.03]"
+                    style={c.objectPosition ? { objectPosition: c.objectPosition } : undefined}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
                 </div>
                 <figcaption className="mt-3 flex items-center gap-2 text-small text-muted">
-                  <Chip tone="brand">{c.metric}</Chip>
+                  <Chip tone="brand" className="whitespace-nowrap">{c.metric}</Chip>
+                  <span>{c.caption}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          {/* Row 2 — three equal tiles, same ratio */}
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {creative.slice(2).map((c) => (
+              <figure key={c.caption}>
+                <div className="overflow-hidden">
+                  <Figure ratio={c.ratio} src={c.img} alt={c.caption} rounded="" objectPosition={c.objectPosition} className="transition-transform duration-500 hover:scale-[1.03]" />
+                </div>
+                <figcaption className="mt-3 flex items-center gap-2 text-small text-muted">
+                  <Chip tone="brand" className="whitespace-nowrap">{c.metric}</Chip>
                   <span>{c.caption}</span>
                 </figcaption>
               </figure>
@@ -224,7 +277,7 @@ export default function HomePage() {
 
       {/* What we're seeing in the market — Perspectives (§7.8, white editorial) */}
       <section className="bg-white">
-        <div className="container-kw py-20">
+        <div className="container-kw py-20 lg:py-[120px]">
           <SectionHeading
             eyebrow="Perspectives"
             title="What we’re seeing in the market."
@@ -233,10 +286,9 @@ export default function HomePage() {
           <div className="mt-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <Card
               href={featured.href}
-              img={featured.img}
-              ratio="16/9"
+              visual={<LiftStudyChart />}
               chips={[featured.topic, featured.channel]}
-              meta={`${featured.author} · ${featured.read}`}
+              meta={featured.author}
               title={featured.title}
               excerpt={featured.body}
             />
@@ -245,9 +297,9 @@ export default function HomePage() {
                 <Link key={p.title} href={p.href} className="group block py-5">
                   <div className="flex flex-wrap items-center gap-2">
                     <Chip>{p.topic}</Chip>
-                    <span className="text-[13px] text-muted">
-                      {p.author} · {p.read}
-                    </span>
+                    {p.author && (
+                      <span className="text-[13px] text-muted">{p.author}</span>
+                    )}
                   </div>
                   <h3 className="h-display mt-2 text-h3 text-ink group-hover:text-brand-700">
                     {p.title}
@@ -267,20 +319,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* What clients say (§7.9) */}
-      <section className="bg-white">
-        <div className="container-kw py-20">
-          <h2 className="sr-only">What clients say</h2>
-          <Quote name="[Name]" title="VP of Ecommerce" company="[Skincare brand]">
-            “We finally have one team that owns the plan, the ads and the operations,
-            and reports all of it against our margin.”
-          </Quote>
-        </div>
-      </section>
+      {/* What clients say (§7.9) — shown without attribution until the client
+          supplies a name to publish (fix 3). Flip SHOW_TESTIMONIAL to hide. */}
+      {SHOW_TESTIMONIAL && (
+        <section className="bg-white">
+          <div className="container-kw py-20 lg:py-[120px]">
+            <h2 className="sr-only">What clients say</h2>
+            <Quote>
+              “We finally have one team that owns the plan, the ads and the operations,
+              and reports all of it against our margin.”
+            </Quote>
+          </div>
+        </section>
+      )}
 
       {/* Result finder (§7.10) */}
       <section className="bg-paper">
-        <div className="container-kw py-20">
+        <div className="container-kw py-20 lg:py-[120px]">
           <ResultFinder />
         </div>
       </section>

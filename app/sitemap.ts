@@ -3,6 +3,8 @@ import { capabilitiesContent } from "@/lib/content/capabilities";
 import { channelsContent } from "@/lib/content/channels";
 import { leaders } from "@/lib/content/leadership";
 import { caseStudyDetails } from "@/lib/content/caseStudies";
+import { perspectivePosts } from "@/lib/content/perspectivePosts";
+import { perspectiveAuthors } from "@/lib/content/perspectiveAuthors";
 
 const base = "https://kwontified.com";
 
@@ -16,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work",
     "/work/amazon-dsp",
     "/work/creative",
+    "/work/gallery",
     "/perspectives",
     "/perspectives/amazon-dsp-incrementality",
     "/why-kwontified",
@@ -34,6 +37,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .map((c) => `/channels/${c.slug}`);
   const leaderPaths = leaders.map((l) => `/about/leadership/${l.slug}`);
   const caseStudyPaths = caseStudyDetails.map((c) => `/work/${c.slug}`);
+  const postPaths = perspectivePosts.map((p) => `/perspectives/${p.slug}`);
+  const authorPaths = perspectiveAuthors.map((a) => `/perspectives/authors/${a.slug}`);
 
   const all = [
     ...staticPaths,
@@ -41,6 +46,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...chanPaths,
     ...leaderPaths,
     ...caseStudyPaths,
+    ...postPaths,
+    ...authorPaths,
   ];
 
   return all.map((path) => ({

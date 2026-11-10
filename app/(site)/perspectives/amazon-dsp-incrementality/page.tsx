@@ -137,13 +137,15 @@ export default function DspIncrementalityPost() {
                   className="h-14 w-14 rounded-full object-cover"
                 />
                 <h3 className="mt-4 text-base font-semibold text-ink">
-                  Priyanka Shah
+                  <Link href="/perspectives/authors/priyanka-shah" className="hover:text-brand-700">
+                    Priyanka Shah
+                  </Link>
                 </h3>
                 <p className="mt-1 text-sm leading-snug text-muted">
                   VP, Commercial and Retail Media. Former Amazon NA Category Lead
                   and Senior Strategic Account Manager.
                 </p>
-                <Link href="/perspectives" className="link-underline mt-3 text-sm">
+                <Link href="/perspectives/authors/priyanka-shah" className="link-underline mt-3 text-sm">
                   More from Priyanka
                 </Link>
               </div>

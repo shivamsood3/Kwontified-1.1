@@ -80,7 +80,7 @@ export function PageHero({
           {(cta || secondaryCta) && (
             <div className="mt-8 flex flex-wrap gap-3">
               {cta && (
-                <Button href={cta.href} variant="light" size="lg">
+                <Button href={cta.href} variant="primary" size="lg">
                   {cta.label}
                 </Button>
               )}

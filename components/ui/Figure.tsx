@@ -28,6 +28,7 @@ export function Figure({
   className,
   rounded = "rounded-xl",
   priority,
+  objectPosition,
 }: {
   src?: string;
   alt?: string;
@@ -37,6 +38,7 @@ export function Figure({
   className?: string;
   rounded?: string;
   priority?: boolean;
+  objectPosition?: string;
 }) {
   const toneClass =
     tone === "dark"
@@ -61,6 +63,7 @@ export function Figure({
           alt={alt}
           fill
           className="object-cover"
+          style={objectPosition ? { objectPosition } : undefined}
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={priority}
         />

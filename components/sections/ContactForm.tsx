@@ -47,7 +47,7 @@ export function ContactForm() {
           // Still take the user to the thank-you page; the request is logged
           // server-side and forwarded if a webhook is configured.
         }
-        router.push("/contact/thank-you");
+        router.push("/thank-you");
       }}
       className="space-y-8"
     >

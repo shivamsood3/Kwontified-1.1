@@ -4,7 +4,7 @@ import { Button } from "./Button";
 import { NewsletterForm } from "./NewsletterForm";
 import { capabilities, channelsAll, companyNav } from "@/lib/nav";
 import { site } from "@/lib/site";
-import { ui } from "@/lib/icons";
+import { ui, socialIcons } from "@/lib/icons";
 
 // §7.12 — only render social links that have a real URL.
 const socialWithUrls = site.social.filter((s) => s.href && s.href.length > 0);
@@ -48,19 +48,25 @@ export function Footer() {
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted">Follow Kwontified</span>
               <div className="flex gap-1.5">
-                {socialWithUrls.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={s.label}
-                    className="flex h-9 w-9 items-center justify-center border border-line bg-white transition hover:border-brand-300 hover:bg-paper"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={s.icon} alt={s.label} className="h-[18px] w-[18px]" loading="lazy" />
-                  </a>
-                ))}
+                {socialWithUrls.map((s) => {
+                  const SocialIcon = socialIcons[s.label];
+                  return (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={s.label}
+                      className="flex h-9 w-9 items-center justify-center border border-line bg-white text-ink-700 transition hover:border-brand-600 hover:text-brand-600"
+                    >
+                      {SocialIcon ? (
+                        <SocialIcon size={18} weight="fill" aria-hidden="true" />
+                      ) : (
+                        <span className="text-xs font-medium">{s.label[0]}</span>
+                      )}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
