@@ -51,7 +51,7 @@ export default function WorkPage() {
           <p className="mt-3 max-w-xl text-body text-muted">
             A selection of the consumer brands whose marketplace businesses we run.
           </p>
-          <LogoGrid logos={clientLogos} className="mt-10" />
+          <LogoGrid logos={clientLogos} boxed className="mt-10" />
         </div>
       </section>
 

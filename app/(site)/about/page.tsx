@@ -73,7 +73,7 @@ export default function AboutPage() {
             A selection of the consumer brands we have run marketplace businesses
             for across Amazon, Walmart, Target Plus and beyond.
           </p>
-          <LogoGrid logos={clientLogos} className="mt-10" />
+          <LogoGrid logos={clientLogos} boxed className="mt-10" />
         </div>
       </section>
 

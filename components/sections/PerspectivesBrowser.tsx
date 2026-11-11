@@ -7,6 +7,7 @@ import {
   perspectiveFilters,
   type Perspective,
 } from "@/lib/content/perspectives";
+import { LiftStudyChart } from "@/components/ui/LiftStudyChart";
 
 export function PerspectivesBrowser() {
   const [q, setQ] = useState("");
@@ -77,7 +78,9 @@ export function PerspectivesBrowser() {
                 </p>
               )}
             </div>
-            <div className="hidden bg-gradient-to-br from-brand-700 to-ink-900 md:block" />
+            <div className="hidden border-l border-white/10 md:block">
+              <LiftStudyChart tone="dark" fill />
+            </div>
           </div>
         </Link>
       )}
@@ -128,15 +131,22 @@ function SelectField({
       <label className="mb-1.5 block text-xs font-normal text-muted">
         {label}
       </label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-md border border-line bg-white px-3 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 md:w-44"
-      >
-        {options.map((o) => (
-          <option key={o}>{o}</option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-11 w-full cursor-pointer appearance-none rounded-md border border-line bg-white pl-3 pr-10 text-sm outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 md:w-44"
+        >
+          {options.map((o) => (
+            <option key={o}>{o}</option>
+          ))}
+        </select>
+        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-ink-500">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </span>
+      </div>
     </div>
   );
 }

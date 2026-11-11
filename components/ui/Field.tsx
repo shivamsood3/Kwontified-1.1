@@ -32,9 +32,23 @@ export function Select({
   ...props
 }: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
-    <select className={cn(fieldBase, className)} {...props}>
-      {children}
-    </select>
+    <div className="relative">
+      <select className={cn(fieldBase, "cursor-pointer appearance-none pr-10", className)} {...props}>
+        {children}
+      </select>
+      <SelectChevron />
+    </div>
+  );
+}
+
+/** Custom dropdown chevron with breathing room from the right edge. */
+export function SelectChevron() {
+  return (
+    <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-ink-500">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+    </span>
   );
 }
 

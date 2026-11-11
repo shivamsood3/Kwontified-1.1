@@ -43,13 +43,36 @@ function Row({
 export function LogoGrid({
   logos,
   height = 32,
+  boxed = false,
   className,
 }: {
   logos: LogoItem[];
   /** Desktop height in px; capped to 32px on mobile so nothing renders oversized. */
   height?: number;
+  /** Render each logo in a uniform bordered cell for a balanced, calm grid. */
+  boxed?: boolean;
   className?: string;
 }) {
+  if (boxed) {
+    return (
+      <div className={cn("grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4", className)}>
+        {logos.map((l) => (
+          <div
+            key={l.src}
+            className="flex aspect-[5/2] items-center justify-center border border-line p-5 transition-colors hover:border-ink-300"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={l.src}
+              alt={l.label}
+              loading="lazy"
+              className="max-h-7 w-auto max-w-[72%] object-contain opacity-70 grayscale transition hover:opacity-100 sm:max-h-8"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
   return (
     <div
       className={cn(
