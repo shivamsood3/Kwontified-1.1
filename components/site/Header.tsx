@@ -4,14 +4,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Button } from "./Button";
-import { IconTile } from "@/components/ui/IconTile";
 import { Stat } from "@/components/ui/Stat";
+import { Img } from "@/components/ui/Img";
 import {
   capabilities,
   channelMarketplaces,
   channelSocial,
 } from "@/lib/nav";
-import { capabilityIcons, channelIcons, type Icon } from "@/lib/icons";
+import { capImage, chImage } from "@/lib/content/imageMap";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
@@ -298,12 +298,12 @@ function MegaPanel({
     >
       {/* pt-2 keeps the gap inside the hover area (fix 0b) */}
       <div className="container-kw pt-2">
-        <div className="flex gap-10 border border-ink-300 bg-white p-6 shadow-pop">
+        <div className="flex gap-10 rounded-2xl border border-sand-300 bg-cream-50 p-6 shadow-pop">
           <div className="min-w-0 flex-1">
             {id === "cap" ? (
               <div className="grid grid-cols-2 gap-x-8 gap-y-1">
                 {capabilities.map((c) => (
-                  <PanelLink key={c.href} item={c} icon={capabilityIcons[c.href.split("/").pop() ?? ""]} />
+                  <PanelLink key={c.href} item={c} thumb={`${capImage(c.href.split("/").pop() ?? "")}-a`} />
                 ))}
               </div>
             ) : (
@@ -312,7 +312,7 @@ function MegaPanel({
                   <PanelHeading>Marketplaces</PanelHeading>
                   <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                     {channelMarketplaces.map((c) => (
-                      <PanelLink key={c.href} item={c} compact icon={channelIcons[c.href.split("/").pop() ?? ""]} />
+                      <PanelLink key={c.href} item={c} compact thumb={`${chImage(c.href.split("/").pop() ?? "")}-a`} />
                     ))}
                   </div>
                 </div>
@@ -320,7 +320,7 @@ function MegaPanel({
                   <PanelHeading>Social commerce</PanelHeading>
                   <div className="grid gap-y-1">
                     {channelSocial.map((c) => (
-                      <PanelLink key={c.href} item={c} compact icon={channelIcons[c.href.split("/").pop() ?? ""]} />
+                      <PanelLink key={c.href} item={c} compact thumb={`${chImage(c.href.split("/").pop() ?? "")}-a`} />
                     ))}
                   </div>
                 </div>
@@ -361,19 +361,24 @@ function PanelHeading({ children }: { children: React.ReactNode }) {
 function PanelLink({
   item,
   compact,
-  icon,
+  thumb,
 }: {
   item: { label: string; href: string; blurb?: string };
   compact?: boolean;
-  icon?: Icon;
+  thumb?: string;
 }) {
+  const hasThumb = thumb && !thumb.startsWith("null");
   return (
-    <Link href={item.href} className="group flex items-start gap-3 px-3 py-2 transition hover:bg-paper">
-      {icon && <IconTile icon={icon} />}
+    <Link href={item.href} className="group flex items-start gap-3 rounded-xl px-3 py-2 transition hover:bg-white">
+      {hasThumb && (
+        <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+          <Img id={thumb} sizes="40px" />
+        </span>
+      )}
       <div className="min-w-0">
-        <div className="text-sm font-semibold text-ink group-hover:text-brand-700">{item.label}</div>
+        <div className="text-sm font-semibold text-navy-900 group-hover:text-gold-700">{item.label}</div>
         {!compact && item.blurb && (
-          <div className="mt-0.5 text-xs leading-snug text-muted">{item.blurb}</div>
+          <div className="mt-0.5 text-xs leading-snug text-ink-muted">{item.blurb}</div>
         )}
       </div>
     </Link>

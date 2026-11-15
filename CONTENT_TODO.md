@@ -17,3 +17,13 @@ Per the build brief, Appendix A. Each item blocks a specific page/section.
 | TODO(content) | Confirm case-study detail content for the results links (Walmart +19%, International $1.4M, account-health $6.2M). | Home §7.4 / §9 |
 | TODO(content) | Approved client quote + attribution (name, title, brand) for each case-study detail page. Currently a marked placeholder. | /work/[slug] detail pages (§8.2.4) |
 | TODO(content) | Author profile/bio pages for Perspectives authors without a leadership page (e.g. Priyanka Shah). Bylines currently render as text and link to /perspectives. | Perspectives §8 |
+
+## Round 3 (redesign) — new items
+| Tag | Item | Page / section |
+|---|---|---|
+| TODO(asset) | **Official marketplace SVGs.** Amazon, Walmart, Target, Zalando, TikTok, Instagram render from simple-icons brand glyphs (official colours). **Mercado Libre and Temu** have no simple-icons glyph and render as **typographic wordmarks** — drop official SVGs into `public/brand/marketplaces/{mercado-libre,temu}.svg` and extend `lib/content/marketplaceLogos.ts`. Swap any mark for the brand's own asset where their guidelines require it. | Channel tiles / grid / mega-menu (R3 §5.4) |
+| TODO(asset) | **Divi** logo isn't in the client logo set. Case-study imagery stays generated/unbranded; show the name as text until the file arrives. | Case studies (R3 §6) |
+| TODO(content) | **Case-study client mapping.** Tula / Kipling / Divi / Alex Evenings images exist but are wired only where copy already ties a study to a brand. Confirm the brand↔study mapping before placing client logos over images. | /work (R3 §6) |
+| TODO(content) | **Client logos over case images** (white, bottom-right, soft gradient) once the brand mapping above is confirmed. | Case cards (R3 §6) |
+| NOTE | Leadership + author photos are now **navy initials tiles** (no headshots / generated people, per R3 §5.3). Swap only if the client supplies approved headshots. | Leadership / authors |
+| NOTE | `/styleguide` kept (noindex, unlinked). Legacy `CtaBand`/`PageHero`/`LogoMarquee`/`Figure` remain only for the styleguide + the `Crumb` type. | — |
