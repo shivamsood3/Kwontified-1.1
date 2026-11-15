@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/sections/PageHero";
-import { CtaBand } from "@/components/site/CtaBand";
+import { CollageHero } from "@/components/blocks/CollageHero";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { CreativeGallery } from "@/components/sections/CreativeGallery";
 
 export const metadata: Metadata = {
@@ -13,23 +13,20 @@ export const metadata: Metadata = {
 export default function CreativePage() {
   return (
     <>
-      <PageHero
+      <CollageHero
         eyebrow="Work · Creative"
         title="The work behind the numbers."
         intro="Photography, video, A+ Content and Storefronts from the Creative Studio. Every piece is shown with the client, the channel and the result."
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Work", href: "/work" },
-          { label: "Creative" },
-        ]}
-        cta={{ href: "/contact", label: "Request a creative review" }}
+        crumbs={[{ label: "Home", href: "/" }, { label: "Work", href: "/work" }, { label: "Creative" }]}
+        ids={["creative-beauty", "creative-swimwear", "creative-accessories", "creative-skincare"]}
       />
-      <section className="bg-white">
-        <div className="container-kw py-16">
+      <section className="bg-cream-50">
+        <div className="container-kw py-20">
           <CreativeGallery />
         </div>
       </section>
-      <CtaBand
+      <PromoBanner
+        imageId="promo-work"
         title="Want creative that moves the numbers?"
         body="Tell us the channel and the goal. We’ll show you what we would make and what it should do."
         cta={{ href: "/contact", label: "Request a creative review" }}

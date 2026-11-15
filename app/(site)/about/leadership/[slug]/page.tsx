@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CtaBand } from "@/components/site/CtaBand";
-import { Figure } from "@/components/ui/Figure";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
+import { InitialsTile } from "@/components/ui/InitialsTile";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { personLd, breadcrumbLd } from "@/lib/seo";
 import { leaders, getLeader } from "@/lib/content/leadership";
@@ -48,24 +48,24 @@ export default async function LeaderPage({
           personLd({ name: l.name, role: l.role, bio: l.bio, path: `/about/leadership/${l.slug}` }),
         ]}
       />
-      <section className="bg-white">
-        <div className="container-kw py-14">
-          <nav className="mb-8 flex items-center gap-2 text-sm text-muted">
-            <Link href="/" className="hover:text-ink">Home</Link>
-            <span className="text-line">/</span>
-            <Link href="/about" className="hover:text-ink">About</Link>
-            <span className="text-line">/</span>
-            <Link href="/about/leadership" className="hover:text-ink">Leadership</Link>
-            <span className="text-line">/</span>
-            <span className="text-ink">{l.name}</span>
+      <section className="bg-cream-50">
+        <div className="container-kw py-16">
+          <nav className="mb-8 flex items-center gap-2 text-sm text-ink-muted">
+            <Link href="/" className="hover:text-navy-900">Home</Link>
+            <span className="text-sand-300">/</span>
+            <Link href="/about" className="hover:text-navy-900">About</Link>
+            <span className="text-sand-300">/</span>
+            <Link href="/about/leadership" className="hover:text-navy-900">Leadership</Link>
+            <span className="text-sand-300">/</span>
+            <span className="text-navy-900">{l.name}</span>
           </nav>
 
           <div className="grid gap-10 md:grid-cols-[0.4fr_1fr] md:items-start">
-            <Figure ratio="1/1" src={l.image} alt={l.name} />
+            <InitialsTile name={l.name} className="max-w-[220px]" />
             <div>
-              <h1 className="h-display text-4xl text-ink md:text-5xl">{l.name}</h1>
-              <p className="mt-2 text-lg text-brand-600">{l.role}</p>
-              <p className="mt-6 text-[1.125rem] leading-relaxed text-ink-800">
+              <h1 className="h-display text-4xl text-navy-900 md:text-5xl">{l.name}</h1>
+              <p className="mt-2 text-lg text-gold-700">{l.role}</p>
+              <p className="mt-6 text-[1.125rem] leading-relaxed text-ink-muted">
                 {l.bio}
               </p>
             </div>
@@ -73,28 +73,26 @@ export default async function LeaderPage({
         </div>
       </section>
 
-      <section className="bg-paper">
-        <div className="container-kw py-14">
-          <h2 className="text-xs font-normal text-muted">
-            Speaks and writes on
-          </h2>
+      <section className="bg-cream-100">
+        <div className="container-kw py-16">
+          <h2 className="eyebrow">Speaks and writes on</h2>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {l.topics.map((t) => (
               <div
                 key={t}
-                className="rounded-xl border border-line bg-white p-6 text-base font-medium text-ink"
+                className="rounded-2xl bg-white p-6 text-base font-medium text-navy-900 shadow-card"
               >
                 {t}
               </div>
             ))}
           </div>
-          <Link href="/perspectives" className="link-underline mt-8 inline-flex text-sm">
+          <Link href="/perspectives" className="learn-more mt-8">
             Articles and commentary →
           </Link>
         </div>
       </section>
 
-      <CtaBand />
+      <PromoBanner imageId="promo-about" />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/sections/PageHero";
-import { CtaBand } from "@/components/site/CtaBand";
+import { CollageHero } from "@/components/blocks/CollageHero";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { CreativeGallery } from "@/components/sections/CreativeGallery";
 
 export const metadata: Metadata = {
@@ -13,24 +13,19 @@ export const metadata: Metadata = {
 export default function WorkGalleryPage() {
   return (
     <>
-      <PageHero
+      <CollageHero
         eyebrow="Work · Gallery"
         title="The work, at a glance."
         intro="A visual index of what the Creative Studio makes — photography, video, A+ Content, Storefronts and social. Filter by type, or see it all."
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Work", href: "/work" },
-          { label: "Gallery" },
-        ]}
-        cta={{ href: "/work", label: "See case studies with figures" }}
-        secondaryCta={{ href: "/contact", label: "Request a creative review" }}
+        crumbs={[{ label: "Home", href: "/" }, { label: "Work", href: "/work" }, { label: "Gallery" }]}
+        ids={["creative-skincare", "creative-accessories", "creative-outdoor", "creative-beauty"]}
       />
-      <section className="bg-white">
-        <div className="container-kw py-16">
+      <section className="bg-cream-50">
+        <div className="container-kw py-20">
           <CreativeGallery />
         </div>
       </section>
-      <CtaBand />
+      <PromoBanner imageId="promo-work" />
     </>
   );
 }

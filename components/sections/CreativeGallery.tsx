@@ -1,37 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { Figure } from "@/components/ui/Figure";
+import { Img } from "@/components/ui/Img";
 import { cn } from "@/lib/cn";
 
 type Item = {
   category: string;
   label: string;
   caption: string;
-  img: string;
-  ratio: "4/3" | "1/1" | "3/4" | "16/9";
+  id: string;
+  ratio: "4/3" | "1/1" | "3/4" | "16/9" | "4/5";
 };
 
-const categories = [
-  "All",
-  "Photography",
-  "AI image and video",
-  "Video",
-  "A+ Content",
-  "Storefronts",
-  "Social",
-];
+const categories = ["All", "Photography", "AI image and video", "Video", "A+ Content", "Storefronts", "Social"];
+
+const ratioClass: Record<Item["ratio"], string> = {
+  "4/3": "aspect-[4/3]",
+  "1/1": "aspect-square",
+  "3/4": "aspect-[3/4]",
+  "16/9": "aspect-video",
+  "4/5": "aspect-[4/5]",
+};
 
 const items: Item[] = [
-  { category: "A+ Content", label: "Premium A+ module, skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%.", img: "/work-img/cs-beauty.jpg", ratio: "4/3" },
-  { category: "Photography", label: "Product and packaging, DTC launch", caption: "Launch photography, kept on brand across the catalog.", img: "/work-img/cs-launch.jpg", ratio: "3/4" },
-  { category: "Video", label: "Video and streaming, Amazon DSP", caption: "Streaming TV and online video for in-market audiences.", img: "/work-img/cs-creator.jpg", ratio: "4/3" },
-  { category: "Social", label: "Creator content, TikTok Shop", caption: "Creator partnerships briefed from what converts.", img: "/stock/tiktok-hero.jpg", ratio: "3/4" },
-  { category: "Storefronts", label: "Storefront and retail, home & lifestyle", caption: "Storefront design mirrored to the retail environment.", img: "/stock/target-hero.jpg", ratio: "4/3" },
-  { category: "AI image and video", label: "AI-generated scenes", caption: "On-brand volume for A+ and advertising, test-and-learn.", img: "/stock/ai-hero.jpg", ratio: "1/1" },
-  { category: "Storefronts", label: "Marketplace storefront, grocery & retail", caption: "Navigation rebuilt around best sellers and new launches.", img: "/stock/walmart-hero.jpg", ratio: "4/3" },
-  { category: "A+ Content", label: "Comparison modules, dashboard-driven", caption: "Modules briefed from the conversion data, not guesswork.", img: "/stock/mk-hero.jpg", ratio: "1/1" },
-  { category: "Photography", label: "Creative review and reporting", caption: "Every piece measured on what it does to the numbers.", img: "/stock/ourwork-hero.jpg", ratio: "3/4" },
+  { category: "A+ Content", label: "Premium A+ module, skincare", caption: "Premium skincare, Amazon US. Conversion from 8.2% to 12.1%.", id: "creative-skincare", ratio: "4/5" },
+  { category: "Photography", label: "Product and packaging, DTC launch", caption: "Launch photography, kept on brand across the catalog.", id: "creative-beauty", ratio: "4/3" },
+  { category: "Video", label: "Video and streaming, Amazon DSP", caption: "Streaming TV and online video for in-market audiences.", id: "case-creative", ratio: "16/9" },
+  { category: "Social", label: "Creator content, TikTok Shop", caption: "Creator partnerships briefed from what converts.", id: "creative-swimwear", ratio: "4/5" },
+  { category: "Storefronts", label: "Storefront and retail, home & lifestyle", caption: "Storefront design mirrored to the retail environment.", id: "creative-accessories", ratio: "4/3" },
+  { category: "AI image and video", label: "AI-generated scenes", caption: "On-brand volume for A+ and advertising, test-and-learn.", id: "case-tula", ratio: "4/5" },
+  { category: "Storefronts", label: "Marketplace storefront, grocery & retail", caption: "Navigation rebuilt around best sellers and new launches.", id: "case-kipling", ratio: "16/9" },
+  { category: "A+ Content", label: "Comparison modules, dashboard-driven", caption: "Modules briefed from the conversion data, not guesswork.", id: "case-divi", ratio: "16/9" },
+  { category: "Photography", label: "Creative review and reporting", caption: "Every piece measured on what it does to the numbers.", id: "creative-outdoor", ratio: "4/5" },
 ];
 
 export function CreativeGallery() {
@@ -47,10 +47,10 @@ export function CreativeGallery() {
             type="button"
             onClick={() => setActive(c)}
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-sm transition",
+              "rounded-full border px-4 py-1.5 text-sm transition",
               active === c
-                ? "border-ink bg-ink text-white"
-                : "border-line text-muted hover:border-brand-300 hover:text-ink",
+                ? "border-navy-900 bg-navy-900 text-white"
+                : "border-sand-300 text-ink-muted hover:border-navy-900 hover:text-navy-900",
             )}
           >
             {c}
@@ -61,8 +61,10 @@ export function CreativeGallery() {
       <div className="mt-8 columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5 [&>*]:break-inside-avoid">
         {filtered.map((i) => (
           <figure key={i.label}>
-            <Figure ratio={i.ratio} src={i.img} alt={i.label} />
-            <figcaption className="mt-2 text-sm text-muted">{i.caption}</figcaption>
+            <div className={cn("relative overflow-hidden rounded-2xl", ratioClass[i.ratio])}>
+              <Img id={i.id} sizes="(max-width: 1024px) 100vw, 33vw" />
+            </div>
+            <figcaption className="mt-2 text-sm text-ink-muted">{i.caption}</figcaption>
           </figure>
         ))}
       </div>
