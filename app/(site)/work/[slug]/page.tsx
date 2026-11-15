@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CtaBand } from "@/components/site/CtaBand";
-import { Button } from "@/components/site/Button";
-import { Stat } from "@/components/ui/Stat";
+import { Img } from "@/components/ui/Img";
 import { Chip } from "@/components/ui/Chip";
+import { StatRow } from "@/components/blocks/StatRow";
+import { ImageCard } from "@/components/blocks/ImageCard";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { BeforeAfterBars } from "@/components/ui/BeforeAfterBars";
 import { caseStudyDetails, getCaseStudyDetail } from "@/lib/content/caseStudies";
 
@@ -12,163 +13,133 @@ export function generateStaticParams() {
   return caseStudyDetails.map((c) => ({ slug: c.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const cs = getCaseStudyDetail(slug);
   if (!cs) return {};
-  return {
-    title: cs.title.replace(/\.$/, ""),
-    description: cs.intro,
-    alternates: { canonical: `/work/${cs.slug}` },
-  };
+  return { title: cs.title.replace(/\.$/, ""), description: cs.intro, alternates: { canonical: `/work/${cs.slug}` } };
 }
 
-export default async function CaseStudyPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+const heroImage: Record<string, string> = {
+  "walmart-sku-transition": "case-walmart",
+  "international-expansion": "case-international",
+  "account-health-restore": "case-account-health",
+  "vendor-central-recovery": "case-vendor-central",
+};
+
+export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const cs = getCaseStudyDetail(slug);
   if (!cs) notFound();
 
-  const related = caseStudyDetails.filter((c) => c.slug !== cs.slug).slice(0, 2);
+  const hero = heroImage[cs.slug] ?? "case-amazon-dsp";
+  const detail = `${hero}-detail`;
+  const related = caseStudyDetails.filter((c) => c.slug !== cs.slug).slice(0, 1);
 
   return (
     <>
-      {/* Header */}
-      <section className="bg-white">
-        <div className="container-kw py-14">
-          <nav className="mb-5 flex items-center gap-2 text-small text-muted">
-            <Link href="/" className="hover:text-ink">
-              Home
-            </Link>
-            <span className="text-line">/</span>
-            <Link href="/work" className="hover:text-ink">
-              Work
-            </Link>
-            <span className="text-line">/</span>
-            <span className="text-ink">{cs.channel}</span>
+      {/* Contained hero on cream */}
+      <section className="border-b border-sand-300 bg-cream-50">
+        <div className="container-kw py-12 md:py-16">
+          <nav className="mb-5 flex items-center gap-2 text-small text-ink-muted">
+            <Link href="/" className="hover:text-navy-900">Home</Link>
+            <span className="text-sand-300">/</span>
+            <Link href="/work" className="hover:text-navy-900">Work</Link>
+            <span className="text-sand-300">/</span>
+            <span className="text-navy-900">{cs.channel}</span>
           </nav>
-          <p className="eyebrow">
-            {cs.category} · {cs.channel}
-          </p>
-          <h1 className="h-display mt-3 max-w-3xl text-h1 text-ink">{cs.title}</h1>
-          <p className="mt-6 max-w-2xl text-lead text-ink-700">{cs.intro}</p>
-          <div className="mt-8 flex flex-wrap gap-2">
+          <p className="eyebrow">{cs.category} · {cs.channel}</p>
+          <h1 className="h-display mt-4 max-w-3xl text-h1 text-navy-900">{cs.title}</h1>
+          <p className="mt-6 max-w-2xl text-lead text-ink-muted">{cs.intro}</p>
+          <div className="mt-6 flex flex-wrap gap-2">
             {cs.capabilities.map((c) => (
               <Chip key={c}>{c}</Chip>
             ))}
           </div>
+          <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-2xl">
+            <Img id={hero} priority sizes="(max-width: 1312px) 100vw, 1312px" />
+          </div>
         </div>
       </section>
 
-      {/* Results strip */}
-      <section className="bg-ink text-white">
-        <div className="container-kw py-14">
-          <p className="eyebrow-light">Results</p>
-          <div className="mt-6 grid gap-8 sm:grid-cols-3">
-            {cs.stats.map((s) => (
-              <Stat key={s.label} value={s.value} label={s.label} tone="dark" />
-            ))}
+      {/* Reading column: summary / challenge / strategy → image → result */}
+      <section className="bg-white">
+        <div className="container-kw py-16">
+          <div className="mx-auto max-w-[760px]">
+            <Block heading="Summary">{cs.intro}</Block>
+            <Block heading="The challenge">{cs.challenge}</Block>
+
+            <h2 className="h-display mt-12 text-h2 text-navy-900">What we did</h2>
+            <div className="mt-6 space-y-8">
+              {cs.whatWeDid.map((d, i) => (
+                <div key={d.title}>
+                  <span className="h-display text-h3 text-gold-700">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-1 text-h3 text-navy-900">{d.title}</h3>
+                  <p className="mt-2 text-body leading-relaxed text-ink-muted">{d.body}</p>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* in-text image between strategy and result */}
+          <div className="relative mx-auto mt-12 aspect-[16/9] max-w-4xl overflow-hidden rounded-2xl">
+            <Img id={detail} sizes="(max-width: 896px) 100vw, 896px" />
+          </div>
+
+          <div className="mx-auto mt-12 max-w-[760px]">
+            <Block heading="The result">{cs.results}</Block>
+          </div>
+        </div>
+      </section>
+
+      {/* Results stats (navy) */}
+      <section className="bg-navy-900">
+        <div className="container-kw py-16">
+          <p className="eyebrow-light">Results</p>
+          <StatRow className="mt-8" tone="navy" stats={cs.stats.map((s) => ({ value: s.value, label: s.label }))} />
           {cs.beforeAfter && (
-            <div className="mt-12 grid gap-8 border-t border-white/10 pt-10 md:grid-cols-[1fr_1.4fr] md:items-center">
-              <div>
-                <p className="eyebrow-light">{cs.beforeAfter.metric}</p>
-                <p className="mt-3 max-w-sm text-small leading-relaxed text-white/60">
-                  {cs.results}
-                </p>
-              </div>
-              <div className="max-w-md">
-                <BeforeAfterBars
-                  before={cs.beforeAfter.before}
-                  after={cs.beforeAfter.after}
-                  tone="dark"
-                  ariaLabel={`${cs.beforeAfter.metric}: ${cs.beforeAfter.before.value} before, ${cs.beforeAfter.after.value} after`}
-                />
+            <div className="mt-12 max-w-md border-t border-white/10 pt-10">
+              <p className="eyebrow-light">{cs.beforeAfter.metric}</p>
+              <div className="mt-5">
+                <BeforeAfterBars before={cs.beforeAfter.before} after={cs.beforeAfter.after} tone="dark" />
               </div>
             </div>
           )}
         </div>
       </section>
 
-      {/* The challenge */}
-      <section className="bg-white">
-        <div className="container-kw grid gap-8 py-16 md:grid-cols-[0.8fr_1.2fr]">
-          <h2 className="h-display text-h2 text-ink">The challenge</h2>
-          <p className="max-w-2xl text-lead leading-relaxed text-ink-700">
-            {cs.challenge}
-          </p>
-        </div>
-      </section>
-
-      {/* What we did */}
-      <section className="bg-paper">
-        <div className="container-kw py-16">
-          <h2 className="h-display text-h2 text-ink">What we did</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {cs.whatWeDid.map((d, i) => (
-              <div key={d.title} className="border border-line bg-white p-7">
-                <span className="h-display text-h3 text-brand-600">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-h3 text-ink">{d.title}</h3>
-                <p className="mt-3 text-small leading-relaxed text-ink-700">
-                  {d.body}
-                </p>
-              </div>
-            ))}
+      {/* Next case study (cream) */}
+      {related.length > 0 && (
+        <section className="bg-cream-50">
+          <div className="container-kw py-16">
+            <h2 className="h-display text-h2 text-navy-900">Next case study</h2>
+            <div className="mt-8 grid gap-6 md:max-w-xl">
+              {related.map((r) => (
+                <ImageCard
+                  key={r.slug}
+                  href={`/work/${r.slug}`}
+                  imageId={heroImage[r.slug] ?? "case-amazon-dsp"}
+                  ratio="16/9"
+                  chip={`${r.category} · ${r.channel}`}
+                  title={r.title}
+                  cta="Read case study"
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* Results prose */}
-      <section className="bg-white">
-        <div className="container-kw grid gap-8 py-16 md:grid-cols-[0.8fr_1.2fr]">
-          <h2 className="h-display text-h2 text-ink">The result</h2>
-          <p className="max-w-2xl text-lead leading-relaxed text-ink-700">
-            {cs.results}
-          </p>
-        </div>
-      </section>
-
-      {/* TODO(content): add an approved client quote + attribution per case study.
-          The quote block is omitted until then — no placeholders ship (fix 3). */}
-
-      {/* Related */}
-      <section className="bg-white">
-        <div className="container-kw py-16">
-          <h2 className="h-display text-h2 text-ink">More work</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            {related.map((r) => (
-              <Link
-                key={r.slug}
-                href={`/work/${r.slug}`}
-                className="group block border border-line p-7 transition-colors hover:border-brand-600"
-              >
-                <p className="eyebrow">
-                  {r.category} · {r.channel}
-                </p>
-                <h3 className="h-display mt-3 text-h3 text-ink group-hover:text-brand-700">
-                  {r.title}
-                </h3>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-10">
-            <Button href="/work" variant="outline">
-              See all work
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <CtaBand />
+      <PromoBanner imageId="promo-work" />
     </>
+  );
+}
+
+function Block({ heading, children }: { heading: string; children: React.ReactNode }) {
+  return (
+    <div className="mt-10 first:mt-0">
+      <h2 className="h-display text-h2 text-navy-900">{heading}</h2>
+      <p className="mt-4 text-body leading-relaxed text-ink-muted">{children}</p>
+    </div>
   );
 }

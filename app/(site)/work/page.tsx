@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/sections/PageHero";
-import { CtaBand } from "@/components/site/CtaBand";
+import { CollageHero } from "@/components/blocks/CollageHero";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { WorkGrid } from "@/components/sections/WorkGrid";
-import { Stat } from "@/components/ui/Stat";
+import { Quote } from "@/components/ui/Quote";
 import { LogoGrid } from "@/components/ui/LogoMarquee";
 import { clientLogos } from "@/lib/logos";
 
@@ -16,46 +16,41 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <>
-      <PageHero
+      <CollageHero
         eyebrow="Work"
         title="Results, with the numbers."
         intro="Engagements across Amazon, Walmart and Target Plus — each with its starting point, what we did, and the outcome."
         crumbs={[{ label: "Home", href: "/" }, { label: "Work" }]}
-        cta={{ href: "/work/amazon-dsp", label: "Read the featured case study" }}
-      >
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
-          <p className="text-xs font-normal text-white/50">
-            Featured · Amazon DSP, national beauty brand
-          </p>
-          <p className="h-display mt-3 text-xl text-white">
-            $1.8M from DSP, with search intact.
-          </p>
-          <div className="mt-6 grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
-            <Stat value="9.4x" label="DSP ROAS" tone="dark" />
-            <Stat value="+28%" label="New-to-brand" tone="dark" />
-            <Stat value="+19%" label="Account revenue" tone="dark" />
-          </div>
-        </div>
-      </PageHero>
+        ids={["case-tula", "case-kipling", "case-alex", "case-amazon-dsp"]}
+      />
 
-      <section className="bg-white">
-        <div className="container-kw py-16">
+      <section className="bg-cream-50">
+        <div className="container-kw py-16 lg:py-20">
           <WorkGrid />
         </div>
       </section>
 
-      {/* Selected clients */}
-      <section className="bg-paper">
+      {/* Featured-in / clients (white) */}
+      <section className="border-y border-line bg-white">
         <div className="container-kw py-16">
-          <h2 className="h-display text-h2 text-ink">Brands behind the numbers.</h2>
-          <p className="mt-3 max-w-xl text-body text-muted">
+          <h2 className="h-display text-h2 text-navy-900">Brands behind the numbers.</h2>
+          <p className="mt-3 max-w-xl text-body text-ink-muted">
             A selection of the consumer brands whose marketplace businesses we run.
           </p>
           <LogoGrid logos={clientLogos} boxed className="mt-10" />
         </div>
       </section>
 
-      <CtaBand />
+      {/* Testimonial (navy) */}
+      <section className="bg-navy-900">
+        <div className="container-kw py-20">
+          <Quote tone="dark">
+            “One team, one plan, and the numbers finally reconcile against our margin.”
+          </Quote>
+        </div>
+      </section>
+
+      <PromoBanner imageId="promo-work" />
     </>
   );
 }
