@@ -35,6 +35,7 @@ export default async function ChannelPage({
 
   return (
     <ChannelTemplate
+      slug={c.slug}
       name={c.name}
       h1={c.h1}
       intro={c.intro}

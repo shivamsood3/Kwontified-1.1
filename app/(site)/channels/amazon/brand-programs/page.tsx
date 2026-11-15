@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 export default function BrandProgramsPage() {
   return (
     <ChannelTemplate
+      slug="amazon"
       eyebrow="Amazon programs"
       name={brandPrograms.name}
       h1={brandPrograms.h1}

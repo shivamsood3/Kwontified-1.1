@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default function AmazonChannelPage() {
   return (
     <ChannelTemplate
+      slug="amazon"
       name={amazon.name}
       h1={amazon.h1}
       intro={amazon.intro}

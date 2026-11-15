@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHero } from "@/components/sections/PageHero";
-import { CtaBand } from "@/components/site/CtaBand";
-import { ExecFaq } from "@/components/sections/ExecFaq";
-import {
-  channelsContent,
-  channelGroups,
-  brandPrograms,
-} from "@/lib/content/channels";
+import { CollageHero } from "@/components/blocks/CollageHero";
+import { MoodBand } from "@/components/blocks/MoodBand";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
+import { MarketplaceLogo } from "@/components/ui/MarketplaceLogo";
+import { marketplaceLogos } from "@/lib/content/marketplaceLogos";
+import { channelIcons } from "@/lib/icons";
+import { channelsContent, channelGroups } from "@/lib/content/channels";
 
 export const metadata: Metadata = {
   title: "Channels",
@@ -16,88 +15,48 @@ export const metadata: Metadata = {
   alternates: { canonical: "/channels" },
 };
 
-const hubNodes = [
-  "Amazon",
-  "Walmart",
-  "Target Plus",
-  "Zalando",
-  "Mercado Libre",
-  "Temu",
-  "TikTok Shop",
-  "Instagram Shop",
-];
-
 export default function ChannelsOverview() {
   return (
     <>
-      <PageHero
+      <CollageHero
         eyebrow="Channels"
         title="Every marketplace, one business."
         intro="One team manages your catalog, content, advertising and inventory across every channel — so Walmart decisions account for Amazon results, and international launches start from a catalog we already know."
         crumbs={[{ label: "Home", href: "/" }, { label: "Channels" }]}
-        cta={{ href: "/contact", label: "Request a marketplace review" }}
-      >
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
-          <div className="mx-auto mb-6 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-brand-600 text-center">
-            <span className="text-sm font-semibold text-white">One plan</span>
-            <span className="text-[0.7rem] text-white/70">one P&amp;L</span>
-          </div>
-          <div className="flex flex-wrap justify-center gap-2">
-            {hubNodes.map((n) => (
-              <span
-                key={n}
-                className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/80"
-              >
-                {n}
-              </span>
-            ))}
-          </div>
-        </div>
-      </PageHero>
+        ids={["ch-amazon-a", "ch-walmart-a", "ch-tiktok-a", "ch-international-a"]}
+      />
 
-      <section className="bg-white">
-        <div className="container-kw space-y-14 py-20">
+      {/* Choose a platform — logo tile grid (§5.4) */}
+      <section className="bg-cream-50">
+        <div className="container-kw space-y-12 py-20">
+          <p className="eyebrow">Choose a platform to see our services</p>
           {channelGroups.map((group) => {
             const items = channelsContent.filter((c) => c.group === group);
             return (
               <div key={group}>
-                <h2 className="text-xs font-normal text-brand-600">
-                  {group}
-                </h2>
-                <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                  {items.map((c) => (
-                    <Link
-                      key={c.slug}
-                      href={`/channels/${c.slug}`}
-                      className="group flex flex-col rounded-2xl border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:shadow-card"
-                    >
-                      <h3 className="h-display text-lg text-ink group-hover:text-brand-700">
-                        {c.h1.replace(/\.$/, "")}
-                      </h3>
-                      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-700">
-                        {c.intro}
-                      </p>
-                      <span className="mt-4 text-xs font-medium text-muted">
-                        {c.metric.value} · {c.metric.label}
-                      </span>
-                    </Link>
-                  ))}
-                  {group === "US marketplaces" && (
-                    <Link
-                      href="/channels/amazon/brand-programs"
-                      className="group flex flex-col rounded-2xl border border-dashed border-line bg-paper p-7 transition hover:border-brand-300"
-                    >
-                      <span className="text-xs font-normal text-brand-600">
-                        Amazon programs
-                      </span>
-                      <h3 className="h-display mt-2 text-lg text-ink group-hover:text-brand-700">
-                        {brandPrograms.h1.replace(/\.$/, "")}
-                      </h3>
-                      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-700">
-                        {brandPrograms.intro}
-                      </p>
-                    </Link>
-                  )}
+                <h2 className="text-[12px] font-medium uppercase tracking-[0.12em] text-gold-700">{group}</h2>
+                <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                  {items.map((c) => {
+                    const Icon = channelIcons[c.slug];
+                    return (
+                      <Link
+                        key={c.slug}
+                        href={`/channels/${c.slug}`}
+                        className="group flex flex-col items-center rounded-2xl border border-sand-300 bg-white p-7 text-center shadow-card transition-shadow hover:shadow-lift"
+                      >
+                        <span className="flex h-10 items-center">
+                          {marketplaceLogos[c.slug] ? (
+                            <MarketplaceLogo slug={c.slug} className="max-h-10 max-w-[120px]" />
+                          ) : Icon ? (
+                            <Icon size={34} weight="light" className="text-navy-900" />
+                          ) : (
+                            <span className="h-display text-lg text-navy-900">{c.h1.replace(/\.$/, "")}</span>
+                          )}
+                        </span>
+                        <span className="mt-4 text-caption text-ink-muted">{c.metric.label}</span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             );
@@ -105,9 +64,9 @@ export default function ChannelsOverview() {
         </div>
       </section>
 
-      <ExecFaq />
+      <MoodBand id="channels-band" />
 
-      <CtaBand />
+      <PromoBanner imageId="promo-channels" />
     </>
   );
 }

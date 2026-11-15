@@ -1,14 +1,28 @@
 import Link from "next/link";
-import { PageHero, type Crumb } from "@/components/sections/PageHero";
-import { CtaBand } from "@/components/site/CtaBand";
-import { ExecFaq } from "@/components/sections/ExecFaq";
-import { Button } from "@/components/site/Button";
+import type { Crumb } from "@/components/sections/PageHero";
+import { DiptychHero } from "@/components/blocks/DiptychHero";
+import { CheckList } from "@/components/blocks/CheckList";
+import { FeatureSplit } from "@/components/blocks/FeatureSplit";
+import { ImageCard } from "@/components/blocks/ImageCard";
+import { DeviceFrame } from "@/components/blocks/DeviceFrame";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
+import { Quote } from "@/components/ui/Quote";
 import { IconTile } from "@/components/ui/IconTile";
+import { MarketplaceLogo } from "@/components/ui/MarketplaceLogo";
 import { capabilities } from "@/lib/nav";
 import { capabilityIcons } from "@/lib/icons";
+import { marketplaceLogos } from "@/lib/content/marketplaceLogos";
+import { chImage } from "@/lib/content/imageMap";
 import type { ChannelProblem } from "@/lib/content/channels";
 
+const caseCards = [
+  { href: "/work/walmart-sku-transition", id: "case-walmart", chip: "Walmart", title: "A clean SKU transition.", excerpt: "Combined revenue up 19% through a major SKU transition." },
+  { href: "/work/international-expansion", id: "case-international", chip: "UK · EU · CA", title: "$1.4M international revenue.", excerpt: "One localized catalog, three new regions." },
+  { href: "/work/account-health-restore", id: "case-account-health", chip: "Amazon", title: "A collapsed $6.2M business, restored.", excerpt: "147 listings restored, revenue up 68%." },
+];
+
 export function ChannelTemplate({
+  slug,
   eyebrow = "Channel",
   name,
   h1,
@@ -21,6 +35,7 @@ export function ChannelTemplate({
   showCapabilities = true,
   related,
 }: {
+  slug: string;
   eyebrow?: string;
   name: string;
   h1: string;
@@ -33,63 +48,86 @@ export function ChannelTemplate({
   showCapabilities?: boolean;
   related?: { label: string; href: string }[];
 }) {
+  const stem = chImage(slug) ?? "ch-amazon";
+  const hasLogo = !!marketplaceLogos[slug];
+  const checkItems = [
+    ...(accountTypes ?? []).map((a) => ({ title: a.title, body: a.body })),
+    ...problems.map((p) => ({ title: p.problem, body: p.solution })),
+  ];
+
   return (
     <>
-      <PageHero
+      <DiptychHero
         eyebrow={eyebrow}
         title={h1}
         intro={intro}
+        leftId={`${stem}-a`}
+        rightId={`${stem}-b`}
         crumbs={crumbs}
-        cta={{ href: "/contact", label: reviewLabel }}
-      >
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
-          <div className="h-display text-5xl text-white md:text-6xl">
-            {metric.value}
-          </div>
-          <p className="mt-3 text-sm leading-snug text-white/65">{metric.label}</p>
+        primary={{ href: "/contact", label: reviewLabel }}
+        logo={hasLogo ? <MarketplaceLogo slug={slug} tone="white" className="h-12 max-w-[160px]" /> : undefined}
+      />
+
+      {/* Stat band — navy */}
+      <section className="bg-navy-900">
+        <div className="container-kw py-14">
+          <p className="eyebrow-light">{metric.label}</p>
+          <p className="h-display mt-3 text-[clamp(40px,5vw,68px)] text-gold-300">{metric.value}</p>
         </div>
-      </PageHero>
+      </section>
 
-      {accountTypes && accountTypes.length > 0 && (
-        <section className="bg-white">
-          <div className="container-kw py-16">
-            <div className="grid gap-5 md:grid-cols-2">
-              {accountTypes.map((a) => (
-                <div
-                  key={a.title}
-                  className="rounded-2xl border border-line bg-paper p-8"
-                >
-                  <h2 className="h-display text-xl text-ink">{a.title}</h2>
-                  <p className="mt-3 text-[0.975rem] leading-relaxed text-ink-700">
-                    {a.body}
-                  </p>
-                </div>
-              ))}
-            </div>
+      {/* Where we help — check list + DeviceFrame (cream) */}
+      <section className="bg-cream-50">
+        <div className="container-kw grid items-start gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div>
+            <p className="eyebrow">Where we help on {name}</p>
+            <h2 className="h-display mt-4 text-h2 text-navy-900">Run to this channel’s standard.</h2>
+            <CheckList className="mt-8" items={checkItems} />
           </div>
-        </section>
-      )}
+          <div className="lg:sticky lg:top-24">
+            <DeviceFrame
+              title={`${name} · Account Health`}
+              logo={hasLogo ? <MarketplaceLogo slug={slug} tone="white" className="h-5 max-w-[110px]" /> : undefined}
+            />
+          </div>
+        </div>
+      </section>
 
+      {/* One team split (beige) */}
+      <section className="bg-cream-100">
+        <div className="container-kw py-20">
+          <FeatureSplit
+            reverse
+            eyebrow="One team"
+            title={`One team runs ${name}.`}
+            imageId={`${stem}-b`}
+            cta={{ href: "/capabilities", label: "See all capabilities" }}
+          >
+            <p>
+              Advertising, creative, operations and analytics for {name} sit on one team and
+              one plan — so decisions here account for your results everywhere else you sell.
+            </p>
+          </FeatureSplit>
+        </div>
+      </section>
+
+      {/* Capabilities on this channel (white) */}
       {showCapabilities && (
-        <section className="bg-paper">
-          <div className="container-kw py-16">
-            <h2 className="h-display text-2xl text-ink">
-              How each capability works on {name}
-            </h2>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <section className="bg-white">
+          <div className="container-kw py-20">
+            <h2 className="h-display text-h2 text-navy-900">How each capability works on {name}.</h2>
+            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {capabilities.map((c) => {
                 const Icon = capabilityIcons[c.href.split("/").pop() ?? ""];
                 return (
                   <Link
                     key={c.href}
                     href={c.href}
-                    className="group border border-line bg-white p-6 transition hover:border-brand-600"
+                    className="group flex flex-col rounded-2xl border border-sand-300 bg-white p-6 shadow-card transition-shadow hover:shadow-lift"
                   >
                     {Icon && <IconTile icon={Icon} className="mb-4" />}
-                    <h3 className="text-sm font-semibold text-ink group-hover:text-brand-700">
-                      {c.label}
-                    </h3>
-                    <p className="mt-2 text-sm leading-snug text-muted">{c.blurb}</p>
+                    <h3 className="h-display text-h3 text-navy-900">{c.label}</h3>
+                    <p className="mt-2 text-small leading-relaxed text-ink-muted">{c.blurb}</p>
                   </Link>
                 );
               })}
@@ -98,35 +136,35 @@ export function ChannelTemplate({
         </section>
       )}
 
+      {/* Testimonial (navy) */}
+      <section className="bg-navy-900">
+        <div className="container-kw py-20">
+          <Quote tone="dark">
+            “They run {name} as part of our whole business, not a silo — and the reporting finally ties out.”
+          </Quote>
+        </div>
+      </section>
+
+      {/* Case studies (white) */}
       <section className="bg-white">
-        <div className="container-kw py-16">
-          <h2 className="h-display text-2xl text-ink">Where we help</h2>
-          <div className="mt-8 divide-y divide-line border-y border-line">
-            {problems.map((p) => (
-              <div key={p.problem} className="grid gap-2 py-6 md:grid-cols-5 md:gap-8">
-                <h3 className="font-semibold text-ink md:col-span-2">{p.problem}</h3>
-                <p className="text-[0.975rem] leading-relaxed text-ink-700 md:col-span-3">
-                  {p.solution}
-                </p>
-              </div>
+        <div className="container-kw py-20">
+          <h2 className="h-display text-h2 text-navy-900">Proof from accounts we run.</h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {caseCards.map((c) => (
+              <ImageCard key={c.href} href={c.href} imageId={c.id} ratio="16/9" chip={c.chip} title={c.title} excerpt={c.excerpt} cta="Read case study" />
             ))}
           </div>
-
           {related && related.length > 0 && (
             <div className="mt-10 flex flex-wrap gap-3">
               {related.map((r) => (
-                <Button key={r.href} href={r.href} variant="outline">
-                  {r.label}
-                </Button>
+                <Link key={r.href} href={r.href} className="learn-more">{r.label} →</Link>
               ))}
             </div>
           )}
         </div>
       </section>
 
-      <ExecFaq />
-
-      <CtaBand />
+      <PromoBanner imageId="promo-channels" />
     </>
   );
 }

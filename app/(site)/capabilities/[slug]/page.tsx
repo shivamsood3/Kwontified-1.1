@@ -1,194 +1,147 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { PageHero } from "@/components/sections/PageHero";
-import { CtaBand } from "@/components/site/CtaBand";
-import { ExecFaq } from "@/components/sections/ExecFaq";
-import { Button } from "@/components/site/Button";
-import { IconTile } from "@/components/ui/IconTile";
-import { Stat } from "@/components/ui/Stat";
-import { BeforeAfterBars } from "@/components/ui/BeforeAfterBars";
+import { DiptychHero } from "@/components/blocks/DiptychHero";
+import { StatRow } from "@/components/blocks/StatRow";
+import { CheckList } from "@/components/blocks/CheckList";
+import { FeatureSplit } from "@/components/blocks/FeatureSplit";
+import { ImageCard } from "@/components/blocks/ImageCard";
+import { DeviceFrame } from "@/components/blocks/DeviceFrame";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { serviceLd } from "@/lib/seo";
-import { capabilityIcons } from "@/lib/icons";
-import {
-  capabilitiesContent,
-  getCapability,
-} from "@/lib/content/capabilities";
+import { capImage } from "@/lib/content/imageMap";
+import { capabilitiesContent, getCapability } from "@/lib/content/capabilities";
 
 export function generateStaticParams() {
   return capabilitiesContent.map((c) => ({ slug: c.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const c = getCapability(slug);
   if (!c) return {};
-  return {
-    title: c.name,
-    description: c.intro,
-    alternates: { canonical: `/capabilities/${c.slug}` },
-  };
+  return { title: c.name, description: c.intro, alternates: { canonical: `/capabilities/${c.slug}` } };
 }
 
-export default async function CapabilityPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+const caseImageFor: Record<string, string> = {
+  "amazon-dsp": "case-amazon-dsp",
+  "walmart-sku-transition": "case-walmart",
+  "international-expansion": "case-international",
+  "account-health-restore": "case-account-health",
+  "vendor-central-recovery": "case-vendor-central",
+  creative: "case-creative",
+};
+
+export default async function CapabilityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const c = getCapability(slug);
   if (!c) notFound();
 
+  const stem = capImage(c.slug) ?? "cap-retail-media";
   const others = capabilitiesContent.filter((x) => x.slug !== c.slug);
-
-  // Build a before/after chart from a "A → B" metric (e.g. "8.2% → 12.1%"). (fix 12)
-  const num = (s: string) => {
-    const m = s.match(/[\d.]+/);
-    return m ? parseFloat(m[0]) : null;
-  };
-  let beforeAfter: {
-    before: { label: string; value: string; height: number };
-    after: { label: string; value: string; height: number };
-  } | null = null;
-  if (c.metric.value.includes("→")) {
-    const [bStr, aStr] = c.metric.value.split("→").map((s) => s.trim());
-    const b = num(bStr);
-    const a = num(aStr);
-    const bh = b && a ? Math.max(14, Math.round((b / a) * 100)) : 72;
-    beforeAfter = {
-      before: { label: "Before", value: bStr, height: bh },
-      after: { label: "After", value: aStr, height: 100 },
-    };
-  }
+  const caseSlug = c.caseStudy.href.split("/").pop() ?? "";
+  const caseImg = caseImageFor[caseSlug] ?? "case-amazon-dsp";
 
   return (
     <>
-      <JsonLd
-        data={serviceLd({ name: c.name, description: c.intro, path: `/capabilities/${c.slug}` })}
-      />
-      <PageHero
+      <JsonLd data={serviceLd({ name: c.name, description: c.intro, path: `/capabilities/${c.slug}` })} />
+
+      <DiptychHero
         eyebrow="Capability"
         title={c.h1}
         intro={c.intro}
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Capabilities", href: "/capabilities" },
-          { label: c.name },
-        ]}
-        cta={{ href: "/contact", label: "Request a marketplace review" }}
-      >
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm">
-          {capabilityIcons[c.slug] && (
-            <IconTile icon={capabilityIcons[c.slug]} tone="dark" size="lg" className="mb-6" />
-          )}
-          <div className="h-display text-5xl text-white md:text-6xl">
-            {c.metric.value}
+        leftId={`${stem}-a`}
+        rightId={`${stem}-b`}
+        crumbs={[{ label: "Home", href: "/" }, { label: "Capabilities", href: "/capabilities" }, { label: c.name }]}
+        primary={{ href: "/contact", label: "Request a marketplace review" }}
+      />
+
+      {/* Stat row — navy */}
+      <section className="bg-navy-900">
+        <div className="container-kw py-14">
+          <p className="eyebrow-light">{c.metric.label}</p>
+          <p className="h-display mt-3 text-[clamp(32px,4vw,52px)] text-gold-300">{c.metric.value}</p>
+          <StatRow className="mt-10" tone="navy" stats={c.heroStats.map((s) => ({ value: s.value, label: s.label }))} />
+        </div>
+      </section>
+
+      {/* What this team runs — check list + DeviceFrame (cream) */}
+      <section className="bg-cream-50">
+        <div className="container-kw grid items-start gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div>
+            <p className="eyebrow">What this team runs</p>
+            <h2 className="h-display mt-4 text-h2 text-navy-900">Everything in one scope.</h2>
+            <CheckList className="mt-8" items={c.services.map((s) => ({ title: s.title, body: s.body }))} />
           </div>
-          <div className="mt-2 text-sm text-white/70">{c.metric.label}</div>
-          <div className="mt-6 grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
-            {c.heroStats.map((s) => (
-              <div key={s.label}>
-                <div className="h-display text-xl text-white">{s.value}</div>
-                <div className="mt-1 text-xs leading-snug text-white/55">
-                  {s.label}
-                </div>
-              </div>
-            ))}
+          <div className="lg:sticky lg:top-24">
+            <DeviceFrame title={c.name} />
           </div>
         </div>
-      </PageHero>
+      </section>
 
-      {/* Services */}
+      {/* How it connects — FeatureSplit (beige) */}
+      <section className="bg-cream-100">
+        <div className="container-kw py-20">
+          <FeatureSplit
+            reverse
+            eyebrow="How it connects"
+            title="One plan the whole team reads."
+            imageId={`${stem}-c`}
+            cta={{ href: "/why-kwontified", label: "Why one team wins" }}
+          >
+            <p>
+              {c.name} doesn’t run in isolation. The forecast, the catalog and the ad plan
+              are the same plan, so a change in one is visible to all of them — and the
+              numbers reconcile against one P&amp;L.
+            </p>
+          </FeatureSplit>
+        </div>
+      </section>
+
+      {/* Related case study (white) */}
       <section className="bg-white">
         <div className="container-kw py-20">
-          <h2 className="h-display text-2xl text-ink">What this team runs</h2>
-          <div className="mt-10 grid gap-x-10 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-            {c.services.map((s) => (
-              <div key={s.title}>
-                <h3 className="text-base font-semibold text-ink">{s.title}</h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-700">
-                  {s.body}
-                </p>
-              </div>
-            ))}
+          <p className="eyebrow">{c.caseStudy.eyebrow}</p>
+          <h2 className="h-display mt-4 text-h2 text-navy-900">Proof from an account we run.</h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <ImageCard
+              className="md:col-span-1"
+              href={c.caseStudy.href}
+              imageId={caseImg}
+              ratio="16/9"
+              chip={c.metric.value}
+              title={c.caseStudy.title}
+              excerpt={`${c.metric.label}.`}
+              cta="Read case study"
+            />
           </div>
         </div>
       </section>
 
-      {/* Case study callout (fix 12) */}
-      <section className="bg-paper">
-        <div className="container-kw py-16">
-          <div className="grid gap-8 border border-line bg-white p-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-            <div>
-              <p className="eyebrow">{c.caseStudy.eyebrow}</p>
-              <h3 className="h-display mt-2 text-h3 text-ink">{c.caseStudy.title}</h3>
-              <div className="mt-6 flex flex-wrap items-end gap-x-10 gap-y-4">
-                <Stat value={c.metric.value} label={c.metric.label} tone="light" />
-                {!beforeAfter &&
-                  c.heroStats
-                    .slice(0, 1)
-                    .map((s) => <Stat key={s.label} value={s.value} label={s.label} tone="light" />)}
-              </div>
-              <div className="mt-6">
-                <Button href={c.caseStudy.href} variant="outline">
-                  Read the case study
-                </Button>
-              </div>
-            </div>
-            <div className="md:border-l md:border-line md:pl-8">
-              {beforeAfter ? (
-                <BeforeAfterBars
-                  before={beforeAfter.before}
-                  after={beforeAfter.after}
-                  tone="light"
+      {/* Other capabilities (cream) */}
+      <section className="bg-cream-50">
+        <div className="container-kw py-20">
+          <h2 className="h-display text-h2 text-navy-900">The other capabilities</h2>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {others.map((o) => {
+              const oStem = capImage(o.slug) ?? "cap-retail-media";
+              return (
+                <ImageCard
+                  key={o.slug}
+                  href={`/capabilities/${o.slug}`}
+                  imageId={`${oStem}-b`}
+                  ratio="4/3"
+                  chip={o.metric.value}
+                  title={o.name}
+                  excerpt={o.metric.label}
                 />
-              ) : (
-                <div className="flex flex-wrap gap-x-8 gap-y-4">
-                  {c.heroStats.slice(0, 2).map((s) => (
-                    <Stat key={s.label} value={s.value} label={s.label} tone="light" />
-                  ))}
-                </div>
-              )}
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Other capabilities */}
-      <section className="bg-white">
-        <div className="container-kw py-16">
-          <h2 className="h-display text-2xl text-ink">The other capabilities</h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {others.map((o) => (
-              <Link
-                key={o.slug}
-                href={`/capabilities/${o.slug}`}
-                className="group border border-line p-5 transition hover:border-brand-600 hover:bg-paper"
-              >
-                {capabilityIcons[o.slug] && (
-                  <IconTile icon={capabilityIcons[o.slug]} className="mb-3" />
-                )}
-                <div className="text-sm font-semibold text-ink group-hover:text-brand-700">
-                  {o.name}
-                </div>
-                <div className="mt-2 text-xs text-muted">
-                  <span className="font-semibold text-brand-600">{o.metric.value}</span>{" "}
-                  {o.metric.label}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <ExecFaq />
-
-      <CtaBand />
+      <PromoBanner imageId="promo-capabilities" />
     </>
   );
 }
