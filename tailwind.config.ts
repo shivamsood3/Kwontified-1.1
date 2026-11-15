@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 
+// Round 3 (§2) — warm navy, gold and cream. Old blue is retired; the `brand`
+// and `ink` keys are remapped onto the new palette so existing utility classes
+// stay on-palette while pages migrate to the explicit navy/gold/cream tokens.
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,83 +11,107 @@ export default {
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    // §3.4 — square everything except circular avatars / pause-play buttons.
     borderRadius: {
       none: "0",
-      sm: "0",
-      DEFAULT: "0",
-      md: "0",
-      lg: "0",
-      xl: "0",
-      "2xl": "0",
-      "3xl": "0",
+      sm: "6px",
+      DEFAULT: "8px", // buttons, inputs
+      md: "10px",
+      lg: "12px",
+      xl: "16px",
+      "2xl": "16px", // images, cards, banners
+      "3xl": "24px",
       full: "9999px",
     },
     extend: {
       colors: {
-        // Warm charcoal neutrals (§3.1). `ink` is the dark-section background.
+        white: "#FFFFFF",
+        navy: {
+          DEFAULT: "#172442",
+          950: "#0E1A30",
+          900: "#172442",
+          800: "#22335A",
+          700: "#34466F",
+        },
+        gold: {
+          DEFAULT: "#DBBF84",
+          300: "#E7D2A3",
+          500: "#DBBF84",
+          600: "#C9A55E",
+          700: "#7A5C24",
+        },
+        cream: {
+          DEFAULT: "#FAF8F3",
+          50: "#FAF8F3",
+          100: "#F4EDE0",
+        },
+        sand: {
+          DEFAULT: "#E9DFCB",
+          200: "#E9DFCB",
+          300: "#D8C8A8",
+        },
+        // Text / neutrals. `ink` is text (near-black warm), not a dark section bg.
         ink: {
-          DEFAULT: "#262524",
-          900: "#262524",
-          800: "#31302E",
-          700: "#4A4B4D",
-          500: "#626366",
-          300: "#C9CACC",
-          200: "#E1E2E3",
-          100: "#F2F3F3",
+          DEFAULT: "#1C1B19",
+          900: "#1C1B19",
+          800: "#3A3733",
+          700: "#4A4641",
+          500: "#5F5A50",
+          muted: "#5F5A50",
+          faint: "#9A958B",
+          300: "#D8C8A8",
+          200: "#E9DFCB",
+          100: "#F4EDE0",
         },
-        // Kept as an alias to charcoal so any legacy `navy` class stays on-palette.
-        navy: { DEFAULT: "#262524", 800: "#31302E", 700: "#4A4B4D" },
-        // Brand blue (§3.1). 600 is PRIMARY.
+        // Legacy aliases → new palette (keep migrating classes on-palette).
         brand: {
-          50: "#F3F7FA",
-          100: "#E6EFF4",
-          200: "#C7DCE6",
-          300: "#99C0D1",
-          400: "#00618D",
-          500: "#00618D",
-          600: "#00618D",
-          700: "#004869",
-          800: "#003A55",
-          900: "#003A55",
+          50: "#F4EDE0", // cream-100
+          100: "#F4EDE0",
+          200: "#E9DFCB",
+          300: "#E7D2A3", // gold-300
+          400: "#172442",
+          500: "#172442",
+          600: "#172442", // navy-900 (links/accents on light)
+          700: "#7A5C24", // gold-700 (hover/accent text)
+          800: "#0E1A30",
+          900: "#0E1A30",
         },
-        accent: "#99C0D1", // blue-300, accent on dark
-        paper: "#F2F3F3", // ink-100 grey section bg
-        line: "#E1E2E3", // ink-200 hairlines
-        muted: "#626366", // ink-500 muted text
+        accent: "#DBBF84", // gold-500
+        paper: "#FAF8F3", // cream-50 default page bg
+        line: "#D8C8A8", // sand-300 hairlines
+        muted: "#5F5A50", // ink-muted text
       },
       borderColor: {
-        DEFAULT: "#C9CACC", // --border (ink-300); keeps unstyled borders on-palette
+        DEFAULT: "#D8C8A8", // sand-300
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
-        display: ["var(--font-display)"],
+        display: ["var(--font-sans)"], // Manrope throughout
       },
       fontSize: {
-        display: ["clamp(48px, 6vw, 86px)", { lineHeight: "1.0", letterSpacing: "-0.035em" }],
-        h1: ["clamp(36px, 3.6vw, 50px)", { lineHeight: "1.0", letterSpacing: "-0.035em" }],
-        h2: ["clamp(30px, 2.6vw, 36px)", { lineHeight: "1.06", letterSpacing: "-0.025em" }],
-        stat: ["clamp(48px, 5vw, 72px)", { lineHeight: "1.0", letterSpacing: "-0.03em" }],
-        h3: ["22px", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
-        lead: ["22px", { lineHeight: "1.45" }],
-        body: ["18px", { lineHeight: "1.55" }],
-        small: ["16px", { lineHeight: "1.45" }],
-        caption: ["15px", { lineHeight: "1.4" }],
-        micro: ["13px", { lineHeight: "1.35", letterSpacing: "0.01em" }],
+        display: ["clamp(44px, 5.6vw, 80px)", { lineHeight: "1.03", letterSpacing: "-0.02em" }],
+        h1: ["clamp(34px, 3.4vw, 50px)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
+        h2: ["clamp(28px, 2.6vw, 38px)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
+        stat: ["clamp(48px, 5vw, 72px)", { lineHeight: "1.0", letterSpacing: "-0.02em" }],
+        h3: ["21px", { lineHeight: "1.3", letterSpacing: "-0.01em" }],
+        lead: ["21px", { lineHeight: "1.5" }],
+        body: ["18px", { lineHeight: "1.6" }],
+        small: ["16px", { lineHeight: "1.5" }],
+        caption: ["14px", { lineHeight: "1.4" }],
+        micro: ["12px", { lineHeight: "1.35", letterSpacing: "0.02em" }],
       },
       maxWidth: {
         container: "1312px",
-        reading: "680px",
+        reading: "720px",
         prose: "620px",
       },
       letterSpacing: {
-        tightish: "-0.025em",
+        tightish: "-0.02em",
+        eyebrow: "0.14em",
       },
       boxShadow: {
-        // Menus & popovers only (§3.4).
-        pop: "0 12px 32px rgba(38,37,36,.16)",
-        card: "none",
-        lift: "0 12px 32px rgba(38,37,36,.16)",
+        card: "0 1px 2px rgba(28,27,25,.04), 0 8px 24px rgba(28,27,25,.06)",
+        pop: "0 12px 32px rgba(28,27,25,.16)",
+        lift: "0 12px 32px rgba(28,27,25,.14)",
       },
       transitionTimingFunction: {
         out: "cubic-bezier(.22,1,.36,1)",
@@ -97,7 +124,7 @@ export default {
         },
       },
       animation: {
-        "fade-up": "fade-up 0.64s cubic-bezier(.16,1,.3,1) both",
+        "fade-up": "fade-up 0.5s cubic-bezier(.16,1,.3,1) both",
       },
     },
   },

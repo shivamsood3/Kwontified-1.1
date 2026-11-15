@@ -159,19 +159,10 @@ export function Header() {
         </nav>
 
         {/* Right actions */}
-        <div className="hidden items-center gap-3 lg:flex">
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 border border-line px-3 py-1.5 text-sm text-muted transition hover:border-brand-600 hover:text-ink"
-            aria-label="Search"
-          >
-            <SearchIcon />
-            <span>Search</span>
-            <kbd className="bg-paper px-1.5 py-0.5 text-[0.65rem] font-medium text-muted">⌘K</kbd>
-          </button>
+        <div className="hidden items-center gap-5 lg:flex">
           <a
             href={site.clientSignInUrl}
-            className="text-sm font-medium text-ink transition hover:text-brand-700"
+            className="text-sm font-medium text-ink transition hover:text-gold-700"
           >
             Client sign-in
           </a>
@@ -424,15 +415,6 @@ function MobileGroup({
         ))}
       </div>
     </div>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4.3-4.3" />
-    </svg>
   );
 }
 

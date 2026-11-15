@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationLd, websiteLd } from "@/lib/seo";
 
-// TODO(licence): self-host Neue Haas Grotesk Text/Display Pro via next/font/local
-// once the web licence + WOFF2 files are supplied. Until then the CSS stack in
-// globals.css falls back to Helvetica Neue / Arial.
+// §2.2 — Manrope across the whole site.
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-manrope",
+});
 
 const siteUrl = "https://kwontified.com";
 
@@ -77,8 +82,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-white text-ink antialiased">
+    <html lang="en" className={manrope.variable}>
+      <body className="min-h-screen bg-cream-50 text-ink antialiased">
         <JsonLd data={[organizationLd(), websiteLd()]} />
         {children}
       </body>

@@ -26,7 +26,7 @@ export function Figure({
   label,
   tone = "light",
   className,
-  rounded = "rounded-xl",
+  rounded = "rounded-2xl",
   priority,
   objectPosition,
 }: {

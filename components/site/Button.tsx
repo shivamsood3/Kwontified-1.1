@@ -2,38 +2,36 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { ui } from "@/lib/icons";
 
+// §2.3 — gold primary, navy outline on light, white outline on dark/image.
 type Variant =
   | "primary"
-  | "secondary-light"
-  | "outline"
-  | "outline-light"
+  | "outline" // navy border on light
+  | "outline-light" // white border on dark / image / navy band
   | "text-link"
-  | "light" // alias → secondary-light
+  | "light" // alias → outline-light (legacy hero/CTA usage)
+  | "secondary-light" // alias → outline-light
   | "ghost"; // alias → text-link
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group inline-flex items-center justify-center gap-2 font-normal transition-colors focus-visible:outline-none active:scale-[0.97]";
+  "group inline-flex items-center justify-center gap-2 rounded font-medium transition-colors focus-visible:outline-none active:scale-[0.98]";
 
 const variants: Record<string, string> = {
-  primary: "bg-brand-600 text-white hover:bg-brand-700",
-  // White button for use on the blue CTA band only. Hover → ink-100 (never
-  // light blue, which would read as a button-on-panel elsewhere). (fixes 0a)
-  "secondary-light": "bg-white text-brand-600 hover:bg-ink-100",
-  light: "bg-white text-brand-600 hover:bg-ink-100",
-  outline: "border border-ink-300 text-ink hover:border-brand-600 hover:text-brand-700",
-  // Hero secondary CTA on dark: transparent, faint white border → solid on hover. (fixes 0a)
-  "outline-light": "border border-white/40 text-white hover:border-white hover:bg-white/[0.08]",
+  primary: "bg-gold-500 text-navy-900 hover:bg-gold-600",
+  outline: "border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white",
+  "outline-light": "border border-white/60 text-white hover:bg-white hover:text-navy-900",
+  light: "border border-white/60 text-white hover:bg-white hover:text-navy-900",
+  "secondary-light": "border border-white/60 text-white hover:bg-white hover:text-navy-900",
   "text-link":
-    "px-0 text-brand-600 underline decoration-[0.07em] underline-offset-[0.2em] hover:text-brand-700",
+    "px-0 text-[12px] font-medium uppercase tracking-[0.12em] text-navy-900 hover:text-gold-700",
   ghost:
-    "px-0 text-brand-600 underline decoration-[0.07em] underline-offset-[0.2em] hover:text-brand-700",
+    "px-0 text-[12px] font-medium uppercase tracking-[0.12em] text-navy-900 hover:text-gold-700",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-3 text-[15px]",
-  md: "h-11 px-[14px] text-[16px]",
-  lg: "h-[52px] px-7 text-[18px]",
+  sm: "h-10 px-4 text-[14px]",
+  md: "h-12 px-6 text-[15px]",
+  lg: "h-[52px] px-7 text-[16px]",
 };
 
 export function Button({
@@ -56,14 +54,14 @@ export function Button({
   onClick?: () => void;
 }) {
   const isLink = variant === "text-link" || variant === "ghost";
-  const cls = cn(base, variants[variant], isLink ? "text-[16px]" : sizes[size], className);
+  const cls = cn(base, variants[variant], isLink ? "" : sizes[size], className);
   const content = (
     <>
       {children}
       {arrow && (
         <ui.ArrowRight
-          size={18}
-          weight="light"
+          size={16}
+          weight="bold"
           className="transition-transform group-hover:translate-x-1"
         />
       )}
