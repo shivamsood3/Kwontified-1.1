@@ -1,107 +1,140 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
-import { CtaBand } from "@/components/site/CtaBand";
-import { Figure } from "@/components/ui/Figure";
+import { ImageHero } from "@/components/blocks/ImageHero";
+import { ImageStrip } from "@/components/blocks/ImageStrip";
+import { FeatureSplit } from "@/components/blocks/FeatureSplit";
+import { ImageCard } from "@/components/blocks/ImageCard";
+import { PromoBanner } from "@/components/blocks/PromoBanner";
+import { StatRow } from "@/components/blocks/StatRow";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ResultFinder } from "@/components/sections/ResultFinder";
-import { HeroCarousel } from "@/components/sections/HeroCarousel";
-import { OneTeamRows } from "@/components/sections/OneTeamRows";
-import { LogoMarquee, LogoGrid } from "@/components/ui/LogoMarquee";
+import { LogoGrid } from "@/components/ui/LogoMarquee";
 import { Chip } from "@/components/ui/Chip";
-import { Stat } from "@/components/ui/Stat";
 import { Quote } from "@/components/ui/Quote";
-import { Card } from "@/components/ui/Card";
-import { ListRow } from "@/components/ui/ListRow";
 import { IconTile } from "@/components/ui/IconTile";
 import { BeforeAfterBars } from "@/components/ui/BeforeAfterBars";
-import { LiftStudyChart } from "@/components/ui/LiftStudyChart";
+import { Img } from "@/components/ui/Img";
+import { MarketplaceLogo } from "@/components/ui/MarketplaceLogo";
 import { clientLogos, pressLogos } from "@/lib/logos";
-import { budgetChannelIcons, oneTeamMeansIcons, ui } from "@/lib/icons";
+import { capabilityIcons, channelIcons, ui } from "@/lib/icons";
 import { homepageResults } from "@/lib/data/metrics";
+import { marketplaceLogos } from "@/lib/content/marketplaceLogos";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-// TODO(content): publish the testimonial with a real name/title/company once the
-// client approves attribution. Until then it shows unattributed (fix 3).
-const SHOW_TESTIMONIAL = true;
+// Results cards come from a single source derived from the case studies (fix 1).
+const results = homepageResults;
+// Image above each results column (§5.2-5).
+const resultImage: Record<string, string> = {
+  "walmart-sku-transition": "case-walmart",
+  "international-expansion": "case-international",
+  "account-health-restore": "case-account-health",
+};
 
-// Results cards come from a single source derived from the case studies. (fix 1)
-const stats = homepageResults;
-
-const oneTeam = [
-  { k: "Measured", cap: "Retail media", href: "/capabilities/retail-media", desc: "Sponsored ads, DSP, Walmart Connect and Roundel, managed on incremental return and new-to-brand growth, with TACoS held to the plan.", connect: "Budgets ease off before a product stocks out, so ads never send shoppers to an empty listing." },
-  { k: "Made", cap: "Creative Studio", href: "/capabilities/creative-studio", desc: "Product photography, image editing, AI image and video, A+ Content and Storefronts, finished to your brand’s own standard.", connect: "Briefs start from the search terms and conversion data the advertising team reads every day." },
-  { k: "Run", cap: "Marketplace operations", href: "/capabilities/marketplace-operations", desc: "Catalog, inventory, 1P and 3P operations, promotions and account health, in every market you sell in.", connect: "Promotions are planned with the stock to support them and the advertising to drive them." },
-  { k: "Found", cap: "AI commerce", href: "/capabilities/ai-commerce", desc: "Complete, structured product data, so Amazon Rufus, ChatGPT, Google Gemini and Claude can recommend your products accurately.", connect: "Built on the catalog the operations team already maintains, so nothing is written twice." },
-  { k: "Reported", cap: "Analytics", href: "/capabilities/analytics", desc: "Dashboards and sales, budget and inventory forecasts in conservative, standard and reach scenarios: one version of the numbers for brand managers and the board.", connect: "Advertising, stock and promotions all plan to the same forecast." },
-  { k: "Recovered", cap: "Revenue recovery", href: "/capabilities/revenue-recovery", desc: "Vendor Central shortages, chargebacks and accruals, and Seller Central FBA reimbursements, audited, filed and followed inside Amazon’s claim windows.", connect: "The operations team fixes the causes, so the same losses stop coming back." },
+const pillars = [
+  { cap: "Retail media", slug: "retail-media", desc: "Sponsored ads, DSP, Walmart Connect and Roundel, managed on incremental return and new-to-brand growth, with TACoS held to the plan.", connect: "Budgets ease off before a product stocks out, so ads never send shoppers to an empty listing." },
+  { cap: "Creative Studio", slug: "creative-studio", desc: "Photography, image editing, AI image and video, A+ Content and Storefronts, finished to your brand’s own standard.", connect: "Briefs start from the search terms and conversion data the advertising team reads every day." },
+  { cap: "Marketplace operations", slug: "marketplace-operations", desc: "Catalog, inventory, 1P and 3P operations, promotions and account health, in every market you sell in.", connect: "Promotions are planned with the stock to support them and the advertising to drive them." },
+  { cap: "AI commerce", slug: "ai-commerce", desc: "Complete, structured product data, so Rufus, ChatGPT, Gemini and Claude can recommend your products accurately.", connect: "Built on the catalog the operations team already maintains, so nothing is written twice." },
+  { cap: "Analytics", slug: "analytics", desc: "Dashboards and sales, budget and inventory forecasts in conservative, standard and reach scenarios: one version of the numbers.", connect: "Advertising, stock and promotions all plan to the same forecast." },
+  { cap: "Revenue recovery", slug: "revenue-recovery", desc: "Vendor Central shortages and chargebacks, and Seller Central FBA reimbursements, audited, filed and followed inside Amazon’s claim windows.", connect: "The operations team fixes the causes, so the same losses stop coming back." },
 ];
 
-const oneTeamBullets = [
-  "One named team and one inbox for every channel you sell in.",
-  "One plan, with sales, margin, advertising and inventory targets you approve.",
-  "A weekly update, plus monthly and quarterly business reviews against that plan.",
-  "Senior leaders who stay involved long after onboarding.",
+const channelTiles: { label: string; href: string; slug?: string; icon?: boolean; ai?: boolean; sub?: string }[] = [
+  { label: "Amazon", href: "/channels/amazon", slug: "amazon" },
+  { label: "Walmart", href: "/channels/walmart", slug: "walmart" },
+  { label: "Target Plus", href: "/channels/target-plus", slug: "target-plus" },
+  { label: "International", href: "/channels/international", icon: true },
+  { label: "Zalando", href: "/channels/zalando", slug: "zalando" },
+  { label: "Mercado Libre", href: "/channels/mercado-libre", slug: "mercado-libre" },
+  { label: "Temu", href: "/channels/temu", slug: "temu" },
+  { label: "TikTok Shop", href: "/channels/tiktok-shop", slug: "tiktok-shop" },
+  { label: "Instagram Shop", href: "/channels/instagram-shop", slug: "instagram-shop" },
+  { label: "AI shopping assistants", href: "/capabilities/ai-commerce", ai: true, sub: "Rufus, ChatGPT, Gemini and Claude" },
 ];
 
-const budgetChannels = [
-  { label: "Amazon Seller Central", sub: "Advertising, content and FBA for 3P sellers", href: "/channels/amazon" },
-  { label: "Amazon Vendor Central", sub: "1P margin, fill rates and shortage recovery", href: "/channels/amazon" },
-  { label: "Walmart", sub: "Marketplace sellers and suppliers, with Walmart Connect", href: "/channels/walmart" },
-  { label: "Target Plus", sub: "Run to Target’s standards, with Roundel", href: "/channels/target-plus" },
-  { label: "International", sub: "Canada, Mexico, the UK and the EU", href: "/channels/international" },
-  { label: "Zalando", sub: "Fashion across Europe’s markets and seasons", href: "/channels/zalando" },
-  { label: "Mercado Libre", sub: "Latin America, set up country by country", href: "/channels/mercado-libre" },
-  { label: "Temu", sub: "On your brand’s terms, with price floors", href: "/channels/temu" },
-  { label: "TikTok Shop", sub: "Creators, shoppable video and GMV Max", href: "/channels/tiktok-shop" },
-  { label: "Instagram Shop", sub: "Shoppable content and Meta advertising", href: "/channels/instagram-shop" },
-  { label: "AI shopping assistants", sub: "Rufus, ChatGPT, Gemini and Claude", href: "/capabilities/ai-commerce" },
+const creative: { caption: string; metric: string; id: string }[] = [
+  { caption: "National beauty brand, Amazon DSP.", metric: "+28% NTB", id: "creative-beauty" },
+  { caption: "Global accessories, Amazon and Target Plus, on 17% less spend.", metric: "11.1x ROAS", id: "creative-accessories" },
+  { caption: "Luxury swimwear, Amazon US, EU and UK, without discounting.", metric: "+204%", id: "creative-swimwear" },
+  { caption: "Men’s outdoor apparel, Amazon launch, first nine months.", metric: "$4.5M", id: "creative-outdoor" },
+  { caption: "Premium skincare, Amazon US, on the same ad budget.", metric: "12.1% CVR", id: "creative-skincare" },
 ];
 
-const creative: {
-  caption: string;
-  metric: string;
-  img: string;
-  ratio: "3/2" | "4/5" | "4/3";
-  span: string;
-  objectPosition?: string;
-}[] = [
-  { caption: "National beauty brand, Amazon DSP.", metric: "+28% NTB", img: "/creative/beauty.jpg", ratio: "3/2", span: "lg:col-span-7" },
-  { caption: "Global accessories, Amazon and Target Plus, on 17% less spend.", metric: "11.1x ROAS", img: "/creative/accessories.jpg", ratio: "4/5", span: "lg:col-span-5" },
-  { caption: "Luxury swimwear, Amazon US, EU and UK, without discounting.", metric: "+204%", img: "/creative/swimwear.jpg", ratio: "4/3", span: "lg:col-span-4", objectPosition: "center 22%" },
-  { caption: "Men’s outdoor apparel, Amazon launch, first nine months.", metric: "$4.5M", img: "/creative/outdoor.jpg", ratio: "4/3", span: "lg:col-span-4" },
-  { caption: "Premium skincare, Amazon US, on the same ad budget.", metric: "12.1% CVR", img: "/creative/skincare.jpg", ratio: "4/3", span: "lg:col-span-4" },
+// Case-study cards under the featured split (§5.2-9).
+const caseCards = [
+  { href: "/work/walmart-sku-transition", id: "case-walmart", chip: "Walmart", title: "A clean SKU transition, revenue intact.", excerpt: "Combined Walmart revenue up 19% through a major SKU transition, supplier ROAS from 3.0x to 4.2x." },
+  { href: "/work/international-expansion", id: "case-international", chip: "UK · EU · CA", title: "$1.4M international, from a US-only start.", excerpt: "One localized catalog live across three regions for a premium fashion brand." },
+  { href: "/work/account-health-restore", id: "case-account-health", chip: "Amazon", title: "A collapsed $6.2M business, restored.", excerpt: "147 listings restored and annualized revenue up 68% for a leading CPG brand." },
 ];
 
-// Only the DSP guide has a confirmed byline; the rest ship without an author or
-// read time until confirmed (fix 4). Non-DSP links resolve to real posts (fix 5).
-const perspectives: {
-  topic: string;
-  channel: string;
-  author?: string;
-  title: string;
-  body: string;
-  href: string;
-  img?: string;
-  featured?: boolean;
-}[] = [
-  { topic: "Retail media", channel: "Amazon", author: "Priyanka Shah", title: "Is your Amazon DSP spend incremental?", body: "Attributed ROAS shows what DSP touched. Lift studies and AMC path analysis show what it caused — the test design we use before scaling a DSP budget.", href: "/perspectives/amazon-dsp-incrementality", img: "/creative/skincare.jpg", featured: true },
-  { topic: "AI commerce", channel: "Amazon", title: "What Rufus reads on a listing, and what it ignores", body: "How shopping assistants parse your detail page.", href: "/perspectives/rufus-listing-signals" },
-  { topic: "Creative", channel: "Amazon", title: "What moved conversion from 8.2% to 12.1%", body: "The image tests and A+ modules behind a skincare lift.", href: "/perspectives/conversion-8-to-12" },
-  { topic: "Operations", channel: "Vendor Central", title: "The five Vendor Central chargeback causes that cost the most", body: "Where 1P deductions come from, and how to stop them.", href: "/perspectives/vendor-central-chargebacks" },
+// Featured post + three cards (§5.2-10). Only the DSP guide has a confirmed
+// byline; the rest ship without an author until confirmed (fix 4).
+const featuredPost = {
+  topic: "Retail media",
+  channel: "Amazon",
+  author: "Priyanka Shah",
+  title: "Is your Amazon DSP spend incremental?",
+  body: "Attributed ROAS shows what DSP touched. Lift studies and AMC path analysis show what it caused — the test design we use before scaling a DSP budget.",
+  href: "/perspectives/amazon-dsp-incrementality",
+};
+const postCards = [
+  { href: "/perspectives/rufus-listing-signals", id: "post-rufus", chip: "AI commerce", title: "What Rufus reads on a listing, and what it ignores", excerpt: "How shopping assistants parse your detail page." },
+  { href: "/perspectives/conversion-8-to-12", id: "post-conversion", chip: "Creative", title: "What moved conversion from 8.2% to 12.1%", excerpt: "The image tests and A+ modules behind a skincare lift." },
+  { href: "/perspectives/vendor-central-chargebacks", id: "post-chargebacks", chip: "Operations", title: "The five Vendor Central chargeback causes that cost the most", excerpt: "Where 1P deductions come from, and how to stop them." },
 ];
 
 export default function HomePage() {
-  const [featured, ...rest] = perspectives;
   return (
     <>
-      {/* Hero carousel */}
-      <HeroCarousel />
+      {/* 1 — Hero diptych */}
+      <ImageHero
+        eyebrow="Measured growth · Beautiful work"
+        title="One team for every marketplace you sell in."
+        intro="Advertising, creative, operations and analytics, run as one plan across Amazon, Walmart, Target Plus and global marketplaces — reviewed against the margin you approve."
+        leftId="home-hero-a"
+        rightId="home-hero-b"
+        primary={{ href: "/contact", label: "Request a marketplace review" }}
+        secondary={{ href: "/work", label: "See the work" }}
+      />
 
-      {/* Results across channels and markets (§7.4) */}
-      <section className="bg-ink text-white">
-        <div className="container-kw border-t border-white/10 py-20 lg:py-[120px]">
+      {/* 2 — Statement + stats */}
+      <section className="bg-cream-50">
+        <div className="container-kw py-20 lg:py-28">
+          <p className="mx-auto max-w-[1100px] text-center text-[clamp(26px,3.4vw,44px)] font-medium leading-[1.2] tracking-tightish">
+            <span className="text-ink">We run marketplaces as one business.</span>{" "}
+            <span className="text-ink-muted">
+              Advertising, creative, operations and analytics sit on one team that reads
+              the numbers and makes the work that moves them.
+            </span>{" "}
+            <span className="text-ink-faint">
+              One plan, one P&amp;L, one inbox — across every channel you sell in.
+            </span>
+          </p>
+          <StatRow
+            className="mx-auto mt-14 max-w-4xl"
+            stats={[
+              { value: "9.4x", label: "Amazon DSP ROAS on $192K spend" },
+              { value: "$1.4M", label: "International revenue, from a US-only start" },
+              { value: "+68%", label: "Annualized revenue, account health restored" },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* 3 — Image strip */}
+      <ImageStrip ids={["home-strip-1", "home-strip-2", "home-strip-3", "home-strip-4", "home-strip-5"]} />
+
+      {/* 4 — Selected clients */}
+      <section className="border-y border-line bg-white">
+        <div className="container-kw py-16">
+          <p className="eyebrow">Selected clients</p>
+          <LogoGrid logos={clientLogos} height={26} className="mt-8" />
+        </div>
+      </section>
+
+      {/* 5 — Results across channels and markets (navy) */}
+      <section className="bg-navy-900 text-white">
+        <div className="container-kw py-20 lg:py-28">
           <SectionHeading
             tone="dark"
             eyebrow="Results"
@@ -109,37 +142,27 @@ export default function HomePage() {
             intro="Every figure comes from an account we run and has a published case study behind it."
             link={{ href: "/work", label: "See all case studies" }}
           />
-          <div className="mt-12 grid gap-10 md:grid-cols-3 md:divide-x md:divide-white/12">
-            {stats.map((s) => (
-              <div key={s.slug} className="md:px-8 md:first:pl-0">
+          <div className="mt-12 grid gap-10 md:grid-cols-3">
+            {results.map((s) => (
+              <div key={s.slug} className="flex flex-col">
+                <div className="relative mb-6 aspect-[3/2] overflow-hidden rounded-2xl">
+                  <Img id={resultImage[s.slug]} sizes="(max-width: 768px) 100vw, 33vw" />
+                </div>
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                  <Stat value={s.value} label="" tone="dark" size="lg" className="[&>div:nth-child(2)]:hidden" />
+                  <span className="text-[clamp(40px,4vw,56px)] font-medium leading-none tracking-tightish text-gold-300">
+                    {s.value}
+                  </span>
                   <Chip tone="dark">{s.chip}</Chip>
                 </div>
-                <div className="mt-6">
-                  {s.beforeAfter ? (
-                    <BeforeAfterBars
-                      before={s.beforeAfter.before}
-                      after={s.beforeAfter.after}
-                      tone="dark"
-                    />
-                  ) : (
-                    s.stats && (
-                      <div className="flex flex-wrap gap-x-10 gap-y-4">
-                        {s.stats.map((st) => (
-                          <Stat key={st.label} value={st.value} label={st.label} tone="dark" />
-                        ))}
-                      </div>
-                    )
-                  )}
-                </div>
-                <p className="mt-6 text-small leading-relaxed text-white/60">{s.body}</p>
-                <Link
-                  href={s.href}
-                  className="mt-4 inline-flex items-center gap-1 text-small text-brand-300 transition hover:text-white"
-                >
+                {s.beforeAfter && (
+                  <div className="mt-6">
+                    <BeforeAfterBars before={s.beforeAfter.before} after={s.beforeAfter.after} tone="dark" />
+                  </div>
+                )}
+                <p className="mt-6 text-small leading-relaxed text-white/65">{s.body}</p>
+                <Link href={s.href} className="learn-more mt-5 !text-gold-300 hover:!text-white">
                   {s.link}
-                  <ui.ArrowRight size={14} />
+                  <ui.ArrowRight size={14} weight="bold" />
                 </Link>
               </div>
             ))}
@@ -147,200 +170,226 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Selected clients (§7.3) */}
-      <section className="border-y border-line bg-white">
-        <div className="container-kw py-16">
-          <LogoMarquee logos={clientLogos} rows={2} label="Selected clients" />
-        </div>
-      </section>
+      {/* 6 — One team owns the plan and the work (beige) */}
+      <section className="bg-cream-100">
+        <div className="container-kw py-20 lg:py-28">
+          <FeatureSplit
+            eyebrow="One team"
+            title="One team owns the plan and the work."
+            imageId="home-one-team"
+            cta={{ href: "/why-kwontified", label: "Why one team wins" }}
+          >
+            <p>
+              Most brands split advertising, creative and operations across separate
+              agencies, then lose margin where those plans disagree. We run all of it as
+              one plan, reviewed against one P&amp;L.
+            </p>
+            <p>
+              One named team and one inbox for every channel you sell in, with senior
+              leaders who stay involved long after onboarding.
+            </p>
+          </FeatureSplit>
 
-      {/* One team owns the plan and the work (§7.5) */}
-      <section className="bg-paper">
-        <div className="container-kw grid gap-12 py-20 lg:py-[120px] lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading
-              eyebrow="One team"
-              title="One team owns the plan and the work."
-              intro="Most brands split advertising, creative and operations across separate agencies, then lose margin where those plans disagree: ads that drive shoppers to products about to stock out, creative briefed without the search data, promotions with no stock behind them. We run all of it as one plan, reviewed against one P&L."
-            />
-            <div className="mt-8">
-              <h3 className="text-caption text-muted">What one team means for you</h3>
-              <ul className="mt-4 divide-y divide-line border-y border-line">
-                {oneTeamBullets.map((b, i) => {
-                  const Icon = oneTeamMeansIcons[i];
-                  return (
-                    <li key={b} className="flex items-center gap-3 py-3 text-small text-ink-700">
-                      <Icon size={22} weight="light" className="shrink-0 text-brand-600" />
-                      <span>{b}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+          <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {pillars.map((p) => {
+              const Icon = capabilityIcons[p.slug];
+              return (
+                <Link
+                  key={p.cap}
+                  href={`/capabilities/${p.slug}`}
+                  className="group flex flex-col rounded-2xl bg-white p-6 shadow-card transition-shadow hover:shadow-lift"
+                >
+                  {Icon && <IconTile icon={Icon} />}
+                  <h3 className="h-display mt-4 text-h3 text-navy-900">{p.cap}</h3>
+                  <p className="mt-2 text-small leading-relaxed text-ink-muted">{p.desc}</p>
+                  <p className="mt-4 border-t border-sand-300 pt-4 text-[13px] leading-relaxed text-ink-muted">
+                    <span className="font-medium text-gold-700">How it connects — </span>
+                    {p.connect}
+                  </p>
+                </Link>
+              );
+            })}
           </div>
-          <OneTeamRows rows={oneTeam} />
         </div>
       </section>
 
-      {/* Budget goes where it earns most (§7.6) */}
+      {/* 7 — Budget goes where it earns most (cream) */}
+      <section className="bg-cream-50">
+        <div className="container-kw py-20 lg:py-28">
+          <FeatureSplit
+            reverse
+            eyebrow="Where we operate"
+            title="Budget goes where it earns most."
+            imageId="home-channels"
+            stats={[
+              { value: "5.0x → 6.8x", label: "Blended Amazon ROAS, ad spend down 29%" },
+            ]}
+            cta={{ href: "/capabilities/analytics", label: "How we report across channels" }}
+          >
+            <p>
+              We manage every marketplace as one business. Spend moves between channels on
+              measured return, catalog work is done once and adapted, and reporting shows
+              the whole P&amp;L in one view.
+            </p>
+          </FeatureSplit>
+
+          <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {channelTiles.map((c) => {
+              if (c.ai) {
+                return (
+                  <Link
+                    key={c.label}
+                    href={c.href}
+                    className="group flex flex-col justify-between rounded-2xl bg-navy-900 p-5 text-white shadow-card transition-shadow hover:shadow-lift"
+                  >
+                    <span className="text-[13px] font-medium uppercase tracking-[0.12em] text-gold-300">AI</span>
+                    <span className="mt-6">
+                      <span className="block h-display text-h3 text-white">{c.label}</span>
+                      <span className="mt-1 block text-[13px] text-white/65">{c.sub}</span>
+                    </span>
+                  </Link>
+                );
+              }
+              const Icon = c.icon ? channelIcons.international : null;
+              return (
+                <Link
+                  key={c.label}
+                  href={c.href}
+                  className="group flex flex-col justify-between rounded-2xl border border-sand-300 bg-white p-5 shadow-card transition-shadow hover:shadow-lift"
+                >
+                  <span className="flex h-10 items-center">
+                    {c.slug && marketplaceLogos[c.slug] ? (
+                      <MarketplaceLogo slug={c.slug} className="max-h-8 max-w-[60%]" />
+                    ) : Icon ? (
+                      <Icon size={30} weight="light" className="text-navy-900" />
+                    ) : null}
+                  </span>
+                  <span className="mt-6 flex items-center justify-between">
+                    <span className="h-display text-h3 text-navy-900">{c.label}</span>
+                    <ui.ArrowRight size={18} weight="bold" className="text-ink-faint transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 8 — Creative that sells, still on brand (white) */}
       <section className="bg-white">
-        <div className="container-kw grid gap-12 py-20 lg:py-[120px] md:grid-cols-[0.85fr_1.15fr] md:items-start">
-          <div className="md:sticky md:top-28">
-            <SectionHeading
-              eyebrow="Where we operate"
-              title="Budget goes where it earns most."
-              intro="We manage every marketplace as one business. Spend moves between channels on measured return, catalog work is done once and adapted, and reporting shows the whole P&L in one view."
-            />
-            <div className="mt-8 border-l-2 border-brand-600 bg-brand-50 p-6">
-              <Stat value="5.0x to 6.8x" label="Blended Amazon ROAS" tone="light" />
-              <p className="mt-3 text-small leading-relaxed text-ink-700">
-                For a natural oral care brand after we consolidated reporting across
-                Amazon and Walmart, with Amazon ad spend down 29%.
-              </p>
-              <Link href="/capabilities/analytics" className="link-underline mt-3 text-small">
-                How we report across channels
-              </Link>
-            </div>
-          </div>
-          {/* First ten channels in two columns; the 11th spans both as a
-              highlighted row so it never sits alone (fix 16). */}
-          <div className="grid border-t border-line sm:grid-cols-2 sm:gap-x-10">
-            {budgetChannels.slice(0, 10).map((c) => (
-              <ListRow key={c.label} href={c.href} title={c.label} sub={c.sub} icon={budgetChannelIcons[c.label]} />
-            ))}
-          </div>
-          {budgetChannels.slice(10).map((c) => (
-            <Link
-              key={c.label}
-              href={c.href}
-              className="group flex items-center gap-4 border-t border-brand-600 bg-brand-50 px-3 py-4 transition-colors hover:bg-brand-100"
-            >
-              <IconTile icon={budgetChannelIcons[c.label]} />
-              <span className="min-w-0 flex-1">
-                <span className="block text-h3 font-medium text-ink decoration-[0.07em] underline-offset-4 group-hover:underline">
-                  {c.label}
-                </span>
-                <span className="mt-0.5 block text-small text-muted">{c.sub}</span>
-              </span>
-              <ui.ArrowRight size={20} weight="light" className="shrink-0 text-ink-500 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Creative that sells (§7.7) */}
-      <section className="bg-paper">
-        <div className="container-kw py-20 lg:py-[120px]">
+        <div className="container-kw py-20 lg:py-28">
           <SectionHeading
             eyebrow="Creative Studio"
             title="Creative that sells, still on brand."
             intro="Photography, video, A+ Content and Storefronts built from the conversion data — then measured on what they do to the numbers."
             link={{ href: "/work/creative", label: "See the Creative Studio" }}
           />
-          {/* Row 1 — two tiles share one fixed height, object-cover (fix 8) */}
-          <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-12">
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
             {creative.slice(0, 2).map((c) => (
-              <figure key={c.caption} className={c.span}>
-                <div className="relative h-64 overflow-hidden sm:h-80 lg:h-[400px]">
-                  <Image
-                    src={c.img}
-                    alt={c.caption}
-                    fill
-                    className="object-cover transition-transform duration-500 hover:scale-[1.03]"
-                    style={c.objectPosition ? { objectPosition: c.objectPosition } : undefined}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
-                </div>
-                <figcaption className="mt-3 flex items-center gap-2 text-small text-muted">
-                  <Chip tone="brand" className="whitespace-nowrap">{c.metric}</Chip>
-                  <span>{c.caption}</span>
-                </figcaption>
-              </figure>
+              <CreativeTile key={c.id} {...c} h="h-72 md:h-[420px]" />
             ))}
           </div>
-          {/* Row 2 — three equal tiles, same ratio */}
-          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {creative.slice(2).map((c) => (
-              <figure key={c.caption}>
-                <div className="overflow-hidden">
-                  <Figure ratio={c.ratio} src={c.img} alt={c.caption} rounded="" objectPosition={c.objectPosition} className="transition-transform duration-500 hover:scale-[1.03]" />
-                </div>
-                <figcaption className="mt-3 flex items-center gap-2 text-small text-muted">
-                  <Chip tone="brand" className="whitespace-nowrap">{c.metric}</Chip>
-                  <span>{c.caption}</span>
-                </figcaption>
-              </figure>
+              <CreativeTile key={c.id} {...c} h="h-72 md:h-80" />
             ))}
           </div>
         </div>
       </section>
 
-      {/* What we're seeing in the market — Perspectives (§7.8, white editorial) */}
-      <section className="bg-white">
-        <div className="container-kw py-20 lg:py-[120px]">
+      {/* 9 — Featured case study (beige) */}
+      <section className="bg-cream-100">
+        <div className="container-kw py-20 lg:py-28">
+          <FeatureSplit
+            eyebrow="Featured case study · Amazon"
+            title="$1.8M from DSP, with search intact."
+            imageId="case-amazon-dsp"
+            stats={[
+              { value: "9.4x", label: "DSP ROAS on $192K" },
+              { value: "$1.8M", label: "Incremental DSP revenue" },
+            ]}
+            cta={{ href: "/work/amazon-dsp", label: "Read case study" }}
+          >
+            <p>
+              A national beauty brand wanted to scale Amazon DSP without cannibalising its
+              search business. We designed the lift test, proved incrementality, then
+              scaled the budget on measured return.
+            </p>
+          </FeatureSplit>
+
+          <div className="mt-16 grid gap-6 md:grid-cols-3">
+            {caseCards.map((c) => (
+              <ImageCard key={c.href} href={c.href} imageId={c.id} ratio="16/9" chip={c.chip} title={c.title} excerpt={c.excerpt} cta="Read case study" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10 — What we're seeing in the market (cream) */}
+      <section className="bg-cream-50">
+        <div className="container-kw py-20 lg:py-28">
           <SectionHeading
             eyebrow="Perspectives"
             title="What we’re seeing in the market."
             link={{ href: "/perspectives", label: "All Perspectives" }}
           />
-          <div className="mt-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-            <Card
-              href={featured.href}
-              visual={<LiftStudyChart />}
-              chips={[featured.topic, featured.channel]}
-              meta={featured.author}
-              title={featured.title}
-              excerpt={featured.body}
-            />
-            <div className="divide-y divide-line border-t border-line">
-              {rest.map((p) => (
-                <Link key={p.title} href={p.href} className="group block py-5">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Chip>{p.topic}</Chip>
-                    {p.author && (
-                      <span className="text-[13px] text-muted">{p.author}</span>
-                    )}
-                  </div>
-                  <h3 className="h-display mt-2 text-h3 text-ink group-hover:text-brand-700">
-                    {p.title}
-                  </h3>
-                </Link>
-              ))}
+          <Link href={featuredPost.href} className="group mt-10 block overflow-hidden rounded-2xl bg-white shadow-card transition-shadow hover:shadow-lift">
+            <div className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9]">
+              <Img id="post-dsp" sizes="(max-width: 1312px) 100vw, 1312px" className="transition-transform duration-500 group-hover:scale-[1.02]" />
             </div>
+            <div className="p-6 md:p-8">
+              <div className="flex flex-wrap items-center gap-2">
+                <Chip tone="brand">{featuredPost.topic}</Chip>
+                <span className="text-[13px] text-ink-faint">{featuredPost.channel} · {featuredPost.author}</span>
+              </div>
+              <h3 className="h-display mt-3 max-w-3xl text-h2 text-navy-900">{featuredPost.title}</h3>
+              <p className="mt-3 max-w-2xl text-body text-ink-muted">{featuredPost.body}</p>
+              <span className="learn-more mt-5">Read the guide<ui.ArrowRight size={14} weight="bold" className="transition-transform group-hover:translate-x-1" /></span>
+            </div>
+          </Link>
+          <div className="mt-6 grid gap-6 md:grid-cols-3">
+            {postCards.map((p) => (
+              <ImageCard key={p.href} href={p.href} imageId={p.id} ratio="4/3" chip={p.chip} title={p.title} excerpt={p.excerpt} cta="Read" />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Featured in (§7.9) */}
-      <section className="border-y border-line bg-paper">
+      {/* 11 — Featured in (white) */}
+      <section className="border-y border-line bg-white">
         <div className="container-kw py-14">
-          <p className="text-center text-caption text-muted">Featured in</p>
+          <p className="text-center text-caption text-ink-muted">Featured in</p>
           <LogoGrid logos={pressLogos} height={26} className="mt-8" />
         </div>
       </section>
 
-      {/* What clients say (§7.9) — shown without attribution until the client
-          supplies a name to publish (fix 3). Flip SHOW_TESTIMONIAL to hide. */}
-      {SHOW_TESTIMONIAL && (
-        <section className="bg-white">
-          <div className="container-kw py-20 lg:py-[120px]">
-            <h2 className="sr-only">What clients say</h2>
-            <Quote>
-              “We finally have one team that owns the plan, the ads and the operations,
-              and reports all of it against our margin.”
-            </Quote>
-          </div>
-        </section>
-      )}
-
-      {/* Result finder (§7.10) */}
-      <section className="bg-paper">
-        <div className="container-kw py-20 lg:py-[120px]">
-          <ResultFinder />
+      {/* 12 — What clients say (navy) */}
+      <section className="bg-navy-900">
+        <div className="container-kw py-20 lg:py-28">
+          <h2 className="sr-only">What clients say</h2>
+          <Quote tone="dark">
+            “We finally have one team that owns the plan, the ads and the operations,
+            and reports all of it against our margin.”
+          </Quote>
         </div>
       </section>
 
-      <CtaBand />
+      {/* 13 — Promo banner */}
+      <PromoBanner imageId="promo-home" title="See what your marketplaces could return." />
     </>
+  );
+}
+
+function CreativeTile({ id, caption, metric, h }: { id: string; caption: string; metric: string; h: string }) {
+  return (
+    <figure>
+      <div className={`relative overflow-hidden rounded-2xl ${h}`}>
+        <Img id={id} sizes="(max-width: 768px) 100vw, 50vw" className="transition-transform duration-500 hover:scale-[1.03]" />
+      </div>
+      <figcaption className="mt-3 flex items-center gap-2 text-small text-ink-muted">
+        <Chip tone="brand" className="whitespace-nowrap">{metric}</Chip>
+        <span>{caption}</span>
+      </figcaption>
+    </figure>
   );
 }

@@ -21,9 +21,9 @@ export function Quote({
   return (
     <figure className={cn(align === "center" && "mx-auto max-w-3xl text-center")}>
       <ui.Quote
-        size={40}
+        size={48}
         weight="fill"
-        className={cn("text-brand-600", align === "center" && "mx-auto")}
+        className={cn("text-gold-500", align === "center" && "mx-auto")}
         aria-hidden="true"
       />
       <blockquote

@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Logo } from "./Logo";
-import { Button } from "./Button";
+import { Logo, KMonogram } from "./Logo";
 import { NewsletterForm } from "./NewsletterForm";
 import { capabilities, channelsAll, companyNav } from "@/lib/nav";
 import { site } from "@/lib/site";
@@ -11,42 +10,76 @@ const socialWithUrls = site.social.filter((s) => s.href && s.href.length > 0);
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-white">
-      {/* Conversation + newsletter band */}
-      <div className="border-b border-line bg-paper">
-        <div className="container-kw grid gap-10 py-14 md:grid-cols-2">
+    <footer className="relative overflow-hidden bg-navy-950 text-white/70">
+      {/* outline gold K monogram, bottom-right (§5.2-14) */}
+      <KMonogram
+        color="#DBBF84"
+        className="pointer-events-none absolute -bottom-6 right-4 h-40 w-auto opacity-[0.12] md:right-12 md:h-56"
+      />
+
+      <div className="container-kw relative py-16">
+        {/* Top: logo + newsletter */}
+        <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-2">
           <div>
-            <h2 className="h-display text-2xl text-ink">Let’s start a conversation.</h2>
-            <p className="mt-2 max-w-sm text-[0.95rem] text-muted">
-              Tell us where you sell and what you want to grow. A member of our
-              team replies within one business day.
+            <Logo tone="light" />
+            <p className="mt-5 max-w-sm text-small leading-relaxed text-white/65">
+              One team for retail media, creative, operations and analytics across Amazon,
+              Walmart, Target Plus and global marketplaces.
             </p>
-            <div className="mt-5">
-              <Button href="/contact">Start a conversation</Button>
-            </div>
           </div>
           <div className="md:justify-self-end">
-            <h2 className="h-display text-2xl text-ink">
-              Get our marketplace briefing once a month.
-            </h2>
-            <p className="mt-2 max-w-sm text-[0.95rem] text-muted">
-              The marketplace changes that matter, what they mean for your brand
-              and our latest guides. Unsubscribe in one click.
+            <h2 className="h-display text-xl text-white">Get our marketplace briefing once a month.</h2>
+            <p className="mt-2 max-w-sm text-small text-white/65">
+              The marketplace changes that matter, what they mean for your brand, and our
+              latest guides. Unsubscribe in one click.
             </p>
             <div className="mt-5">
-              <NewsletterForm />
+              <NewsletterForm tone="dark" />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main footer */}
-      <div className="container-kw py-14">
-        <div className="flex flex-col gap-6 border-b border-line pb-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-            <Logo tone="dark" />
+        {/* Link columns */}
+        <div className="grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
+          <FooterCol title="Capabilities" items={capabilities} />
+          <FooterCol title="Channels" items={channelsAll} />
+          <FooterCol title="Company" items={companyNav} />
+          <div>
+            <ColTitle>Offices</ColTitle>
+            <ul className="space-y-4">
+              {site.offices.map((o) => (
+                <li key={o.label} className="flex gap-2 text-small leading-snug text-white/60">
+                  <ui.MapPin size={16} className="mt-0.5 shrink-0 text-gold-500" aria-hidden="true" />
+                  <span>
+                    <span className="font-medium text-white">
+                      {o.label}
+                      {o.note ? ` (${o.note})` : ""}
+                    </span>
+                    {o.lines.map((l) => (
+                      <span key={l} className="block">{l}</span>
+                    ))}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Contacts + social */}
+        <div className="flex flex-col gap-6 border-t border-white/10 py-8 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:gap-6">
+            <a href={site.phoneHref} className="flex items-center gap-2 font-medium text-white hover:text-gold-300">
+              <ui.Phone size={16} className="text-gold-500" aria-hidden="true" />
+              {site.phone}
+            </a>
+            <a href={`mailto:${site.email}`} className="flex items-center gap-2 text-white/80 hover:text-gold-300">
+              <ui.Email size={16} aria-hidden="true" />
+              {site.email}
+            </a>
+          </div>
+          {socialWithUrls.length > 0 && (
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted">Follow Kwontified</span>
+              <span className="text-sm text-white/55">Follow Kwontified</span>
               <div className="flex gap-1.5">
                 {socialWithUrls.map((s) => {
                   const SocialIcon = socialIcons[s.label];
@@ -57,7 +90,7 @@ export function Footer() {
                       target="_blank"
                       rel="noreferrer"
                       aria-label={s.label}
-                      className="flex h-9 w-9 items-center justify-center border border-line bg-white text-ink-700 transition hover:border-brand-600 hover:text-brand-600"
+                      className="flex h-9 w-9 items-center justify-center rounded border border-white/20 text-white/70 transition hover:border-gold-500 hover:text-gold-300"
                     >
                       {SocialIcon ? (
                         <SocialIcon size={18} weight="fill" aria-hidden="true" />
@@ -69,54 +102,16 @@ export function Footer() {
                 })}
               </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-2 text-sm md:items-end">
-            <a href={site.phoneHref} className="flex items-center gap-2 font-medium text-ink hover:text-brand-700">
-              <ui.Phone size={16} className="text-brand-600" aria-hidden="true" />
-              {site.phone}
-            </a>
-            <a href={`mailto:${site.email}`} className="flex items-center gap-2 text-brand-600 hover:text-brand-700">
-              <ui.Email size={16} aria-hidden="true" />
-              {site.email}
-            </a>
-          </div>
+          )}
         </div>
 
-        <div className="grid grid-cols-2 gap-8 py-10 md:grid-cols-4">
-          <FooterCol title="Capabilities" items={capabilities} />
-          <FooterCol title="Channels" items={channelsAll} />
-          <FooterCol title="Company" items={companyNav} />
-          <div>
-            <ColTitle>Offices</ColTitle>
-            <ul className="space-y-4">
-              {site.offices.map((o) => (
-                <li key={o.label} className="flex gap-2 text-sm leading-snug text-muted">
-                  <ui.MapPin size={16} className="mt-0.5 shrink-0 text-brand-600" aria-hidden="true" />
-                  <span>
-                    <span className="font-semibold text-ink">
-                      {o.label}
-                      {o.note ? ` (${o.note})` : ""}
-                    </span>
-                    {o.lines.map((l) => (
-                      <span key={l} className="block">
-                        {l}
-                      </span>
-                    ))}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-3 border-t border-line pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {site.year} {site.legalName}. All rights reserved.
-          </p>
+        {/* Bottom bar */}
+        <div className="flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {site.year} {site.legalName}. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-ink">Privacy</Link>
-            <Link href="/terms" className="hover:text-ink">Terms</Link>
-            <Link href="/accessibility" className="hover:text-ink">Accessibility</Link>
+            <Link href="/privacy" className="hover:text-white">Privacy</Link>
+            <Link href="/terms" className="hover:text-white">Terms</Link>
+            <Link href="/accessibility" className="hover:text-white">Accessibility</Link>
           </div>
         </div>
       </div>
@@ -125,20 +120,10 @@ export function Footer() {
 }
 
 function ColTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mb-3 text-xs font-normal text-ink">
-      {children}
-    </div>
-  );
+  return <div className="mb-3 text-[12px] font-medium uppercase tracking-[0.12em] text-gold-500">{children}</div>;
 }
 
-function FooterCol({
-  title,
-  items,
-}: {
-  title: string;
-  items: { label: string; href: string }[];
-}) {
+function FooterCol({ title, items }: { title: string; items: { label: string; href: string }[] }) {
   return (
     <div>
       <ColTitle>{title}</ColTitle>
@@ -148,13 +133,9 @@ function FooterCol({
           return (
             <li key={i.href}>
               {external ? (
-                <a href={i.href} className="text-sm text-muted hover:text-brand-700">
-                  {i.label}
-                </a>
+                <a href={i.href} className="text-sm text-white/65 hover:text-white">{i.label}</a>
               ) : (
-                <Link href={i.href} className="text-sm text-muted hover:text-brand-700">
-                  {i.label}
-                </Link>
+                <Link href={i.href} className="text-sm text-white/65 hover:text-white">{i.label}</Link>
               )}
             </li>
           );
