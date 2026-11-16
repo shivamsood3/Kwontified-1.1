@@ -5,13 +5,13 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { Button } from "./Button";
 import { Stat } from "@/components/ui/Stat";
-import { Img } from "@/components/ui/Img";
+import { IconTile } from "@/components/ui/IconTile";
 import {
   capabilities,
   channelMarketplaces,
   channelSocial,
 } from "@/lib/nav";
-import { capImage, chImage } from "@/lib/content/imageMap";
+import { capabilityIcons, channelIcons, type Icon } from "@/lib/icons";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
@@ -303,7 +303,7 @@ function MegaPanel({
             {id === "cap" ? (
               <div className="grid grid-cols-2 gap-x-8 gap-y-1">
                 {capabilities.map((c) => (
-                  <PanelLink key={c.href} item={c} thumb={`${capImage(c.href.split("/").pop() ?? "")}-a`} />
+                  <PanelLink key={c.href} item={c} icon={capabilityIcons[c.href.split("/").pop() ?? ""]} />
                 ))}
               </div>
             ) : (
@@ -312,7 +312,7 @@ function MegaPanel({
                   <PanelHeading>Marketplaces</PanelHeading>
                   <div className="grid grid-cols-2 gap-x-6 gap-y-1">
                     {channelMarketplaces.map((c) => (
-                      <PanelLink key={c.href} item={c} compact thumb={`${chImage(c.href.split("/").pop() ?? "")}-a`} />
+                      <PanelLink key={c.href} item={c} compact icon={channelIcons[c.href.split("/").pop() ?? ""]} />
                     ))}
                   </div>
                 </div>
@@ -320,7 +320,7 @@ function MegaPanel({
                   <PanelHeading>Social commerce</PanelHeading>
                   <div className="grid gap-y-1">
                     {channelSocial.map((c) => (
-                      <PanelLink key={c.href} item={c} compact thumb={`${chImage(c.href.split("/").pop() ?? "")}-a`} />
+                      <PanelLink key={c.href} item={c} compact icon={channelIcons[c.href.split("/").pop() ?? ""]} />
                     ))}
                   </div>
                 </div>
@@ -361,20 +361,15 @@ function PanelHeading({ children }: { children: React.ReactNode }) {
 function PanelLink({
   item,
   compact,
-  thumb,
+  icon,
 }: {
   item: { label: string; href: string; blurb?: string };
   compact?: boolean;
-  thumb?: string;
+  icon?: Icon;
 }) {
-  const hasThumb = thumb && !thumb.startsWith("null");
   return (
     <Link href={item.href} className="group flex items-start gap-3 rounded-xl px-3 py-2 transition hover:bg-white">
-      {hasThumb && (
-        <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-          <Img id={thumb} sizes="40px" />
-        </span>
-      )}
+      {icon && <IconTile icon={icon} />}
       <div className="min-w-0">
         <div className="text-sm font-semibold text-navy-900 group-hover:text-gold-700">{item.label}</div>
         {!compact && item.blurb && (
