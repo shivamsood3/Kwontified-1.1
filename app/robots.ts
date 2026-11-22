@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/contact/thank-you", "/api/"],
+        disallow: ["/contact/thank-you", "/client-sign-in", "/api/", "/_kq/"],
       },
       {
         // Explicitly welcome AI / answer-engine crawlers (AEO / GEO).

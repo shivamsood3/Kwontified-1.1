@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
 /**
- * Receives marketplace-review requests from /contact.
+ * Receives marketplace-review requests from /contact (sent by the form hook
+ * that scripts/build-site.mjs adds to every page; the design's own handler then
+ * shows the Thank-you page).
  * The submission is logged server-side and, if CONTACT_WEBHOOK_URL is set
  * (e.g. a Slack/CRM/email webhook or Formspree endpoint), forwarded there —
  * so the form "goes somewhere" without hard-coding a provider.
@@ -14,7 +16,11 @@ export async function POST(req: Request) {
       data = await req.json();
     } else {
       const form = await req.formData();
-      data = Object.fromEntries(form.entries());
+      // repeated fields (the "channels" checkboxes) keep every value, not just the last
+      for (const key of new Set(form.keys())) {
+        const values = form.getAll(key).map(String);
+        data[key] = values.length > 1 ? values : values[0];
+      }
     }
   } catch {
     return NextResponse.json({ ok: false, error: "invalid payload" }, { status: 400 });
