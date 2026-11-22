@@ -100,7 +100,7 @@ export const capabilitiesContent: Capability[] = [
   },
   {
     slug: "ai-commerce",
-    name: "AI Commerce",
+    name: "Agentic Commerce",
     h1: "Be the answer when shoppers ask AI.",
     intro:
       "Shoppers increasingly ask Amazon Rufus, ChatGPT, Gemini and Claude what to buy. We structure product data and content so your brand is the one these assistants can read, trust and recommend.",

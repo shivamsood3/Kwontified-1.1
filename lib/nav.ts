@@ -27,7 +27,7 @@ export const capabilities: NavItem[] = [
     blurb: "Forecasts a CFO can plan against.",
   },
   {
-    label: "AI Commerce",
+    label: "Agentic Commerce",
     href: "/capabilities/ai-commerce",
     blurb: "Be the answer when shoppers ask AI.",
   },
