@@ -72,5 +72,5 @@ export const companyNav: NavItem[] = [
   { label: "Perspectives", href: "/perspectives" },
   { label: "Careers", href: "/about/careers" },
   { label: "Contact", href: "/contact" },
-  { label: "Client sign-in", href: "https://clients.kwontified.com/sign-in" },
+  { label: "Client sign-in", href: "/client-sign-in" },
 ];

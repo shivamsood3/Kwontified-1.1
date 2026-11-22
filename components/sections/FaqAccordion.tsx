@@ -11,13 +11,19 @@ const faqs = [
   { q: "How do we start?", a: "Request a marketplace review. We reply within one business day with a first read on where the growth is, then scope a plan with you." },
 ];
 
-export function FaqAccordion() {
+export function FaqAccordion({
+  items = faqs,
+  heading = "Questions executives ask",
+}: {
+  items?: { q: string; a: string }[];
+  heading?: string;
+} = {}) {
   return (
     <div className="grid gap-10 lg:grid-cols-[0.6fr_1.4fr]">
-      <JsonLd data={faqLd(faqs.map((f) => ({ q: f.q, a: f.a })))} />
-      <h2 className="h-display text-h2 text-navy-900">Questions executives ask</h2>
+      <JsonLd data={faqLd(items.map((f) => ({ q: f.q, a: f.a })))} />
+      <h2 className="h-display text-h2 text-navy-900">{heading}</h2>
       <div className="space-y-3">
-        {faqs.map((f) => (
+        {items.map((f) => (
           <details key={f.q} className="group rounded-md bg-cream-50 px-5 shadow-card">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[17px] font-medium text-navy-900">
               {f.q}

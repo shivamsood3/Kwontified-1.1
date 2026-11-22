@@ -1,69 +1,55 @@
 import type { Metadata } from "next";
 import { InnerHero } from "@/components/blocks/InnerHero";
 import { FeatureSplit } from "@/components/blocks/FeatureSplit";
-import { ImageCard } from "@/components/blocks/ImageCard";
+import { FaqAccordion } from "@/components/sections/FaqAccordion";
+import { PerspectivesExplorer } from "@/components/sections/PerspectivesExplorer";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
-import { perspectivePosts } from "@/lib/content/perspectivePosts";
+import { featuredArticle, perspectiveFaqs, articleImage } from "@/lib/content/perspectives";
 
 export const metadata: Metadata = {
-  title: "Perspectives",
+  title: "Perspectives: Marketplace Insights",
   description:
-    "What we learn running marketplaces for premium brands — written by the people doing the work, and dated so you know it is current.",
+    "What we learn running marketplaces for premium brands, written by the people doing the work and dated so you know it is current. Articles, news, white papers and press releases.",
   alternates: { canonical: "/perspectives" },
 };
 
-const postImage: Record<string, string> = {
-  "rufus-listing-signals": "post-rufus",
-  "conversion-8-to-12": "post-conversion",
-  "vendor-central-chargebacks": "post-chargebacks",
-};
-
 export default function PerspectivesPage() {
+  const f = featuredArticle;
   return (
     <>
       <InnerHero
         eyebrow="Perspectives"
         title="What we’re seeing in the market."
-        intro="What we learn running marketplaces for premium brands, written by the people doing the work and dated so you know it is current."
+        intro="What we learn running marketplaces for premium brands, written by the people doing the work and dated so you know it is current. You’ll find articles on how we run marketplaces, news on platform changes, white papers built on our own data, and press releases."
         crumbs={[{ label: "Home", href: "/" }, { label: "Perspectives" }]}
         imageId="persp12-hero"
       />
 
-      {/* Featured article split (cream) */}
+      {/* Featured article (cream) */}
       <section className="bg-cream-50">
         <div className="container-kw py-20">
           <FeatureSplit
-            eyebrow="This month’s featured article · Priyanka Shah"
-            title="Is your Amazon DSP spend incremental?"
-            imageId="post-dsp"
-            cta={{ href: "/perspectives/amazon-dsp-incrementality", label: "Read the guide" }}
+            eyebrow={`Featured · ${f.topic} · ${f.author}`}
+            title={f.title}
+            imageId={articleImage(f.slug)}
+            cta={{ href: `/perspectives/${f.slug}`, label: "Read the article" }}
           >
-            <p>
-              Attributed ROAS shows what DSP touched. Lift studies and AMC path analysis show
-              what it caused — the test design we use before scaling a DSP budget.
-            </p>
+            <p>{f.dek}</p>
           </FeatureSplit>
         </div>
       </section>
 
-      {/* Latest posts (white) */}
+      {/* Explorer: search + filters + articles + news + press (white) */}
       <section className="bg-white">
         <div className="container-kw py-20">
-          <h2 className="h-display text-h2 text-navy-900">Latest</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {perspectivePosts.map((p) => (
-              <ImageCard
-                key={p.slug}
-                href={`/perspectives/${p.slug}`}
-                imageId={postImage[p.slug] ?? "post-rufus"}
-                ratio="4/3"
-                chip={p.topic}
-                title={p.title}
-                excerpt={p.dek}
-                cta="Read"
-              />
-            ))}
-          </div>
+          <PerspectivesExplorer />
+        </div>
+      </section>
+
+      {/* FAQ (cream) */}
+      <section className="bg-cream-50">
+        <div className="container-kw py-20">
+          <FaqAccordion items={perspectiveFaqs} heading="Questions readers ask" />
         </div>
       </section>
 

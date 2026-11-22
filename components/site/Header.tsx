@@ -12,7 +12,6 @@ import {
   channelSocial,
 } from "@/lib/nav";
 import { capabilityIcons, channelIcons, type Icon } from "@/lib/icons";
-import { site } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 type MenuId = "cap" | "chan";
@@ -167,12 +166,12 @@ export function Header() {
             <SearchIcon />
             Search
           </button>
-          <a
-            href={site.clientSignInUrl}
+          <Link
+            href="/client-sign-in"
             className="text-sm font-medium text-white/85 transition hover:text-white"
           >
             Client sign-in
-          </a>
+          </Link>
           <Button href="/contact" size="md">Request a review</Button>
         </div>
 
@@ -212,7 +211,7 @@ export function Header() {
               <Link href="/perspectives" onClick={() => setMobile(false)}>Perspectives</Link>
               <Link href="/about" onClick={() => setMobile(false)}>About</Link>
               <button type="button" onClick={() => { setMobile(false); setSearch(true); }} className="text-left">Search</button>
-              <a href={site.clientSignInUrl}>Client sign-in</a>
+              <Link href="/client-sign-in" onClick={() => setMobile(false)}>Client sign-in</Link>
             </div>
             <Button href="/contact" size="lg" className="w-full">Request a review</Button>
           </div>

@@ -56,9 +56,9 @@ const creative = [
 ];
 
 const posts = [
-  { img: "home12-post-1", meta: "Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026", title: "What Prime Big Deal Days 2026 actually added for brands" },
-  { img: "home12-post-2", meta: "Operations. All channels. Elaine Kwon. Oct 29, 2026", title: "Unauthorized resellers and the distribution decisions behind them" },
-  { img: "home12-post-3", meta: "Retail media. Amazon. Jordan Taylor. Oct 28, 2026", title: "Amazon ad benchmarks, Q3 2026: cheaper clicks, weaker conversion" },
+  { slug: "prime-big-deal-days-what-it-added", img: "art-prime-big-deal-days-what-it-added", meta: "Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026", title: "What Prime Big Deal Days 2026 actually added for brands" },
+  { slug: "unauthorized-resellers-distribution-decisions", img: "art-unauthorized-resellers-distribution-decisions", meta: "Operations. All channels. Elaine Kwon. Oct 29, 2026", title: "Unauthorized resellers and the distribution decisions behind them" },
+  { slug: "amazon-ad-benchmarks-cheaper-clicks", img: "art-amazon-ad-benchmarks-cheaper-clicks", meta: "Retail media. Amazon. Jordan Taylor. Oct 28, 2026", title: "Amazon ad benchmarks, Q3 2026: cheaper clicks, weaker conversion" },
 ];
 
 const testimonials = [
@@ -256,9 +256,9 @@ export default function HomePage() {
             <Link href="/perspectives" className="learn-more">All Perspectives <Arrow /></Link>
           </div>
           <div className="mt-10 grid gap-12 lg:grid-cols-2">
-            <Link href="/perspectives" className="group block">
+            <Link href="/perspectives/holiday-2026-season-starts-in-october" className="group block">
               <div className="relative aspect-[16/10] w-full overflow-hidden">
-                <Img id="home12-featured" sizes="(max-width:1024px) 100vw, 50vw" className="transition-transform duration-500 group-hover:scale-[1.02]" />
+                <Img id="art-holiday-2026-season-starts-in-october" sizes="(max-width:1024px) 100vw, 50vw" className="transition-transform duration-500 group-hover:scale-[1.02]" />
               </div>
               <p className="mt-4 text-caption text-ink-muted">Event playbooks. All channels. Elaine Kwon. Nov 5, 2026</p>
               <h3 className="h-display mt-2 text-[28px] leading-tight text-navy-900 group-hover:text-gold-700">Holiday 2026: the season now starts in October</h3>
@@ -266,7 +266,7 @@ export default function HomePage() {
             </Link>
             <div className="flex flex-col divide-y divide-sand-300 border-t border-sand-300">
               {posts.map((p) => (
-                <Link key={p.title} href="/perspectives" className="group flex gap-5 py-5 first:pt-6">
+                <Link key={p.title} href={`/perspectives/${p.slug}`} className="group flex gap-5 py-5 first:pt-6">
                   <div className="relative h-20 w-24 shrink-0 overflow-hidden">
                     <Img id={p.img} sizes="96px" />
                   </div>
