@@ -11,15 +11,14 @@ import { serviceLd } from "@/lib/seo";
 import { capabilitiesContent, getCapability } from "@/lib/content/capabilities";
 
 // v1.2 — exact Figma hero photo + the shared pillar composite per capability.
-// retail/creative/analytics use their exact Figma hero photo; the other three
-// temporarily reuse their pillar composite until the exact heroes are exported.
+// Each capability's exact Figma hero photo.
 const capHero: Record<string, string> = {
   "retail-media": "cap12-retail-hero",
   "creative-studio": "cap12-creative-hero",
-  "marketplace-operations": "home12-pillar-run",
+  "marketplace-operations": "cap12-ops-hero",
   analytics: "cap12-analytics-hero",
-  "ai-commerce": "home12-pillar-found",
-  "revenue-recovery": "home12-pillar-recovered",
+  "ai-commerce": "cap12-agentic-hero",
+  "revenue-recovery": "cap12-revenue-hero",
 };
 const capPillar: Record<string, string> = {
   "retail-media": "home12-pillar-measured",
