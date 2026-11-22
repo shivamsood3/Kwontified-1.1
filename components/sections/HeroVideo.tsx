@@ -67,7 +67,9 @@ export function HeroVideo({ className }: { className?: string }) {
         className="h-full w-full object-cover"
         aria-label="A navy sweater's journey from a shopper's order through packing, shipping and delivery to a finalised sale on the Kwontified dashboard."
       >
+        <source src="/videos/hero-desktop.webm" media="(min-width: 768px)" type="video/webm" />
         <source src="/videos/hero-desktop.mp4" media="(min-width: 768px)" type="video/mp4" />
+        <source src="/videos/hero-mobile.webm" type="video/webm" />
         <source src="/videos/hero-mobile.mp4" type="video/mp4" />
       </video>
 
