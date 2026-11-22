@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { FeatureSplit } from "@/components/blocks/FeatureSplit";
 import { ImageCard } from "@/components/blocks/ImageCard";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
@@ -21,12 +21,12 @@ const postImage: Record<string, string> = {
 export default function PerspectivesPage() {
   return (
     <>
-      <CollageHero
+      <InnerHero
         eyebrow="Perspectives"
         title="What we’re seeing in the market."
         intro="What we learn running marketplaces for premium brands, written by the people doing the work and dated so you know it is current."
         crumbs={[{ label: "Home", href: "/" }, { label: "Perspectives" }]}
-        ids={["persp-a", "persp-b", "persp-c"]}
+        imageId="persp12-hero"
       />
 
       {/* Featured article split (cream) */}

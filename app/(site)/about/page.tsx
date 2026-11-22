@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { MoodBand } from "@/components/blocks/MoodBand";
 import { ImageCard } from "@/components/blocks/ImageCard";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
@@ -25,12 +25,12 @@ const caseCards = [
 export default function AboutPage() {
   return (
     <>
-      <CollageHero
+      <InnerHero
         eyebrow="About"
         title="Built by marketplace operators."
         intro="Every member of our leadership team has managed marketplace businesses firsthand — across platforms, countries and stages of growth."
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
-        ids={["about-a", "about-b", "about-c", "about-d"]}
+        imageId="about12-hero" cta={{ href: "/contact", label: "Request a marketplace review" }}
       />
 
       {/* Our mission (cream) */}

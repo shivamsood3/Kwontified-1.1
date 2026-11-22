@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { WorkGrid } from "@/components/sections/WorkGrid";
 import { Quote } from "@/components/ui/Quote";
@@ -16,12 +16,12 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <>
-      <CollageHero
+      <InnerHero
         eyebrow="Work"
         title="Results, with the numbers."
         intro="Engagements across Amazon, Walmart and Target Plus — each with its starting point, what we did, and the outcome."
         crumbs={[{ label: "Home", href: "/" }, { label: "Work" }]}
-        ids={["case-tula", "case-kipling", "case-alex", "case-amazon-dsp"]}
+        imageId="work12-hero" cta={{ href: "/contact", label: "Request a marketplace review" }}
       />
 
       <section className="bg-cream-50">

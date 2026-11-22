@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { MoodBand } from "@/components/blocks/MoodBand";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { Button } from "@/components/site/Button";
@@ -21,12 +21,12 @@ const traits = [
 export default function CareersPage() {
   return (
     <>
-      <CollageHero
+      <InnerHero
         eyebrow="About · Careers"
         title="Work on brands people know."
         intro="You will design Amazon advertising programs, build catalog structures for prestige brands and work on AI commerce for assistants such as Rufus — alongside credentialed specialists."
         crumbs={[{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "Careers" }]}
-        ids={["careers-a", "careers-b", "careers-c"]}
+        imageId="careers12-hero" cta={{ href: "/contact", label: "Request a marketplace review" }}
       />
 
       {/* Open roles / empty state (cream) */}

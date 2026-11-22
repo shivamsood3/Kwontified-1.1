@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DiptychHero } from "@/components/blocks/DiptychHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { ui } from "@/lib/icons";
 import { site } from "@/lib/site";
@@ -19,12 +19,11 @@ const next = [
 export default function ContactPage() {
   return (
     <>
-      <DiptychHero
+      <InnerHero
         eyebrow="Contact"
         title="Request a marketplace review."
         intro="Tell us where you sell and what you want to grow. A member of our team reviews every request and replies within one business day."
-        leftId="contact-a"
-        rightId="contact-b"
+        imageId="contact12-hero"
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 

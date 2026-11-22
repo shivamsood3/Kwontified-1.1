@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { InitialsTile } from "@/components/ui/InitialsTile";
 import { leaders } from "@/lib/content/leadership";
@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 export default function LeadershipPage() {
   return (
     <>
-      <CollageHero
+      <InnerHero
         eyebrow="About · Leadership"
         title="The team that runs Kwontified."
         intro="Each member of the team has run marketplace businesses firsthand — inside Amazon, as a brand owner or as an agency operator."
         crumbs={[{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "Leadership" }]}
-        ids={["about-b", "about-d", "why-a"]}
+        imageId="leadership12-hero"
       />
 
       <section className="bg-cream-50">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { FeatureSplit } from "@/components/blocks/FeatureSplit";
 import { MoodBand } from "@/components/blocks/MoodBand";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
@@ -41,12 +41,12 @@ export default function WhyKwontifiedPage() {
         ]}
       />
 
-      <CollageHero
+      <InnerHero
         eyebrow="Why Kwontified"
         title="Why brands choose Kwontified."
         intro="Operators who have run marketplace businesses, working from your data, holding your account to the standard your brand holds itself to."
         crumbs={[{ label: "Home", href: "/" }, { label: "Why Kwontified" }]}
-        ids={["why-a", "why-b", "why-c"]}
+        imageId="why12-hero" cta={{ href: "/contact", label: "Request a marketplace review" }}
       />
 
       {/* Built by operators (navy) */}
