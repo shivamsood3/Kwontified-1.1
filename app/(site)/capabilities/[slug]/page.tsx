@@ -1,16 +1,34 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { DiptychHero } from "@/components/blocks/DiptychHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { StatRow } from "@/components/blocks/StatRow";
 import { CheckList } from "@/components/blocks/CheckList";
 import { FeatureSplit } from "@/components/blocks/FeatureSplit";
 import { ImageCard } from "@/components/blocks/ImageCard";
 import { DeviceFrame } from "@/components/blocks/DeviceFrame";
-import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { serviceLd } from "@/lib/seo";
-import { capImage } from "@/lib/content/imageMap";
 import { capabilitiesContent, getCapability } from "@/lib/content/capabilities";
+
+// v1.2 — exact Figma hero photo + the shared pillar composite per capability.
+// retail/creative/analytics use their exact Figma hero photo; the other three
+// temporarily reuse their pillar composite until the exact heroes are exported.
+const capHero: Record<string, string> = {
+  "retail-media": "cap12-retail-hero",
+  "creative-studio": "cap12-creative-hero",
+  "marketplace-operations": "home12-pillar-run",
+  analytics: "cap12-analytics-hero",
+  "ai-commerce": "home12-pillar-found",
+  "revenue-recovery": "home12-pillar-recovered",
+};
+const capPillar: Record<string, string> = {
+  "retail-media": "home12-pillar-measured",
+  "creative-studio": "home12-pillar-made",
+  "marketplace-operations": "home12-pillar-run",
+  analytics: "home12-pillar-reported",
+  "ai-commerce": "home12-pillar-found",
+  "revenue-recovery": "home12-pillar-recovered",
+};
 
 export function generateStaticParams() {
   return capabilitiesContent.map((c) => ({ slug: c.slug }));
@@ -37,7 +55,6 @@ export default async function CapabilityPage({ params }: { params: Promise<{ slu
   const c = getCapability(slug);
   if (!c) notFound();
 
-  const stem = capImage(c.slug) ?? "cap-retail-media";
   const others = capabilitiesContent.filter((x) => x.slug !== c.slug);
   const caseSlug = c.caseStudy.href.split("/").pop() ?? "";
   const caseImg = caseImageFor[caseSlug] ?? "case-amazon-dsp";
@@ -46,14 +63,13 @@ export default async function CapabilityPage({ params }: { params: Promise<{ slu
     <>
       <JsonLd data={serviceLd({ name: c.name, description: c.intro, path: `/capabilities/${c.slug}` })} />
 
-      <DiptychHero
+      <InnerHero
         eyebrow="Capability"
         title={c.h1}
         intro={c.intro}
-        leftId={`${stem}-a`}
-        rightId={`${stem}-b`}
+        imageId={capHero[c.slug] ?? "cap12-retail-hero"}
         crumbs={[{ label: "Home", href: "/" }, { label: "Capabilities", href: "/capabilities" }, { label: c.name }]}
-        primary={{ href: "/contact", label: "Request a marketplace review" }}
+        cta={{ href: "/contact", label: "Request a marketplace review" }}
       />
 
       {/* Stat row — navy */}
@@ -86,7 +102,7 @@ export default async function CapabilityPage({ params }: { params: Promise<{ slu
             reverse
             eyebrow="How it connects"
             title="One plan the whole team reads."
-            imageId={`${stem}-c`}
+            imageId={capPillar[c.slug] ?? "home12-pillar-measured"}
             cta={{ href: "/why-kwontified", label: "Why one team wins" }}
           >
             <p>
@@ -123,25 +139,20 @@ export default async function CapabilityPage({ params }: { params: Promise<{ slu
         <div className="container-kw py-20">
           <h2 className="h-display text-h2 text-navy-900">The other capabilities</h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {others.map((o) => {
-              const oStem = capImage(o.slug) ?? "cap-retail-media";
-              return (
-                <ImageCard
-                  key={o.slug}
-                  href={`/capabilities/${o.slug}`}
-                  imageId={`${oStem}-b`}
-                  ratio="4/3"
-                  chip={o.metric.value}
-                  title={o.name}
-                  excerpt={o.metric.label}
-                />
-              );
-            })}
+            {others.map((o) => (
+              <ImageCard
+                key={o.slug}
+                href={`/capabilities/${o.slug}`}
+                imageId={capPillar[o.slug] ?? "home12-pillar-measured"}
+                ratio="4/3"
+                chip={o.metric.value}
+                title={o.name}
+                excerpt={o.metric.label}
+              />
+            ))}
           </div>
         </div>
       </section>
-
-      <PromoBanner imageId="promo-capabilities" />
     </>
   );
 }
