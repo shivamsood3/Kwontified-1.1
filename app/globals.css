@@ -2,56 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Navy — dark bands, headings */
-  --navy-950: #0e1a30;
-  --navy-900: #172442;
-  --navy-800: #22335a;
-  --navy-700: #34466f;
+/* v1.2 — Neue Haas Grotesk Display Pro, self-hosted. Drop the licensed woff2
+   files into /public/fonts with these names and they take effect; until then
+   the browser falls back to Inter (loaded via next/font) in the stack below. */
+/* 300 maps to Roman (no Light weight was supplied). */
+@font-face {
+  font-family: "NeueHaasDisplay";
+  src: url("/fonts/NeueHaasDisplay-Roman.woff2") format("woff2"),
+    url("/fonts/NeueHaasDisplay-Roman.woff") format("woff");
+  font-weight: 300 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NeueHaasDisplay";
+  src: url("/fonts/NeueHaasDisplay-Medium.woff2") format("woff2"),
+    url("/fonts/NeueHaasDisplay-Medium.woff") format("woff");
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NeueHaasDisplay";
+  src: url("/fonts/NeueHaasDisplay-Bold.woff2") format("woff2"),
+    url("/fonts/NeueHaasDisplay-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-  /* Gold — the accent */
+:root {
+  /* Navy — hero and dark sections */
+  --navy-950: #0a1c36;
+  --navy-900: #102a4c;
+  --navy-800: #1b3a63;
+  --navy-700: #2d4e7d;
+
+  /* Cool blue-grey bands (v1.2) */
+  --sky-50: #e9eef4;
+  --sky-100: #e1e9f1;
+  --sky-200: #c9d4df;
+
+  /* Gold accent */
   --gold-300: #e7d2a3;
-  --gold-500: #dbbf84;
+  --gold-500: #dcbf85;
   --gold-600: #c9a55e;
-  --gold-700: #7a5c24;
+  --gold-700: #775812;
 
   /* Warm neutrals */
   --white: #ffffff;
-  --cream-50: #faf8f3;
-  --cream-100: #f4ede0;
-  --sand-200: #e9dfcb;
-  --sand-300: #d8c8a8;
+  --cream-50: #fdfcfa;
+  --cream-100: #f8f6f1;
+  --cream-200: #efeae2;
+  --sand-300: #ddd3c2;
 
   /* Text */
-  --ink: #1c1b19;
-  --ink-muted: #5f5a50;
+  --ink: #262524;
+  --ink-muted: #626366;
   --ink-faint: #9a958b;
 
+  /* Brand blue — monogram slash only */
+  --slash: #00618d;
+
   /* Semantic */
-  --bg: var(--cream-50);
-  --bg-dark: var(--navy-900);
+  --bg: var(--cream-100);
   --text: var(--ink);
-  --text-muted: var(--ink-muted);
-  --text-on-dark: var(--white);
-  --text-on-dark-muted: rgba(255, 255, 255, 0.72);
-  --accent-on-dark: var(--gold-500);
-  --link: var(--navy-900);
+  --link: var(--ink);
   --link-hover: var(--gold-700);
   --border: var(--sand-300);
   --focus: var(--gold-500);
 
-  --radius-img: 16px;
-  --radius-btn: 8px;
-  --radius-pill: 999px;
+  --radius-img: 2px;
+  --radius-btn: 999px;
 
-  /* Type — Manrope (self-hosted via next/font) */
-  --font-sans: var(--font-manrope), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Type — Neue Haas Grotesk Display Pro, Inter fallback */
+  --font-sans: "NeueHaasDisplay", var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: var(--font-sans);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
-
-  --background: var(--cream-50);
+  --background: var(--cream-100);
   --foreground: var(--ink);
 }
 
@@ -65,17 +94,18 @@
     color: var(--foreground);
     background: var(--background);
     font-family: var(--font-sans);
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  /* v1.2 headings are light/regular weight, tightly tracked. */
   h1,
   h2,
   h3,
   h4 {
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-weight: 400;
+    letter-spacing: -0.015em;
     color: var(--navy-900);
     text-wrap: balance;
   }
@@ -98,40 +128,31 @@
     color: inherit;
   }
   :focus-visible {
-    outline: 3px solid var(--focus);
+    outline: 2px solid var(--focus);
     outline-offset: 3px;
   }
 }
 
 @layer components {
-  /* Container: 1312px, gutters 64 / 32 / 16 */
   .container-kw {
     @apply mx-auto w-full max-w-container px-4 md:px-8 xl:px-16;
   }
-  /* Eyebrow (§2.2): a 32px × 1px rule, then UPPERCASE 12px tracked label. */
+  /* Eyebrow: small gold uppercase label. */
   .eyebrow {
-    @apply inline-flex items-center gap-3 text-[12px] font-medium uppercase tracking-eyebrow text-[color:var(--gold-700)];
-  }
-  .eyebrow::before {
-    content: "";
-    @apply inline-block h-px w-8 bg-[color:var(--sand-300)];
+    @apply text-[13px] font-medium uppercase tracking-[0.1em] text-[color:var(--gold-700)];
   }
   .eyebrow-light {
-    @apply inline-flex items-center gap-3 text-[12px] font-medium uppercase tracking-eyebrow text-[color:var(--gold-500)];
-  }
-  .eyebrow-light::before {
-    content: "";
-    @apply inline-block h-px w-8 bg-[color:var(--gold-500)];
+    @apply text-[13px] font-medium uppercase tracking-[0.1em] text-[color:var(--gold-500)];
   }
   .h-display {
-    @apply font-display font-medium tracking-tightish;
+    @apply font-display font-normal tracking-tightish;
   }
   .link-underline {
-    @apply relative inline-flex items-center gap-1 font-medium text-navy-900 underline decoration-[0.07em] underline-offset-[0.2em] transition hover:text-gold-700;
+    @apply relative inline-flex items-center gap-1 font-medium text-navy-900 underline decoration-[0.06em] underline-offset-[0.22em] transition hover:text-gold-700;
   }
-  /* UPPERCASE card link "LEARN MORE →" (§2.2). */
+  /* Inline "Read more →" text link (v1.2 uses sentence case, underlined). */
   .learn-more {
-    @apply inline-flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-[0.12em] text-navy-900 transition hover:text-gold-700;
+    @apply inline-flex items-center gap-1.5 text-[15px] font-medium text-navy-900 underline decoration-[0.06em] underline-offset-[0.22em] transition hover:text-gold-700;
   }
   .prose-kw p {
     @apply text-body leading-relaxed text-ink-muted;
@@ -147,68 +168,4 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* §4.8 — logo marquee */
-@keyframes marquee-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-@keyframes marquee-right {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
-}
-.marquee {
-  overflow: hidden;
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-left 40s linear infinite;
-}
-.marquee-track.rev {
-  animation-name: marquee-right;
-}
-.marquee:hover .marquee-track,
-.marquee-track.paused {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    width: auto;
-    justify-content: center;
-  }
-}
-
-/* §7.2 — hero carousel tab progress bar */
-@keyframes hero-progress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-.hero-progress-fill {
-  transform-origin: left center;
-  animation: hero-progress 5s linear forwards;
-}
-.hero-progress-fill.paused {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-progress-fill {
-    animation: none;
-    transform: scaleX(1);
-  }
-}
-
-/* Faint icon-pattern texture behind dark/brand blocks (white-on-dark only) */
-.bg-ecom-dark {
-  background-image: url("/brand/pattern-dark.jpg");
-  background-size: cover;
-  background-position: center;
-}
-.bg-ecom-blue {
-  background-image: url("/brand/pattern-blue.jpg");
-  background-size: cover;
-  background-position: center;
 }

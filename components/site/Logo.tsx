@@ -17,8 +17,8 @@ export function Logo({
   /** @deprecated the mark is a single wordmark asset */
   withWordmark?: boolean;
 }) {
-  const ink = tone === "light" ? "#ffffff" : "#172442";
-  const slash = tone === "light" ? "#ffffff" : "#DBBF84";
+  const ink = tone === "light" ? "#ffffff" : "#102A4C";
+  const slash = "#00618D";
   return (
     <Link
       href={href}

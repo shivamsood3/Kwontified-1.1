@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationLd, websiteLd } from "@/lib/seo";
 
-// §2.2 — Manrope across the whole site.
-const manrope = Manrope({
+// v1.2 — Neue Haas Grotesk Display Pro (self-hosted via @font-face in
+// globals.css once the licensed woff2 files are added to /public/fonts).
+// Inter is the live fallback until then; both share the --font-sans stack.
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-inter",
 });
 
 const siteUrl = "https://kwontified.com";
@@ -82,7 +84,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={manrope.variable}>
+    <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-cream-50 text-ink antialiased">
         <JsonLd data={[organizationLd(), websiteLd()]} />
         {children}

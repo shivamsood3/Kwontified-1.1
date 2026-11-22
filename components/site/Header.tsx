@@ -40,6 +40,7 @@ export function Header() {
   const [open, setOpen] = useState<MenuId | null>(null);
   const [mobile, setMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [search, setSearch] = useState(false);
 
   const headerRef = useRef<HTMLElement>(null);
   const triggerRefs = useRef<Record<MenuId, HTMLButtonElement | null>>({ cap: null, chan: null });
@@ -118,19 +119,17 @@ export function Header() {
     <header
       ref={headerRef}
       className={cn(
-        "sticky top-0 z-50 border-b bg-white/90 backdrop-blur transition-[border-color,box-shadow] supports-[backdrop-filter]:bg-white/80",
-        scrolled || open
-          ? "border-line shadow-[0_1px_0_rgba(38,37,36,0.04),0_8px_24px_-16px_rgba(38,37,36,0.25)]"
-          : "border-transparent",
+        "sticky top-0 z-50 border-b border-white/10 bg-navy-900 transition-shadow",
+        scrolled || open ? "shadow-[0_8px_24px_-16px_rgba(0,0,0,0.6)]" : "",
       )}
     >
       <div
         className={cn(
           "container-kw flex items-center justify-between gap-6 transition-[height] duration-200",
-          scrolled ? "h-14" : "h-16",
+          scrolled ? "h-16" : "h-20",
         )}
       >
-        <Logo tone="dark" />
+        <Logo tone="light" />
 
         {/* Desktop nav */}
         <nav className="hidden h-full items-stretch lg:flex" aria-label="Primary">
@@ -160,19 +159,27 @@ export function Header() {
 
         {/* Right actions */}
         <div className="hidden items-center gap-5 lg:flex">
+          <button
+            type="button"
+            onClick={() => setSearch(true)}
+            className="inline-flex items-center gap-2 text-sm font-medium text-white/85 transition hover:text-white"
+          >
+            <SearchIcon />
+            Search
+          </button>
           <a
             href={site.clientSignInUrl}
-            className="text-sm font-medium text-ink transition hover:text-gold-700"
+            className="text-sm font-medium text-white/85 transition hover:text-white"
           >
             Client sign-in
           </a>
-          <Button href="/contact" size="md">Let’s talk</Button>
+          <Button href="/contact" size="md">Request a review</Button>
         </div>
 
         {/* Mobile toggle */}
         <button
           type="button"
-          className="lg:hidden"
+          className="text-white lg:hidden"
           aria-label="Open menu"
           aria-expanded={mobile}
           onClick={() => setMobile((v) => !v)}
@@ -204,13 +211,77 @@ export function Header() {
               <Link href="/why-kwontified" onClick={() => setMobile(false)}>Why Kwontified</Link>
               <Link href="/perspectives" onClick={() => setMobile(false)}>Perspectives</Link>
               <Link href="/about" onClick={() => setMobile(false)}>About</Link>
+              <button type="button" onClick={() => { setMobile(false); setSearch(true); }} className="text-left">Search</button>
               <a href={site.clientSignInUrl}>Client sign-in</a>
             </div>
-            <Button href="/contact" size="lg" className="w-full">Let’s talk</Button>
+            <Button href="/contact" size="lg" className="w-full">Request a review</Button>
           </div>
         </div>
       )}
+
+      {search && <SearchModal onClose={() => setSearch(false)} />}
     </header>
+  );
+}
+
+const searchIndex: { label: string; href: string; group: string }[] = [
+  { label: "Work", href: "/work", group: "Pages" },
+  { label: "Why Kwontified", href: "/why-kwontified", group: "Pages" },
+  { label: "Perspectives", href: "/perspectives", group: "Pages" },
+  { label: "About", href: "/about", group: "Pages" },
+  { label: "Leadership", href: "/about/leadership", group: "Pages" },
+  { label: "Careers", href: "/about/careers", group: "Pages" },
+  { label: "Contact", href: "/contact", group: "Pages" },
+  ...capabilities.map((c) => ({ label: c.label, href: c.href, group: "Capabilities" })),
+  ...[...channelMarketplaces, ...channelSocial].map((c) => ({ label: c.label, href: c.href, group: "Channels" })),
+];
+
+function SearchModal({ onClose }: { onClose: () => void }) {
+  const [q, setQ] = useState("");
+  const results = q.trim()
+    ? searchIndex.filter((i) => i.label.toLowerCase().includes(q.trim().toLowerCase()))
+    : searchIndex;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  return (
+    <div className="fixed inset-0 z-[60] flex items-start justify-center bg-navy-950/60 px-4 pt-24" onClick={onClose}>
+      <div className="w-full max-w-xl overflow-hidden rounded-lg bg-white shadow-pop" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-3 border-b border-sand-300 px-4">
+          <SearchIcon dark />
+          <input
+            autoFocus
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search capabilities, channels and pages…"
+            className="h-14 flex-1 bg-transparent text-navy-900 outline-none placeholder:text-ink-faint"
+          />
+          <kbd className="rounded bg-cream-100 px-1.5 py-0.5 text-[11px] text-ink-muted">Esc</kbd>
+        </div>
+        <ul className="max-h-[50vh] overflow-y-auto py-2">
+          {results.length === 0 && <li className="px-4 py-3 text-sm text-ink-muted">No matches.</li>}
+          {results.map((r) => (
+            <li key={r.href + r.label}>
+              <Link href={r.href} onClick={onClose} className="flex items-center justify-between px-4 py-2.5 hover:bg-cream-100">
+                <span className="text-sm font-medium text-navy-900">{r.label}</span>
+                <span className="text-[12px] uppercase tracking-[0.1em] text-ink-faint">{r.group}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function SearchIcon({ dark }: { dark?: boolean }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className={dark ? "text-ink-muted" : ""}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="M21 21l-4.3-4.3" />
+    </svg>
   );
 }
 
@@ -249,7 +320,7 @@ function MenuItem({
         onClick={onToggle}
         className={cn(
           "flex h-full items-center gap-1 px-3 text-sm font-medium transition-colors",
-          open ? "text-brand-700" : "text-ink hover:text-brand-700",
+          open ? "text-white" : "text-white/85 hover:text-white",
         )}
       >
         {label}
@@ -272,7 +343,7 @@ function TopLink({
     <Link
       href={href}
       onPointerEnter={(e) => e.pointerType === "mouse" && onEnter?.()}
-      className="flex h-full items-center px-3 text-sm font-medium text-ink transition-colors hover:text-brand-700"
+      className="flex h-full items-center px-3 text-sm font-medium text-white/85 transition-colors hover:text-white"
     >
       {children}
     </Link>

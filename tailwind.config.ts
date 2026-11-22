@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
 
-// Round 3 (§2) — warm navy, gold and cream. Old blue is retired; the `brand`
-// and `ink` keys are remapped onto the new palette so existing utility classes
-// stay on-palette while pages migrate to the explicit navy/gold/cream tokens.
+// v1.2 — deep navy (#102A4C), cool blue-grey bands, gold, warm cream.
+// `brand`/`ink`/`paper`/`line`/`muted` aliases stay mapped so existing utility
+// classes keep working while pages migrate to the explicit navy/sky/gold tokens.
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,105 +13,111 @@ export default {
   theme: {
     borderRadius: {
       none: "0",
-      sm: "6px",
-      DEFAULT: "8px", // buttons, inputs
-      md: "10px",
-      lg: "12px",
-      xl: "16px",
-      "2xl": "16px", // images, cards, banners
-      "3xl": "24px",
-      full: "9999px",
+      sm: "2px",
+      DEFAULT: "2px", // v1.2 images/inputs are near-square
+      md: "4px",
+      lg: "6px",
+      xl: "8px",
+      "2xl": "4px",
+      "3xl": "8px",
+      full: "9999px", // pill buttons
     },
     extend: {
       colors: {
         white: "#FFFFFF",
         navy: {
-          DEFAULT: "#172442",
-          950: "#0E1A30",
-          900: "#172442",
-          800: "#22335A",
-          700: "#34466F",
+          DEFAULT: "#102A4C",
+          950: "#0A1C36",
+          900: "#102A4C",
+          800: "#1B3A63",
+          700: "#2D4E7D",
+        },
+        sky: {
+          50: "#E9EEF4",
+          100: "#E1E9F1",
+          200: "#C9D4DF",
         },
         gold: {
-          DEFAULT: "#DBBF84",
+          DEFAULT: "#DCBF85",
           300: "#E7D2A3",
-          500: "#DBBF84",
+          500: "#DCBF85",
           600: "#C9A55E",
-          700: "#7A5C24",
+          700: "#775812",
         },
         cream: {
-          DEFAULT: "#FAF8F3",
-          50: "#FAF8F3",
-          100: "#F4EDE0",
+          DEFAULT: "#F8F6F1",
+          50: "#FDFCFA",
+          100: "#F8F6F1",
+          200: "#EFEAE2",
         },
         sand: {
-          DEFAULT: "#E9DFCB",
-          200: "#E9DFCB",
-          300: "#D8C8A8",
+          DEFAULT: "#DDD3C2",
+          200: "#EFEAE2",
+          300: "#DDD3C2",
         },
-        // Text / neutrals. `ink` is text (near-black warm), not a dark section bg.
         ink: {
-          DEFAULT: "#1C1B19",
-          900: "#1C1B19",
+          DEFAULT: "#262524",
+          900: "#262524",
           800: "#3A3733",
           700: "#4A4641",
-          500: "#5F5A50",
-          muted: "#5F5A50",
+          500: "#626366",
+          muted: "#626366",
           faint: "#9A958B",
-          300: "#D8C8A8",
-          200: "#E9DFCB",
-          100: "#F4EDE0",
+          300: "#C9D4DF",
+          200: "#E1E9F1",
+          100: "#F8F6F1",
         },
-        // Legacy aliases → new palette (keep migrating classes on-palette).
+        // Legacy aliases → v1.2 palette.
         brand: {
-          50: "#F4EDE0", // cream-100
-          100: "#F4EDE0",
-          200: "#E9DFCB",
-          300: "#E7D2A3", // gold-300
-          400: "#172442",
-          500: "#172442",
-          600: "#172442", // navy-900 (links/accents on light)
-          700: "#7A5C24", // gold-700 (hover/accent text)
-          800: "#0E1A30",
-          900: "#0E1A30",
+          50: "#E9EEF4",
+          100: "#E1E9F1",
+          200: "#C9D4DF",
+          300: "#E7D2A3",
+          400: "#102A4C",
+          500: "#102A4C",
+          600: "#102A4C",
+          700: "#775812",
+          800: "#0A1C36",
+          900: "#0A1C36",
         },
-        accent: "#DBBF84", // gold-500
-        paper: "#FAF8F3", // cream-50 default page bg
-        line: "#D8C8A8", // sand-300 hairlines
-        muted: "#5F5A50", // ink-muted text
+        accent: "#DCBF85",
+        paper: "#F8F6F1",
+        line: "#DDD3C2",
+        muted: "#626366",
+        slash: "#00618D",
       },
       borderColor: {
-        DEFAULT: "#D8C8A8", // sand-300
+        DEFAULT: "#DDD3C2",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
-        display: ["var(--font-sans)"], // Manrope throughout
+        display: ["var(--font-sans)"],
       },
       fontSize: {
-        display: ["clamp(44px, 5.6vw, 80px)", { lineHeight: "1.03", letterSpacing: "-0.02em" }],
-        h1: ["clamp(34px, 3.4vw, 50px)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
-        h2: ["clamp(28px, 2.6vw, 38px)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
-        stat: ["clamp(48px, 5vw, 72px)", { lineHeight: "1.0", letterSpacing: "-0.02em" }],
-        h3: ["21px", { lineHeight: "1.3", letterSpacing: "-0.01em" }],
-        lead: ["21px", { lineHeight: "1.5" }],
-        body: ["18px", { lineHeight: "1.6" }],
-        small: ["16px", { lineHeight: "1.5" }],
+        display: ["clamp(52px, 6vw, 92px)", { lineHeight: "1.0", letterSpacing: "-0.02em" }],
+        h1: ["clamp(38px, 4.4vw, 66px)", { lineHeight: "1.04", letterSpacing: "-0.02em" }],
+        h2: ["clamp(30px, 3vw, 40px)", { lineHeight: "1.1", letterSpacing: "-0.015em" }],
+        stat: ["clamp(56px, 6vw, 92px)", { lineHeight: "0.98", letterSpacing: "-0.02em" }],
+        h3: ["22px", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
+        lead: ["clamp(20px, 2vw, 24px)", { lineHeight: "1.45" }],
+        body: ["17px", { lineHeight: "1.6" }],
+        small: ["15px", { lineHeight: "1.5" }],
         caption: ["14px", { lineHeight: "1.4" }],
-        micro: ["12px", { lineHeight: "1.35", letterSpacing: "0.02em" }],
+        micro: ["13px", { lineHeight: "1.35", letterSpacing: "0.01em" }],
       },
       maxWidth: {
         container: "1312px",
         reading: "720px",
-        prose: "620px",
+        prose: "640px",
       },
       letterSpacing: {
-        tightish: "-0.02em",
-        eyebrow: "0.14em",
+        tightish: "-0.015em",
+        eyebrow: "0.1em",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(28,27,25,.04), 0 8px 24px rgba(28,27,25,.06)",
-        pop: "0 12px 32px rgba(28,27,25,.16)",
-        lift: "0 12px 32px rgba(28,27,25,.14)",
+        card: "0 1px 2px rgba(16,42,76,.04), 0 10px 30px rgba(16,42,76,.06)",
+        pop: "0 14px 40px rgba(16,42,76,.14)",
+        lift: "0 16px 40px rgba(16,42,76,.12)",
       },
       transitionTimingFunction: {
         out: "cubic-bezier(.22,1,.36,1)",

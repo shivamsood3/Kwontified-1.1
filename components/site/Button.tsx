@@ -14,18 +14,18 @@ type Variant =
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded font-medium transition-colors focus-visible:outline-none active:scale-[0.98]";
+  "group inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors focus-visible:outline-none active:scale-[0.98]";
 
 const variants: Record<string, string> = {
   primary: "bg-gold-500 text-navy-900 hover:bg-gold-600",
   outline: "border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white",
   "outline-light": "border border-white/60 text-white hover:bg-white hover:text-navy-900",
-  light: "border border-white/60 text-white hover:bg-white hover:text-navy-900",
+  light: "bg-white text-navy-900 hover:bg-cream-200",
   "secondary-light": "border border-white/60 text-white hover:bg-white hover:text-navy-900",
   "text-link":
-    "px-0 text-[12px] font-medium uppercase tracking-[0.12em] text-navy-900 hover:text-gold-700",
+    "px-0 text-[15px] font-medium text-navy-900 underline decoration-[0.06em] underline-offset-[0.22em] hover:text-gold-700",
   ghost:
-    "px-0 text-[12px] font-medium uppercase tracking-[0.12em] text-navy-900 hover:text-gold-700",
+    "px-0 text-[15px] font-medium text-navy-900 underline decoration-[0.06em] underline-offset-[0.22em] hover:text-gold-700",
 };
 
 const sizes: Record<Size, string> = {
