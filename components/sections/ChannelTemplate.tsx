@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Crumb } from "@/components/sections/PageHero";
-import { DiptychHero } from "@/components/blocks/DiptychHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { CheckList } from "@/components/blocks/CheckList";
 import { FeatureSplit } from "@/components/blocks/FeatureSplit";
 import { ImageCard } from "@/components/blocks/ImageCard";
@@ -57,15 +57,13 @@ export function ChannelTemplate({
 
   return (
     <>
-      <DiptychHero
+      <InnerHero
         eyebrow={eyebrow}
         title={h1}
         intro={intro}
-        leftId={`${stem}-a`}
-        rightId={`${stem}-b`}
+        imageId={`ch12-${slug}-hero`}
         crumbs={crumbs}
-        primary={{ href: "/contact", label: reviewLabel }}
-        logo={hasLogo ? <MarketplaceLogo slug={slug} tone="white" className="h-12 max-w-[160px]" /> : undefined}
+        cta={{ href: "/contact", label: reviewLabel }}
       />
 
       {/* Stat band — navy */}
