@@ -5,6 +5,7 @@ import { Button } from "@/components/site/Button";
 import { LogoGrid } from "@/components/ui/LogoMarquee";
 import { ResultFinder } from "@/components/sections/ResultFinder";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
+import { HeroVideo } from "@/components/sections/HeroVideo";
 import { clientLogos, pressLogos } from "@/lib/logos";
 import { budgetChannelIcons, ui } from "@/lib/icons";
 
@@ -72,16 +73,12 @@ function Arrow() {
 export default function HomePage() {
   return (
     <>
-      {/* 1 — Hero */}
-      <section className="relative w-full overflow-hidden bg-navy-900">
-        <div className="absolute inset-0">
-          <Img id="home12-hero" priority sizes="100vw" position="center right" />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, #102A4C 0%, #102A4Cf2 34%, #102A4Ccc 48%, #102A4C33 72%, transparent 100%)" }} aria-hidden="true" />
-        </div>
-        <div className="container-kw relative flex min-h-[600px] items-center py-20 md:min-h-[680px]">
+      {/* 1 — Hero (text + contained video panel) */}
+      <section className="w-full bg-navy-900">
+        <div className="container-kw grid items-center gap-10 py-16 md:gap-14 md:py-24 lg:grid-cols-[1fr_1.05fr]">
           <div className="max-w-xl">
             <p className="eyebrow-light">Marketplace management for consumer brands, since 2016</p>
-            <h1 className="h-display mt-5 text-[clamp(44px,5.4vw,80px)] leading-[1.02] text-white">
+            <h1 className="h-display mt-5 text-[clamp(40px,4.8vw,72px)] leading-[1.03] text-white">
               Measured growth.<br />Beautiful work.
             </h1>
             <p className="mt-6 max-w-lg text-lead text-white/80">
@@ -96,6 +93,7 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+          <HeroVideo />
         </div>
       </section>
 
