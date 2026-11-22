@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/cn";
 
 /**
- * Homepage hero video — a contained 16:9 panel. Plays once (muted, inline,
- * autoplay where permitted) and holds the final frame; offers an accessible
- * replay control. Honours prefers-reduced-motion with a static final still.
- * The aspect-ratio box reserves space so there is no layout shift.
+ * Homepage hero video — fills its positioned parent (object-cover). Plays once
+ * (muted, inline, autoplay where permitted) and holds the final frame, with an
+ * accessible replay control. Honours prefers-reduced-motion with a static final
+ * still. The parent reserves space, so there is no layout shift.
  */
-export function HeroVideo() {
+export function HeroVideo({ className }: { className?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [reduced, setReduced] = useState(false);
   const [ended, setEnded] = useState(false);
@@ -40,26 +41,21 @@ export function HeroVideo() {
     if (p && typeof p.catch === "function") p.catch(() => setBlocked(true));
   };
 
-  const frame =
-    "relative aspect-video w-full overflow-hidden rounded-[4px] bg-navy-950 ring-1 ring-white/10";
-
   if (reduced) {
     return (
-      <div className={frame}>
+      <div className={cn("absolute inset-0", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/videos/hero-final.webp"
           alt="A WRENMARKET order finalised on the Kwontified dashboard — $72,578 in sales."
           className="h-full w-full object-cover"
-          width={1280}
-          height={720}
         />
       </div>
     );
   }
 
   return (
-    <div className={frame}>
+    <div className={cn("absolute inset-0", className)}>
       <video
         ref={ref}
         muted
@@ -79,15 +75,13 @@ export function HeroVideo() {
         <button
           type="button"
           onClick={replay}
-          className="group absolute inset-0 flex items-center justify-center bg-navy-950/25 transition hover:bg-navy-950/35 focus-visible:outline-none"
+          className="group absolute bottom-5 right-5 z-20 inline-flex items-center gap-2 rounded-full bg-white/95 px-5 py-2.5 text-sm font-medium text-navy-900 shadow-pop transition hover:bg-white focus-visible:outline-none"
           aria-label={blocked ? "Play hero video" : "Replay hero video"}
         >
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-5 py-2.5 text-sm font-medium text-navy-900 shadow-pop transition group-hover:bg-white">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              {blocked ? <path d="M8 5v14l11-7z" /> : <path d="M12 5V2L7 7l5 5V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z" />}
-            </svg>
-            {blocked ? "Play" : "Replay"}
-          </span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            {blocked ? <path d="M8 5v14l11-7z" /> : <path d="M12 5V2L7 7l5 5V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z" />}
+          </svg>
+          {blocked ? "Play" : "Replay"}
         </button>
       )}
     </div>

@@ -73,12 +73,13 @@ function Arrow() {
 export default function HomePage() {
   return (
     <>
-      {/* 1 — Hero (text + contained video panel) */}
-      <section className="w-full bg-navy-900">
-        <div className="container-kw grid items-center gap-10 py-16 md:gap-14 md:py-24 lg:grid-cols-[1fr_1.05fr]">
+      {/* 1 — Hero (full-bleed video on desktop, stacked 16:9 on mobile) */}
+      <section className="relative w-full overflow-hidden bg-navy-900">
+        {/* Text — overlaid left on desktop, above the video on mobile */}
+        <div className="relative z-10 container-kw flex flex-col py-12 md:min-h-[620px] md:justify-center md:py-24">
           <div className="max-w-xl">
             <p className="eyebrow-light">Marketplace management for consumer brands, since 2016</p>
-            <h1 className="h-display mt-5 text-[clamp(40px,4.8vw,72px)] leading-[1.03] text-white">
+            <h1 className="h-display mt-5 text-[clamp(40px,5vw,76px)] leading-[1.02] text-white">
               Measured growth.<br />Beautiful work.
             </h1>
             <p className="mt-6 max-w-lg text-lead text-white/80">
@@ -93,7 +94,16 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+        {/* Video — native 16:9 below text on mobile; full-bleed behind on desktop */}
+        <div className="relative aspect-video w-full md:absolute md:inset-0 md:z-0 md:aspect-auto md:h-full">
           <HeroVideo />
+          {/* desktop scrim so the white copy stays legible over the left */}
+          <div
+            className="hidden md:block absolute inset-0"
+            style={{ background: "linear-gradient(90deg, #102A4Cf5 0%, #102A4Ce0 32%, #102A4C99 52%, #102A4C2e 72%, transparent 100%)" }}
+            aria-hidden="true"
+          />
         </div>
       </section>
 
