@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CollageHero } from "@/components/blocks/CollageHero";
+import { InnerHero } from "@/components/blocks/InnerHero";
 import { PromoBanner } from "@/components/blocks/PromoBanner";
 import { CreativeGallery } from "@/components/sections/CreativeGallery";
 
@@ -13,12 +13,12 @@ export const metadata: Metadata = {
 export default function CreativePage() {
   return (
     <>
-      <CollageHero
+      <InnerHero
         eyebrow="Work · Creative"
         title="The work behind the numbers."
         intro="Photography, video, A+ Content and Storefronts from the Creative Studio. Every piece is shown with the client, the channel and the result."
         crumbs={[{ label: "Home", href: "/" }, { label: "Work", href: "/work" }, { label: "Creative" }]}
-        ids={["creative-beauty", "creative-swimwear", "creative-accessories", "creative-skincare"]}
+        imageId="home12-pillar-made"
       />
       <section className="bg-cream-50">
         <div className="container-kw py-20">
