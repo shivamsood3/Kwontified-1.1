@@ -1,82 +1,59 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CollageHero } from "@/components/blocks/CollageHero";
-import { ImageCard } from "@/components/blocks/ImageCard";
-import { PromoBanner } from "@/components/blocks/PromoBanner";
-import { MarketplaceLogo } from "@/components/ui/MarketplaceLogo";
-import { capImage } from "@/lib/content/imageMap";
-import { capabilitiesContent } from "@/lib/content/capabilities";
+import { InnerHero } from "@/components/blocks/InnerHero";
+import { FaqAccordion } from "@/components/sections/FaqAccordion";
+import { Img } from "@/components/ui/Img";
 
 export const metadata: Metadata = {
   title: "Capabilities",
   description:
-    "Six capabilities, one team: retail media, creative, operations, analytics, AI commerce and revenue recovery — all sharing one plan and one data set.",
+    "Six capabilities, one team: retail media, creative, operations, analytics, agentic commerce and revenue recovery — all sharing one plan and one data set.",
   alternates: { canonical: "/capabilities" },
 };
 
-const logoSlugs = ["amazon", "walmart", "target-plus", "zalando", "tiktok-shop", "instagram-shop"];
+const cards = [
+  { title: "Retail Media and Advertising", href: "/capabilities/retail-media", img: "home12-pillar-measured", body: "Amazon Ads, Amazon DSP, Amazon Marketing Cloud, Walmart Connect, Target Roundel, Meta and TikTok, measured on incremental revenue.", stat: "6.8x omnichannel ROAS" },
+  { title: "Creative Studio", href: "/capabilities/creative-studio", img: "home12-pillar-made", body: "Creative strategy, product photography, AI image and video, A+ Content, Storefront design and listing copy, briefed from conversion data.", stat: "+64% Amazon sales" },
+  { title: "Marketplace Operations", href: "/capabilities/marketplace-operations", img: "home12-pillar-run", body: "Catalog, inventory, 1P and 3P account management, promotions and compliance.", stat: "71% sold at full price" },
+  { title: "Analytics and Forecasting", href: "/capabilities/analytics", img: "home12-pillar-reported", body: "Dashboards, audits, forecasts and fiscal year plans built on your own account data.", stat: "Break-even in 7 weeks" },
+  { title: "Agentic Commerce", href: "/capabilities/ai-commerce", img: "home12-pillar-found", body: "Product data and content that AI shopping assistants such as Alexa for Shopping, ChatGPT and Claude can read and recommend, plus Claude Commerce agents built for your own store.", stat: "6 to 23 of 40 Rufus answers" },
+  { title: "Revenue Recovery", href: "/capabilities/revenue-recovery", img: "home12-pillar-recovered", body: "Vendor Central deduction disputes and Seller Central FBA reimbursements.", stat: "$781K recovered" },
+];
 
 export default function CapabilitiesOverview() {
   return (
     <>
-      <CollageHero
-        eyebrow="Capabilities"
-        title="Six capabilities, one team."
-        intro="Each capability is staffed by specialists. All six share one plan, one data set and one account lead — so media, creative and operations never work against each other."
+      <InnerHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Capabilities" }]}
-        ids={["cap-retail-media-a", "cap-creative-a", "cap-ops-a", "cap-analytics-a"]}
+        title="Six capabilities, one team."
+        intro="Each capability is staffed by specialists. All six share one plan, one data set and one account lead, so media, creative and operations never work against each other."
+        imageId="cap12-index-hero"
+        cta={{ href: "/contact", label: "Request a marketplace review" }}
       />
 
-      {/* Six capability cards */}
-      <section className="bg-cream-50">
-        <div className="container-kw py-20">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {capabilitiesContent.map((c) => {
-              const stem = capImage(c.slug) ?? "cap-retail-media";
-              return (
-                <ImageCard
-                  key={c.slug}
-                  href={`/capabilities/${c.slug}`}
-                  imageId={`${stem}-b`}
-                  ratio="4/3"
-                  chip={c.metric.value}
-                  title={c.name}
-                  excerpt={c.intro}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Master every marketplace — logo split (§5.4) */}
-      <section className="bg-white">
-        <div className="container-kw grid items-center gap-12 py-20 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p className="eyebrow">One team, every channel</p>
-            <h2 className="h-display mt-4 text-h2 text-navy-900">Master every marketplace.</h2>
-            <p className="prose-kw mt-5 text-body text-ink-muted">
-              The same team runs all six capabilities across every marketplace you sell in —
-              one catalog, one forecast, one P&amp;L. See the channels we operate.
-            </p>
-            <Link href="/channels" className="learn-more mt-6">All channels →</Link>
-          </div>
-          <div className="grid grid-cols-3 gap-4">
-            {logoSlugs.map((s) => (
-              <div key={s} className="flex aspect-[5/3] items-center justify-center rounded-2xl border border-sand-300 bg-white p-6 shadow-card">
-                <MarketplaceLogo slug={s} className="max-h-9 max-w-[70%]" />
-              </div>
+      <section className="bg-sky-100">
+        <div className="container-kw py-20 lg:py-28">
+          <h2 className="h-display text-h2 text-navy-900">What we do</h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {cards.map((c) => (
+              <Link key={c.href} href={c.href} className="group flex flex-col bg-cream-50 p-6 transition-shadow hover:shadow-card">
+                <div className="relative aspect-square w-full overflow-hidden">
+                  <Img id={c.img} sizes="(max-width:768px) 100vw, 33vw" className="transition-transform duration-500 group-hover:scale-[1.03]" />
+                </div>
+                <h3 className="h-display mt-5 text-[24px] leading-tight text-navy-900 group-hover:text-gold-700">{c.title}</h3>
+                <p className="mt-3 flex-1 text-body leading-relaxed text-ink">{c.body}</p>
+                <p className="mt-6 text-[24px] font-normal text-navy-900">{c.stat}</p>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <PromoBanner
-        imageId="promo-capabilities"
-        title="Start where the return is highest."
-        body="Share your channels and goals. We return a first read on which capability would add the most margin first."
-        cta={{ href: "/contact", label: "Request a growth review" }}
-      />
+      <section className="bg-cream-100">
+        <div className="container-kw py-20 lg:py-28">
+          <FaqAccordion />
+        </div>
+      </section>
     </>
   );
 }

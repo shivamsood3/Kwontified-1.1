@@ -5,6 +5,7 @@ import { ui } from "@/lib/icons";
 // §2.3 — gold primary, navy outline on light, white outline on dark/image.
 type Variant =
   | "primary"
+  | "navy" // navy-filled pill (inner-page CTAs)
   | "outline" // navy border on light
   | "outline-light" // white border on dark / image / navy band
   | "text-link"
@@ -18,6 +19,7 @@ const base =
 
 const variants: Record<string, string> = {
   primary: "bg-gold-500 text-navy-900 hover:bg-gold-600",
+  navy: "bg-navy-900 text-white hover:bg-navy-800",
   outline: "border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white",
   "outline-light": "border border-white/60 text-white hover:bg-white hover:text-navy-900",
   light: "bg-white text-navy-900 hover:bg-cream-200",
