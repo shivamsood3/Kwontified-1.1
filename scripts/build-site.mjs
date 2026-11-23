@@ -176,8 +176,8 @@ function renderArchive(template, a) {
 // ---- 5. form endpoints -------------------------------------------------------
 // Contact: the fields go to /api/contact and the export's own handler then opens
 // the Thank-you page, exactly as designed.
-// Newsletter: the export does nothing visible on submit, so the form row is
-// replaced by a one-line confirmation at the same 46px height (no layout shift),
+// Newsletter: the export does nothing visible on submit, so the form is
+// replaced by a one-line confirmation at the form's own height (no layout shift),
 // in the footer's cream text with a gold check. If the request fails, a short
 // note appears under the form and the form stays.
 const FORM_HOOK = `<script>/* live form endpoints */
@@ -191,7 +191,7 @@ var b=f.querySelector('button[type="submit"],button:not([type])');if(b)b.disable
 var old=f.parentNode.querySelector('[data-kq-nl-error]');if(old)old.remove();
 fetch('/api/subscribe',{method:'POST',body:new FormData(f)}).then(function(r){if(!r.ok)throw 0;
 var p=document.createElement('p');p.setAttribute('role','status');
-p.style.cssText='margin:6px 0 0;min-height:46px;display:flex;align-items:center;gap:10px;font-size:16px;line-height:1.4;color:#F8F6F1';
+p.style.cssText='margin:6px 0 0;min-height:'+f.offsetHeight+'px;display:flex;align-items:center;gap:10px;font-size:16px;line-height:1.4;color:#F8F6F1';
 p.innerHTML='<span aria-hidden="true" style="color:#DCBF85;font-size:18px">\\u2713</span><span>Thank you. The next briefing will come to your inbox.</span>';
 f.replaceWith(p);
 }).catch(function(){if(b)b.disabled=false;
