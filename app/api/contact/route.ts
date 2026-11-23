@@ -1,50 +1,75 @@
 import { NextResponse } from "next/server";
+import { esc, isEmail, saveContact, sendEmail, settings } from "../_lib/resend";
 
 /**
- * Receives marketplace-review requests from /contact (sent by the form hook
- * that scripts/build-site.mjs adds to every page; the design's own handler then
- * shows the Thank-you page).
- * The submission is logged server-side and, if CONTACT_WEBHOOK_URL is set
- * (e.g. a Slack/CRM/email webhook or Formspree endpoint), forwarded there —
- * so the form "goes somewhere" without hard-coding a provider.
+ * "Request a marketplace review" form (/contact). The form hook added by
+ * scripts/build-site.mjs sends the fields here; the design's own handler then
+ * shows the Thank-you page. Each request is emailed to the team (Reply-To: the
+ * visitor) and the visitor is saved in Resend (see ../_lib/resend.ts).
  */
+
+// in the form's order, with the form's own labels
+const FIELDS: [string, string][] = [
+  ["first_name", "First name"],
+  ["last_name", "Last name"],
+  ["email", "Work email"],
+  ["job_title", "Job title"],
+  ["company", "Company or brand"],
+  ["website", "Brand website"],
+  ["channels", "Where you sell"],
+  ["revenue", "Annual ecommerce revenue"],
+  ["goal", "Main goal"],
+  ["notes", "What are you trying to achieve?"],
+];
+
 export async function POST(req: Request) {
-  let data: Record<string, unknown> = {};
+  const data: Record<string, string> = {};
   try {
     const ct = req.headers.get("content-type") || "";
     if (ct.includes("application/json")) {
-      data = await req.json();
+      for (const [k, v] of Object.entries(await req.json())) data[k] = Array.isArray(v) ? v.join(", ") : String(v ?? "");
     } else {
       const form = await req.formData();
-      // repeated fields (the "channels" checkboxes) keep every value, not just the last
-      for (const key of new Set(form.keys())) {
-        const values = form.getAll(key).map(String);
-        data[key] = values.length > 1 ? values : values[0];
-      }
+      // repeated fields (the "channels" checkboxes) keep every value
+      for (const key of new Set(form.keys())) data[key] = form.getAll(key).map(String).join(", ");
     }
   } catch {
     return NextResponse.json({ ok: false, error: "invalid payload" }, { status: 400 });
   }
+  for (const k of Object.keys(data)) data[k] = data[k].trim().slice(0, k === "notes" ? 5000 : 500);
 
-  if (!data.email || typeof data.email !== "string" || !data.email.includes("@")) {
+  if (!isEmail(data.email)) {
     return NextResponse.json({ ok: false, error: "valid email required" }, { status: 422 });
   }
 
-  const submission = { ...data, submittedAt: new Date().toISOString(), form: "marketplace-review" };
-  console.log("[contact] marketplace review request:", JSON.stringify(submission));
+  const rows = FIELDS.filter(([k]) => data[k]);
+  const name = [data.first_name, data.last_name].filter(Boolean).join(" ") || data.email;
+  const subject = `Marketplace review request: ${name}${data.company ? `, ${data.company}` : ""}`;
+  const text = rows.map(([k, label]) => `${label}: ${data[k]}`).join("\n") + "\n\nReply to this email to answer the request.";
+  const html =
+    `<div style="font-family:Helvetica,Arial,sans-serif;color:#262524;font-size:15px;line-height:1.5">` +
+    `<p style="margin:0 0 16px;font-size:20px;color:#102A4C">New marketplace review request</p>` +
+    `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse">` +
+    rows
+      .map(
+        ([k, label]) =>
+          `<tr><td style="padding:6px 18px 6px 0;color:#626366;vertical-align:top;white-space:nowrap">${esc(label)}</td>` +
+          `<td style="padding:6px 0;white-space:pre-wrap">${esc(data[k])}</td></tr>`,
+      )
+      .join("") +
+    `</table><p style="margin:20px 0 0;color:#626366">Reply to this email to answer ${esc(name)} directly.</p></div>`;
 
-  const hook = process.env.CONTACT_WEBHOOK_URL;
-  if (hook) {
-    try {
-      await fetch(hook, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(submission),
-      });
-    } catch (e) {
-      console.error("[contact] webhook forward failed:", e);
-    }
-  }
+  console.log("[contact] marketplace review request:", JSON.stringify({ ...data, submittedAt: new Date().toISOString() }));
 
-  return NextResponse.json({ ok: true });
+  const [mailed, saved] = await Promise.allSettled([
+    sendEmail({ to: settings().contactTo, subject, html, text, replyTo: data.email }),
+    saveContact({ email: data.email, firstName: data.first_name, lastName: data.last_name }, "reviews"),
+  ]);
+  if (!settings().key) console.warn("[contact] RESEND_API_KEY is not set: the request was logged only");
+
+  return NextResponse.json({
+    ok: true,
+    emailed: mailed.status === "fulfilled" && mailed.value,
+    saved: saved.status === "fulfilled" && saved.value,
+  });
 }

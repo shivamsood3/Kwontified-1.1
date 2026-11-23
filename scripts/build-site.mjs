@@ -174,12 +174,31 @@ function renderArchive(template, a) {
 }
 
 // ---- 5. form endpoints -------------------------------------------------------
-const FORM_HOOK =
-  "<script>/* forward submissions to the live endpoints; the export's own handler then runs as designed */" +
-  "document.addEventListener('submit',function(e){var f=e.target;if(!f||!f.getAttribute)return;" +
-  "var k=f.getAttribute('data-kq-form');var u=k==='contact'?'/api/contact':k==='newsletter'?'/api/subscribe':null;" +
-  "if(!u||!navigator.sendBeacon||(f.checkValidity&&!f.checkValidity()))return;" +
-  "try{navigator.sendBeacon(u,new FormData(f));}catch(_){}},true);</script>";
+// Contact: the fields go to /api/contact and the export's own handler then opens
+// the Thank-you page, exactly as designed.
+// Newsletter: the export does nothing visible on submit, so the form row is
+// replaced by a one-line confirmation at the same 46px height (no layout shift),
+// in the footer's cream text with a gold check. If the request fails, a short
+// note appears under the form and the form stays.
+const FORM_HOOK = `<script>/* live form endpoints */
+document.addEventListener('submit',function(e){
+var f=e.target;if(!f||!f.getAttribute)return;var k=f.getAttribute('data-kq-form');
+if(f.checkValidity&&!f.checkValidity())return;
+if(k==='contact'){try{navigator.sendBeacon('/api/contact',new FormData(f));}catch(_){}return;}
+if(k!=='newsletter')return;
+e.preventDefault();e.stopImmediatePropagation();
+var b=f.querySelector('button[type="submit"],button:not([type])');if(b)b.disabled=true;
+var old=f.parentNode.querySelector('[data-kq-nl-error]');if(old)old.remove();
+fetch('/api/subscribe',{method:'POST',body:new FormData(f)}).then(function(r){if(!r.ok)throw 0;
+var p=document.createElement('p');p.setAttribute('role','status');
+p.style.cssText='margin:6px 0 0;min-height:46px;display:flex;align-items:center;gap:10px;font-size:16px;line-height:1.4;color:#F8F6F1';
+p.innerHTML='<span aria-hidden="true" style="color:#DCBF85;font-size:18px">\\u2713</span><span>Thank you. The next briefing will come to your inbox.</span>';
+f.replaceWith(p);
+}).catch(function(){if(b)b.disabled=false;
+var p=document.createElement('p');p.setAttribute('role','alert');p.setAttribute('data-kq-nl-error','');
+p.style.cssText='margin:10px 0 0;font-size:14px;color:#F8F6F1';p.textContent='That didn\\u2019t go through. Please try again.';
+f.insertAdjacentElement('afterend',p);});
+},true);</script>`;
 
 function finalize(html) {
   html = rewriteLinks(html);
