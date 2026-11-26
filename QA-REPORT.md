@@ -85,7 +85,7 @@ Medium:
 - **Mailboxes:** sales@ was replaced by contact@kwontified.com everywhere on 2026-11-26 (Jordan's decision). Confirm careers@, legal@, security@ and support@kwontified.com receive mail.
 - **External links:** 2,092 outside links to 699 sites could not be tested from the audit machine (network blocked). All are well formed; one uses plain http (techlicious.com). Run a live link check (for example `lychee`) in CI or after launch.
 - **Homepage video:** no poster image (a still would show before it loads), and it shows people, which differs from the no-people rule for site imagery.
-- **Leadership photographs:** still placeholders.
+- **Leadership photographs:** done 2026-11-26 (see HANDOVER.md).
 - **Perspectives index:** 1.1 MB of HTML; performance 88, LCP 3.0 s, TBT 370 ms. Moving the cards to a data file loaded on demand would bring it in line with the other pages.
 - **Security headers:** Vercel adds HSTS; consider `X-Content-Type-Options: nosniff` and a `Referrer-Policy`.
 - **26 template images without width and height attributes:** no measured layout shift (CLS 0), so no action needed.

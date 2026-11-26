@@ -29,8 +29,8 @@ const LOGO = `${SITE}/brand/icon-192.png`;
 const TITLE_MAX = 60;
 const SUFFIX = " | Kwontified";
 const PEOPLE = {
-  "Jordan Taylor": { url: `${SITE}/about/leadership/jordan-taylor`, sameAs: "https://www.linkedin.com/in/jordanhtaylor/" },
-  "Elaine Kwon": { url: `${SITE}/about/leadership/elaine-kwon`, sameAs: "https://www.linkedin.com/in/elainekwon/" },
+  "Jordan Taylor": { url: `${SITE}/about/leadership/jordan-taylor`, sameAs: "https://www.linkedin.com/in/jordanhtaylor/", image: `${SITE}/assets/leadership-jordan-taylor.jpg` },
+  "Elaine Kwon": { url: `${SITE}/about/leadership/elaine-kwon`, sameAs: "https://www.linkedin.com/in/elainekwon/", image: `${SITE}/assets/leadership-elaine-kwon.jpg` },
 };
 
 const fail = (m) => { console.error(`site-seo: ${m}`); process.exit(1); };
@@ -96,7 +96,7 @@ for (const r of routes) {
         telephone: "+1-404-873-9148",
         // the postcode the contact page shows with this address
         address: d.address && !d.address.postalCode ? { ...d.address, postalCode: "30328" } : d.address,
-        founder: Object.entries(PEOPLE).map(([name, p]) => ({ "@type": "Person", name, url: p.url })),
+        founder: Object.entries(PEOPLE).map(([name, p]) => ({ "@type": "Person", name, url: p.url, image: p.image })),
       };
       return ld(org);
     });
@@ -125,7 +125,7 @@ for (const r of routes) {
     if (!have.includes("ProfilePage"))
       graph.push({
         "@type": "ProfilePage", "@id": `${url}#page`, url, name: headline, description,
-        mainEntity: { "@type": "Person", name, ...(role ? { jobTitle: role } : {}), worksFor: { "@id": ORG_ID }, ...(p ? { sameAs: [p.sameAs] } : {}) },
+        mainEntity: { "@type": "Person", name, ...(role ? { jobTitle: role } : {}), worksFor: { "@id": ORG_ID }, ...(p ? { sameAs: [p.sameAs], image: p.image } : {}) },
         isPartOf: { "@id": SITE_ID },
       });
   }
