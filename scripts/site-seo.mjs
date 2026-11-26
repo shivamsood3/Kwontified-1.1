@@ -42,7 +42,6 @@ const PEOPLE = {
     alumniOf: [{ "@type": "CollegeOrUniversity", name: "University of Pennsylvania" }],
     hasCredential: [{ "@type": "EducationalOccupationalCredential", name: "Bachelor of Arts", credentialCategory: "degree", recognizedBy: { "@type": "CollegeOrUniversity", name: "University of Pennsylvania" } }, MIT_AI],
     knowsAbout: ["Marketplace management", "E-commerce operations", "Amazon", "Luxury fashion e-commerce", "Agentic commerce"],
-    knowsLanguage: ["English", "Spanish", "Portuguese", "Korean"],
   },
 };
 

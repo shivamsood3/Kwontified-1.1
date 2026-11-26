@@ -228,8 +228,14 @@ bs.forEach(function(b,i){b.addEventListener('click',function(){sel[k]=i;bs.forEa
 })();
 (function(){var b=document.querySelector('button[aria-label="Pause video"]');if(!b||b.getAttribute('data-ready'))return;var v=b.parentNode.querySelector('video');if(!v)return;
 b.setAttribute('data-ready','1');var pause=b.innerHTML,svg=b.querySelector('svg'),st=svg&&svg.getAttribute('style')||'width:16px;height:16px';
-b.addEventListener('click',function(){if(v.paused){v.play();b.setAttribute('aria-label','Pause video');b.innerHTML=pause;}
-else{v.pause();b.setAttribute('aria-label','Play video');b.innerHTML='<svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" style="'+st+'"><path d="M5 3.5L12.5 8L5 12.5Z"></path></svg>';}});
+var play='<svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" style="'+st+'"><path d="M5 3.5L12.5 8L5 12.5Z"></path></svg>';
+function sync(){var p=v.paused;if(b.getAttribute('aria-label')===(p?'Play video':'Pause video'))return;b.setAttribute('aria-label',p?'Play video':'Pause video');b.innerHTML=p?play:pause;}
+/* reduced motion: keep the still frame and do not run the video */
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();v.preload='none';return;}
+b.addEventListener('click',function(){if(v.paused)v.play();else v.pause();});
+v.addEventListener('play',sync);v.addEventListener('pause',sync);
+/* autoplay can be refused (iOS Low Power Mode, data saver): show Play instead of Pause */
+v.addEventListener('canplay',function(){setTimeout(sync,600);},{once:true});setTimeout(sync,4000);
 })();</script>`;
 if (!P[HOME].includes('id="finder"') || !P[HOME].includes('aria-label="Pause video"')) fail("homepage finder or video button not found");
 sub(HOME, /<\/body>(?![\s\S]*<\/body>)/g, () => HOME_JS + "</body>");
