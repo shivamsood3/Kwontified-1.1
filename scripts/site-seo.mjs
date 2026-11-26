@@ -28,9 +28,22 @@ const SITE_ID = `${SITE}/#website`;
 const LOGO = `${SITE}/brand/icon-192.png`;
 const TITLE_MAX = 60;
 const SUFFIX = " | Kwontified";
+const MIT_AI = { "@type": "EducationalOccupationalCredential", name: "Applied Agentic AI for Organizational Transformation", credentialCategory: "certificate", recognizedBy: { "@type": "CollegeOrUniversity", name: "MIT Professional Education" } };
 const PEOPLE = {
-  "Jordan Taylor": { url: `${SITE}/about/leadership/jordan-taylor`, sameAs: "https://www.linkedin.com/in/jordanhtaylor/", image: `${SITE}/assets/leadership-jordan-taylor.jpg` },
-  "Elaine Kwon": { url: `${SITE}/about/leadership/elaine-kwon`, sameAs: "https://www.linkedin.com/in/elainekwon/", image: `${SITE}/assets/leadership-elaine-kwon.jpg` },
+  // facts as the profile pages show them (site-src/pages/AuthorJordan.html, Author.html)
+  "Jordan Taylor": {
+    url: `${SITE}/about/leadership/jordan-taylor`, sameAs: "https://www.linkedin.com/in/jordanhtaylor/", image: `${SITE}/assets/leadership-jordan-taylor.jpg`,
+    alumniOf: [{ "@type": "CollegeOrUniversity", name: "Cornell University" }, { "@type": "CollegeOrUniversity", name: "University of Notre Dame" }],
+    hasCredential: [MIT_AI],
+    knowsAbout: ["Retail media", "Amazon Ads", "Marketplace analytics", "Business intelligence", "Artificial intelligence in retail", "Agentic commerce"],
+  },
+  "Elaine Kwon": {
+    url: `${SITE}/about/leadership/elaine-kwon`, sameAs: "https://www.linkedin.com/in/elainekwon/", image: `${SITE}/assets/leadership-elaine-kwon.jpg`,
+    alumniOf: [{ "@type": "CollegeOrUniversity", name: "University of Pennsylvania" }],
+    hasCredential: [MIT_AI],
+    knowsAbout: ["Marketplace management", "E-commerce operations", "Amazon", "Luxury fashion e-commerce", "Agentic commerce"],
+    knowsLanguage: ["English", "Spanish", "Portuguese", "Korean"],
+  },
 };
 
 const fail = (m) => { console.error(`site-seo: ${m}`); process.exit(1); };
@@ -125,7 +138,7 @@ for (const r of routes) {
     if (!have.includes("ProfilePage"))
       graph.push({
         "@type": "ProfilePage", "@id": `${url}#page`, url, name: headline, description,
-        mainEntity: { "@type": "Person", name, ...(role ? { jobTitle: role } : {}), worksFor: { "@id": ORG_ID }, ...(p ? { sameAs: [p.sameAs], image: p.image } : {}) },
+        mainEntity: { "@type": "Person", name, ...(role ? { jobTitle: role } : {}), worksFor: { "@id": ORG_ID }, ...(p ? { sameAs: [p.sameAs], image: p.image, alumniOf: p.alumniOf, hasCredential: p.hasCredential, knowsAbout: p.knowsAbout, ...(p.knowsLanguage ? { knowsLanguage: p.knowsLanguage } : {}) } : {}) },
         isPartOf: { "@id": SITE_ID },
       });
   }
