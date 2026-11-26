@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# built by scripts/build-site.mjs from site-src/
+/public/_kq/
+/public/assets/
+/public/llms.txt
+/site-routes.json
