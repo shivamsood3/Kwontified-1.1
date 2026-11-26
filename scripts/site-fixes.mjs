@@ -274,7 +274,7 @@ for (const f of Object.keys(P)) {
     if (as.length !== 1 || !/href="\/(perspectives|work|capabilities|channels)\//.test(as[0])) { if (as.length === 1) log.push(`${f}: card with an image and ${as.length} links left as is`); return all; }
     stretched++;
     const a = /class="/.test(as[0]) ? as[0].replace(/class="/, 'class="kq-sl ') : as[0].replace(/^<a/, '<a class="kq-sl"');
-    return `<article data-kq-row${attrs}>${body.replace(as[0], a)}</article>`;
+    return `<article data-kq-row${attrs}>${body.replace(as[0], () => a)}</article>`;
   });
   if (/^perspectives--/.test(f)) {
     const by = text((P[f].match(/data-art="byline"[^>]*>([\s\S]*?)<\/p>/) || ["", ""])[1]);
@@ -290,6 +290,36 @@ for (const f of Object.keys(P)) {
 }
 
 // ---- write -----------------------------------------------------------------------------------
+// Narrow screens: a grid column of minmax(340px, 1fr) is wider than a 320-375px phone once
+// the page gutters are taken off, so the whole page scrolled sideways (WCAG 1.4.10 reflow).
+// min(340px, 100%) keeps the column at most as wide as its container; wider screens are unchanged.
+let reflowed = 0;
+for (const f of Object.keys(P))
+  P[f] = P[f].replace(/minmax\((\d+)px, 1fr\)/g, (_, n) => { reflowed++; return `minmax(min(${n}px, 100%), 1fr)`; });
+log.push(`${reflowed} grid columns capped at their container width`);
+// Fonts: the regular (400) and medium (500) faces set nearly all text. Without a preload the
+// browser only finds them once it has parsed the inline CSS, so text first paints in the
+// fallback font and reflows when they arrive; on a slow phone that moved the cookie banner
+// (anchored to the bottom of the screen) and cost ~0.09 CLS on most pages.
+let preloaded = 0;
+for (const f of Object.keys(P)) {
+  if (P[f].includes('rel="preload" as="font"')) continue;
+  const faces = [...P[f].matchAll(/@font-face\{[^}]*url\('([^']+\.woff2)'\)[^}]*font-weight:(\d+)/g)].filter((m) => m[2] === "400" || m[2] === "500");
+  if (!faces.length) continue;
+  const links = faces.map((m) => `<link rel="preload" as="font" type="font/woff2" href="${m[1]}" crossorigin>`).join("");
+  P[f] = P[f].replace(/<meta charset="[^"]*">/i, (m) => m + links);
+  preloaded++;
+}
+log.push(`font preloads added to ${preloaded} pages`);
+// Landmarks: every page wraps its content in <main> except the home page, so screen-reader
+// users had no "skip to main content" landmark there (Lighthouse: landmark-one-main).
+for (const f of Object.keys(P)) {
+  if (P[f].includes("<main")) continue;
+  const head = P[f].indexOf("</header>"), foot = P[f].indexOf('<footer id="footer"');
+  if (head < 0 || foot < head) { log.push(`${f}: no <main> and no header/footer to place one`); continue; }
+  P[f] = P[f].slice(0, head + 9) + "<main>" + P[f].slice(head + 9, foot) + "</main>" + P[f].slice(foot);
+  log.push(`${f}: content wrapped in <main>`);
+}
 for (const [f, h] of Object.entries(P)) fs.writeFileSync(path.join(KQ, f), h);
 const routesFile = path.join(ROOT, "site-routes.json");
 const routes = JSON.parse(fs.readFileSync(routesFile, "utf8")).filter((r) => !newRoutes.some((n) => n.route === r.route)).concat(newRoutes);

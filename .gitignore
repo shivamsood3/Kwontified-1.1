@@ -45,3 +45,5 @@ next-env.d.ts
 /public/assets/
 /public/llms.txt
 /site-routes.json
+/site-lastmod.json
+__pycache__/

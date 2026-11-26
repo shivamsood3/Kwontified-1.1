@@ -7,13 +7,16 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Repository: `shivamsood3/kwontified-1.1`. All changes in this handover were made on top of commit `b57b91ceaddd662586d20faf5f9301c2e9810e22` (branch `v1.2-perspectives-and-new-pages`). Check whether the branch has moved before applying.
 - The work is on branch `site-fixes-archive` (pushed 2026-11-26), based on `v1.2-perspectives-and-new-pages` at `b57b91c`. It supersedes the earlier `kwontified-site-fixes.patch` and `kwontified-site-fixes-v2.patch` files.
 - Nothing in the patch is live. Pre-launch preview: https://kwontified-11.vercel.app (Vercel team `kwontified`).
-- Build: `npm run build:site` runs six steps in order, then `next build`:
+- Build: `npm run build:site` runs eight steps in order (`npm run build` then runs `next build`):
   1. `scripts/build-site.mjs` (the developer's): turns the HTML exports in `site-src/pages` into `public/_kq` and writes `site-routes.json`. Now also merges `site-src/archive/*.json`.
-  2. `scripts/site-fixes.mjs`: case study pages, link fixes, homepage finder and video button, article meta tags.
+  2. `scripts/site-fixes.mjs`: case study pages, link fixes, homepage finder and video button, article meta tags; since the QA pass also narrow-screen grid columns, font preloads and the home page `<main>`.
   3. `scripts/site-content.mjs`: Accessibility page, newsletter confirmation page, omni-channel copy, press release renames.
   4. `scripts/site-archive.mjs`: lists the imported archive on the Perspectives index.
-  5. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
-  6. `next build`.
+  5. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
+  6. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
+  7. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
+  8. `next build`.
+  The full build takes about a minute; most of it is step 6 making the WebP copies.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
 ## The archive import (done in the chat session)
@@ -42,15 +45,12 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Review list: `site-src/archive/image-review.txt` lists 122 images flagged while saving, grouped as people (19), brands or logos (27) and other (76, mostly garbled AI lettering). Jordan's rule is photorealistic with no people. Most flags are only visible up close; the ones visible at normal size are A0347 (pedestrians in the street), A0035 (partial figure at the left edge), P0498 and A0591 (tiny figures), A0541 (two photos side by side) and A0836 (white print border). Replacing one is: save the new file under the same name and rebuild. **Jordan reviewed the flagged images on 2026-11-26 and accepted all of them as they are; no replacements are needed.**
 - Jordan may want to turn link sharing off again on **Kwontified Creative Content**.
 
-## Checks that passed in the chat session (rerun after changes)
+## Checks (rerun after changes)
 
-- All six build steps and `next build` complete.
-- 36,553 internal links across 1,084 pages: none dead. Every article route has its file and is listed once on the Perspectives index.
-- `next start`: article, news and press addresses return 200; an unknown article address returns the 404 page; the sitemap lists 1,080 URLs.
-- Perspectives index in a simulated browser (jsdom): newest first, 9 articles and 12 news items per page, month, channel, topic and search filters work across the archive.
-- Cookie banner and tag loading: nine visitor scenarios pass.
-- Real browser (Chromium, second session): four imported articles with tables or numbered lists and the Perspectives index, at 1440 px and on an iPhone 13 profile. All return 200 with no sideways page scroll. Tables render cleanly on desktop; on phone they scroll sideways inside their own box. Numbered lists render correctly. Article content fades in on scroll (`.kq-r`), so a screenshot taken without scrolling shows blank space; that is expected.
-- Perspectives index weight: 1.16 MB of HTML, 175 KB compressed, about 7,500 elements. On an emulated slow phone (slow 4G, 4x CPU slowdown): first content at 0.4 s, page ready at 2.6 s, fully loaded at 4.8 s. Moving the cards to a data file can wait.
+- Full QA pass on 2026-11-26: see `QA-REPORT.md` for what was checked, what was fixed and what is still open.
+- Build, `npx tsc --noEmit` and `npm run lint` all pass.
+- `next start`: all 1,083 routes return 200; the 21 redirects land on 200 pages; unknown addresses return the 404 page; the sitemap lists 1,080 URLs (1,018 with a real publication date).
+- Cookie banner and tag loading: nine visitor scenarios passed in the chat session (not changed since).
 
 ## Decisions Jordan has made (do not undo)
 
@@ -62,9 +62,10 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 
 ## Open items
 
-- FAQ additions: Jordan is filling in `kwontified-faq-additions.xlsx` (33 recommended questions). Draft the entries and matching FAQ markup when he returns it.
+- FAQ additions: Jordan is filling in `kwontified-faq-additions.xlsx` (33 recommended questions). Draft the entries and matching FAQ markup when Jordan returns it.
 - Forms: the Google Sheet webhooks and Mailchimp audiences described in `FORMS-SETUP.md` are not set up yet.
 - Google Ads conversions: no conversion labels yet for the contact and newsletter thank-you pages.
 - Leadership photographs: placeholders remain on About, Leadership and Perspectives.
-- The Perspectives index page is about 1.1 MB of HTML with the full archive. If that proves slow, move the cards to a data file loaded on demand.
+- The Perspectives index page is about 1.1 MB of HTML with the full archive. After the image work it scores 88 on Lighthouse mobile (LCP 3.0 s, TBT 370 ms); moving the cards to a data file loaded on demand would bring it in line with the other pages.
+- From the QA pass (details in `QA-REPORT.md`): a robots.txt change and an llms.txt wording change await Jordan's approval; confirm the sales@, careers@, legal@, security@ and support@ mailboxes exist; run geo-optimizer and a live external-link check where the site is reachable; decide on the homepage video (no poster image, and it shows people).
 - The six draft press releases and the two `[DATA NEEDED]` articles can be imported once the sheets are completed and marked Final.

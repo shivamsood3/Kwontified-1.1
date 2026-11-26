@@ -133,12 +133,28 @@ def md(body, pid, lead=True, plain_heads=()):
     return "".join(out)
 
 def text_of(h): return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", h))).strip()
+# a full stop after one of these does not end a sentence ("U.S.", "4 p.m.", "South Dakota v. Wayfair", "Ga.")
+ABBREV = re.compile(r"(?:\b(?:[A-Z]\.){2,}|\b(?:[ap]\.m|v|vs|e\.g|i\.e|etc|Inc|Ltd|Co|Corp|Mr|Ms|Mrs|Dr|St|No|Ga|Calif|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.)$")
+DATELINE = re.compile(r"^.{0,200}?SANDY SPRINGS, Ga\.\s*[—–-]\s*[A-Z][a-z]+\.? \d{1,2}, \d{4}\s*[—–-]\s*", re.S)
+def sentences(t):
+    out, start = [], 0
+    for m in re.finditer(r"[.!?]\s+(?=[A-Z0-9“\"‘(])", t):
+        if ABBREV.search(t[start:m.start() + 1]): continue
+        out.append(t[start:m.start() + 1].strip()); start = m.end()
+    out.append(t[start:].strip())
+    return [x for x in out if x]
 def first_sentences(h, limit=155):
-    t = text_of(h); s = ""
-    for part in re.split(r"(?<=[.!?])\s+", t):
+    """Meta description from body text: whole sentences up to the limit; press release datelines skipped;
+    when the first sentence alone is too short or too long, the text is cut at a word boundary instead."""
+    t = DATELINE.sub("", text_of(h)).strip(); s = ""
+    # press releases all open with the same company descriptor; start with what this one announces
+    m = re.match(r"Kwontified, an? [^,]+(?:, [^,]+)*?, today announced that (.)", t)
+    if m: t = m.group(1).upper() + t[m.end():]
+    for part in sentences(t):
         if len(s) + len(part) + 1 > limit: break
         s = (s + " " + part).strip()
-    return s or t[:limit].rsplit(" ", 1)[0] + "…"
+    if len(s) < 70 and len(t) > len(s): s = t[:limit].rsplit(" ", 1)[0].rstrip(",;:—–- ") + "…"
+    return s
 def crumb(t): return t if len(t) <= 44 else t[:42].rsplit(" ", 1)[0].rstrip(",;:") + "…"
 
 # ---- what the site already has -------------------------------------------------

@@ -21,7 +21,7 @@ function swap(file, from, to) {
   P[file] = P[file].split(from).join(to).split(ld(from)).join(ld(to));
 }
 const setMeta = (h, title, desc, route) => {
-  h = h.replace(/<title>[\s\S]*?<\/title>/, `<title>${title} | Kwontified</title>`);
+  h = h.replace(/<title>[\s\S]*?<\/title>/, () => `<title>${title} | Kwontified</title>`);
   h = h.replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*/g, (_, a) => `${a}${title} | Kwontified`);
   h = h.replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*/g, (_, a) => a + desc);
   return h.replace(/(<link rel="canonical" href="|<meta property="og:url" content=")[^"]*/g, (_, a) => `${a}https://kwontified.com${route}`);

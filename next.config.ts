@@ -59,6 +59,13 @@ const nextConfig: NextConfig = {
       { source: "/assets/:file*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
       // the built files are only meant to be reached through their routes
       { source: "/_kq/:file*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+      // staging and preview deployments (*.vercel.app) must never be indexed alongside
+      // kwontified.com; the production domain does not match, so it is unaffected
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "(?<deployment>.+)\\.vercel\\.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
     ];
   },
 };

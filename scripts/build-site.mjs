@@ -139,7 +139,8 @@ function setOpenAttr(html, name, attrName, value) {
   if (!t) return html;
   let open = html.slice(t.start, t.openEnd);
   const re = new RegExp(`\\s${attrName}="[^"]*"`);
-  open = re.test(open) ? open.replace(re, ` ${attrName}="${value}"`) : open.replace(/>$/, ` ${attrName}="${value}">`);
+  // function replacers: the value is inserted literally (a string replacement would read "$1", "$&" etc. in it)
+  open = re.test(open) ? open.replace(re, () => ` ${attrName}="${value}"`) : open.replace(/>$/, () => ` ${attrName}="${value}">`);
   return html.slice(0, t.start) + open + html.slice(t.openEnd);
 }
 
@@ -149,14 +150,14 @@ const escAttr = (s) => escText(s).replace(/"/g, "&quot;");
 function setMeta(html, sel, attr, value) {
   const re = new RegExp(`(<${sel}[^>]*\\s${attr}=")[^"]*(")`);
   if (!re.test(html)) throw new Error(`meta not found: ${sel}`);
-  return html.replace(re, `$1${value}$2`);
+  return html.replace(re, (_, a, b) => a + value + b);
 }
 
 function renderArchive(template, a) {
   let h = template;
   // document metadata — mirrors show(): desc is HTML text (decoded by the browser
   // when parsed), ttag is literal text
-  h = h.replace(/<title>[\s\S]*?<\/title>/, `<title>${escText(a.ttag)}</title>`);
+  h = h.replace(/<title>[\s\S]*?<\/title>/, () => `<title>${escText(a.ttag)}</title>`);
   h = setMeta(h, 'meta name="description"', "content", a.desc);
   h = setMeta(h, 'meta property="og:description"', "content", a.desc);
   h = setMeta(h, 'meta name="twitter:description"', "content", a.desc);
