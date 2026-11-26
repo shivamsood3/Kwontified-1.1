@@ -8,8 +8,8 @@ Lighthouse 13.6.0, mobile, lab data, on twelve template pages:
 
 | Page | Performance before → after | LCP before → after | CLS before → after | Accessibility | Best practices | SEO |
 |---|---|---|---|---|---|---|
-| Home | 92 → 94 | 3.2 → 3.1 s | 0.008 → 0 | 98 → 100 | 100 | 100 |
-| Perspectives index | 66 → 88 | 8.1 → 3.0 s | 0.022 → 0 | 100 | 100 | 100 |
+| Home | 92 → 94 (95 with the loading still) | 3.2 → 3.1 s | 0.008 → 0 | 98 → 100 | 100 | 100 |
+| Perspectives index | 66 → 88 → 98 | 8.1 → 3.0 → 2.5 s | 0.022 → 0 | 100 | 100 | 100 |
 | Capabilities | 85 → 99 | 4.1 → 2.2 s | 0.091 → 0 | 100 | 100 | 100 |
 | Work | 83 → 98 | 4.4 → 2.3 s | 0.091 → 0 | 100 | 100 | 100 |
 | Why Kwontified | 86 → 99 | 3.9 → 2.2 s | 0.091 → 0 | 100 | 100 | 100 |
@@ -65,9 +65,9 @@ Medium:
 | GPTBot, ClaudeBot, CCBot, Google-Extended, Applebot-Extended | Model training | Allowed (business decision; allowing helps models know the brand) |
 | Bytespider, Meta-ExternalAgent | Training | Allowed (through `*`) |
 
-## Waiting for Jordan's approval (not applied)
+## Decisions from Jordan (applied 2026-11-26)
 
-1. **robots.txt.** The AI crawler group repeats only `Allow: /`. A named group replaces the `*` group for those bots, so they are not told to skip the thank-you pages, sign-in, `/api/` and `/_kq/`. Proposed change to `app/robots.ts`, giving the AI group the same disallows:
+1. **robots.txt.** Approved and applied 2026-11-26, including the optional updates (Claude-SearchBot, Claude-User and Perplexity-User added; Claude-Web and anthropic-ai dropped). The issue was: the AI crawler group repeats only `Allow: /`. A named group replaces the `*` group for those bots, so they are not told to skip the thank-you pages, sign-in, `/api/` and `/_kq/`. Proposed change to `app/robots.ts`, giving the AI group the same disallows:
 
    ```diff
           userAgent: [ "GPTBot", ..., "CCBot" ],
@@ -82,11 +82,11 @@ Medium:
 
 - **Titles over 60 characters (497):** the article headlines themselves. Google truncates rather than penalises; shorten in the sheets if any underperform in Search Console.
 - **Meta descriptions over 160 characters (17):** capability and case study pages, cut off in results after about 155 characters. **Under 70 (2):** the two original 2026 press releases ("Kwontified to attend Amazon Accelerate 2026 in Seattle.").
-- **Mailboxes:** sales@ was replaced by contact@kwontified.com everywhere on 2026-11-26 (Jordan's decision). Confirm careers@, legal@, security@ and support@kwontified.com receive mail.
 - **External links:** 2,092 outside links to 699 sites could not be tested from the audit machine (network blocked). All are well formed; one uses plain http (techlicious.com). Run a live link check (for example `lychee`) in CI or after launch.
-- **Homepage video:** no poster image (a still would show before it loads), and it shows people, which differs from the no-people rule for site imagery.
 - **Leadership photographs:** done 2026-11-26 (see HANDOVER.md).
-- **Perspectives index:** 1.1 MB of HTML; performance 88, LCP 3.0 s, TBT 370 ms. Moving the cards to a data file loaded on demand would bring it in line with the other pages.
+- **Resolved 2026-11-26:** careers@, legal@, security@ and support@kwontified.com all receive mail (Jordan confirmed); sales@ is no longer used anywhere.
+- **Resolved 2026-11-26, homepage video:** a still frame now shows until the video plays (see HANDOVER.md). The video itself still shows people; it is kept as it is.
+- **Resolved 2026-11-26, Perspectives index:** only the first page of each list is in the HTML (212 KB, down from 1.2 MB); the rest loads on demand. Lighthouse mobile 98 on four runs, TBT 0-10 ms.
 - **Security headers:** Vercel adds HSTS; consider `X-Content-Type-Options: nosniff` and a `Referrer-Policy`.
 - **26 template images without width and height attributes:** no measured layout shift (CLS 0), so no action needed.
 - **Audit storage:** rows were not added to `seo_geo_ops` because this was a pre-launch local audit; the first live-site audit should be the baseline.
