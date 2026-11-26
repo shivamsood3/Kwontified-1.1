@@ -5,7 +5,8 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 ## Where things stand
 
 - Repository: `shivamsood3/kwontified-1.1`. All changes in this handover were made on top of commit `b57b91ceaddd662586d20faf5f9301c2e9810e22` (branch `v1.2-perspectives-and-new-pages`). Check whether the branch has moved before applying.
-- Everything is delivered as one patch, `kwontified-site-fixes.patch`. Apply with `git apply kwontified-site-fixes.patch` (it contains a binary image and the archive data, about 10 MB).
+- Everything is delivered as one patch, `kwontified-site-fixes-v2.patch`, which replaces the earlier `kwontified-site-fixes.patch` (it adds `scripts/fetch-archive-images.py` and this updated file). Apply with `git am kwontified-site-fixes-v2.patch` to keep the two commits, or `git apply` for the changes alone (it contains a binary image and the archive data, about 10 MB).
+- Second session, 2026-11-26: the patch was applied to an unchanged `b57b91c` and the full build passed. That session could not push to the repository, so the developers apply the patch themselves.
 - Nothing in the patch is live. Pre-launch preview: https://kwontified-11.vercel.app (Vercel team `kwontified`).
 - Build: `npm run build:site` runs six steps in order, then `next build`:
   1. `scripts/build-site.mjs` (the developer's): turns the HTML exports in `site-src/pages` into `public/_kq` and writes `site-routes.json`. Now also merges `site-src/archive/*.json`.
@@ -38,8 +39,19 @@ Every imported article currently shows a stand-in panel (`site-src/assets/kq-arc
 
 - `site-src/archive/images.json` maps each article ID to its Google Drive file ID and the file name the build looks for: `site-src/assets/archive-<ID>.jpg`.
 - When that file exists, `build-site.mjs` uses it as the article hero and `site-archive.mjs` uses it on the index card. No other change is needed: add the files and rebuild.
-- To do: download each Drive file (the originals are large, many upscaled to 4K), resize to web size, and save under that name. Suggested: JPEG, 1,400 px wide, quality about 78, which should land near 150 KB each and about 150 MB for all 985. Raise the size question with Jordan or the developer before committing that much to the repository; object storage is the alternative.
-- Drive access must be set up on this machine (for example rclone with a Drive remote, or the Drive API with OAuth). The chat session could not reach Drive, so this step is untested.
+- The originals are 3840 px JPEGs of about 0.8 to 1.5 MB each, named `<ID>-3840.jpg`, in yearly subfolders (`kwontified-2018-hero-images` and so on) of one Drive folder, **Kwontified Article Images**, owned by jordan@kwontified.com.
+- `scripts/fetch-archive-images.py` downloads each one through the Drive API, resizes it to 1,400 px wide at JPEG quality 78 (progressive, no metadata), and saves it under the name above. It skips files already saved, so it can be stopped and rerun, and lists any failures at the end. Options: `--only P0002,P0003`, `--limit N`, `--width`, `--quality`, `--workers`.
+- Credential: a Google Cloud service account with the Drive API enabled, and **Kwontified Article Images** shared with its email as Viewer. Jordan is setting this up and will send the JSON key securely. Then:
+  ```
+  pip install pillow cryptography
+  GDRIVE_SERVICE_ACCOUNT_JSON=/path/to/key.json python3 scripts/fetch-archive-images.py --limit 5   # try a few first
+  GDRIVE_SERVICE_ACCOUNT_JSON=/path/to/key.json python3 scripts/fetch-archive-images.py
+  npm run build:site
+  ```
+  `GDRIVE_ACCESS_TOKEN` (an OAuth token with drive.readonly scope) also works for a short run.
+- Simpler alternative, now available: on 2026-11-26 Jordan shared the parent folder **Kwontified Creative Content** as "Anyone with the link". While that holds, a plain Google Cloud API key with the Drive API enabled is enough: run the same commands with `GDRIVE_API_KEY=<key>` in place of `GDRIVE_SERVICE_ACCOUNT_JSON`. After the images are saved, Jordan may want to turn link sharing off again.
+- Tested so far: the resize step on a synthetic 4K image, and the clean failure when no credential is set. Not yet tested: a real download.
+- Expected total about 150 MB. Agree with Jordan whether to commit the images to the repository or use object storage (for example Vercel Blob, which would need the two image lookups in `build-site.mjs` and `site-archive.mjs` changed to the storage URL).
 - Imported images have empty alt text (the sheets hold none). Decide with Jordan whether to write alt text.
 - Jordan's image rules: photorealistic, no people in site imagery.
 
@@ -50,7 +62,8 @@ Every imported article currently shows a stand-in panel (`site-src/assets/kq-arc
 - `next start`: article, news and press addresses return 200; an unknown article address returns the 404 page; the sitemap lists 1,080 URLs.
 - Perspectives index in a simulated browser (jsdom): newest first, 9 articles and 12 news items per page, month, channel, topic and search filters work across the archive.
 - Cookie banner and tag loading: nine visitor scenarios pass.
-- Not checked: how imported articles look in a real browser. Look at several with tables and numbered lists (284 articles contain tables), on desktop and phone.
+- Real browser (Chromium, second session): four imported articles with tables or numbered lists and the Perspectives index, at 1440 px and on an iPhone 13 profile. All return 200 with no sideways page scroll. Tables render cleanly on desktop; on phone they scroll sideways inside their own box. Numbered lists render correctly. Article content fades in on scroll (`.kq-r`), so a screenshot taken without scrolling shows blank space; that is expected.
+- Perspectives index weight: 1.16 MB of HTML, 175 KB compressed, about 7,500 elements. On an emulated slow phone (slow 4G, 4x CPU slowdown): first content at 0.4 s, page ready at 2.6 s, fully loaded at 4.8 s. Moving the cards to a data file can wait.
 
 ## Decisions Jordan has made (do not undo)
 
