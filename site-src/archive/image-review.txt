@@ -1,0 +1,133 @@
+Archive images: review list
+
+Each of the 985 images was looked at when it was saved. These were flagged. Items marked * were confirmed visible at normal size; the rest are minor or only visible up close.
+
+People or body parts (against the no-people rule) (19)
+  * A0035: people: blurred passerby outside and partial seated figure at left edge; phone screen shows readable time
+    A0072: tiny distant person seated in background at left
+    A0219: tiny blurred distant figure on street in background
+    A0249: garbled handwritten pseudo-text on jar labels
+    A0268: coin faces have garbled pseudo-text/markings (possible AI artifacts)
+    A0282: ship hull shows small garbled name text; coin face has distorted design
+    A0328: partial hand/fingers visible at right edge holding the caliper
+  * A0347: People: blurred pedestrians on street in background; book covers show faces
+    A0371: Garbled handwritten text on orange tags (AI artifact)
+    A0441: blurred distant pedestrian at far right edge
+  * A0591: tiny distant football players on TV screen
+    A0636: fingertip partly visible at left edge holding magnifier
+    A0729: small toy figurines with faces; some trinkets look garbled/AI-like
+    P0168: possible tiny blurred figures far in background
+    P0249: possible blurred person far left background
+    P0295: Possible faint reflection of a figure in the machine glass; check
+    P0304: readable text on boxes: FRAGILE, HANDLED WITH CARE, SEASONAL
+    P0438: coin faces show garbled pseudo-text (AI artifacts)
+  * P0498: possible tiny distant figures among stalls in background
+
+Recognisable brands or logos (27)
+    A0007: small embossed text on engine cover and tire sidewall, likely a brand name
+    A0056: faint Apple logo visible on phone back
+    A0094: backpack shows a Kanken-style brand logo patch; fan badge has a logo
+    A0232: small brand-like lettering on tripod leg
+    A0250: minor: scale chains pass oddly over phone; phone resembles an iPhone
+    A0324: laptop bezel shows a small 'MacBook Pro'-style brand label
+    A0447: prominent text/logo: KWONTIFIED wordmark on sign
+    A0514: padlock has a small brand-like embossed word
+    A0527: faint embossed lettering on pot lid (possible brand mark)
+    A0605: backpack patch resembles a recognizable brand logo
+    A0630: faint brand lettering on balls (Wilson-like)
+    A0681: VW logo visible on van front
+    A0692: speaker resembles a branded product with small wordmark
+    A0704: speaker closely resembles a recognizable branded smart speaker (no visible logo)
+    A0711: blue shoes show stripe design resembling a known athletic brand
+    A0717: visible Apple logo on the phone back
+    A0925: smartphone design resembles a recognizable brand (no logo visible)
+    P0022: recognizable iPhone product design (no visible logo)
+    P0104: brand name MASONITE readable on clip; garbled text on book spines
+    P0128: gold monogram logo printed on blue gift box
+    P0174: embossed jar brand script visible (Ball-like logo)
+    P0234: printed illustration and leaf logo on box packaging
+    P0253: embossed Ball/Mason brand script on jars
+    P0289: Readable brand text: UBeesize on ring light; STILL book title; product labels
+    P0374: Ball/Mason brand embossing visible on jar
+    P0404: can labels show brand-like text (partly garbled)
+    P0444: white van shows a visible Renault logo on its grille
+
+Other: garbled AI text, odd composition, borders (76)
+    A0005: Drive file title is N18-retail-media-networks-4k.jpg, not A0005; check ID mapping
+    A0042: minor: tape measure markings look garbled up close
+    A0064: badges carry garbled pseudo-text lettering (AI artifact)
+    A0074: puzzle pieces look inconsistent (mismatched wood pieces vs image), possible AI artifact
+    A0099: one coin shows an embossed portrait profile with garbled lettering
+    A0106: orange tags carry small garbled pseudo-text
+    A0123: faint garbled ghost text on wall behind purse; keypad labels look garbled
+    A0127: readable heading SCORECARD on clipboard sheet
+    A0144: glowing light inside box is a stylized, non-realistic effect
+    A0145: product boxes on shelves carry small garbled pseudo-text labels
+    A0174: Garbled pseudo-text on scale dial; parcel tray arm looks physically odd (AI artifact)
+    A0239: garbled pseudo-text on file tabs and package labels
+    A0242: minor: implausible rod running through the hourglass glass
+    A0244: minor: shipping label with barcodes, rod inside hourglass
+    A0283: small human-like toy figurines; packaged toy card with indistinct printed graphics
+    A0325: Drive title does not match ID (N20-ai-commerce-b-4k.jpg)
+    A0365: Scooter appears riderless while in motion (AI artifact)
+    A0377: white border/frame around image edges; recognizable real landmark (Bodiam-style castle)
+    A0401: framed poster has blurred garbled text
+    A0454: readable text: SKINCARE label on bottle
+    A0458: compass letters look garbled (3/2 instead of S/E)
+    A0495: screen shows a blurry pale abstract image; check it does not read as skin
+    A0497: caliper scale numbers are jumbled/out of order
+    A0504: compass dial markings are garbled (NW/E in wrong places, odd numbers)
+    A0505: smart speaker closely resembles a recognizable consumer product design
+    A0508: vintage van resembles a recognizable classic model; small badge on bonnet
+    A0523: title mismatch: Drive title is N19-ai-commerce-a-4k.jpg
+    A0530: doormat has a garbled text-like border pattern
+    A0531: title mismatch: Drive title is N09-marketplace-walmart-4k.jpg
+    A0536: title mismatch: Drive title is N04-events-spring-sale-4k.jpg
+  * A0541: split-screen composite (two images side by side)
+    A0550: shipping label with small garbled text on box
+    A0572: physically odd composition: boxes appear to float beside the vise
+    A0584: stylized/surreal scene, box appears mid-air
+    A0610: readable text on burlap sack (garbled 'organicclic')
+    A0647: caliper scale markings look garbled (possible AI artifact)
+    A0707: blank backlit sign panel with odd glow artifacts
+    A0764: pallets carry small stamped markings
+    A0772: caliper scale numbers look garbled on close view
+    A0799: compass direction letters look wrong (S appears twice)
+    A0806: garbled AI text on book spines and metronome scale
+  * A0836: white photo-print border baked into image edges
+    A0842: tags show faint garbled numbers
+    A0852: padlock has garbled embossed text
+    A0865: small insect visible in the air
+    A0893: faint garbled text on robot arm
+    A0894: garbled Chinese-like characters on kiosk label and paper
+    A0934: readable garbled text on egg carton ('FARM EG3S')
+    P0020: minor artifact: truck cab window shows a seascape instead of the interior
+    P0039: phone screen shows camera UI with garbled small glyphs; slightly AI-looking
+    P0042: register keys/receipt show small garbled text
+    P0044: parcel label has small garbled text
+    P0054: many product labels with garbled pseudo-text
+    P0061: container/ship markings show small blurry text
+    P0064: readable text DELIVERY printed on box
+    P0091: readable book spine text: GARDENING AND GROWTH; garbled AI-like text on lower spine
+    P0096: caliper scale numbers are garbled/nonsensical (AI artifact)
+    P0111: small garbled pseudo-text in ledger headings
+    P0122: military-style star insignia with red stars; may read as Soviet symbolism
+    P0139: product labels with garbled pseudo-text visible on bottles
+    P0163: left ~30% is a flat navy panel with a visible vertical seam; may look like a composite/edit artifact
+    P0167: small readable label text: 100ml
+    P0170: coins appear to cling to the jar's outside (physically implausible, AI artifact)
+    P0180: surreal/conceptual giant coins (not literal photo)
+    P0189: odd magenta glow on bench seat looks artificial
+    P0209: partial stenciled text on crate side (garbled lettering)
+    P0291: Phone lock screen shows readable time 11:27
+    P0325: calendar header text is garbled AI-style lettering (e.g. Moirirseicing)
+    P0388: minor: tape measure markings look garbled
+    P0390: minor: coin edge markings look garbled
+    P0399: minor: dark strip along top edge
+    P0412: minor: small garbled text on tape roll
+    P0457: book spines show garbled pseudo-text
+    P0482: tablet stand/bracket mounting looks physically odd; possible AI artifact
+    P0487: compass letters arranged incorrectly (W/N adjacent, S/E adjacent); possible AI artifact
+    P0490: readable text OPENINGS on book spine
+
+To replace an image: save a new 1,400 px JPEG as site-src/assets/archive-<ID>.jpg and run npm run build:site. Alt text is the 'alt' field of the item in site-src/archive/Post.json, PostNews.json or PostPressRelease.json.

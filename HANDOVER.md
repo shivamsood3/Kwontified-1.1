@@ -5,8 +5,7 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 ## Where things stand
 
 - Repository: `shivamsood3/kwontified-1.1`. All changes in this handover were made on top of commit `b57b91ceaddd662586d20faf5f9301c2e9810e22` (branch `v1.2-perspectives-and-new-pages`). Check whether the branch has moved before applying.
-- Everything is delivered as one patch, `kwontified-site-fixes-v2.patch`, which replaces the earlier `kwontified-site-fixes.patch` (it adds `scripts/fetch-archive-images.py` and this updated file). Apply with `git am kwontified-site-fixes-v2.patch` to keep the two commits, or `git apply` for the changes alone (it contains a binary image and the archive data, about 10 MB).
-- Second session, 2026-11-26: the patch was applied to an unchanged `b57b91c` and the full build passed. That session could not push to the repository, so the developers apply the patch themselves.
+- The work is on branch `site-fixes-archive` (pushed 2026-11-26), based on `v1.2-perspectives-and-new-pages` at `b57b91c`. It supersedes the earlier `kwontified-site-fixes.patch` and `kwontified-site-fixes-v2.patch` files.
 - Nothing in the patch is live. Pre-launch preview: https://kwontified-11.vercel.app (Vercel team `kwontified`).
 - Build: `npm run build:site` runs six steps in order, then `next build`:
   1. `scripts/build-site.mjs` (the developer's): turns the HTML exports in `site-src/pages` into `public/_kq` and writes `site-routes.json`. Now also merges `site-src/archive/*.json`.
@@ -33,27 +32,15 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Articles appear under their stated dates with no "written in 2026" label (Jordan's decision).
 - Addresses: `next.config.ts` serves all article, news and press pages through three pattern rewrites instead of one rewrite per page, to stay under Vercel's route limit. This relies on the file naming rule `/perspectives/news/x` -> `/_kq/perspectives--news--x.html`.
 
-## Next job: the images
+## The images (done 2026-11-26)
 
-Every imported article currently shows a stand-in panel (`site-src/assets/kq-archive-fallback.svg`) as its hero and on its index card.
-
-- `site-src/archive/images.json` maps each article ID to its Google Drive file ID and the file name the build looks for: `site-src/assets/archive-<ID>.jpg`.
-- When that file exists, `build-site.mjs` uses it as the article hero and `site-archive.mjs` uses it on the index card. No other change is needed: add the files and rebuild.
-- The originals are 3840 px JPEGs of about 0.8 to 1.5 MB each, named `<ID>-3840.jpg`, in yearly subfolders (`kwontified-2018-hero-images` and so on) of one Drive folder, **Kwontified Article Images**, owned by jordan@kwontified.com.
-- `scripts/fetch-archive-images.py` downloads each one through the Drive API, resizes it to 1,400 px wide at JPEG quality 78 (progressive, no metadata), and saves it under the name above. It skips files already saved, so it can be stopped and rerun, and lists any failures at the end. Options: `--only P0002,P0003`, `--limit N`, `--width`, `--quality`, `--workers`.
-- Credential: a Google Cloud service account with the Drive API enabled, and **Kwontified Article Images** shared with its email as Viewer. Jordan is setting this up and will send the JSON key securely. Then:
-  ```
-  pip install pillow cryptography
-  GDRIVE_SERVICE_ACCOUNT_JSON=/path/to/key.json python3 scripts/fetch-archive-images.py --limit 5   # try a few first
-  GDRIVE_SERVICE_ACCOUNT_JSON=/path/to/key.json python3 scripts/fetch-archive-images.py
-  npm run build:site
-  ```
-  `GDRIVE_ACCESS_TOKEN` (an OAuth token with drive.readonly scope) also works for a short run.
-- Simpler alternative, now available: on 2026-11-26 Jordan shared the parent folder **Kwontified Creative Content** as "Anyone with the link". While that holds, a plain Google Cloud API key with the Drive API enabled is enough: run the same commands with `GDRIVE_API_KEY=<key>` in place of `GDRIVE_SERVICE_ACCOUNT_JSON`. After the images are saved, Jordan may want to turn link sharing off again.
-- Tested so far: the resize step on a synthetic 4K image, and the clean failure when no credential is set. Not yet tested: a real download.
-- Expected total about 150 MB. Agree with Jordan whether to commit the images to the repository or use object storage (for example Vercel Blob, which would need the two image lookups in `build-site.mjs` and `site-archive.mjs` changed to the storage URL).
-- Imported images have empty alt text (the sheets hold none). Decide with Jordan whether to write alt text.
-- Jordan's image rules: photorealistic, no people in site imagery.
+- All 985 archive items have their own image at `site-src/assets/archive-<ID>.jpg`: JPEG, 1,400 px wide, quality 78, progressive, no metadata, 140 MB in all, committed to the repository. `build-site.mjs` uses each as the article hero and `site-archive.mjs` on the index card; the fallback panel no longer appears anywhere.
+- Source: `site-src/archive/images.json` maps each ID to a Google Drive file (originals are 3840 px, in yearly subfolders of **Kwontified Article Images**). News items and press releases reuse 23 shared theme images (files named like `N18-retail-media-networks-4k.jpg`), as the sheets specify.
+- How they were fetched: through the Google Drive connector in the Claude session, then resized locally. `scripts/fetch-archive-images.py` does the same job without Claude, given `GDRIVE_API_KEY` (while the folder is link-shared), `GDRIVE_SERVICE_ACCOUNT_JSON` or `GDRIVE_ACCESS_TOKEN`; it skips files already saved, so it is only needed for new or replaced images.
+- Alt text: every item now has a one-sentence description of its picture in the `alt` field of `site-src/archive/Post.json`, `PostNews.json` and `PostPressRelease.json`, written by looking at each image. The article hero uses it; index cards keep `alt=""` because the linked title sits right beside them.
+- Press releases: the press release template has no hero image, so their 8 images are saved but not shown.
+- Review list: `site-src/archive/image-review.txt` lists 122 images flagged while saving, grouped as people (19), brands or logos (27) and other (76, mostly garbled AI lettering). Jordan's rule is photorealistic with no people. Most flags are only visible up close; the ones visible at normal size are A0347 (pedestrians in the street), A0035 (partial figure at the left edge), P0498 and A0591 (tiny figures), A0541 (two photos side by side) and A0836 (white print border). Replacing one is: save the new file under the same name and rebuild.
+- Jordan may want to turn link sharing off again on **Kwontified Creative Content**.
 
 ## Checks that passed in the chat session (rerun after changes)
 
