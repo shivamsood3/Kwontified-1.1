@@ -76,7 +76,7 @@ Medium:
    ```
 
    Low risk either way: those pages carry noindex. Optional at the same time: add Claude-SearchBot, Claude-User and Perplexity-User to the named group, and drop the retired `Claude-Web` and `anthropic-ai` tokens.
-2. **Headquarters wording.** `llms.txt` says "Offices: Atlanta (headquarters), New York, Seattle", and the footer on every page heads the Sandy Springs address with "Atlanta (headquarters)". The home FAQ, the Organization data and the public-copy rule say Sandy Springs, Georgia. AI engines cross-check these, so one name is safer. Proposed: "Sandy Springs, Georgia (headquarters, metro Atlanta)" in llms.txt (the line is in `scripts/build-site.mjs`), and "Sandy Springs (headquarters)" as the footer heading (the footer is repeated in each file in `site-src/pages`).
+2. **Headquarters wording.** Resolved 2026-11-26: Jordan chose Atlanta. Every page, the structured data, the press datelines ("ATLANTA —") and the importer now say Atlanta, with the 30328 postcode kept, matching the footer heading and llms.txt.
 
 ## Still open (low)
 

@@ -58,6 +58,7 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Share image: Concept A with the white K mark and wordmark, no tagline (`public/og/default.jpg`).
 - Press releases on the site do not name Corey Brown, Priyanka Shah or Dennis Wong. The press kit block is removed for now.
 - Public copy says "one agile omni-channel strategy"; budgets move between channels only with client approval.
+- Headquarters is written as Atlanta, Georgia (address 7000 Central Parkway, Suite 1100, Atlanta, GA 30328; Atlanta and Sandy Springs are interchangeable for 30328). Changed from Sandy Springs everywhere on the site on 2026-11-26; press datelines read "ATLANTA —". The archive sheets still say Sandy Springs in press datelines; the importer accepts both.
 - Contact address is contact@kwontified.com; press is press@kwontified.com; phone 404.873.9148. sales@kwontified.com is not used: every reference in the archive and on the site was changed to contact@ (2026-11-26).
 
 ## Open items

@@ -133,9 +133,10 @@ def md(body, pid, lead=True, plain_heads=()):
     return "".join(out)
 
 def text_of(h): return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", h))).strip()
+# headquarters city: Atlanta (Jordan, 2026-11-26); older sheets may still say Sandy Springs in datelines
 # a full stop after one of these does not end a sentence ("U.S.", "4 p.m.", "South Dakota v. Wayfair", "Ga.")
 ABBREV = re.compile(r"(?:\b(?:[A-Z]\.){2,}|\b(?:[ap]\.m|v|vs|e\.g|i\.e|etc|Inc|Ltd|Co|Corp|Mr|Ms|Mrs|Dr|St|No|Ga|Calif|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.)$")
-DATELINE = re.compile(r"^.{0,200}?SANDY SPRINGS, Ga\.\s*[—–-]\s*[A-Z][a-z]+\.? \d{1,2}, \d{4}\s*[—–-]\s*", re.S)
+DATELINE = re.compile(r"^.{0,200}?(?:SANDY SPRINGS, Ga\.|ATLANTA)\s*[—–-]\s*[A-Z][a-z]+\.? \d{1,2}, \d{4}\s*[—–-]\s*", re.S)
 def sentences(t):
     out, start = [], 0
     for m in re.finditer(r"[.!?]\s+(?=[A-Z0-9“\"‘(])", t):
@@ -232,7 +233,7 @@ for x in items:
         x.update(author="Kwontified", desc=desc, kind="News")
     else:
         body = md(x["body"], pid, lead=False, plain_heads=("About Kwontified", "Media contact"))
-        e.update(ttag=smart(x["title"]), desc=html.escape(first_sentences(body)), kicker="Press release. For immediate release", byline=f"Sandy Springs, Georgia. {fdate(d)}.",
+        e.update(ttag=smart(x["title"]), desc=html.escape(first_sentences(body)), kicker="Press release. For immediate release", byline=f"Atlanta, Georgia. {fdate(d)}.",
                  body=body, author="Kwontified", authhref="Contact.html", authtext="Contact Kwontified", glance="", closeh="Press and media inquiries.", closebtn="Contact Kwontified")
         x.update(author="Kwontified", desc="", kind="Press release", topic="", channel="")
     x["entry"] = e
