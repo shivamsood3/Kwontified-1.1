@@ -8,7 +8,8 @@ import { createHash } from "node:crypto";
  *   NEWSLETTER_SHEET_WEBHOOK_URL / CONTACT_SHEET_WEBHOOK_URL   Apps Script web app URLs
  *   SHEET_WEBHOOK_SECRET                                       shared secret checked by the script
  *   MAILCHIMP_API_KEY                                          ends in the data centre, e.g. "-us21"
- *   MAILCHIMP_NEWSLETTER_LIST_ID / MAILCHIMP_CONTACT_LIST_ID   audience IDs
+ *   MAILCHIMP_NEWSLETTER_LIST_ID / MAILCHIMP_CONTACT_LIST_ID   audience IDs (can be the same audience)
+ *   MAILCHIMP_DOUBLE_OPT_IN                                    "true" to send a confirmation email first
  */
 export type Kind = "newsletter" | "contact";
 
@@ -45,22 +46,41 @@ export async function toMailchimp(kind: Kind, c: { email: string; firstName?: st
   const list = kind === "newsletter" ? process.env.MAILCHIMP_NEWSLETTER_LIST_ID : process.env.MAILCHIMP_CONTACT_LIST_ID;
   const dc = key.split("-")[1];
   if (!key || !list || !dc) return false;
-  const id = createHash("md5").update(c.email.toLowerCase()).digest("hex");
+  const member = `https://${dc}.api.mailchimp.com/3.0/lists/${list}/members/${createHash("md5").update(c.email.toLowerCase()).digest("hex")}`;
+  const headers = { "content-type": "application/json", authorization: `Basic ${Buffer.from(`key:${key}`).toString("base64")}` };
   const merge: Record<string, string> = {};
   if (c.firstName) merge.FNAME = c.firstName;
   if (c.lastName) merge.LNAME = c.lastName;
-  const res = await fetch(`https://${dc}.api.mailchimp.com/3.0/lists/${list}/members/${id}`, {
-    method: "PUT",
-    headers: { "content-type": "application/json", authorization: `Basic ${Buffer.from(`key:${key}`).toString("base64")}` },
-    body: JSON.stringify({
-      email_address: c.email,
-      // newsletter sign-ups asked for email; contact-form visitors did not, so they are
-      // stored as contacts that marketing campaigns cannot be sent to
-      status_if_new: kind === "newsletter" ? "subscribed" : "transactional",
-      merge_fields: merge,
-      tags: [kind === "newsletter" ? "Website newsletter" : "Website contact form"],
-    }),
+  // Newsletter sign-ups asked for email, so they are subscribed even if they were already in
+  // the audience from the contact form. With MAILCHIMP_DOUBLE_OPT_IN=true Mailchimp first
+  // sends a confirmation email ("pending"). Contact-form visitors did not ask for marketing
+  // email: new ones are stored as non-subscribed ("transactional") and an existing
+  // contact's status is left alone.
+  const optIn = process.env.MAILCHIMP_DOUBLE_OPT_IN === "true" ? "pending" : "subscribed";
+  const put = (status?: string) =>
+    fetch(`${member}?skip_merge_validation=true`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({
+        email_address: c.email,
+        status_if_new: kind === "newsletter" ? optIn : "transactional",
+        ...(status ? { status } : {}),
+        merge_fields: merge,
+      }),
+    });
+  let res = await put(kind === "newsletter" ? optIn : undefined);
+  // someone who unsubscribed earlier can only rejoin by confirming by email
+  if (!res.ok && res.status === 400 && kind === "newsletter" && optIn === "subscribed") res = await put("pending");
+  if (!res.ok) {
+    console.error(`[${kind}] Mailchimp answered ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    return false;
+  }
+  // tags are not part of the add-or-update call; they have their own endpoint
+  const tag = await fetch(`${member}/tags`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ tags: [{ name: kind === "newsletter" ? "Website newsletter" : "Website contact form", status: "active" }] }),
   });
-  if (!res.ok) console.error(`[${kind}] Mailchimp answered ${res.status}`);
-  return res.ok;
+  if (!tag.ok) console.error(`[${kind}] Mailchimp tag answered ${tag.status}`);
+  return true;
 }

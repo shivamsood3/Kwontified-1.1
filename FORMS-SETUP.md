@@ -36,11 +36,13 @@ function doPost(e) {
 
 ## Mailchimp
 
-Create the audiences (or one audience, using the two tags) in Mailchimp, then set:
+Full step-by-step guide: `MAILCHIMP-SETUP.md`. In short, use one audience for both forms and set:
 
-- `MAILCHIMP_API_KEY` (Account > Extras > API keys; it ends in the data centre, e.g. `-us21`)
-- `MAILCHIMP_NEWSLETTER_LIST_ID` and `MAILCHIMP_CONTACT_LIST_ID` (Audience > Settings > Audience ID)
+- `MAILCHIMP_API_KEY` (Profile > Extras > API keys; it ends in the data centre, e.g. `-us21`)
+- `MAILCHIMP_NEWSLETTER_LIST_ID` and `MAILCHIMP_CONTACT_LIST_ID` (Audience > Settings > Audience name and defaults > Audience ID; the same ID for both)
+- optionally `MAILCHIMP_DOUBLE_OPT_IN=true` to send a confirmation email first
 
-Newsletter sign-ups are added as subscribed with the tag "Website newsletter". Contact
-form visitors did not ask for marketing email, so they are added as non-subscribed
-contacts with the tag "Website contact form".
+Newsletter sign-ups are added as subscribed with the tag "Website newsletter" (an existing
+contact is subscribed too). Contact form visitors did not ask for marketing email, so new ones
+are added as non-subscribed contacts with the tag "Website contact form" and an existing
+contact's status is left alone.
