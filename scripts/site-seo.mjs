@@ -34,13 +34,13 @@ const PEOPLE = {
   "Jordan Taylor": {
     url: `${SITE}/about/leadership/jordan-taylor`, sameAs: "https://www.linkedin.com/in/jordanhtaylor/", image: `${SITE}/assets/leadership-jordan-taylor.jpg`,
     alumniOf: [{ "@type": "CollegeOrUniversity", name: "Cornell University" }, { "@type": "CollegeOrUniversity", name: "University of Notre Dame" }],
-    hasCredential: [MIT_AI],
+    hasCredential: [{ "@type": "EducationalOccupationalCredential", name: "Bachelor of Arts", credentialCategory: "degree", recognizedBy: { "@type": "CollegeOrUniversity", name: "Cornell University" } }, { "@type": "EducationalOccupationalCredential", name: "Juris Doctor", credentialCategory: "degree", recognizedBy: { "@type": "CollegeOrUniversity", name: "University of Notre Dame" } }, MIT_AI],
     knowsAbout: ["Retail media", "Amazon Ads", "Marketplace analytics", "Business intelligence", "Artificial intelligence in retail", "Agentic commerce"],
   },
   "Elaine Kwon": {
     url: `${SITE}/about/leadership/elaine-kwon`, sameAs: "https://www.linkedin.com/in/elainekwon/", image: `${SITE}/assets/leadership-elaine-kwon.jpg`,
     alumniOf: [{ "@type": "CollegeOrUniversity", name: "University of Pennsylvania" }],
-    hasCredential: [MIT_AI],
+    hasCredential: [{ "@type": "EducationalOccupationalCredential", name: "Bachelor of Arts", credentialCategory: "degree", recognizedBy: { "@type": "CollegeOrUniversity", name: "University of Pennsylvania" } }, MIT_AI],
     knowsAbout: ["Marketplace management", "E-commerce operations", "Amazon", "Luxury fashion e-commerce", "Agentic commerce"],
     knowsLanguage: ["English", "Spanish", "Portuguese", "Korean"],
   },
