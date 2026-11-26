@@ -1,0 +1,121 @@
+Imported: 847 articles, 130 news items, 8 press releases (985 pages), 2018-01-02 to 2026-11-03
+Images mapped: 985
+
+skipped, status not Final (Blog): 37
+  P0129: Needs data
+  P0142: Needs data
+  P0074: Needs data
+  P0057: Needs data
+  P0093: Needs data
+  P0063: Needs data
+  P0144: Needs data
+  P0133: Needs data
+  P0135: Needs data
+  P0123: Needs data
+  P0082: Needs data
+  P0069: Needs data
+  P0219: Needs data: Q1 2019 public benchmark figures (CPC, conversio
+  P0247: Needs data
+  P0244: Needs data
+  P0260: Needs data
+  P0281: Needs data
+  P0310: Needs data
+  P0300: Needs data: Pacvue Q3 2019 figures (SP CPC, SB CPC, SB CTR) 
+  P0323: Needs data
+  P0314: Needs data
+  P0316: Needs data
+  P0340: Needs data
+  P0347: Needs data
+  P0426: Needs data
+  P0429: Needs data
+  P0434: Needs data: Roundel auction type, floors and keyword control
+  P0470: Needs data: Q3 2020 public benchmark figures
+  P0455: Needs data
+  P0480: Needs data
+  A0180: Needs data
+  A0217: Needs data
+  A0259: Needs data
+  A0304: Needs data
+  A0349: Needs data
+  A0389: Needs data
+  A0428: Needs data
+
+skipped, status not Final (Press releases): 6
+  P0169: Draft only: confirm attendance
+  P0335: Draft only: confirm attendance
+  A0129: Draft only. Jordan Taylor quote needs his approval. [CITY] (
+  A0133: Draft only. Elaine Kwon quote needs her approval. [CITY] (20
+  A0280: Draft only. Elaine Kwon quote needs her approval. [CITY] (20
+  A0302: Draft only. Jordan Taylor quote needs his approval. [CITY] (
+
+skipped, marked Final but still contains a placeholder: 2
+  A0147: [DATA NEEDED: 2020 portfolio deal share and 2021 range] x1
+  A0474: [DATA NEEDED: number of brands, at least five] x17
+
+skipped, status not Final (News): 1
+  A0425: Draft for review; labeled preliminary. DATE CHANGED from cal
+
+already on the site as a designed page (left as is): 33
+  A0951
+  A0952
+  A0953
+  A0955
+  A0957
+  A0958
+  A0959
+  A0961
+  A0963
+  A0964
+  A0965
+  A0967
+  A0971
+  A0972
+  A0974
+  A0976
+  A0979
+  A0981
+  A0983
+  A0985
+  A0986
+  A0988
+  A0991
+  A0994
+  A0999
+  A0990
+  A0998
+  A0992
+  A0984
+  A0995
+  A0980
+  A0968
+  A0973
+
+address already in use, year added: 28
+  P0056: /perspectives/amazon-other-revenue-advertising-growth -> /perspectives/amazon-other-revenue-advertising-growth-2018
+  A0160: /perspectives/cyber-week-results-against-forecast -> /perspectives/cyber-week-results-against-forecast-2021
+  A0328: /perspectives/cyber-week-results-forecast-grade -> /perspectives/cyber-week-results-forecast-grade-2022
+  A0330: /perspectives/ecommerce-plan-assumptions-to-change -> /perspectives/ecommerce-plan-assumptions-to-change-2022
+  A0332: /perspectives/marketplaces-year-structural-shifts -> /perspectives/marketplaces-year-structural-shifts-2022
+  A0343: /perspectives/amazon-fee-changes-model-margin -> /perspectives/amazon-fee-changes-model-margin-2023
+  A0480: /perspectives/amazon-unboxed-changes-advertisers -> /perspectives/amazon-unboxed-changes-advertisers-2023
+  A0629: /perspectives/prime-big-deal-days-forecast -> /perspectives/prime-big-deal-days-forecast-2024
+  A0650: /perspectives/amazon-ads-unboxed-changes-advertisers -> /perspectives/amazon-ads-unboxed-changes-advertisers-2024
+  A0656: /perspectives/cyber-week-forecast-ranges -> /perspectives/cyber-week-forecast-ranges-2024
+  A0671: /perspectives/cyber-week-forecast-graded -> /perspectives/cyber-week-forecast-graded-2024
+  A0623: /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-accelerate-202 -> /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-accelerate-202-2024
+  A0638: /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-ads-unboxed-20 -> /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-ads-unboxed-20-2024
+  A0707: /perspectives/walmart-ad-growth-what-it-wants -> /perspectives/walmart-ad-growth-what-it-wants-2025
+  A0730: /perspectives/mothers-day-marketplaces-gifting -> /perspectives/mothers-day-marketplaces-gifting-2025
+  A0772: /perspectives/prime-day-results-against-forecast -> /perspectives/prime-day-results-against-forecast-2025
+  A0780: /perspectives/q4-budget-phasing-october-cyber-week -> /perspectives/q4-budget-phasing-october-cyber-week-2025
+  A0799: /perspectives/prime-big-deal-days-forecast -> /perspectives/prime-big-deal-days-forecast-2025
+  A0834: /perspectives/amazon-unboxed-changes-advertisers -> /perspectives/amazon-unboxed-changes-advertisers-2025
+  A0843: /perspectives/cyber-week-forecast-graded -> /perspectives/cyber-week-forecast-graded-2025
+  A0793: /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-accelerate-202 -> /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-accelerate-202-2025
+  A0822: /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-ads-unboxed-20 -> /perspectives/press-releases/kwontified-managing-partners-elaine-kwon-and-jordan-taylor-to-attend-amazon-ads-unboxed-20-2025
+  A0857: /perspectives/amazon-fee-changes-model-margin -> /perspectives/amazon-fee-changes-model-margin-2026
+  A0869: /perspectives/walmart-marketplace-brands-state -> /perspectives/walmart-marketplace-brands-state-2026
+  A0872: /perspectives/target-plus-brands-state -> /perspectives/target-plus-brands-state-2026
+  A0879: /perspectives/walmart-ad-growth-what-it-wants -> /perspectives/walmart-ad-growth-what-it-wants-2026
+  A0881: /perspectives/big-spring-sale-forecast-ranges -> /perspectives/big-spring-sale-forecast-ranges-2026
+  A0947: /perspectives/back-to-school-earlier-season-planning -> /perspectives/back-to-school-earlier-season-planning-2026

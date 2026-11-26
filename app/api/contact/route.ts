@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { esc, isEmail, saveContact, sendEmail, settings } from "../_lib/resend";
+import { context, toMailchimp, toSheet } from "../_lib/sinks";
 
 /**
  * "Request a marketplace review" form (/contact). The form hook added by
@@ -64,6 +65,8 @@ export async function POST(req: Request) {
   const [mailed, saved] = await Promise.allSettled([
     sendEmail({ to: settings().contactTo, subject, html, text, replyTo: data.email }),
     saveContact({ email: data.email, firstName: data.first_name, lastName: data.last_name }, "reviews"),
+    toSheet("contact", { ...context(req), ...data }),
+    toMailchimp("contact", { email: data.email, firstName: data.first_name, lastName: data.last_name }),
   ]);
   if (!settings().key) console.warn("[contact] RESEND_API_KEY is not set: the request was logged only");
 

@@ -3,11 +3,22 @@ import siteRoutes from "./site-routes.json";
 
 // Pages are the client's HTML exports, built by scripts/build-site.mjs into
 // public/_kq and served unchanged at their canonical routes.
-const pageRewrites = siteRoutes.map(({ route, file }) => ({ source: route, destination: file }));
+// Articles, news items and press releases all follow one file-naming rule
+// (/perspectives/news/x is /_kq/perspectives--news--x.html), so three patterns
+// serve every one of them. Listing each as its own rewrite would pass Vercel's
+// limit on routes once the archive is in.
+const isArticle = (route: string) => /^\/perspectives\/(news\/|press-releases\/)?[^/]+$/.test(route);
+const pageRewrites = siteRoutes
+  .filter(({ route }) => !isArticle(route))
+  .map(({ route, file }) => ({ source: route, destination: file }));
+const articleRewrites = [
+  { source: "/perspectives/news/:slug", destination: "/_kq/perspectives--news--:slug.html" },
+  { source: "/perspectives/press-releases/:slug", destination: "/_kq/perspectives--press-releases--:slug.html" },
+  { source: "/perspectives/:slug", destination: "/_kq/perspectives--:slug.html" },
+];
 
 // URLs from the previous build of the site that moved or were merged.
 const moved: Record<string, string> = {
-  "/accessibility": "/privacy", // the design's footer links Accessibility to the Privacy Policy
   "/capabilities/ai-commerce": "/capabilities/agentic-commerce",
   "/capabilities/analytics": "/capabilities/analytics-forecasting",
   "/perspectives/holiday-2026-season-starts-in-october": "/perspectives/holiday-season-starts-october",
@@ -21,9 +32,9 @@ const moved: Record<string, string> = {
     "/perspectives/news/unboxed-2026-day-two-what-advertisers-give-up-for-automation",
   "/perspectives/news/unboxed-2026-amazon-ads-agents": "/perspectives",
   "/perspectives/press/unboxed-2026-san-francisco":
-    "/perspectives/press-releases/kwontifieds-elaine-kwon-jordan-taylor-corey-brown-and-priyanka-shah",
+    "/perspectives/press-releases/kwontified-to-attend-amazon-ads-unboxed-2026-in-san-francisco",
   "/perspectives/press/accelerate-2026-seattle":
-    "/perspectives/press-releases/kwontifieds-jordan-taylor-corey-brown-and-dennis-wong-to-attend",
+    "/perspectives/press-releases/kwontified-to-attend-amazon-accelerate-2026-in-seattle",
   "/perspectives/press/perspectives-briefing-launch": "/perspectives",
   "/styleguide": "/",
   "/thank-you": "/contact/thank-you",
@@ -37,7 +48,7 @@ const moved: Record<string, string> = {
 
 const nextConfig: NextConfig = {
   async rewrites() {
-    return { beforeFiles: pageRewrites, afterFiles: [], fallback: [] };
+    return { beforeFiles: [...pageRewrites, ...articleRewrites], afterFiles: [], fallback: [] };
   },
   async redirects() {
     return Object.entries(moved).map(([source, destination]) => ({ source, destination, permanent: true }));

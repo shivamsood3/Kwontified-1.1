@@ -49,6 +49,17 @@ for (const f of pages) {
   if (ARCHIVE_PAGES.includes(f)) {
     const m = html.match(/<script type="application\/json" id="kq-articles">([\s\S]*?)<\/script>/);
     archives[f] = JSON.parse(m[1]);
+    // Articles imported from the content archive (scripts/import-archive.py) join the
+    // ones embedded in the template. An article's own image is used once the file
+    // site-src/assets/archive-<ID>.jpg exists; until then it shows the plain panel.
+    const extra = path.join(ROOT, "site-src/archive", f.replace(".html", ".json"));
+    if (fs.existsSync(extra)) {
+      for (const [id, a] of Object.entries(JSON.parse(read(extra)))) {
+        if (archives[f][id]) continue;
+        const own = `archive-${id}.jpg`;
+        archives[f][id] = fs.existsSync(path.join(SRC_ASSETS, own)) ? { ...a, img: `assets/${own}` } : a;
+      }
+    }
     archiveDefault[f] = html.match(/data-art="body" data-archive-id="(A\d{4})"/)[1];
     continue;
   }

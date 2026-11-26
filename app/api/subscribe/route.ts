@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { esc, isEmail, saveContact, sendEmail, settings } from "../_lib/resend";
+import { context, toMailchimp, toSheet } from "../_lib/sinks";
 
 /**
  * "Get our marketplace briefing once a month" sign-up (footer of every page).
@@ -24,8 +25,11 @@ export async function POST(req: Request) {
   console.log("[subscribe] newsletter sign-up:", JSON.stringify({ email, submittedAt: new Date().toISOString() }));
 
   const { newsletterTo, key } = settings();
+  const ctx = context(req);
   const [saved] = await Promise.allSettled([
     saveContact({ email }, "newsletter"),
+    toSheet("newsletter", { ...ctx, email }),
+    toMailchimp("newsletter", { email }),
     newsletterTo
       ? sendEmail({
           to: newsletterTo,
