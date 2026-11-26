@@ -257,7 +257,7 @@ for (const f of pages) {
   swap('aria-label="Confirmation"', 'aria-label="Page not found"');
   swap(">Thank you.</h1>", ">Page not found.</h1>");
   swap(
-    "Your request is with our team. A member of our team will read it and reply within one business day to suggest times for a discovery call.",
+    "Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.",
     "The page you were looking for has moved or no longer exists.",
   );
   swap(

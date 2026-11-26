@@ -87,7 +87,7 @@ const addPage = (route, html, source) => {
   h = setMeta(h, "You’re subscribed", "You are subscribed to the Kwontified Briefing, our monthly note on the marketplace changes that matter for brands.", "/subscribe/thank-you");
   const sw = (from, to) => { if (!h.includes(from)) fail(`confirmation template: "${from.slice(0, 40)}" not found`); h = h.split(from).join(to); };
   sw(">Thank you.</h1>", ">You’re subscribed.</h1>");
-  sw("Your request is with our team. A member of our team will read it and reply within one business day to suggest times for a discovery call.", "Thank you. The next Kwontified Briefing will come to your inbox.");
+  sw("Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.", "Thank you. The next Kwontified Briefing will come to your inbox.");
   sw("On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take. Nothing more is needed from you now.", "It arrives once a month: the marketplace changes that matter, what they mean for your brand and our latest guides. Every issue has a one-click unsubscribe link.");
   sw("If something changes before we speak, write to ", "If the briefing does not arrive, check your spam folder or write to ");
   if (!/href="\/work"[^>]*>See our work<\/a>/.test(h)) fail("confirmation template: See our work button not found");
@@ -151,7 +151,7 @@ const COPY = {
   ],
   "capabilities.html": [["All six share one plan, one data set and one account lead,", "All six work inside one agile omni-channel strategy, with one data set and one account lead,"]],
   "channels--amazon.html": [["One team owns the plan, the daily work and the results,", "One team owns the Amazon strategy, the daily work and the results,"]],
-  "channels--instagram-shop.html": [["One plan for posts, Stories, Reels, creators and Meta advertising.", "One strategy for posts, Stories, Reels, creators and Meta advertising."]],
+  "channels--instagram-shop.html": [["We run posts, Stories, Reels, creators and Meta advertising to one plan.", "We run posts, Stories, Reels, creators and Meta advertising to one strategy."]],
   "channels--international.html": [["Each market is run day to day, with consolidated reporting and budgets that move between markets on measured return.", "Each market is run day to day to its own strategy, with consolidated reporting. Budgets move between markets only with your approval."],
     ["Budgets move between markets on measured return, as they do between channels.", "Budgets move between markets only with your approval, as they do between channels."],
     ["with consolidated reporting and budgets that move between markets on measured return.", "with consolidated reporting. Budgets move between markets only with your approval."],

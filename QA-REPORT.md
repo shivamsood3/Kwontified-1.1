@@ -91,6 +91,10 @@ Medium:
 - **26 template images without width and height attributes:** no measured layout shift (CLS 0), so no action needed.
 - **Audit storage:** rows were not added to `seo_geo_ops` because this was a pre-launch local audit; the first live-site audit should be the baseline.
 
+## Copy pass (2026-11-26)
+
+All copy scored, refined and rescored; details in `COPY-PASS.md`. Built core pages: 66, none with a strong AI-writing tell (the two press-release datelines keep their dash). Archive: 1,013 items, none with a strong tell after 66 edits in 34 articles. All 1,083 routes return 200 after the changes.
+
 ## Not checked
 
 - Field Core Web Vitals (no live traffic yet), geo-optimizer score (see above), live status of external links, the client portal behind sign-in, form submission end to end (covered in `FORMS-SETUP.md`), and how the site renders in Safari and Firefox (Chromium only).

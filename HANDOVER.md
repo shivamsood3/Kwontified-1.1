@@ -53,6 +53,14 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - `next start`: all 1,083 routes return 200; the 21 redirects land on 200 pages; unknown addresses return the 404 page; the sitemap lists 1,080 URLs (1,018 with a real publication date).
 - Cookie banner and tag loading: nine visitor scenarios passed in the chat session (not changed since).
 
+## The copy pass (done 2026-11-26)
+
+- All site copy was scored, refined and rescored; see `COPY-PASS.md` for the rubric, the before and after scores, what changed and five questions for Jordan.
+- Core pages: 29 of 42 templates edited (consistency, fragments made into sentences, repeated clauses, careers page mechanics, meta descriptions). No facts changed; each page passed the voice-pass fact gate.
+- Archive: 66 edits in 34 older articles, kept in `site-src/archive/copy-edits.json`; `scripts/import-archive.py` re-applies them on every import, keeps alt text and applies house spellings (e-commerce, A+ Content). The Google Sheets were not edited.
+- `scripts/site-content.mjs` and `scripts/build-site.mjs` quote page sentences. If page copy changes again, the build stops with the sentence it could not find; update the quoted text there.
+- The published text differs from `site-src/pages` in about 30 sentences that `site-content.mjs` rewrites for the "one agile omni-channel strategy" wording. Read `public/_kq` after a build to see the final text.
+
 ## Decisions Jordan has made (do not undo)
 
 - Google Tag Manager `GTM-NCKGHDXW` and Google Ads `AW-857530176` load only after cookie consent, through the existing banner. The Ads tag uses the `gtag/js` path, not `gtm.js`.

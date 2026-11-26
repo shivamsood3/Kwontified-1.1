@@ -251,6 +251,36 @@ for tpl in entries:
         entries[tpl][x["id"]] = x["entry"]
 
 os.makedirs(OUT, exist_ok=True)
+# Work done on the JSON after an import must survive the next one:
+#   - image descriptions (the "alt" field), written by looking at each picture
+#   - copy edits in copy-edits.json: small wording fixes made in the site copy pass.
+#     Each one is {id, old, new}; "all": true replaces every occurrence. An edit whose
+#     old text is no longer in the sheet's version is listed in report.txt.
+# House spelling, applied to text only (never inside a tag, so links are untouched) and
+# never inside quotation marks: "e-commerce" and Amazon's own "A+ Content".
+def house(body):
+    def node(m):
+        t = m.group(1)
+        parts = re.split(r"(“[^”]*”)", t)
+        return ">" + "".join(x if x.startswith("“") else re.sub(r"(?<![\w-])ecommerce\b", "e-commerce", x).replace("A+ content", "A+ Content") for x in parts) + "<"
+    return re.sub(r">([^<>]+)<", node, ">" + body + "<")[1:-1]
+EDITS = os.path.join(OUT, "copy-edits.json")
+copy_edits = json.load(open(EDITS, encoding="utf8")) if os.path.exists(EDITS) else []
+for tpl, d in entries.items():
+    path = os.path.join(OUT, tpl.replace(".html", ".json"))
+    before = json.load(open(path, encoding="utf8")) if os.path.exists(path) else {}
+    for pid, e in d.items():
+        if not e.get("alt") and before.get(pid, {}).get("alt"): e["alt"] = before[pid]["alt"]
+    for ed in copy_edits:
+        e = d.get(ed["id"])
+        if e is None: continue
+        if ed["old"] in e["body"]: e["body"] = e["body"].replace(ed["old"], ed["new"]) if ed.get("all") else e["body"].replace(ed["old"], ed["new"], 1)
+        elif ed["new"] and ed["new"] in e["body"]: pass  # the sheet already has the new wording
+        else: report["copy edit not applied (the sheet's text has changed)"].append(f"{ed['id']}: {ed['old'][:60]}")
+    for e in d.values():
+        for k in ("body", "related", "title", "ttag", "crumb", "desc"):
+            if e.get(k): e[k] = house(e[k])
+for x in items: x["desc"] = house(x["desc"])
 for tpl, d in entries.items():
     json.dump(d, open(os.path.join(OUT, tpl.replace(".html", ".json")), "w", encoding="utf8"), ensure_ascii=False, separators=(",", ":"))
 index = [dict(id=x["id"], kind=x["kind"], date=x["date"].isoformat(), title=x["entry"]["title"], url=x["route"], topic=x["topic"], channel=x["channel"], author=x["author"], desc=html.escape(x["desc"])) for x in sorted(items, key=lambda x: (x["date"], x["id"]), reverse=True)]
