@@ -82,7 +82,7 @@ Medium:
 
 - **Titles over 60 characters (497):** the article headlines themselves. Google truncates rather than penalises; shorten in the sheets if any underperform in Search Console.
 - **Meta descriptions over 160 characters (17):** capability and case study pages, cut off in results after about 155 characters. **Under 70 (2):** the two original 2026 press releases ("Kwontified to attend Amazon Accelerate 2026 in Seattle.").
-- **Mailboxes:** confirm sales@ (293 article and press closings), careers@, legal@, security@ and support@kwontified.com receive mail.
+- **Mailboxes:** sales@ was replaced by contact@kwontified.com everywhere on 2026-11-26 (Jordan's decision). Confirm careers@, legal@, security@ and support@kwontified.com receive mail.
 - **External links:** 2,092 outside links to 699 sites could not be tested from the audit machine (network blocked). All are well formed; one uses plain http (techlicious.com). Run a live link check (for example `lychee`) in CI or after launch.
 - **Homepage video:** no poster image (a still would show before it loads), and it shows people, which differs from the no-people rule for site imagery.
 - **Leadership photographs:** still placeholders.

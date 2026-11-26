@@ -58,7 +58,7 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Share image: Concept A with the white K mark and wordmark, no tagline (`public/og/default.jpg`).
 - Press releases on the site do not name Corey Brown, Priyanka Shah or Dennis Wong. The press kit block is removed for now.
 - Public copy says "one agile omni-channel strategy"; budgets move between channels only with client approval.
-- Contact address is contact@kwontified.com; press is press@kwontified.com; phone 404.873.9148.
+- Contact address is contact@kwontified.com; press is press@kwontified.com; phone 404.873.9148. sales@kwontified.com is not used: every reference in the archive and on the site was changed to contact@ (2026-11-26).
 
 ## Open items
 
@@ -67,5 +67,5 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Google Ads conversions: no conversion labels yet for the contact and newsletter thank-you pages.
 - Leadership photographs: placeholders remain on About, Leadership and Perspectives.
 - The Perspectives index page is about 1.1 MB of HTML with the full archive. After the image work it scores 88 on Lighthouse mobile (LCP 3.0 s, TBT 370 ms); moving the cards to a data file loaded on demand would bring it in line with the other pages.
-- From the QA pass (details in `QA-REPORT.md`): a robots.txt change and an llms.txt wording change await Jordan's approval; confirm the sales@, careers@, legal@, security@ and support@ mailboxes exist; run geo-optimizer and a live external-link check where the site is reachable; decide on the homepage video (no poster image, and it shows people).
+- From the QA pass (details in `QA-REPORT.md`): a robots.txt change and an llms.txt wording change await Jordan's approval; confirm the careers@, legal@, security@ and support@ mailboxes exist; run geo-optimizer and a live external-link check where the site is reachable; decide on the homepage video (no poster image, and it shows people).
 - The six draft press releases and the two `[DATA NEEDED]` articles can be imported once the sheets are completed and marked Final.
