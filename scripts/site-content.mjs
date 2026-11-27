@@ -108,7 +108,7 @@ const addPage = (route, html, source) => {
   one(/(<h2 id="related-title"[^>]*>[^<]*<\/h2><div[^>]*>)[\s\S]*?(<\/div><\/div><\/section>\s*<\/main>)/g, (_, a, b) => a + latestCards(P["perspectives.html"]) + b, "cards");
   // the visitor has just signed up, so the footer does not ask again
   one(/(<h2[^>]*>)Get our marketplace briefing once a month\.(<\/h2>\s*<p[^>]*>)[^<]*(<\/p>)\s*<form data-kq-form="newsletter"[\s\S]*?<\/form>/g, (_, a, b, c) =>
-    `${a}Want a first read on your own account?${b}Share your channels and goals. A member of our team will reply within one business day with a first read on where the growth is.${c}` +
+    `${a}Want a first read on your own account?${b}Share your channels and goals. A member of our team will reply within one business day to set up a call; your written first read follows it.${c}` +
     '<a class="kq-btn" href="/contact" style="align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; box-sizing: border-box; background: #DCBF85; color: #102A4C; font-size: 16px; font-weight: 500; text-decoration: none">Request a marketplace review</a>', "footer sign-up block");
   // double opt-in: the same page, worded for someone who still has to confirm by email
   sw("</section>\n<section", `</section><script>/* confirm by email (double opt-in) */

@@ -218,7 +218,7 @@ function casePage(c) {
   }, 3);
   rep(/(<h2 id="close-title"[^>]*>)Find out what Amazon owes you\.(<\/h2>)/g, (_, a, b) => a + "Let’s write your next case study." + b);
   rep(/(<p[^>]*>)It starts with a call\. Once we have signed a mutual NDA, we look at your Vendor Central deduction history[^<]*(<\/p>)/g, (_, a, b) => a + "It starts with a call about your channels and goals. We send a written first read on where growth is most within reach for your brand." + b);
-  rep(/>Request a recovery review<\/a>/g, () => ">Start your review</a>");
+  rep(/>Request a recovery review<\/a>/g, () => ">Request a marketplace review</a>");
   const body = h.slice(h.indexOf("<main"), h.indexOf('id="related-title"'));
   for (const stale of ["July 2024", "kitchen appliance", "$1.42M", "shortage"]) if (body.includes(stale) && !c.sum.includes(stale)) fail(`${c.url}: template text "${stale}" left behind`);
   return setTitle(h, c.url);

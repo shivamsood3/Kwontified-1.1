@@ -210,7 +210,7 @@ let data = W.by["Decisions made from your data"];
 data = once(data, "Amazon sales grew 22% while TACoS fell 3.7 points", '<a href="/work/sales-up-22-while-tacos-fell-3-7-points" style="color: #102A4C">Amazon sales grew 22% while TACoS fell 3.7 points</a>', "Why: the pet supplements result");
 
 const btn = (A.by["Get a first read on your marketplace business."].match(/<a class="kq-btn kq-btn-light" href="\/contact"[^>]*>/) || fail("no review button to copy"))[0];
-const midCta = `<div class="kq-ab-ask"><p>Want to see where we would start on your account? A senior team member reads every request.</p>${btn}Get your first read</a></div>`;
+const midCta = `<div class="kq-ab-ask"><p>Want to see where we would start on your account? A senior team member reads every request.</p>${btn}Request a marketplace review</a></div>`;
 
 const portal = portalSection({ section, two, H2, P });
 
