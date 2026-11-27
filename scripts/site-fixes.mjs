@@ -117,9 +117,8 @@ const CASE_DESC = Object.fromEntries(Object.entries({
 // F044, F051, F093, F130). Every figure here is already on the site, or is arithmetic on figures
 // the same summary states; nothing is new.
 // TODO(owner, QA F093/F118): full write-ups (situation, what we did, period and measurement) need
-// detail the owner signs off from the engagement records. Still without a stated basis: Amazon
-// Mexico "nearly 2x" conversion (against what?), Mercado Libre "+33%" official store sales (period),
-// the Temu "99%" Buy Box figure (period and comparison).
+// detail the owner signs off from the engagement records. The Mexico, Mercado Libre and Temu periods
+// below come from the owner's case records (confirmed 2026-11-27).
 const EXTRA = Object.fromEntries(Object.entries({
   // 38% of $2.60M is $0.99M, on $380K of spend: 2.6x (the Retail Media page and the /work chart)
   "walmart display": "Online sales alone, 38% of the total, returned 2.6x on the same spend.",
@@ -131,7 +130,9 @@ const EXTRA = Object.fromEntries(Object.entries({
   // the Target Plus page (1,140 items, 97% first time) and the Marketplace Operations chart (3% resubmitted)
   "live on target plus": "Of the 1,140 items, 97% were approved on first submission; the other 3% were resubmitted.",
   // the Mercado Libre page's hero
-  "infringing listings": "Official store sales rose 33%.",
+  "infringing listings": "Official store sales rose 33% in March to June 2024 against the same months of 2023.",
+  "amazon mexico": "On the 18 products moved to local stock, conversion rose from 4.8% in October to December 2023 to 8.9% in March to June 2024.",
+  "without losing the amazon buy box": "The Amazon Buy Box percentage rose from 87% in October 2024 and held at 99% from March to June 2025.",
 }).map(([kw, s]) => [find(kw).url, s]));
 
 // <title>: the result and the channel, no full stop, always with the suffix, at most 60 characters
