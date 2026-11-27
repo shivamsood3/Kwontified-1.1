@@ -61,20 +61,112 @@ const EDITS = [
   ],
 ];
 
+// ---------------------------------------------------------------- the cookie notice
+// The notice itself comes from the export (an <aside class="kq-ck"> and its script in every
+// page). Changes from the QA review of 2026-11-27:
+//   1. It is the first thing after the skip link, so a keyboard user reaches it within three
+//      Tabs instead of after 90 or more stops hidden behind it (WCAG 2.4.11). While it is open,
+//      a focused element that would sit under it is scrolled clear, and the page can scroll far
+//      enough to uncover the footer.
+//   2. Shorter wording and a compact layout on phones (the three buttons on one row), so it
+//      covers about a third of a phone screen instead of half to two thirds. The details of each
+//      cookie type stay one tap away under "Choose cookies".
+//   3. Opened again from "Cookie preferences" in the footer, it has a Close button and closes
+//      on Escape, keeping the visitor's saved choice; focus goes back to the footer button.
+//   4. A saved choice lasts 12 months, and only for the version of the notice it was given to.
+//      When the tags in the container or the Privacy Policy change in a way visitors should
+//      decide on again, add 1 to CONSENT_VERSION: everyone is asked again on their next visit.
+//      A choice saved before versioning (no "v") counts as version 1.
+//   5. Withdrawing analytics or advertising consent also deletes the first-party cookies those
+//      tags set (Google Analytics _ga*, Google Ads _gcl*, Meta _fbp/_fbc, Microsoft _uet*,
+//      LinkedIn li_fat_id).
+const CONSENT_VERSION = 1;
+const CONSENT_MONTHS = 12;
+const CK_TEXT_OLD = "We use necessary cookies to run the site. With your permission, we also use analytics cookies to see how the site is used and advertising cookies to measure and show our ads. Read our ";
+const CK_TEXT = "We use necessary cookies to run the site. With your permission, we also use cookies to measure visits and to measure and show our ads. Read our ";
+const CLOSE_ICON = `<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M3 3l10 10M13 3 3 13"/></svg>`;
+const CK_CSS = `<style data-kq-ck>
+.kq-ck{scroll-margin:0}
+.kq-ck-x{position:absolute;top:8px;right:8px;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:none;color:#102A4C;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background-color 180ms ease}
+.kq-ck-x:hover{background:#E1E9F1}
+.kq-ck-x:focus-visible{outline:3px solid #00618D;outline-offset:0}
+.kq-ck:has(.kq-ck-x:not([hidden])) h2{padding-right:40px}
+/* while the notice is open the footer gains room below it, so nothing ends up permanently under it */
+html.kq-ck-on footer{padding-bottom:var(--kq-ck-h,0px)}
+@media (max-width:600px){
+.kq-ck{left:8px;bottom:8px;width:calc(100vw - 16px);max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);padding:14px 14px 12px;font-size:14px;line-height:1.4;border-radius:12px}
+.kq-ck h2{font-size:17px;line-height:1.25}
+.kq-ck p{margin-top:4px}
+.kq-ck-x{top:2px;right:2px}
+.kq-ck-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}
+.kq-ck-actions button{padding:4px 6px;font-size:14px;line-height:1.15;border-radius:10px}
+.kq-ck-opts label{padding:6px 0}
+}
+@media (forced-colors:active){.kq-ck{border:1px solid CanvasText}.kq-ck-actions button{border:1px solid ButtonText}}
+</style>`;
+const DAY = 864e5;
+const CK_EDITS = [
+  // version and expiry
+  ["var KEY='kq-consent-v1',gpc=navigator.globalPrivacyControl===true,opener=null;",
+    `var KEY='kq-consent-v1',VER=${CONSENT_VERSION},MAXAGE=${Math.round(CONSENT_MONTHS * 30.44)}*${DAY},gpc=navigator.globalPrivacyControl===true,opener=null,html=d.documentElement,x=box.querySelector('[data-ck=close]');`],
+  ["function read(){try{var c=JSON.parse(localStorage.getItem(KEY)||'null');return c&&typeof c==='object'?c:null;}catch(e){return null;}}",
+    "function read(){try{var c=JSON.parse(localStorage.getItem(KEY)||'null');if(!c||typeof c!=='object'||(c.v==null?1:c.v)!==VER)return null;" +
+      "if(c.t){var t=Date.parse(c.t);if(!(t>0)||Date.now()-t>MAXAGE)return null;}return c;}catch(e){return null;}}" +
+      // withdrawn consent: remove the first-party cookies the tags set, on this host and its parent domains
+      "function wipe(c){var re=[];if(!c.analytics)re.push(/^_ga/);if(!c.advertising)re.push(/^(_gcl|_fbp|_fbc|_uet|li_fat_id)/);if(!re.length)return;" +
+      "var host=location.hostname.split('.'),doms=[''];for(var i=0;i<host.length-1;i++)doms.push(';domain=.'+host.slice(i).join('.'));" +
+      "d.cookie.split(';').forEach(function(s){var n=s.split('=')[0].trim();if(!n||!re.some(function(r){return r.test(n);}))return;" +
+      "doms.forEach(function(dm){d.cookie=n+'=;Max-Age=0;path=/'+dm;});});}"],
+  ["if(c.advertising&&window.kqLoadAds)window.kqLoadAds();}", "if(c.advertising&&window.kqLoadAds)window.kqLoadAds();wipe(c);}"],
+  ["c.t=new Date().toISOString();", "c.v=VER;c.t=new Date().toISOString();"],
+  // closing from Save, Accept or Reject also hides Close
+  ["apply(c);box.hidden=true;if(opener){opener.focus();opener=null;}}", "apply(c);close();}" +
+    "function close(){box.hidden=true;if(x)x.hidden=true;if(opener){opener.focus();opener=null;}}"],
+  ["else if(k==='save')", "else if(k==='close')close();else if(k==='save')"],
+  // reopened from the footer: Close and Escape keep the saved choice
+  ["b.addEventListener('click',function(){opener=b;show(true);",
+    "b.addEventListener('click',function(){opener=b;show(true);if(x)x.hidden=!read();"],
+  ["var c=read();if(c){if(gpc)c.advertising=false;apply(c);}else show(false);",
+    "d.addEventListener('keydown',function(e){if(e.key!=='Escape'||box.hidden||!x||x.hidden)return;var a=d.activeElement;if(a&&a!==d.body&&!box.contains(a))return;e.preventDefault();close();});" +
+      // while open: room to scroll past it, and a focused element is scrolled out from under it
+      "function room(){var on=!box.hidden,h=on?Math.ceil(box.getBoundingClientRect().height)+16:0;html.classList.toggle('kq-ck-on',on);" +
+      "html.style.setProperty('--kq-ck-h',h+'px');html.style.scrollPaddingBottom=on?h+'px':'';}" +
+      "if('MutationObserver' in window)new MutationObserver(room).observe(box,{attributes:true,attributeFilter:['hidden'],subtree:true});" +
+      "if('ResizeObserver' in window)new ResizeObserver(room).observe(box);addEventListener('resize',room);" +
+      "d.addEventListener('focusin',function(e){var el=e.target;if(box.hidden||!el||!el.getBoundingClientRect||box.contains(el))return;" +
+      "var r=el.getBoundingClientRect(),t=box.getBoundingClientRect();" +
+      "if(r.bottom>t.top-8&&r.top<t.bottom&&r.right>t.left&&r.left<t.right)window.scrollBy({top:r.bottom-t.top+16,behavior:'instant'});});" +
+      "var c=read();if(c){if(gpc)c.advertising=false;apply(c);}else show(false);room();"],
+];
+
 let pages = 0;
 for (const file of fs.readdirSync(DIR).filter((f) => f.endsWith(".html"))) {
   const full = path.join(DIR, file);
   let html = fs.readFileSync(full, "utf8");
   if (html.includes("window.kqTagConsent=")) continue; // already done
-  for (const [find, put] of EDITS) {
+  for (const [find, put] of EDITS.concat(CK_EDITS)) {
     const n = html.split(find).length - 1;
     if (n !== 1) throw new Error(`site-tags: expected "${find.slice(0, 40)}" once in ${file}, found ${n}`);
     html = html.replace(find, () => put);
   }
+  // the notice: shorter wording, a Close button, and first in the page after the skip link
+  const aside = html.match(/<aside class="kq-ck"[\s\S]*?<\/aside>\n?/g) || [];
+  if (aside.length !== 1) throw new Error(`site-tags: expected one cookie notice in ${file}, found ${aside.length}`);
+  let ck = aside[0];
+  for (const [find, put] of [[CK_TEXT_OLD, CK_TEXT], ["<h2>Cookies on this site</h2>", `<h2>Cookies on this site</h2><button type="button" class="kq-ck-x" data-ck="close" aria-label="Close" hidden="hidden">${CLOSE_ICON}</button>`]]) {
+    if (ck.split(find).length !== 2) throw new Error(`site-tags: ${file}: the cookie notice changed ("${find.slice(0, 40)}")`);
+    ck = ck.replace(find, () => put);
+  }
+  html = html.replace(aside[0], "");
+  const root = /<body[^>]*>\s*<div\b[^>]*>/;
+  if (!root.test(html)) throw new Error(`site-tags: ${file}: no page wrapper to put the cookie notice in`);
+  html = html.replace(root, (m) => m + ck);
+  if (html.split("</head>").length !== 2) throw new Error(`site-tags: ${file}: expected one </head>`);
+  html = html.replace("</head>", () => CK_CSS + "</head>");
   fs.writeFileSync(full, html);
   pages++;
 }
-console.log(`site-tags: Google Tag Manager ${GTM_ID} and Google Ads tag ${ADS_ID} added to ${pages} pages (both load after cookie consent)`);
+console.log(`site-tags: Google Tag Manager ${GTM_ID} and Google Ads tag ${ADS_ID} added to ${pages} pages (both load after cookie consent); cookie notice first after the skip link, ${CONSENT_MONTHS}-month consent, version ${CONSENT_VERSION}`);
 
 // Loading before consent: Google's own snippet loads the container for every
 // visitor straight away. To do that instead, call

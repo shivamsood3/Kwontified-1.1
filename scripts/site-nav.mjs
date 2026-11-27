@@ -18,9 +18,15 @@
 //   7. Small things: search hands a query to /perspectives?q=term (read by
 //      site-perspectives-ux.mjs); the footer
 //      lists the creative gallery; the header button is marked as the current page on /contact.
+//   8. From the QA review of 2026-11-27: the open phone menu keeps keyboard focus inside it and
+//      stops the page scrolling behind it, and a tap anywhere outside it only closes it (a
+//      transparent layer catches the tap, so it cannot follow a link underneath); search says
+//      how many results it found to screen readers; the search list names the Perspectives
+//      index "Perspectives" and no longer offers a "Perspectives post" entry; the footer's
+//      channel list is the same list, in the same order, as the header menus.
 //
-// One list (NAV, below) feeds the header panels, the phone menu and the previous / next
-// links, so they cannot drift apart. The build fails if a page in that list is not a route,
+// One list (NAV, below) feeds the header panels, the phone menu, the footer's channel list and
+// the previous / next links, so they cannot drift apart. The build fails if a page in that list is not a route,
 // if a header does not have the shape this step expects, or if the search script changes.
 import fs from "node:fs";
 import path from "node:path";
@@ -120,6 +126,9 @@ const CSS = `<style data-kq-nav>
 .kq-navpanel .kq-msub>a,.kq-menu .kq-msub>a{display:block;padding:9px 0!important;font-size:16px!important;color:#262524!important;text-decoration:none;min-height:0}
 .kq-navpanel .kq-msub>a[aria-current],.kq-menu .kq-msub>a[aria-current]{color:#102A4C!important;font-weight:500}
 .kq-hh.is-stuck .kq-menu>div .kq-mx{color:#262524!important}
+/* while the phone menu is open: a transparent layer over the page closes it on a tap, and the page does not scroll */
+header details[open]>summary::before{content:"";position:fixed;inset:0;cursor:default;-webkit-tap-highlight-color:transparent}
+@media (max-width:1179px){html.kq-menu-open{overflow:hidden}}
 /* previous / next between sibling pages */
 .kq-sib{background:#FDFCFA;border-top:1px solid #E3E8ED;padding:0 clamp(20px,4.4vw,64px)}
 .kq-sib>div{max-width:1312px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:0 32px}
@@ -146,6 +155,8 @@ const CSS = `<style data-kq-nav>
 .kq-sib-all{grid-column:1/-1;grid-row:2;justify-self:center;padding:0 0 28px}
 .kq-sib-a{padding:28px 0 20px}
 }
+/* search: the result count, for screen readers */
+.kq-cmdk-st{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 /* search: the row that hands a query on to the Perspectives archive */
 .kq-cmdk .kq-cmdk-more{display:none;padding:12px 18px;border-top:1px solid #E3E8ED;font-size:15px;color:#102A4C;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 .kq-cmdk .kq-cmdk-more.is-on{display:block}
@@ -184,8 +195,15 @@ d.addEventListener('pointerdown',function(e){if(openDd&&!openDd.contains(e.targe
 (function(){var det=d.querySelector('header details');if(!det)return;var sum=det.querySelector('summary');
 [].slice.call(det.querySelectorAll('.kq-mx')).forEach(function(b){var sub=d.getElementById(b.getAttribute('aria-controls'));if(!sub)return;
 b.addEventListener('click',function(e){e.preventDefault();var on=sub.hidden;sub.hidden=!on;b.setAttribute('aria-expanded',on?'true':'false');});});
-d.addEventListener('keydown',function(e){if(e.key==='Escape'&&det.open){det.open=false;sum.focus();}});
-d.addEventListener('pointerdown',function(e){if(det.open&&!det.contains(e.target))det.open=false;});
+d.addEventListener('keydown',function(e){if(e.key==='Escape'&&det.open){det.open=false;lock();sum.focus();}});
+d.addEventListener('pointerdown',function(e){if(det.open&&!det.contains(e.target)){det.open=false;lock();}});
+/* while open: Tab and Shift+Tab stay in the menu (the Menu button and the links shown), and the page does not scroll */
+det.addEventListener('keydown',function(e){if(e.key!=='Tab'||!det.open)return;
+var f=[].slice.call(det.querySelectorAll('summary,a[href],button:not([disabled])')).filter(function(el){return el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden';});
+if(f.length<2)return;var a=d.activeElement,i=f.indexOf(a);
+if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&(i===f.length-1||i<0)){e.preventDefault();f[0].focus();}});
+det.addEventListener('focusout',function(e){if(det.open&&e.relatedTarget&&!det.contains(e.relatedTarget)){det.open=false;lock();}});
+function lock(){html.classList.toggle('kq-menu-open',det.open);}det.addEventListener('toggle',lock);lock();
 })();
 
 /* search: "/" opens it; the Perspectives archive joins the results the first time it is opened */
@@ -194,6 +212,11 @@ d.addEventListener('keydown',function(e){if(e.key!=='/'||e.metaKey||e.ctrlKey||e
 if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;if(opener){e.preventDefault();opener.click();}});
 function hint(){if(!more)return;var q=input.value.trim();more.classList.toggle('is-on',q.length>1);more.href='/perspectives?q='+encodeURIComponent(q);more.textContent=T('Search Perspectives for')+' \\u201c'+q+'\\u201d';}
 input.addEventListener('input',hint);
+/* the number of results, said by screen readers once the list settles */
+var list=d.getElementById('kq-cmdk-list'),st=dlg.querySelector('.kq-cmdk-st'),tSay=0;
+function say(){var q=input.value.trim(),n=list?list.querySelectorAll('[role=option]').length:0;
+st.textContent=!q?'':n?(n===1?T('{n} result'):T('{n} results')).replace('{n}',n):((list&&list.textContent.trim())||T('{n} results').replace('{n}',0));}
+if(list&&st&&'MutationObserver' in w)new MutationObserver(function(){clearTimeout(tSay);tSay=setTimeout(say,350);}).observe(list,{childList:true,subtree:true,characterData:true});
 function load(){if(got||!w.kqSearch||!dlg.getAttribute('data-kq-articles'))return;got=1;
 fetch(dlg.getAttribute('data-kq-articles')).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(rows){
 var G=[T('Article'),T('News'),T('Press release')];rows.forEach(function(r){w.kqSearch.push({t:r[0],g:G[r[2]]||G[0],h:r[1],k:''});});
@@ -334,6 +357,16 @@ for (const f of files) {
   const work = /(<a href="\/work" style="([^"]*)">Work<\/a>)/;
   if ((foot.match(new RegExp(work.source, "g")) || []).length !== 1) fail(`${f}: expected one Work link in the footer`);
   foot = foot.replace(work, (_, a, st) => `${a}<a href="/work/creative" style="${st}">Creative gallery</a>`);
+  // footer: the channel list is the header's list, in the same order
+  const chRe = /(<h2[^>]*><a href="\/channels"[^>]*>Channels<\/a><\/h2>\s*)((?:<a href="\/channels\/[^"]+" style="([^"]*)">[^<]*<\/a>)+)/g;
+  const chM = [...foot.matchAll(chRe)];
+  if (chM.length !== 1) fail(`${f}: expected one channel list in the footer, found ${chM.length}`);
+  const CH = NAV.find((g) => g.id === "ch");
+  foot = foot.replace(chRe, (_, h, __, st) => h + CH.items.map(([href, l]) => `<a href="${href}" style="${st}">${esc(l)}</a>`).join(""));
+  // footer: the row of link lists, for the phone layout in site-effects.mjs
+  const rowRe = /<div style="display: flex; flex-wrap: wrap; gap: 36px 48px">(?=\s*<div[^>]*>\s*<h2[^>]*><a href="\/capabilities")/g;
+  if ((foot.match(rowRe) || []).length !== 1) fail(`${f}: the footer's row of link lists changed shape`);
+  foot = foot.replace(rowRe, (x) => x.replace("<div ", '<div class="kq-flinks" '));
   html = html.slice(0, fa) + foot + html.slice(fb);
   // search: let the shared script add the archive to the list the page's own search uses
   const hook = "var data=JSON.parse(d.getElementById('kq-cmdk-data').textContent)";
@@ -345,7 +378,20 @@ for (const f of files) {
   html = html.replace(/<dialog class="kq-cmdk" id="kq-cmdk"/, (x) => `${x} data-kq-articles="/assets/${search.name}"`);
   const footRow = '<div class="kq-foot">';
   if (html.split(footRow).length !== 2) fail(`${f}: the search dialog changed shape`);
-  html = html.replace(footRow, () => '<a class="kq-cmdk-more" href="/perspectives"></a>' + footRow);
+  html = html.replace(footRow, () => '<a class="kq-cmdk-more" href="/perspectives"></a><p class="kq-cmdk-st" role="status" aria-live="polite" aria-atomic="true"></p>' + footRow);
+  // search list: the Perspectives index is "Perspectives"; the "Perspectives post" entry (one fixed article,
+  // already in the archive results) is dropped
+  {
+    const re = /(<script type="application\/json" id="kq-cmdk-data">)([\s\S]*?)(<\/script>)/;
+    const m = html.match(re);
+    if (!m || html.split('id="kq-cmdk-data"').length !== 2) fail(`${f}: expected one search list`);
+    let rows; try { rows = JSON.parse(m[2]); } catch { fail(`${f}: the search list is not JSON`); }
+    const idx = rows.filter((r) => r.t === "Perspectives index"), post = rows.filter((r) => r.t === "Perspectives post");
+    if (idx.length !== 1 || post.length !== 1) fail(`${f}: expected one "Perspectives index" and one "Perspectives post" in the search list`);
+    idx[0].t = "Perspectives";
+    rows = rows.filter((r) => r !== post[0]);
+    html = html.replace(re, (_, a, __, z) => a + JSON.stringify(rows).replace(/</g, "\\u003c") + z);
+  }
   if (html.split("</head>").length !== 2) fail(`${f}: expected one </head>`);
   html = html.replace("</head>", () => CSS + "</head>");
   html = html.replace(/<\/body>(?![\s\S]*<\/body>)/, () => `<script defer src="/assets/${jsName}"></script></body>`);
