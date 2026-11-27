@@ -124,7 +124,7 @@ Send new subscribers a short welcome so the first email they get is not a month 
 
 1. **Automations** > **Customer Journeys** (or **Classic automations** > **Welcome new subscribers** on accounts that still have it) > **Create**.
 2. Starting point: **Tag added** > `Website newsletter`. This fires for website sign-ups only, not for contacts you import.
-3. Add a **Send email** step. Suggested content: one paragraph on what the briefing covers and when it arrives, links to two or three recent Perspectives articles, and contact@kwontified.com for questions.
+3. Add a **Send email** step. Suggested content: one paragraph on what the briefing covers and when it arrives, links to two or three recent Perspectives articles, and newsletter@kwontified.com for questions (the website's confirmation page sends questions to the same address).
 4. Turn the journey on and repeat test 1 in step 7 with a new plus-address to check the welcome email arrives.
 
 Which journey features are available depends on the plan; the Free plan may limit journeys to one step, which is all a welcome email needs.

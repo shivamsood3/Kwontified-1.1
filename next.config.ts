@@ -51,7 +51,12 @@ const nextConfig: NextConfig = {
     return { beforeFiles: [...pageRewrites, ...articleRewrites], afterFiles: [], fallback: [] };
   },
   async redirects() {
-    return Object.entries(moved).map(([source, destination]) => ({ source, destination, permanent: true }));
+    return [
+      ...Object.entries(moved).map(([source, destination]) => ({ source, destination, permanent: true })),
+      // the newsletter press release tells readers to subscribe at kwontified.com/subscribe;
+      // the sign-up form is in the footer of every page (temporary, in case a page is added later)
+      { source: "/subscribe", destination: "/perspectives#newsletter-email", permanent: false },
+    ];
   },
   async headers() {
     return [

@@ -95,7 +95,9 @@ const addPage = (route, html, source) => {
   sw(">Thank you.</h1>", ">You’re subscribed.</h1>");
   sw("Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.", "Thank you. The Kwontified Briefing will reach your inbox once a month.");
   sw("On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take. Nothing more is needed from you now.", "Each issue covers the marketplace changes that matter, what they mean for your brand and our latest guides. Your first may be a few weeks away, so our three newest articles are below.");
-  sw("If something changes before we speak, write to ", "It comes from newsletter@kwontified.com; add that address to your contacts so it reaches your inbox. Every issue has a one-click unsubscribe link. If one does not arrive, check your spam folder or write to ");
+  sw("If something changes before we speak, write to ", "Every issue comes from newsletter@kwontified.com and has a one-click unsubscribe link. Add the address to your contacts so the briefing reaches your inbox. If an issue does not arrive, check your spam folder or write to ");
+  // questions about the briefing go to the address it is sent from
+  sw('<a href="mailto:contact@kwontified.com" style="color: #F8F6F1">contact@kwontified.com</a>', '<a href="mailto:newsletter@kwontified.com" style="color: #F8F6F1">newsletter@kwontified.com</a>');
   // buttons: read now, or see the work
   const one = (re, fn, what) => { let k = 0; h = h.replace(re, (...a) => { k++; return fn(...a); }); if (k !== 1) fail(`confirmation template: ${what} matched ${k} times`); };
   one(/href="\/work"([^>]*>)See our work<\/a>/g, (_, x) => `href="/perspectives"${x}Browse Perspectives</a>`, "first button");

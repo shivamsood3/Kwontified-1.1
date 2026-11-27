@@ -58,7 +58,7 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - `/subscribe/thank-you` is built in `scripts/site-content.mjs` (section 2) from the Thank-you layout. It confirms the sign-up, says what arrives, how often, from where and how to unsubscribe, shows the three newest articles (`scripts/latest-cards.mjs`; `site-archive.mjs` refreshes them once the archive is listed) and replaces the footer sign-up form with a prompt to request a review. It is noindex, disallowed in robots.txt and not in the sitemap.
 - Double opt-in: `/api/subscribe` answers `confirm: true` when Mailchimp has sent a confirmation email (double opt-in on, or someone rejoining after unsubscribing). The footer form then opens the page with `?confirm=1`, and the page reads "One step left" instead of "You’re subscribed".
 - `app/api/_lib/sinks.ts`: the Mailchimp call no longer sets a status on people who are already in the audience unless the sign-up changes something, so an existing subscriber is never moved back to pending. Nine cases tested against a mocked API.
-- The briefing is sent from newsletter@kwontified.com (Jordan, 2026-11-27). The confirmation page names that address and `MAILCHIMP-SETUP.md` sets it as the audience's From address; it must be a mailbox or alias that receives mail.
+- The briefing is sent from newsletter@kwontified.com (Jordan, 2026-11-27). The confirmation page names that address and `MAILCHIMP-SETUP.md` sets it as the audience's From address; it must be a mailbox or alias that receives mail. The confirmation page also sends questions about the briefing there, and `/subscribe` (quoted in the newsletter press release) redirects to the sign-up field.
 
 ## Whole-card links (checked and completed 2026-11-27)
 
