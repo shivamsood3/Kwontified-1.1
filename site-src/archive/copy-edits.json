@@ -346,5 +346,20 @@
 "id": "P0005",
 "old": "One caution: A brand’s",
 "new": "One caution: a brand’s"
+},
+{
+"id": "A0192",
+"old": "A home-fitness brand runs 20% off its whole range for an event. Its resistance bands are in short supply and sell out at full price anyway, so the discount gives away margin on sales it would have made. Its foam rollers are overstocked, but shoppers are not very price-sensitive, so 20% off lifts sales only slightly. Its yoga mats are well stocked and price-sensitive, and the discount nearly doubles their sales.",
+"new": "A kitchenware brand selling on Mercado Libre runs 20% off its whole range for an event. Its pressure cookers are in short supply and sell out at full price anyway, so the discount gives away margin on sales it would have made. Its storage containers are overstocked, but shoppers do not shop them on price, so 20% off lifts sales only slightly. Its knife sets are well stocked and price-sensitive, and the discount nearly doubles their sales."
+},
+{
+"id": "A0192",
+"old": "A product-by-product plan would have held the bands at full price, kept the rollers at a modest discount with advertising support, and put the deepest offer on the mats.",
+"new": "Planned product by product, the pressure cookers would have stayed at full price, the containers would have had a modest discount with advertising support, and the knife sets would have carried the deepest offer."
+},
+{
+"id": "A0192",
+"old": "Before each event, list each product’s current margin after fees, freight and advertising, and its weeks of stock.",
+"new": "Ahead of every event, write down what each product earns after fees, freight and advertising, and how many weeks of stock it has."
 }
 ]
