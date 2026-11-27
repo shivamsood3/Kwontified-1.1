@@ -167,6 +167,16 @@ for (const c of cards) {
   });
 }
 const NAMED = { "read the amazon case study": "premium beauty", "read the walmart case study": "walmart display", "read the revenue recovery case study": "shortage claims" };
+// the carousel's play button: its accessible name must contain its visible word ("Play"),
+// or speech-input users cannot say what they see (Lighthouse: label-content-name-mismatch)
+for (const f of Object.keys(P)) P[f] = P[f].split("'Start rotation'").join("'Play rotation'");
+// International: the route table's scroll region took its name from the section's heading, so two
+// regions were called "Choosing the route into each market" (axe: landmark-unique)
+{
+  const f = "channels--international.html", from = '<div class="kq-rtw" tabindex="0" role="region" aria-labelledby="routes-title">';
+  if (P[f].split(from).length !== 2) fail(`${f}: the route table's scroll region changed`);
+  P[f] = P[f].replace(from, '<div class="kq-rtw" tabindex="0" role="region" aria-label="Table: routes into each market">');
+}
 for (const f of Object.keys(P)) {
   P[f] = P[f].replace(/<a\b([^>]*?)href="(\/work|\/work\/shortage-claims|\/channels\/walmart|\/capabilities\/revenue-recovery)"([^>]*)>([\s\S]*?)<\/a>/g, (all, a, href, b, inner, at) => {
     if (/kq-ccard|kq-tab|data-case=/.test(a + b)) return all; // data-case links are resolved by keyword below
@@ -237,24 +247,55 @@ for (const [lead, kw] of [["Cashmere label, Amazon.", "sold at full price"], ["C
     P[HOME] = P[HOME].slice(0, hit.index) + hit[1] + m[1] + name + "</a>" + hit[2] + P[HOME].slice(hit.index + hit[0].length);
   }
 }
-// case finder: [where you sell most][annual revenue] -> case study. The cards state
-// no client revenue, so the revenue band picks among that channel's cases; edit here.
+// case finder: [where you sell most][annual e-commerce revenue] -> case study. The revenue bands
+// are the contact form's (site-contact.mjs carries the answer into its revenue menu). Only the
+// clinical skincare case states the client's sales ($2.90M to $4.76M, so under $5M); the other
+// cards state none, so the band picks among that channel's cases, smaller engagements first.
+// Amazon Vendor Central, Walmart and Target Plus have two case studies each, so two bands share
+// each result there; Seller Central and International have four different results. Edit here.
+const FIN_CH = ["sc", "vc", "wm", "tg", "intl"], FIN_REV = ["s", "m", "l", "x"];
+const FIN_BANDS = ["Under $5M", "$5M to $15M", "$15M to $50M", "$50M+"];
+const FIN_MORE = [["amazon", "Amazon"], ["amazon", "Amazon"], ["walmart", "Walmart"], ["target", "Target Plus"], ["intl", "international"]];
 const FINDER = [
-  ["sold at full price", "premium beauty", "tacos fell"],
-  ["price claims", "shortage claims", "shortage claims"],
-  ["5% less ad spend", "walmart display", "walmart display"],
-  ["live on target plus", "roundel roas", "roundel roas"],
-  ["amazon mexico", "first six months on zalando", "conversion doubled"],
+  ["premium beauty", "sold at full price", "tacos fell", "23 of 40"],
+  ["price claims", "price claims", "shortage claims", "shortage claims"],
+  ["5% less ad spend", "5% less ad spend", "walmart display", "walmart display"],
+  ["live on target plus", "live on target plus", "roundel roas", "roundel roas"],
+  ["amazon mexico", "first six months on zalando", "conversion doubled", "winter stock"],
 ].map((row) => row.map((kw) => { const c = find(kw); return { tag: c.channel, fig: c.fig, line: `${c.brand}. ${c.title}.`, url: c.url }; }));
+if (FINDER.some((r) => r.length !== FIN_BANDS.length)) fail("case finder: every channel needs one case study per revenue band");
+{
+  // the words on the page before any script runs are the ones the script draws for the first choice
+  const a = P[HOME].indexOf('<section id="finder"'), b = P[HOME].indexOf("</section>", a) + 10;
+  if (a < 0) fail("homepage finder not found");
+  let f = P[HOME].slice(a, b);
+  const swap = (find, put, what) => { const n = f.split(find).length - 1; if (n !== 1) fail(`case finder: ${what}: expected once, found ${n} times`); f = f.replace(find, () => put); };
+  const L = '<p style="margin: 0; font-size: 15px; font-weight: 500">';
+  swap("your annual marketplace revenue.", "your annual e-commerce revenue.", "the introduction");
+  swap(L + "Where you sell most</p>\n<div role=\"group\"", L.replace("<p ", '<p id="finder-ch" ') + "Where you sell most</p>\n<div role=\"group\" aria-labelledby=\"finder-ch\"", "the channel label");
+  swap(L + "Annual marketplace revenue</p>\n<div role=\"group\"", L.replace("<p ", '<p id="finder-rev" ') + "Annual e-commerce revenue</p>\n<div role=\"group\" aria-labelledby=\"finder-rev\"", "the revenue label");
+  const rev = f.match(/(<div role="group" aria-labelledby="finder-rev"[^>]*>)(<button[^>]*aria-pressed="true"[^>]*>)Under \$5M<\/button>(<button[^>]*aria-pressed="false"[^>]*>)\$5M to \$25M<\/button>\3Over \$25M<\/button><\/div>/) || fail("case finder: the three revenue buttons changed");
+  f = f.replace(rev[0], () => rev[1] + FIN_BANDS.map((t, i) => (i ? rev[3] : rev[2]) + t + "</button>").join("") + "</div>");
+  const d = FINDER[0][0], more = FIN_MORE[0];
+  swap(L + "Amazon Luxury Stores</p>", L + esc(d.tag) + "</p>", "the result's channel");
+  swap(">71%</p>", ">" + esc(d.fig) + "</p>", "the result's figure");
+  const live = f.match(/(<p [^>]*aria-live="polite">)[^<]*(<\/p>)/) || fail("case finder: no result line");
+  f = f.replace(live[0], () => live[1] + esc(d.line) + live[2]);
+  swap('<a href="/contact" style=', `<a href="/contact#ch=${FIN_CH[0]}&amp;rev=${FIN_REV[0]}" style=`, "the review link");
+  const rd = f.match(/<a href="\/work#channel=amazon" (style="[^"]*")>See more Amazon results\n(<svg[\s\S]*?<\/svg>)<\/a>/) || fail("case finder: the results link changed");
+  f = f.replace(rd[0], () => `<a href="${d.url}" ${rd[1]}>Read this case study ${rd[2]}</a><a href="/work#channel=${more[0]}" style="min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; color: #4A4D52; text-underline-offset: 5px">See more ${more[1]} results</a>`);
+  P[HOME] = P[HOME].slice(0, a) + f + P[HOME].slice(b);
+}
 const HOME_JS = `<script>/* case finder and hero video button */
 (function(){var s=document.getElementById('finder');if(!s)return;var g=s.querySelectorAll('[role=group]'),live=s.querySelector('p[aria-live]');if(g.length<2||!live)return;
-var card=live.parentNode,ps=card.querySelectorAll('p'),as=card.querySelectorAll('a'),D=${JSON.stringify(FINDER)},C=['sc','vc','wm','tg','intl'],B=['s','m','l'],sel=[0,0];
-if(ps.length<3||as.length<2)return;
-function draw(){var d=D[sel[0]][sel[1]];ps[0].textContent=d.tag;ps[1].textContent=d.fig;live.textContent=d.line;as[0].setAttribute('href','/contact#ch='+C[sel[0]]+'&rev='+B[sel[1]]);as[1].setAttribute('href',d.url);
-var t=as[1].firstChild;if(t&&t.nodeType===3)t.nodeValue='Read this case study ';else as[1].textContent='Read this case study';}
+var card=live.parentNode,ps=card.querySelectorAll('p'),as=card.querySelectorAll('a'),D=${JSON.stringify(FINDER)},C=${JSON.stringify(FIN_CH)},B=${JSON.stringify(FIN_REV)},M=${JSON.stringify(FIN_MORE)},sel=[0,0];
+if(ps.length<3||as.length<3)return;
+function draw(){var d=D[sel[0]][sel[1]],m=M[sel[0]];if(ps[0].textContent!==d.tag)ps[0].textContent=d.tag;if(ps[1].textContent!==d.fig)ps[1].textContent=d.fig;if(live.textContent!==d.line)live.textContent=d.line;
+as[0].setAttribute('href','/contact#ch='+C[sel[0]]+'&rev='+B[sel[1]]);as[1].setAttribute('href',d.url);as[2].setAttribute('href','/work#channel='+m[0]);var t='See more '+m[1]+' results';if(as[2].textContent!==t)as[2].textContent=t;}
 [0,1].forEach(function(k){var bs=[].slice.call(g[k].querySelectorAll('button')),on,off;
-bs.forEach(function(b){if(b.getAttribute('aria-pressed')==='true')on=b.getAttribute('style');else off=b.getAttribute('style');});
+bs.forEach(function(b,i){if(b.getAttribute('aria-pressed')==='true'){on=b.getAttribute('style');sel[k]=i;}else off=b.getAttribute('style');});
 bs.forEach(function(b,i){b.addEventListener('click',function(){sel[k]=i;bs.forEach(function(x,j){x.setAttribute('aria-pressed',j===i?'true':'false');if(on&&off)x.setAttribute('style',j===i?on:off);});draw();});});});
+draw();
 })();
 (function(){var b=document.querySelector('button[aria-label="Pause video"]');if(!b||b.getAttribute('data-ready'))return;var v=b.parentNode.querySelector('video');if(!v)return;
 b.setAttribute('data-ready','1');var pause=b.innerHTML,svg=b.querySelector('svg'),st=svg&&svg.getAttribute('style')||'width:16px;height:16px';

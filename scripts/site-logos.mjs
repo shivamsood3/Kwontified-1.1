@@ -51,14 +51,17 @@ for (const [label, expected] of Object.entries(LISTS)) {
 }
 fs.writeFileSync(FILE, html);
 
-// The same two lists on About and Why Kwontified: site-about.mjs leaves a marker where each
-// goes, because the logo files do not exist until this step has written them.
+// The same two lists on any other page that asks for them: an earlier step (site-about.mjs,
+// site-capchan.mjs) leaves a marker where a list goes, because the logo files do not exist
+// until this step has written them. Every page is looked at, so a new step only has to leave
+// the marker; a marker this step does not know stops the build.
 const MARKS = { "<!--kq-logos:clients-->": "Selected clients", "<!--kq-logos:press-->": "Publications that have featured Kwontified" };
 let placed = 0;
-for (const f of ["about.html", "why-kwontified.html"]) {
+const on = [];
+for (const f of fs.readdirSync(path.join(ROOT, "public/_kq")).filter((x) => x.endsWith(".html")).sort()) {
   const file = path.join(ROOT, "public/_kq", f);
-  if (!fs.existsSync(file)) continue;
   let page = fs.readFileSync(file, "utf8");
+  if (!page.includes("<!--kq-logos:")) continue;
   for (const [mark, label] of Object.entries(MARKS)) {
     const n = page.split(mark).length - 1;
     if (!n) continue;
@@ -67,5 +70,6 @@ for (const f of ["about.html", "why-kwontified.html"]) {
   }
   if (page.includes("<!--kq-logos:")) fail(`${f}: a logo marker was not filled`);
   fs.writeFileSync(file, page);
+  on.push(f);
 }
-console.log(`site-logos: ${moved} home page logos moved to their own files (${Math.round(saved / 1024)} KB out of the HTML; page now ${Math.round(html.length / 1024)} KB); the lists also placed ${placed} times on About and Why Kwontified`);
+console.log(`site-logos: ${moved} home page logos moved to their own files (${Math.round(saved / 1024)} KB out of the HTML; page now ${Math.round(html.length / 1024)} KB); the lists also placed ${placed} times on ${on.length} other pages`);

@@ -30,7 +30,6 @@ const cfg = config();
 const BASE = "https://kwontified.com";
 const ASSETS = path.join(ROOT, "public/assets");
 const routes = siteRoutes();
-const routeOfFile = new Map(routes.map((r) => [path.basename(r.file), r.route]));
 const fileOfRoute = new Map(routes.map((r) => [r.route, path.basename(r.file)]));
 for (const l of cfg.languages) if (!/^[a-z]{2}(-[a-z]{2})?$/.test(l.code) || l.code === "en") fail(`language code "${l.code}" must be two letters (optionally a region, as in pt-br) and not "en"`);
 for (const l of cfg.languages) if (l.tag && !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(l.tag)) fail(`language tag "${l.tag}" is not a valid language tag (examples: zh-Hans, pt-BR)`);
