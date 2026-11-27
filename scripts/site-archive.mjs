@@ -11,6 +11,7 @@
 // An article's card uses its own image once public/assets/archive-<ID>.jpg exists.
 import fs from "node:fs";
 import path from "node:path";
+import { fillLatest } from "./latest-cards.mjs";
 
 const ROOT = process.cwd();
 const INDEX = path.join(ROOT, "site-src/archive/index.json");
@@ -106,4 +107,9 @@ options("ps-m", [...new Set(values("date").map((d) => d.slice(0, 7)))].sort().re
   '<option value="">Any month</option>' + months.map((m) => `<option value="${m}">${MONTHS[+m.slice(5) - 1]} ${m.slice(0, 4)}</option>`).join(""));
 
 fs.writeFileSync(PAGE, html);
+// the newsletter confirmation page shows the three newest articles, now that the archive is listed
+{
+  const CONFIRM = path.join(ROOT, "public/_kq/subscribe--thank-you.html");
+  if (fs.existsSync(CONFIRM)) fs.writeFileSync(CONFIRM, fillLatest(fs.readFileSync(CONFIRM, "utf8"), html));
+}
 console.log(`site-archive: ${articles.length} articles, ${news.length} news items and ${press.length} press releases added to the Perspectives index (${Math.round(html.length / 1024)} KB)`);

@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   const { newsletterTo, key } = settings();
   const ctx = context(req);
-  const [saved] = await Promise.allSettled([
+  const [saved, , mailchimp] = await Promise.allSettled([
     saveContact({ email }, "newsletter"),
     toSheet("newsletter", { ...ctx, email }),
     toMailchimp("newsletter", { email }),
@@ -42,5 +42,9 @@ export async function POST(req: Request) {
   ]);
   if (!key) console.warn("[subscribe] RESEND_API_KEY is not set: the sign-up was logged only");
 
-  return NextResponse.json({ ok: true, saved: saved.status === "fulfilled" && saved.value });
+  // confirm: Mailchimp has sent this person a confirmation email (double opt-in, or rejoining
+  // after unsubscribing), so the confirmation page asks them to open it instead of saying
+  // they are subscribed.
+  const confirm = mailchimp.status === "fulfilled" && mailchimp.value === "pending";
+  return NextResponse.json({ ok: true, saved: saved.status === "fulfilled" && saved.value, confirm });
 }

@@ -7,6 +7,7 @@
 // Each edit asserts that it matched, so a changed export fails the build loudly.
 import fs from "node:fs";
 import path from "node:path";
+import { latestCards } from "./latest-cards.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const KQ = path.join(ROOT, "public/_kq");
@@ -82,21 +83,42 @@ const addPage = (route, html, source) => {
 }
 
 // ---- 2. Newsletter confirmation -----------------------------------------------------
+// The page a visitor lands on after signing up in the footer. It confirms the sign-up, says
+// what arrives, how often and from where, offers the three newest articles, and replaces the
+// footer sign-up form (they have just used it) with a prompt to request a review.
+// With double opt-in the sign-up API answers confirm: true and the form opens the page with
+// ?confirm=1, which swaps in the "confirm by email" wording.
 {
   let h = P["contact--thank-you.html"] || fail("no Thank-you page");
   h = setMeta(h, "You’re subscribed", "You are subscribed to the Kwontified Briefing, our monthly note on the marketplace changes that matter for brands.", "/subscribe/thank-you");
-  const sw = (from, to) => { if (!h.includes(from)) fail(`confirmation template: "${from.slice(0, 40)}" not found`); h = h.split(from).join(to); };
+  const sw = (from, to) => { if (count(h, from) !== 1) fail(`confirmation template: expected one "${from.slice(0, 40)}", found ${count(h, from)}`); h = h.split(from).join(to); };
   sw(">Thank you.</h1>", ">You’re subscribed.</h1>");
-  sw("Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.", "Thank you. The next Kwontified Briefing will come to your inbox.");
-  sw("On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take. Nothing more is needed from you now.", "It arrives once a month: the marketplace changes that matter, what they mean for your brand and our latest guides. Every issue has a one-click unsubscribe link.");
-  sw("If something changes before we speak, write to ", "If the briefing does not arrive, check your spam folder or write to ");
-  if (!/href="\/work"[^>]*>See our work<\/a>/.test(h)) fail("confirmation template: See our work button not found");
-  h = h.replace(/href="\/work"([^>]*>)See our work<\/a>/, (_, x) => `href="/perspectives"${x}Read Perspectives</a>`);
+  sw("Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.", "Thank you. The Kwontified Briefing will reach your inbox once a month.");
+  sw("On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take. Nothing more is needed from you now.", "Each issue covers the marketplace changes that matter, what they mean for your brand and our latest guides. Your first may be a few weeks away, so our three newest articles are below.");
+  sw("If something changes before we speak, write to ", "It comes from a kwontified.com address, and every issue has a one-click unsubscribe link. If an issue does not arrive, check your spam folder or write to ");
+  // buttons: read now, or see the work
+  const one = (re, fn, what) => { let k = 0; h = h.replace(re, (...a) => { k++; return fn(...a); }); if (k !== 1) fail(`confirmation template: ${what} matched ${k} times`); };
+  one(/href="\/work"([^>]*>)See our work<\/a>/g, (_, x) => `href="/perspectives"${x}Browse Perspectives</a>`, "first button");
+  one(/href="\/"([^>]*>)Back to the homepage<\/a>/g, (_, x) => `href="/work"${x}See our case studies</a>`, "second link");
+  // the three newest articles replace the fixed cards (site-archive.mjs refreshes them)
+  sw(">Recent work and thinking</h2>", ">The latest from Perspectives</h2>");
+  one(/(<h2 id="related-title"[^>]*>[^<]*<\/h2><div[^>]*>)[\s\S]*?(<\/div><\/div><\/section>\s*<\/main>)/g, (_, a, b) => a + latestCards(P["perspectives.html"]) + b, "cards");
+  // the visitor has just signed up, so the footer does not ask again
+  one(/(<h2[^>]*>)Get our marketplace briefing once a month\.(<\/h2>\s*<p[^>]*>)[^<]*(<\/p>)\s*<form data-kq-form="newsletter"[\s\S]*?<\/form>/g, (_, a, b, c) =>
+    `${a}Want a first read on your own account?${b}Share your channels and goals. A member of our team will reply within one business day with a first read on where the growth is.${c}` +
+    '<a class="kq-btn" href="/contact" style="align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; box-sizing: border-box; background: #DCBF85; color: #102A4C; font-size: 16px; font-weight: 500; text-decoration: none">Request a marketplace review</a>', "footer sign-up block");
+  // double opt-in: the same page, worded for someone who still has to confirm by email
+  sw("</section>\n<section", `</section><script>/* confirm by email (double opt-in) */
+(function(){if(!/[?&]confirm=1(&|$)/.test(location.search))return;var h=document.getElementById('page-title');if(!h)return;var ps=h.parentNode.querySelectorAll('p');if(ps.length<3||!ps[2].firstChild)return;
+h.textContent='One step left.';ps[0].textContent='We have sent a confirmation email to the address you entered. Open it and select the link to start receiving the Kwontified Briefing.';
+ps[2].firstChild.nodeValue='The email comes from a kwontified.com address. If it has not arrived in a few minutes, check your spam folder or write to ';
+document.title='Confirm your subscription | Kwontified';})();</script>\n<section`);
   if (!/<meta name="robots"/.test(h)) h = h.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">');
+  if (/data-kq-form="newsletter"/.test(h)) fail("confirmation page still has a sign-up form");
   addPage("/subscribe/thank-you", h, "ThankYou.html layout (site-content)");
   // the newsletter form opens the confirmation page once the sign-up is saved
   let n = 0;
-  for (const f of Object.keys(P)) P[f] = P[f].replace(/var p=document\.createElement\('p'\);p\.setAttribute\('role','status'\);[\s\S]*?f\.replaceWith\(p\);/, () => { n++; return "location.assign('/subscribe/thank-you');"; });
+  for (const f of Object.keys(P)) P[f] = P[f].replace(/var p=document\.createElement\('p'\);p\.setAttribute\('role','status'\);[\s\S]*?f\.replaceWith\(p\);/, () => { n++; return "return r.json().catch(function(){return {};}).then(function(j){location.assign('/subscribe/thank-you'+(j&&j.confirm?'?confirm=1':''));});"; });
   if (n < 90) fail(`newsletter form hook found on only ${n} pages`);
 }
 

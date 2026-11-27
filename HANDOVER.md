@@ -53,6 +53,13 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - `next start`: all 1,083 routes return 200; the 21 redirects land on 200 pages; unknown addresses return the 404 page; the sitemap lists 1,080 URLs (1,018 with a real publication date).
 - Cookie banner and tag loading: nine visitor scenarios passed in the chat session (not changed since).
 
+## Newsletter confirmation page (rebuilt 2026-11-27)
+
+- `/subscribe/thank-you` is built in `scripts/site-content.mjs` (section 2) from the Thank-you layout. It confirms the sign-up, says what arrives, how often, from where and how to unsubscribe, shows the three newest articles (`scripts/latest-cards.mjs`; `site-archive.mjs` refreshes them once the archive is listed) and replaces the footer sign-up form with a prompt to request a review. It is noindex, disallowed in robots.txt and not in the sitemap.
+- Double opt-in: `/api/subscribe` answers `confirm: true` when Mailchimp has sent a confirmation email (double opt-in on, or someone rejoining after unsubscribing). The footer form then opens the page with `?confirm=1`, and the page reads "One step left" instead of "You’re subscribed".
+- `app/api/_lib/sinks.ts`: the Mailchimp call no longer sets a status on people who are already in the audience unless the sign-up changes something, so an existing subscriber is never moved back to pending. Nine cases tested against a mocked API.
+- To confirm with Jordan: the page says the briefing "comes from a kwontified.com address". That matches `MAILCHIMP-SETUP.md` (From address contact@kwontified.com) but Mailchimp is not set up yet.
+
 ## Whole-card links (checked and completed 2026-11-27)
 
 - Every article, news item and press release opens from anywhere on its card or row: picture, title, summary and date line. This works through one link per item whose click area covers the item (`data-kq-row` on the item, class `kq-sl` on its link; `scripts/site-fixes.mjs` section 6 and the rows written by `scripts/site-archive.mjs`).

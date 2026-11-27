@@ -68,9 +68,24 @@ export async function toMailchimp(kind: Kind, c: { email: string; firstName?: st
         merge_fields: merge,
       }),
     });
-  let res = await put(kind === "newsletter" ? optIn : undefined);
-  // someone who unsubscribed earlier can only rejoin by confirming by email
-  if (!res.ok && res.status === 400 && kind === "newsletter" && optIn === "subscribed") res = await put("pending");
+  // Step 1 adds the person if they are new and leaves an existing member's status alone, so
+  // nobody who is already subscribed is sent back to "pending".
+  let res = await put();
+  let state = "";
+  if (res.ok) {
+    state = String(((await res.json().catch(() => ({}))) as { status?: string }).status || "");
+    if (kind === "newsletter") {
+      // Step 2, only where the sign-up changes something: a contact-form visitor who now asks
+      // for the newsletter is opted in, and someone who unsubscribed earlier (or is archived)
+      // can only rejoin by confirming by email.
+      const want = state === "transactional" ? optIn : state === "unsubscribed" || state === "archived" ? "pending" : "";
+      if (want) {
+        res = await put(want);
+        if (!res.ok && res.status === 400 && want === "subscribed") res = await put("pending");
+        if (res.ok) state = String(((await res.json().catch(() => ({}))) as { status?: string }).status || want);
+      }
+    }
+  }
   if (!res.ok) {
     console.error(`[${kind}] Mailchimp answered ${res.status}: ${(await res.text()).slice(0, 300)}`);
     return false;
@@ -82,5 +97,6 @@ export async function toMailchimp(kind: Kind, c: { email: string; firstName?: st
     body: JSON.stringify({ tags: [{ name: kind === "newsletter" ? "Website newsletter" : "Website contact form", status: "active" }] }),
   });
   if (!tag.ok) console.error(`[${kind}] Mailchimp tag answered ${tag.status}`);
-  return true;
+  // the member's status after the call: "pending" means Mailchimp has emailed a confirmation link
+  return state || true;
 }

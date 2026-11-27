@@ -23,14 +23,15 @@ Details that are already handled in the code:
 
 - **Contact-form visitors are not added to the newsletter.** They asked for a review, not for marketing email, so Mailchimp stores them as non-subscribed contacts. If a person is already in the audience, the contact form leaves their status alone.
 - **A contact-form visitor who later signs up for the briefing becomes Subscribed.**
-- **Someone who unsubscribed and signs up again** gets Mailchimp's confirmation email, because Mailchimp only lets a person rejoin by confirming it themselves.
+- **Someone who unsubscribed and signs up again** gets Mailchimp's confirmation email, because Mailchimp only lets a person rejoin by confirming it themselves. The confirmation page tells them to open it.
+- **Someone already subscribed who signs up again** stays subscribed; nothing is sent and nothing changes.
 - **Required audience fields cannot block a sign-up.** The site skips Mailchimp's required-field check, so a newsletter sign-up with only an email address is always accepted.
 - **A Mailchimp outage does not affect visitors.** If Mailchimp is down or misconfigured, the visitor still sees the thank-you page, the team still gets the email, and the error is written to the Vercel logs (step 8).
 
 ## Decisions to make first
 
 1. **Which tool sends the monthly briefing.** Use Mailchimp. Resend keeps sending the team notifications and keeps its copy of subscribers as a backup. Send each issue from one tool only, or subscribers will get it twice.
-2. **Single or double opt-in.** The site's thank-you page says "You're subscribed", which matches single opt-in (the default). With double opt-in, Mailchimp first emails a confirmation link, which gives a cleaner list and is the safer choice for subscribers in the EU and Canada. To use it, set `MAILCHIMP_DOUBLE_OPT_IN` to `true` in step 6 and ask for the thank-you page to be reworded to "Check your inbox to confirm".
+2. **Single or double opt-in.** With single opt-in (the default) a visitor is subscribed at once and the confirmation page says "You’re subscribed". With double opt-in, Mailchimp first emails a confirmation link, which gives a cleaner list and is the safer choice for subscribers in the EU and Canada. To use it, set `MAILCHIMP_DOUBLE_OPT_IN` to `true` in step 6. The confirmation page then says "One step left" and asks the visitor to open that email; no page change is needed.
 3. **One audience.** Mailchimp recommends a single audience separated by tags, and its Free plan allows only one. Both forms use the same audience; the tags tell them apart. Mailchimp's plan limits can also count non-subscribed and unsubscribed contacts, so check the current limits on Mailchimp's pricing page against the number of contact-form requests you expect.
 
 ## Step 1. Sign in and pick a plan
@@ -101,7 +102,7 @@ Use addresses you control. Google Workspace delivers `jordan+test1@kwontified.co
    Expect: status **Non-subscribed**, tag **Website contact form**, first and last name filled in. The team notification email arrives as before.
 3. **Contact first, then newsletter.** Sign up for the newsletter with `jordan+mc2@kwontified.com`.
    Expect: the same contact is now **Subscribed** and has both tags.
-4. **Double opt-in only.** Expect a confirmation email and the status **Pending** until the link is clicked.
+4. **Double opt-in only.** Expect the confirmation page to read "One step left", a confirmation email from Mailchimp, and the status **Pending** until the link is clicked.
 5. Delete the test contacts: select them > **Actions** > **Archive** (or Permanently delete).
 
 ## Step 8. If a test fails
