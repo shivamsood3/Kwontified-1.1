@@ -571,6 +571,16 @@
    "k": "817b910ba4",
    "src": "All Perspectives",
    "t": "Todas las Perspectives"
+  },
+  {
+   "k": "07fc0169a1",
+   "src": "Too many sign-ups from this connection. Please wait a few minutes and try again.",
+   "t": "Demasiadas suscripciones desde esta conexión. Espere unos minutos e inténtelo de nuevo."
+  },
+  {
+   "k": "95cdd757ec",
+   "src": "That didn’t go through. Please try again.",
+   "t": "No se pudo enviar. Inténtelo de nuevo."
   }
  ]
 }

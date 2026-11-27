@@ -571,6 +571,16 @@
    "k": "817b910ba4",
    "src": "All Perspectives",
    "t": "全部 Perspectives"
+  },
+  {
+   "k": "07fc0169a1",
+   "src": "Too many sign-ups from this connection. Please wait a few minutes and try again.",
+   "t": "此连接的订阅请求过多。请稍等几分钟后再试。"
+  },
+  {
+   "k": "95cdd757ec",
+   "src": "That didn’t go through. Please try again.",
+   "t": "未能提交，请重试。"
   }
  ]
 }
