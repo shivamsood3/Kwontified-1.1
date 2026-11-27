@@ -1,11 +1,19 @@
 // Minimal Resend client (REST, no SDK) used by the form endpoints.
 //
 // Where submissions go:
-//   - every submission is emailed to the team (CONTACT_TO, default contact@kwontified.com),
-//     with Reply-To set to the visitor so the team can answer straight from the inbox
+//   - contact-form requests are emailed to the team (CONTACT_TO, default contact@kwontified.com),
+//     with Reply-To set to the visitor so the team can answer straight from the inbox; a new
+//     newsletter subscriber is announced to NEWSLETTER_TO (not again for an address already in
+//     the segment)
 //   - every visitor is saved as a Resend contact and added to a segment:
-//       "Kwontified Briefing" for newsletter sign-ups (usable for Resend broadcasts)
-//       "Marketplace review requests" for the contact form
+//       "Kwontified Briefing" for newsletter sign-ups (usable for Resend broadcasts). Subscribed
+//         at once (single opt-in, the owner's choice). With double opt-in switched on
+//         (MAILCHIMP_DOUBLE_OPT_IN=true, see sinks.ts doubleOptIn) and Mailchimp connected, a new
+//         contact is created unsubscribed: Mailchimp sends the confirmation and holds the
+//         confirmed list.
+//       "Marketplace review requests" for the contact form. These people asked for a review,
+//         not for email, so a new contact is created unsubscribed and no broadcast reaches them.
+//     An existing contact's subscription is never changed here.
 //
 // Settings (Vercel → Project → Settings → Environment Variables):
 //   RESEND_API_KEY   required; without it submissions are only logged
@@ -16,10 +24,13 @@
 //   RESEND_SEGMENT_NEWSLETTER / RESEND_SEGMENT_REVIEWS   optional segment ids; when unset
 //                    the segments are found by name, or created on first use
 //
-// Nothing here throws: a failed step is logged and returns false. The newsletter form still
-// answers with success in that case. The contact form does not (since 2026-11-27): it answers
-// with an error unless the team email was sent or the sheet row was written, so a visitor is
-// never told a request arrived when it reached nobody (see ../contact/route.ts).
+// Nothing here throws: a failed step is logged (without the visitor's address) and returns
+// false. Neither form tells a visitor that a submission arrived when it reached nobody (since
+// 2026-11-27): the contact form answers with an error unless the team email was sent or the
+// sheet row was written (../contact/route.ts), and the newsletter form unless the address was
+// stored in the Resend segment, the sheet or Mailchimp (../subscribe/route.ts).
+
+import { redact } from "./guard";
 
 const API = process.env.RESEND_API_BASE || "https://api.resend.com"; // override only for local testing
 
@@ -58,7 +69,7 @@ export async function sendEmail(msg: { to: string; subject: string; html: string
     method: "POST",
     body: { from, to: [msg.to], subject: msg.subject, html: msg.html, text: msg.text, ...(msg.replyTo ? { reply_to: msg.replyTo } : {}) },
   });
-  if (!r.ok) console.error("[resend] email failed", r.status, JSON.stringify(r.json));
+  if (!r.ok) console.error("[resend] email failed", r.status, redact(JSON.stringify(r.json)));
   return r.ok;
 }
 
@@ -74,7 +85,7 @@ async function segmentId(name: string, envId?: string) {
     const made = await call("/segments", { method: "POST", body: { name } });
     id = (made.json as { id?: string })?.id;
     if (!made.ok || !id) {
-      console.error("[resend] could not find or create segment", name, made.status, JSON.stringify(made.json));
+      console.error("[resend] could not find or create segment", name, made.status, redact(JSON.stringify(made.json)));
       return "";
     }
   }
@@ -82,24 +93,37 @@ async function segmentId(name: string, envId?: string) {
   return id;
 }
 
-/** Save the visitor as a contact and add them to the named segment. */
-export async function saveContact(c: { email: string; firstName?: string; lastName?: string }, segment: "newsletter" | "reviews") {
-  if (!settings().key) return false;
+/**
+ * Save the visitor as a contact and add them to the named segment. A new contact is created
+ * with the given subscription; an existing one keeps its own. stored: the address is in the
+ * segment now; already: it was there before this request.
+ */
+export async function saveContact(
+  c: { email: string; firstName?: string; lastName?: string },
+  segment: "newsletter" | "reviews",
+  opts: { unsubscribed: boolean },
+) {
+  const none = { stored: false, already: false };
+  if (!settings().key) return none;
   const created = await call("/contacts", {
     method: "POST",
-    body: { email: c.email, first_name: c.firstName || undefined, last_name: c.lastName || undefined, unsubscribed: false },
+    body: { email: c.email, first_name: c.firstName || undefined, last_name: c.lastName || undefined, unsubscribed: opts.unsubscribed },
   });
   // an existing contact is fine: it is still added to the segment below
   if (!created.ok && created.status !== 409 && created.status !== 422) {
-    console.error("[resend] contact create failed", created.status, JSON.stringify(created.json));
+    console.error("[resend] contact create failed", created.status, redact(JSON.stringify(created.json)));
   }
   const name = segment === "newsletter" ? "Kwontified Briefing" : "Marketplace review requests";
   const env = segment === "newsletter" ? process.env.RESEND_SEGMENT_NEWSLETTER : process.env.RESEND_SEGMENT_REVIEWS;
   const id = await segmentId(name, env);
-  if (!id) return false;
-  const added = await call(`/contacts/${encodeURIComponent(c.email)}/segments/${id}`, { method: "POST" });
-  if (!added.ok) console.error("[resend] add to segment failed", added.status, JSON.stringify(added.json));
-  return added.ok;
+  if (!id) return none;
+  const contact = encodeURIComponent(c.email);
+  const current = await call(`/contacts/${contact}/segments`, { method: "GET" });
+  const already = current.ok && ((current.json as { data?: { id: string }[] })?.data || []).some((s) => s.id === id);
+  if (already) return { stored: true, already };
+  const added = await call(`/contacts/${contact}/segments/${id}`, { method: "POST" });
+  if (!added.ok) console.error("[resend] add to segment failed", added.status, redact(JSON.stringify(added.json)));
+  return { stored: added.ok, already: false };
 }
 
 export const esc = (s: string) =>
