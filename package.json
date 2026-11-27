@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/build-site.mjs && node scripts/site-fixes.mjs && node scripts/site-content.mjs && node scripts/site-archive.mjs && node scripts/site-errors.mjs && node scripts/site-contact.mjs && node scripts/site-seo.mjs && node scripts/site-images.mjs && node scripts/site-tags.mjs && next dev --turbopack",
-    "build": "node scripts/build-site.mjs && node scripts/site-fixes.mjs && node scripts/site-content.mjs && node scripts/site-archive.mjs && node scripts/site-errors.mjs && node scripts/site-contact.mjs && node scripts/site-seo.mjs && node scripts/site-images.mjs && node scripts/site-tags.mjs && node scripts/site-logos.mjs && node scripts/site-perspectives-ux.mjs && node scripts/site-perspectives.mjs && node scripts/site-nav.mjs && node scripts/site-effects.mjs && node scripts/site-i18n.mjs && next build",
+    "dev": "node scripts/build-site.mjs && node scripts/site-fixes.mjs && node scripts/site-content.mjs && node scripts/site-archive.mjs && node scripts/site-errors.mjs && node scripts/site-contact.mjs && node scripts/site-about.mjs && node scripts/site-seo.mjs && node scripts/site-images.mjs && node scripts/site-tags.mjs && next dev --turbopack",
+    "build": "node scripts/build-site.mjs && node scripts/site-fixes.mjs && node scripts/site-content.mjs && node scripts/site-archive.mjs && node scripts/site-errors.mjs && node scripts/site-contact.mjs && node scripts/site-about.mjs && node scripts/site-seo.mjs && node scripts/site-images.mjs && node scripts/site-tags.mjs && node scripts/site-logos.mjs && node scripts/site-perspectives-ux.mjs && node scripts/site-perspectives.mjs && node scripts/site-nav.mjs && node scripts/site-effects.mjs && node scripts/site-i18n.mjs && next build",
     "start": "next start",
     "lint": "eslint .",
-    "build:site": "node scripts/build-site.mjs && node scripts/site-fixes.mjs && node scripts/site-content.mjs && node scripts/site-archive.mjs && node scripts/site-errors.mjs && node scripts/site-contact.mjs && node scripts/site-seo.mjs && node scripts/site-images.mjs && node scripts/site-tags.mjs && node scripts/site-logos.mjs && node scripts/site-perspectives-ux.mjs && node scripts/site-perspectives.mjs && node scripts/site-nav.mjs && node scripts/site-effects.mjs && node scripts/site-i18n.mjs",
+    "build:site": "node scripts/build-site.mjs && node scripts/site-fixes.mjs && node scripts/site-content.mjs && node scripts/site-archive.mjs && node scripts/site-errors.mjs && node scripts/site-contact.mjs && node scripts/site-about.mjs && node scripts/site-seo.mjs && node scripts/site-images.mjs && node scripts/site-tags.mjs && node scripts/site-logos.mjs && node scripts/site-perspectives-ux.mjs && node scripts/site-perspectives.mjs && node scripts/site-nav.mjs && node scripts/site-effects.mjs && node scripts/site-i18n.mjs",
     "i18n": "node scripts/i18n.mjs"
   },
   "dependencies": {

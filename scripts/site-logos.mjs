@@ -22,6 +22,7 @@ const COLOUR = "#262524";
 
 let html = fs.readFileSync(FILE, "utf8");
 let moved = 0, saved = 0;
+const lists = {};
 for (const [label, expected] of Object.entries(LISTS)) {
   const start = html.indexOf(`<ul aria-label="${label}"`);
   if (start < 0) fail(`list "${label}" not found`);
@@ -45,7 +46,26 @@ for (const [label, expected] of Object.entries(LISTS)) {
   if (n !== expected) fail(`list "${label}": expected ${expected} logos, found ${n}`);
   if (/<svg\b/.test(list)) fail(`list "${label}" still has an inline drawing`);
   html = html.slice(0, start) + list + html.slice(end);
+  lists[label] = list + "</ul>";
   moved += n;
 }
 fs.writeFileSync(FILE, html);
-console.log(`site-logos: ${moved} home page logos moved to their own files (${Math.round(saved / 1024)} KB out of the HTML; page now ${Math.round(html.length / 1024)} KB)`);
+
+// The same two lists on About and Why Kwontified: site-about.mjs leaves a marker where each
+// goes, because the logo files do not exist until this step has written them.
+const MARKS = { "<!--kq-logos:clients-->": "Selected clients", "<!--kq-logos:press-->": "Publications that have featured Kwontified" };
+let placed = 0;
+for (const f of ["about.html", "why-kwontified.html"]) {
+  const file = path.join(ROOT, "public/_kq", f);
+  if (!fs.existsSync(file)) continue;
+  let page = fs.readFileSync(file, "utf8");
+  for (const [mark, label] of Object.entries(MARKS)) {
+    const n = page.split(mark).length - 1;
+    if (!n) continue;
+    page = page.split(mark).join(`<div class="kq-ab-logowrap">${lists[label]}</div>`);
+    placed += n;
+  }
+  if (page.includes("<!--kq-logos:")) fail(`${f}: a logo marker was not filled`);
+  fs.writeFileSync(file, page);
+}
+console.log(`site-logos: ${moved} home page logos moved to their own files (${Math.round(saved / 1024)} KB out of the HTML; page now ${Math.round(html.length / 1024)} KB); the lists also placed ${placed} times on About and Why Kwontified`);

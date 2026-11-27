@@ -195,6 +195,34 @@ Every page is within two clicks of the home page (unchanged). Lighthouse after t
 - Earlier tests re-run after the change: effects (skip link, progress bar, phone header), navigation (menus, search, pager restore, phone menu) and error pages. No failures and no script errors.
 - `npx tsc --noEmit` passes; `npm run lint` reports the same single warning as before.
 
+## About and Why Kwontified (2026-11-27)
+
+Scored on the same measures as the review. Neither page reaches the 95 the plan aimed for: the decisions not to publish company figures or fees and to keep the current imagery cap three measures, and both pages are longer than before.
+
+| About | Before | After | What still costs points |
+|---|---|---|---|
+| Clear, distinct purpose | 7 / 15 | 14 / 15 | |
+| Story and substance | 8 / 20 | 14 / 20 | No company figures (by decision); the story has dates and the founders' background but no new facts. |
+| Proof | 12 / 20 | 18 / 20 | The six press pieces are from 2017 to 2019. |
+| Structure and length | 8 / 15 | 11 / 15 | Page menu added, but the page is 24 phone screens (22 before) and 11.0 desktop screens (10.6). |
+| Paths onward | 4 / 10 | 9 / 10 | |
+| Visuals | 5 / 10 | 6 / 10 | Current imagery kept (by decision); the skylines now sit with the office addresses. |
+| Technical basics | 9 / 10 | 10 / 10 | |
+| **Total** | **53** | **82** | |
+
+| Why Kwontified | Before | After | What still costs points |
+|---|---|---|---|
+| Difference against alternatives | 9 / 20 | 17 / 20 | The comparison is in general terms. |
+| Proof | 8 / 25 | 20 / 25 | Two linked results, two quotes, 15 logos; the portal is an example, not a real screen. |
+| Clarity | 8 / 15 | 12 / 15 | 23.6 phone screens (19.9 before), 12.1 desktop (9.1). |
+| Buyer questions | 9 / 15 | 11 / 15 | Nothing on fees or terms (by decision). |
+| Paths onward | 3 / 10 | 9 / 10 | Two review buttons (the first at 5,400px on desktop); linked from 41 pages. |
+| Visuals | 2 / 5 | 3 / 5 | |
+| Technical basics | 9 / 10 | 10 / 10 | |
+| **Total** | **48** | **82** | |
+
+Checked in a browser at 1440, 390 and 320px: no sideways scroll; every page-menu link lands on a section; 30 logos on About and 15 on Why Kwontified; FAQ structured data matches the page (7 and 8 questions); the Why Kwontified link is on the capability, channel and case study pages tested; no script errors. Lighthouse (mobile): About 99 / 100 / 100 / 100, Why Kwontified 99 / 100 / 100 / 100, Careers 100 / 100 / 100 / 100. Not checked: Safari and Firefox.
+
 ## Contact page (2026-11-27)
 
 Scored 48 / 100 before the rebuild and 96 / 100 after, on the same seven measures.
