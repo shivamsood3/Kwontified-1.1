@@ -16,8 +16,10 @@
 //   RESEND_SEGMENT_NEWSLETTER / RESEND_SEGMENT_REVIEWS   optional segment ids; when unset
 //                    the segments are found by name, or created on first use
 //
-// Nothing here throws: a failed step is logged and the visitor still gets a success
-// response, so a mail or storage outage never loses the design's flow.
+// Nothing here throws: a failed step is logged and returns false. The newsletter form still
+// answers with success in that case. The contact form does not (since 2026-11-27): it answers
+// with an error unless the team email was sent or the sheet row was written, so a visitor is
+// never told a request arrived when it reached nobody (see ../contact/route.ts).
 
 const API = process.env.RESEND_API_BASE || "https://api.resend.com"; // override only for local testing
 

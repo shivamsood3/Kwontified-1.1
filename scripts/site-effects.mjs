@@ -192,7 +192,7 @@ if('MutationObserver' in w&&!b.kqWatch){b.kqWatch=1;new MutationObserver(functio
 w.addEventListener('pageshow',function(e){if(!e.persisted)return;[].slice.call(d.querySelectorAll('form[data-kq-form] button[data-kq-label]')).forEach(function(b){b.disabled=false;rest(b);});});
 function text(el){var v=el.validity;
 if(el.type==='email'){if(v.valueMissing)return T('Enter your work email address.');if(v.typeMismatch)return T('Check the email address. It should look like name@company.com.');}
-if(v.valueMissing)return T('This field is required.');return el.validationMessage||T('Check this field.');}
+if(v.valueMissing)return T('This field is required.');if(v.patternMismatch&&el.title)return el.title;return el.validationMessage||T('Check this field.');}
 function slot(el){var id=el.id||(el.id='kq-f'+(n++)),m=d.getElementById(id+'-err');if(m)return m;
 m=d.createElement('p');m.id=id+'-err';m.className='kq-ferr';m.setAttribute('aria-live','polite');
 var f=el.form,nl=f&&f.getAttribute('data-kq-form')==='newsletter';

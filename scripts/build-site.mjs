@@ -186,8 +186,10 @@ function renderArchive(template, a) {
 }
 
 // ---- 5. form endpoints -------------------------------------------------------
-// Contact: the fields go to /api/contact and the export's own handler then opens
-// the Thank-you page, exactly as designed.
+// Contact: handed to window.kqContact, which scripts/site-contact.mjs defines on the Contact
+// page. It sends the fields to /api/contact, opens the Thank-you page only when the server
+// confirms the request was delivered, and otherwise says so and keeps the answers. (Until
+// 2026-11-27 this was a fire-and-forget beacon and the Thank-you page opened regardless.)
 // Newsletter: the export does nothing visible on submit, so the form is
 // replaced by a one-line confirmation at the form's own height (no layout shift),
 // in the footer's cream text with a gold check. If the request fails, a short
@@ -196,7 +198,7 @@ const FORM_HOOK = `<script>/* live form endpoints */
 document.addEventListener('submit',function(e){
 var f=e.target;if(!f||!f.getAttribute)return;var k=f.getAttribute('data-kq-form');
 if(f.checkValidity&&!f.checkValidity())return;
-if(k==='contact'){try{navigator.sendBeacon('/api/contact',new FormData(f));}catch(_){}return;}
+if(k==='contact'){if(window.kqContact){e.preventDefault();e.stopImmediatePropagation();window.kqContact(f);}return;}
 if(k!=='newsletter')return;
 e.preventDefault();e.stopImmediatePropagation();
 var b=f.querySelector('button[type="submit"],button:not([type])');if(b)b.disabled=true;

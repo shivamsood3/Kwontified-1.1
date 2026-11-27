@@ -21,7 +21,7 @@ const SECRET = "choose-a-long-random-string";
 const KEYS = {
   newsletter: ["timestamp", "email", "page", "utm", "country"],
   contact: ["timestamp", "first_name", "last_name", "email", "job_title", "company", "website",
-            "channels", "revenue", "goal", "notes", "page", "utm", "country"],
+            "channels", "revenue", "goal", "notes", "page", "utm", "country", "finder", "from"],
 };
 function doPost(e) {
   const d = JSON.parse(e.postData.contents);
@@ -33,6 +33,10 @@ function doPost(e) {
   return ContentService.createTextOutput("ok");
 }
 ```
+
+Contact sheet columns, in order: timestamp, first name, last name, email, job title, company, website, channels, revenue, goal, notes, page, utm, country, finder, from. `goal` ("What you need help with") can hold several values, separated by commas. `finder` is what the visitor chose in the home page case finder, and `from` is the page they were on before the form. The last two were added on 2026-11-27; add the two column headings if the sheet already exists.
+
+The contact form tells the visitor a request did not send unless the team email or this sheet accepted it, so connecting the sheet also gives the form a second way to succeed during a mail outage.
 
 ## Mailchimp
 

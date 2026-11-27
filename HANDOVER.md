@@ -13,16 +13,17 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
   3. `scripts/site-content.mjs`: Accessibility page, newsletter confirmation page, omni-channel copy, press release renames.
   4. `scripts/site-archive.mjs`: lists the imported archive on the Perspectives index.
   5. `scripts/site-errors.mjs` (added 2026-11-27): builds the 404 and 403 pages from the 404 shell `build-site.mjs` makes. See "Error pages" below.
-  6. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
-  7. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
-  8. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
-  9. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
-  10. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
-  11. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
-  12. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
-  13. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
-  14. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
-  15. `next build`.
+  6. `scripts/site-contact.mjs` (added 2026-11-27): rebuilds the top of the Contact page (form on the first screen, six required fields, optional detail, other routes) and defines the function that sends the form. See "Contact page" below.
+  7. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
+  8. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
+  9. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
+  10. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
+  11. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
+  12. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
+  13. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
+  14. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
+  15. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
+  16. `next build`.
   The full build takes about a minute; most of it is the site-images step making the WebP copies.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
@@ -99,6 +100,21 @@ A navigation review scored the site 68 out of 100 on a ten-point rubric (reach, 
   - Unused finals: jobs `05fc8fb4-a161-41c2-bb96-941da1b2ff0a` and `089763fb-c82f-4fa7-be98-c5f82644cfd2`. The other six drafts are in the Higgsfield workspace history.
 - Lighthouse cannot audit a page that answers 404 or 403; audit `/_kq/404.html` and `/_kq/403.html` instead.
 
+## Contact page (rebuilt 2026-11-27, `scripts/site-contact.mjs`, `app/api/contact/route.ts`)
+
+Reviewed and approved by Jordan the same day. Decisions: a personal email address is accepted; the phone number is shown as a secondary route; the copy says "A managing partner reads every request"; no booking link yet (planned).
+
+- Layout: headline and three assurances on the left, the form in a card on the right, "What happens next" beside it and three linked results under it. On a phone: headline, form, what happens next, results. Below: "Other ways to reach us" (email and phone, existing clients, press, careers, the three offices) and the four questions.
+- Fields: first name, last name, work email, company, website and "What do you want to achieve?" are required. Job title, channels, revenue (no default) and "What you need help with" (several allowed, named after the capabilities) are in a closed "Add detail" block. A personal address shows a one-line nudge and is accepted. The website field accepts `brand.com` with or without `https://`.
+- **Delivery changed.** The form used to be sent as a fire-and-forget beacon and the Thank-you page opened whatever happened. Now `window.kqContact` (defined on the Contact page, called by the form hook `build-site.mjs` adds to every page) posts to `/api/contact` and opens the Thank-you page only on `{ ok: true }`. The endpoint answers `ok` only if the team email was sent or the Google Sheet row was written; otherwise 502, and the page shows "That did not send", keeps the answers, and offers the same request as a pre-filled email.
+- **Go-live check: `RESEND_API_KEY` must be set in Vercel (and the sending domain verified in Resend).** Without it, and with no sheet connected, every visitor now sees the "did not send" message. Before this change the same situation looked like success and the request was lost.
+- Spam: a hidden field (`contact_me_by_fax_only`), a two-second minimum on the page, a same-site check on the `Origin` header, and five requests per ten minutes per address (per server instance, so a brake and not a wall). The first two are answered with success and dropped.
+- The visitor gets a short receipt by email ("We received your marketplace review request"). It repeats nothing they typed, so the form cannot be used to send a message to someone else. `CONTACT_CONFIRMATION=off` turns it off. The Thank-you page says "We have sent a confirmation to your inbox" only when it was sent.
+- Carried in: the home page case finder's links (`/contact#ch=wm&rev=m`) tick the channel, open the optional block and show what was carried; the page the visitor came from is sent as `from`. The finder's three revenue bands do not line up with the form's five, so only "under $5M" selects an option; the others arrive as words in the `finder` field. Aligning the bands is part of the filter plan (not yet approved).
+- Without scripts the form posts to `/api/contact` and is redirected to the Thank-you page, or back to `/contact?sent=0#send-failed`.
+- Measurement: after a delivered request the Thank-you page pushes `{ event: "generate_lead", form_id: "contact" }` to `dataLayer`, once. Google Tag Manager needs a trigger on that event; tags still load only after cookie consent.
+- The words the script shows (the failure message, the nudge, the carried-answers line) are in the page's markup, hidden until needed, so the translation step can reach them.
+
 ## Perspectives reading and filters (added 2026-11-27, `scripts/site-perspectives-ux.mjs`)
 
 - Reading time: the 875 articles now say "N-minute read" in the byline (word count / 220, at least 1), as the news items already did; every index card shows it too. Article structured data carries `wordCount` and `timeRequired`.
@@ -172,5 +188,6 @@ Not done on purpose: parallax, scroll-jacking, auto-rotating carousels, custom c
 - Homepage hero: done 2026-11-26. A still frame of the parcel conveyor (frame at 26.2 s of the desktop video: no people, navy wall behind the headline) shows until the video is actually playing, then the video fades in over 0.8 s. Files `site-src/assets/home-hero-still{,-960,-1440,-1920}` (WebP 17-47 KB, JPEG fallback); it is also the video's poster and the page's LCP image. Visitors who prefer reduced motion get the still and the video is paused (not downloaded further); if the browser refuses autoplay (iOS Low Power Mode, data saver) the still stays and the button offers Play. The two old first-frame background images (`11948d288a83.jpg`, `e57c7576b74e.jpg`) are no longer referenced.
 - Leadership profiles: approved by Jordan on 2026-11-27 (after the second polish).
 - Google Ads conversions: after go-live (Jordan's decision).
+- Contact form, before go-live: confirm `RESEND_API_KEY` is set in Vercel and send one real request from the deployed site (the team email, the visitor's receipt and the Thank-you page). The form now reports a failed send instead of hiding it, so a missing key is visible to visitors. A booking link on the Thank-you page is planned for later (Jordan, 2026-11-27).
 - Jordan is handling: link sharing on the Google Drive folders, and the 2019 and 2020 archive sheets.
 - The six draft press releases and the two `[DATA NEEDED]` articles can be imported once the sheets are completed and marked Final.

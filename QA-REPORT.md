@@ -195,6 +195,32 @@ Every page is within two clicks of the home page (unchanged). Lighthouse after t
 - Earlier tests re-run after the change: effects (skip link, progress bar, phone header), navigation (menus, search, pager restore, phone menu) and error pages. No failures and no script errors.
 - `npx tsc --noEmit` passes; `npm run lint` reports the same single warning as before.
 
+## Contact page (2026-11-27)
+
+Scored 48 / 100 before the rebuild and 96 / 100 after, on the same seven measures.
+
+| Measure | Before | After | What still costs points |
+|---|---|---|---|
+| Reaching the form | 8 / 20 | 18 / 20 | On a phone the form starts on the first screen but does not fit on it; a first-time visitor's cookie notice covers the lower part until answered. |
+| Questions asked | 9 / 20 | 18 / 20 | The case finder's revenue answer only selects an option for "under $5M" (bands differ; in the filter plan). |
+| Delivery | 6 / 20 | 18 / 20 | Tested against a stand-in for the mail service, not the live one; the request limit is per server instance. |
+| Lead quality | 4 / 10 | 9 / 10 | |
+| Trust | 9 / 15 | 13 / 15 | No client quote or logos on the page. |
+| Other routes | 3 / 10 | 10 / 10 | |
+| Accessibility and phone basics | 9 / 10 | 10 / 10 | |
+
+Tested in a browser at 1440, 390 and 320px:
+
+- The whole form, including its button, is on the first screen at 1440 x 900 (card from 112 to 832px). On an iPhone 13 the form starts at 362px of 664.
+- An empty submit marks all six required fields with their own message and focuses the first. "not a url" and "brand" are refused for the website; "brand.com", "https://www.brand.co.uk/shop" and " brand.com " are accepted. A Gmail address shows the nudge and is accepted.
+- A delivered request sends two emails (the team's, with every answer; the visitor's receipt, with none of them), opens `/contact/thank-you?c=1`, shows the confirmation line and records one `generate_lead` event; reloading the Thank-you page does not record another.
+- With the mail service failing: the page stays on `/contact`, the message appears and takes focus, the button returns to its label, the answers are kept, and the email link carries them. A retry after the outage succeeds.
+- From the home page case finder (Walmart, $5M to $25M): Walmart is ticked, the optional block is open, the carried line is shown, and `from` is `/`. `#ch=sc&rev=s` also selects "Under $5M". Unknown codes are ignored.
+- The endpoint alone: hidden field filled and a two-second submit are answered 200 and send nothing; another site's `Origin` gets 403; missing fields 422 with their names; without scripts a delivered request redirects to the Thank-you page and a failed one to `/contact?sent=0#send-failed`; the sixth request in ten minutes gets 429.
+- Lighthouse (mobile): `/contact` 100 / 100 / 100 / 100; `/contact/thank-you` 100 / 100 / 100 (SEO is marked down only because the page is noindex, as intended).
+- All 1,083 routes return 200; `tsc` passes; lint reports the same single warning as before.
+- Not checked: delivery through the live mail service and the live Google Sheet; Safari and Firefox; the receipt email in real mail clients.
+
 ## Translation (2026-11-27)
 
 - All 1,085 built pages can be split into text entries and reassembled byte for byte, and an "identity" translation reproduces every page.
