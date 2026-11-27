@@ -15,18 +15,19 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
   5. `scripts/site-errors.mjs` (added 2026-11-27): builds the 404 and 403 pages from the 404 shell `build-site.mjs` makes. See "Error pages" below.
   6. `scripts/site-contact.mjs` (added 2026-11-27): rebuilds the top of the Contact page (form on the first screen, six required fields, optional detail, other routes) and defines the function that sends the form. See "Contact page" below.
   7. `scripts/site-about.mjs` (added 2026-11-27): gives About and Why Kwontified one job each by moving and adding sections, puts the values on Careers in short, and links Why Kwontified from the capability, channel and case study pages. See "About and Why Kwontified" below.
-  8. `scripts/site-filters.mjs` (added 2026-11-27): the Work page filter and pager, the creative gallery filter, links from case study labels to the filtered list, and Creative Studio's links to the gallery. See "Filters" below.
-  9. `scripts/site-home.mjs` (added 2026-11-27): rebuilds the home page's order and sections. See "Home page" below.
-  10. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
-  11. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
-  12. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
-  13. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
-  14. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
-  15. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
-  16. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
-  17. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
-  18. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
-  19. `next build`.
+  8. `scripts/site-capchan.mjs` (added 2026-11-27): capability and channel pages: case cards linked to their own case studies, the review button on the phone's first screen, "Where this applies" rows and the capability-by-channel table, client logo bands (no quotes), Temu as a marketplace, "Problems we solve" folded into the first section on the seven thin channel pages. Run again with `--check` at the very end of the build. See "Capabilities and Channels" below.
+  9. `scripts/site-filters.mjs` (added 2026-11-27): the Work page filter and pager, the creative gallery filter, links from case study labels to the filtered list, and Creative Studio's links to the gallery. See "Filters" below.
+  10. `scripts/site-home.mjs` (added 2026-11-27): rebuilds the home page's order and sections. See "Home page" below.
+  11. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
+  12. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
+  13. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
+  14. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
+  15. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
+  16. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
+  17. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
+  18. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
+  19. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
+  20. `next build`.
   The full build takes about a minute; most of it is the site-images step making the WebP copies.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
@@ -106,6 +107,19 @@ A navigation review scored the site 68 out of 100 on a ten-point rubric (reach, 
 ## Home page (rebuilt 2026-11-27, `scripts/site-home.mjs`)
 
 Reviewed at 64/100 and approved by Jordan (82/100 after, on the same measures). Order: hero (video unchanged, by decision), client logos, three results with the Dr. Brandt quote, one team with the six capabilities by house name, ten channels each linked to its page, four pieces read from `/work/creative`, press logos with the Vilebrequin quote, case finder, Perspectives, five questions, closing request. Phone length went from 25.1 to 19.0 screens and the review button now sits on the first phone screen. The step fails if a section is renamed or reshaped, if a gallery piece or its caption changes, if the finder is not byte-identical after the move, if either logo list loses its 15 inline logos, if "agile omni-channel strategy" appears more than three times, or if a body link is not a route. To change the creative pieces edit `PIECES` (image id and width/height ratio); channels are `CHANNELS`; questions are `KEEP` and `CUT`; the categories answer is rewritten to the same broad list as Why Kwontified. Phone rules are in its `<style data-kq-home>`: 2.39:1 hero picture, three-column logo lists, 30px section headings, swipe rows for capabilities and creative. `site-effects.mjs` still needs `#results` to hold exactly three headline figures. Tests: `scratchpad/home-work/t.js <port>`.
+
+## Capabilities and Channels (rebuilt 2026-11-27, `scripts/site-capchan.mjs`)
+
+Approved by Jordan. Helper's scores on the review's rubrics: capabilities 58 to 83, channels 59 to 79. Decisions: no client quotes on these pages (logos only); Temu is a marketplace (its own group, breadcrumb, structured data, menu position after Target Plus, the index chip now reads "Marketplaces"); every channel keeps its own page.
+
+- All 34 case-study cards open their own case study (matched by title; two more became featured cases). `node scripts/site-capchan.mjs --check`, run at the end of the build, fails if a matched card stops opening its case study, if a logo band is empty, if questions and their structured data differ, or if an internal link is not a route.
+- The review button sits on the phone's first screen on all 18 pages; 16 hero figures link to their case study.
+- The "Where this applies" rows and the capability-by-channel table on `/capabilities` are built from each channel page's capability cards (`#capabilities`): edit those cards, not the script.
+- Folded rows on the seven thin channel pages are in `FOLD`; the build stops if a page's feature or problem headings change.
+- Amazon and Walmart keep a short section on their AI assistants that links to Agentic Commerce, the single home for Alexa for Shopping and Walmart Sparky.
+- The two omni-channel questions that the home page and `/channels` both copied are now answered once, on Why Kwontified.
+- A step that wants the client logos leaves `<!--kq-logos:clients-->`; `site-logos.mjs` fills it on any page. `npm run dev` does not run `site-logos`, so logo bands are empty there.
+- Left for Jordan: the Retail Media platform list differs between the page body, the "Where this applies" row and the FAQ; the Revenue Recovery wording on when the audit starts.
 
 ## Filters (added 2026-11-27, `scripts/site-filters.mjs`)
 

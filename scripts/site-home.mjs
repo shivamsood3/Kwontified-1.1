@@ -168,10 +168,10 @@ const CHANNELS = [
   ["/channels/amazon/brand-programs", "Amazon brand programs", "Vine, Premium Beauty, Luxury Stores and Creator Connections", BADGE],
   ["/channels/walmart", "Walmart", row("Walmart").line, row("Walmart").icon],
   ["/channels/target-plus", "Target Plus", row("Target Plus").line, row("Target Plus").icon],
+  ["/channels/temu", "Temu", row("Temu").line, row("Temu").icon],
   ["/channels/international", "International", "Amazon in 20+ countries, plus Zalando and Mercado Libre", row("International").icon],
   ["/channels/zalando", "Zalando", row("Zalando").line, row("Zalando").icon],
   ["/channels/mercado-libre", "Mercado Libre", row("Mercado Libre").line, row("Mercado Libre").icon],
-  ["/channels/temu", "Temu", row("Temu").line, row("Temu").icon],
   ["/channels/tiktok-shop", "TikTok Shop", row("TikTok Shop").line, row("TikTok Shop").icon],
   ["/channels/instagram-shop", "Instagram Shop", row("Instagram Shop").line, row("Instagram Shop").icon],
 ];
@@ -249,8 +249,9 @@ let faq = S["faq-title"];
   const names = all.map((m) => text(m[1]));
   if (names.length !== 9 || [...CUT, ...KEEP].some((q) => !names.includes(q))) fail(`the questions changed: ${names.join(" | ")}`);
   for (const m of all) if (CUT.includes(text(m[1]))) faq = faq.replace(m[0], () => "");
-  const channelsPage = text(read("channels.html"));
-  for (const q of CUT.slice(0, 2)) if (!channelsPage.includes(q)) fail(`"${q}" is no longer answered on /channels; keep it here or move it`);
+  // the two omni-channel questions are answered once, on Why Kwontified (as one question);
+  // /channels dropped its copies too (site-capchan.mjs)
+  if (!text(read("why-kwontified.html")).includes("What is an agile omni-channel strategy, and how is it different from multi-channel?")) fail("Why Kwontified no longer answers what an agile omni-channel strategy is; keep the question here or move it");
   faq = once(faq, "Six capabilities within one agile omni-channel strategy: retail media and advertising, creative, marketplace operations, analytics and forecasting, agentic commerce, and revenue recovery on Amazon.", "Six capabilities within one agile omni-channel strategy: Retail Media and Advertising, Creative Studio, Marketplace Operations, Analytics and Forecasting, Agentic Commerce, and Revenue Recovery on Amazon.", "questions: what is included");
   // the categories answer, as broad as Why Kwontified's list (Jordan, 2026-11-27: the site must not read as niche)
   faq = once(faq, "Kwontified works across hardlines, softlines and consumables. In hardlines that includes consumer electronics, small appliances and housewares. In softlines it includes apparel, footwear, handbags, luggage, accessories and jewelry. We also manage beauty and personal care, health and wellness, home goods, and consumer packaged goods such as food and beverage, household, baby and pet products.",

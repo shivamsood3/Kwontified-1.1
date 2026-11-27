@@ -607,6 +607,8 @@ for (const c of CAPS) {
   let temu = byRoute.get("/channels/temu") || fail(`${P.file}: no Temu card`);
   if (!temu.includes('data-k="us intl"') || !temu.includes('<span class="kq-tag">Marketplace</span>')) fail(`${P.file}: the Temu card's groups changed`);
   byRoute.set("/channels/temu", temu.replace('data-k="us intl"', 'data-k="us"'));
+  // the filter chip for that group: Temu is not a US-only marketplace (Jordan, 2026-11-27)
+  sec = once(sec, '<label for="cf-us">US marketplaces</label>', '<label for="cf-us">Marketplaces</label>', `${P.file}: the marketplaces filter chip`);
   let intl = byRoute.get("/channels/international") || fail(`${P.file}: no International card`);
   byRoute.set("/channels/international", once(intl, "Amazon in 20+ countries, plus Zalando, Mercado Libre and Temu.", "Amazon in 20+ countries, plus Zalando and Mercado Libre.", `${P.file}: the International card`));
   const out = CHANNELS.map((c) => {
