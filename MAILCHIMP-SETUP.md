@@ -45,7 +45,7 @@ Details that are already handled in the code:
 1. Open **Audience** > **All contacts**. A new account already has one audience; use it rather than creating a second.
 2. Open **Settings** > **Audience name and defaults** and fill in:
    - Audience name: `Kwontified Briefing`
-   - Default From email address: `contact@kwontified.com` (it receives mail, so replies reach the team)
+   - Default From email address: `newsletter@kwontified.com`. The website's confirmation page tells new subscribers the briefing comes from this address, so use it exactly. Make sure it is a mailbox or alias that receives mail: replies to the briefing and Mailchimp's verification email both go there.
    - Default From name: `Kwontified`
    - Permission reminder: `You are receiving this because you signed up for the Kwontified Briefing at kwontified.com.`
 3. On the same page, find **Audience ID** and copy it (a short code such as `a1b2c3d4e5`). You need it in step 6.
@@ -59,7 +59,7 @@ Details that are already handled in the code:
 This lets Mailchimp send as @kwontified.com without "via mcsv.net" in the inbox and keeps the briefing out of spam folders.
 
 1. In Mailchimp, search for **Domains** (it sits under Account or Website settings, depending on the account) and add `kwontified.com`.
-2. Verify it with the code Mailchimp emails to contact@kwontified.com.
+2. Verify it with the code Mailchimp emails to an address at the domain. Use newsletter@kwontified.com, the address the briefing is sent from.
 3. Choose **Authenticate**. Mailchimp shows two CNAME records (named like `k2._domainkey` and `k3._domainkey`) and, if the domain has none, a DMARC record (`_dmarc`).
 4. Add these records wherever kwontified.com's DNS is managed. If the domain uses Vercel's nameservers, that is Vercel > the `kwontified` team > Domains > kwontified.com > DNS Records. Copy the names and values exactly.
    - Do not remove or change the records Resend uses. Both services can be authenticated on the same domain.
@@ -144,7 +144,7 @@ Anyone who signed up before Mailchimp was connected is in Resend (segment "Kwont
 
 1. **Create** > **Email** > **Regular email**.
 2. **To:** the Kwontified Briefing audience, all subscribed contacts. Non-subscribed contact-form visitors are excluded automatically.
-3. **From:** Kwontified, contact@kwontified.com. **Subject** and **preview text** for that issue.
+3. **From:** Kwontified, newsletter@kwontified.com. **Subject** and **preview text** for that issue.
 4. Design the email, then **Send a test** to two people before scheduling.
 5. Schedule for a weekday morning in US Eastern time.
 

@@ -95,7 +95,7 @@ const addPage = (route, html, source) => {
   sw(">Thank you.</h1>", ">You’re subscribed.</h1>");
   sw("Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.", "Thank you. The Kwontified Briefing will reach your inbox once a month.");
   sw("On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take. Nothing more is needed from you now.", "Each issue covers the marketplace changes that matter, what they mean for your brand and our latest guides. Your first may be a few weeks away, so our three newest articles are below.");
-  sw("If something changes before we speak, write to ", "It comes from a kwontified.com address, and every issue has a one-click unsubscribe link. If an issue does not arrive, check your spam folder or write to ");
+  sw("If something changes before we speak, write to ", "It comes from newsletter@kwontified.com; add that address to your contacts so it reaches your inbox. Every issue has a one-click unsubscribe link. If one does not arrive, check your spam folder or write to ");
   // buttons: read now, or see the work
   const one = (re, fn, what) => { let k = 0; h = h.replace(re, (...a) => { k++; return fn(...a); }); if (k !== 1) fail(`confirmation template: ${what} matched ${k} times`); };
   one(/href="\/work"([^>]*>)See our work<\/a>/g, (_, x) => `href="/perspectives"${x}Browse Perspectives</a>`, "first button");
@@ -111,7 +111,7 @@ const addPage = (route, html, source) => {
   sw("</section>\n<section", `</section><script>/* confirm by email (double opt-in) */
 (function(){if(!/[?&]confirm=1(&|$)/.test(location.search))return;var h=document.getElementById('page-title');if(!h)return;var ps=h.parentNode.querySelectorAll('p');if(ps.length<3||!ps[2].firstChild)return;
 h.textContent='One step left.';ps[0].textContent='We have sent a confirmation email to the address you entered. Open it and select the link to start receiving the Kwontified Briefing.';
-ps[2].firstChild.nodeValue='The email comes from a kwontified.com address. If it has not arrived in a few minutes, check your spam folder or write to ';
+ps[2].firstChild.nodeValue='The email comes from newsletter@kwontified.com. If it has not arrived in a few minutes, check your spam folder or write to ';
 document.title='Confirm your subscription | Kwontified';})();</script>\n<section`);
   if (!/<meta name="robots"/.test(h)) h = h.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">');
   if (/data-kq-form="newsletter"/.test(h)) fail("confirmation page still has a sign-up form");
