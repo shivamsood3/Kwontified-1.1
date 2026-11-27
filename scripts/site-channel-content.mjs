@@ -22,7 +22,9 @@
 //
 // Owner decisions applied (2026-11-27): Zalando "25 markets"; nothing on whether Temu's fully
 // managed model is open to US brands; Instagram "plan for checkout on your own website" and no
-// Stories for product tags; Revenue Recovery's "current window" wording untouched; "From you" and
+// Stories for product tags; Revenue Recovery's window now the owner's one sentence (2026-11-27, QA F063:
+// about 30 days for new shortages, two years through a settlement claim; in RevenueRecovery.html and
+// CaseStudy.html); "From you" and
 // "We report" lines only in wording the site already used; reading chosen by date, never stale.
 //
 // Sources, all checked 2026-11-27 through search results quoting the official pages (the pages
@@ -119,9 +121,11 @@ const same = (got, want, what) => { if (got.join(" | ") !== want.join(" | ")) fa
 const caseLink = (route) => { if (!routes.has(route)) fail(`${route} is not a case study`); return ` <a class="kq-cn-case" href="${route}">Read the case study</a>`; };
 
 // ------------------------------------------------------------------ questions and their structured data
+// as in site-capchan.mjs: a closing link-only line stays on the page, not in the structured answer (QA F055)
+const answerOf = (h) => text(h.replace(/\s*<a\b[^>]*>[^<.]*<\/a>(\s*<\/p>\s*)$/, "$1"));
 function faqOf(html) {
   const main = html.slice(html.indexOf("<main"), html.indexOf("</main>"));
-  return [...main.matchAll(/<details\b[^>]*>\s*<summary\b[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)].map((m) => ({ "@type": "Question", name: text(m[1]), acceptedAnswer: { "@type": "Answer", text: text(m[2]) } }));
+  return [...main.matchAll(/<details\b[^>]*>\s*<summary\b[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)].map((m) => ({ "@type": "Question", name: text(m[1]), acceptedAnswer: { "@type": "Answer", text: answerOf(m[2]) } }));
 }
 function faqData(html, file) {
   const qa = faqOf(html);
@@ -380,7 +384,7 @@ const page = (route) => { if (!PAGES.has(route)) PAGES.set(route, open(route)); 
   ]));
   steps(P, ["Open the shop", "Build a creator bench", "Make and scale what sells", "Judge on Shop sales"], [
     ["Open the shop and choose fulfillment", "Registration, verification, category approval, payment and catalog integration, so products can be tagged in videos and LIVE streams, and a decision on Fulfilled by TikTok weighed against your own fulfillment cost."],
-    ["Build a creator bench", "Creators chosen for audience fit, briefed and seeded with product through TikTok Shop’s affiliate program, with commissions set against your margin. A skincare brand grew affiliate sales from $380K to $2.3M in a year." + caseLink("/work/affiliate-sales-from-380k-to-2-3m-in-a-year")],
+    ["Build a creator bench", "Creators chosen for audience fit, briefed and seeded with product through TikTok Shop’s affiliate program, with commissions set against your margin. A skincare brand grew affiliate sales from $380K in the first half of one year to $2.3M in the first half of the next." + caseLink("/work/affiliate-sales-from-380k-to-2-3m-in-a-year")],
     ["Make and scale what sells", "Shoppable video from the Creative Studio alongside creator posts, with the posts that sell amplified through Spark Ads and GMV Max, and stock planned for the spikes. A drinkware brand sold 66,800 tumblers in 12 weeks without running out." + caseLink("/work/in-stock-through-a-viral-spike")],
     ["Judge on Shop sales", "Results by campaign, creator and LIVE event, with GMV Max return on ad spend and creator commissions counted, so budget follows what earns."],
   ]);
@@ -460,7 +464,9 @@ const page = (route) => { if (!PAGES.has(route)) PAGES.set(route, open(route)); 
     ["Keep what pays back", "Reviews, conversion and creator sales tracked program by program, with enrollment and creator campaigns timed to launches and advertising, so you keep only the programs that earn their cost. A fine jewelry brand raised Luxury Stores conversion from 3.4% to 5.1%." + caseLink("/work/luxury-stores-conversion-from-3-4-to-5-1")],
   ]);
   report.questions.push(["Brand programs", questions(P, {
-    add: [["What does Amazon Vine require?", "A Professional selling account and Brand Registry, products fulfilled by Amazon (FBA) with fewer than 30 reviews, and for a new product a customer-ready FBA listing with a launch date. Adult, digital and bundled products are excluded. Vine runs in the US, Canada, the UK, France, Germany, Italy, Spain, Australia and Japan. We model the cost of the units against the expected conversion lift before you enroll."]],
+    // the full requirements are in "What Amazon requires" above; the answer points there rather
+    // than repeating the paragraph word for word (QA F058)
+    add: [["What does Amazon Vine require?", 'In short: Brand Registry, FBA, and fewer than 30 reviews on the product. The full list, including the countries where Vine runs, is under <a href="#facts-title">What Amazon requires</a>, above. We model the cost of the units against the expected conversion lift before you enroll.']],
   })]);
 }
 

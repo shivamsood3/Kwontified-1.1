@@ -273,13 +273,18 @@ for (const m of MAPS) {
 
 // ---------- Perspectives tables: a labelled, keyboard-reachable scroll box; numbers right-aligned
 const WRAP = '<div style="margin: 32px 0 0; overflow-x: auto"><table';
-const NUM = /^(?:about |nearly |almost )?[−+\-–]?\s?[$€£]?\s?\d[\d,]*(?:\.\d+)?\s?(?:%|x|K|M|B| billion| million| pts?| points?)?$/i;
-let tables = 0, numCols = 0;
+// a number cell: "$1.25", "up 39%", "9% lower", "$1.2B to $1.4B"; a placeholder cell ("—", "flat",
+// "new", "not graded") neither makes nor breaks a column of numbers (QA F031)
+const Q = "[−+\\-–]?\\s?[$€£]?\\s?\\d[\\d,]*(?:\\.\\d+)?\\s?(?:%|x|K|M|B| billion| million| pts?| points?)?";
+const NUM = new RegExp(`^(?:(?:about|nearly|almost|up|down|over|under|around) )?${Q}(?: (?:to|-|–) ${Q})?(?: (?:lower|higher|more|less|up|down))?$`, "i");
+const FILLER = /^(?:[—–-]|flat|new|none|n\/a|not graded|not reported|unchanged)$/i;
+let tables = 0, numCols = 0, corners = 0, renamed = 0;
 for (const f of files.filter((x) => x.startsWith("perspectives--"))) {
   let h = page(f);
   if (!h.includes("<table")) continue;
   const n = h.split("<table").length - 1;
   if (h.split(WRAP).length - 1 !== n) fail(`${f}: ${n} tables but ${h.split(WRAP).length - 1} in the expected scroll box`);
+  const names = new Map(); // two tables under one heading get "table 2" so the regions differ (QA F039)
   h = h.replace(/<div style="margin: 32px 0 0; overflow-x: auto">(<table[\s\S]*?<\/table>)<\/div>/g, (all, t, at) => {
     const before = h.slice(Math.max(0, at - 4000), at), hs = [...before.matchAll(/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/g)];
     const name = hs.length ? dec(hs[hs.length - 1][1].replace(/<[^>]+>/g, "")).trim() : "";
@@ -288,15 +293,22 @@ for (const f of files.filter((x) => x.startsWith("perspectives--"))) {
     const cols = rows[0] ? rows[0].length : 0, right = [];
     for (let c = 1; c < cols; c++) {
       const cells = body.map((r) => r[c]).filter(Boolean);
-      if (cells.length && cells.length === body.length && cells.every((x) => x[1] === "td" && NUM.test(dec(x[3].replace(/<[^>]+>/g, "")).trim()))) right.push(c);
+      const vals = cells.map((x) => dec(x[3].replace(/<[^>]+>/g, "")).trim());
+      if (cells.length && cells.length === body.length && cells.every((x) => x[1] === "td") && vals.some((v) => NUM.test(v)) && vals.every((v) => NUM.test(v) || FILLER.test(v))) right.push(c);
     }
     let out = t;
+    // an empty corner header cell names nothing: a plain cell (axe empty-table-header, QA F039)
+    out = out.replace(/^(<table[\s\S]*?<tr>\s*)<th\b([^>]*)>(\s*)<\/th>/, (all, a, attrs, sp) => { corners++; return `${a}<td${attrs.replace(/\s+scope="[^"]*"/, "")}>${sp}</td>`; });
     if (right.length) {
-      out = t.replace(/<tr>([\s\S]*?)<\/tr>/g, (row, inner) => { let ci = -1; return "<tr>" + inner.replace(/<(t[hd])\b([^>]*)>/g, (cell, tag, a) => { ci++; if (!right.includes(ci)) return cell; if (!/style="/.test(a)) fail(`${f}: a table cell has no style`); return `<${tag}${/text-align:\s*\w+/.test(a) ? a.replace(/text-align:\s*\w+/, "text-align: right") : a.replace(/style="/, 'style="text-align: right; ')}>`; }) + "</tr>"; });
+      out = out.replace(/<tr>([\s\S]*?)<\/tr>/g, (row, inner) => { let ci = -1; return "<tr>" + inner.replace(/<(t[hd])\b([^>]*)>/g, (cell, tag, a) => { ci++; if (!right.includes(ci)) return cell; if (!/style="/.test(a)) fail(`${f}: a table cell has no style`); return `<${tag}${/text-align:\s*\w+/.test(a) ? a.replace(/text-align:\s*\w+/, "text-align: right") : a.replace(/style="/, 'style="text-align: right; ')}>`; }) + "</tr>"; });
       numCols += right.length;
     }
     tables++;
-    return `<div class="kq-tbl" role="region" tabindex="0" aria-label="${esc(name ? "Table: " + name : "Table")}" style="margin: 32px 0 0; overflow-x: auto">${out}</div>`;
+    let label = name ? "Table: " + name : "Table";
+    const seen = (names.get(label) || 0) + 1;
+    names.set(label, seen);
+    if (seen > 1) { label += `, table ${seen}`; renamed++; }
+    return `<div class="kq-tbl" role="region" tabindex="0" aria-label="${esc(label)}" style="margin: 32px 0 0; overflow-x: auto">${out}</div>`;
   });
   put(f, h); addCss(f, "tbl");
 }
@@ -438,4 +450,4 @@ for (const [f, keys] of css) {
 for (const c of CHARTS) if (!/\.kq-sr\{position:absolute;width:1px;height:1px/.test(page(c.file))) fail(`${c.file}: no .kq-sr style for the chart's table`);
 
 for (const [f, h] of pages) fs.writeFileSync(path.join(DIR, f), h);
-console.log(`site-charts: ${charts} charts redrawn as one component, ${removed} removed, ${LINES.length} line illustrations and 3 diagrams readable on phones, 2 maps with a legend (${notes} country notes listed), ${tables} Perspectives tables made keyboard regions (${numCols} number columns right-aligned); scroll-linked bar animation off ${barin} pages, rolling figures fixed on ${rolls}, portal script removed from ${portalOut} pages (${Math.round(portalKB / Math.max(1, portalOut))} KB each)${portalKept.length ? `, kept on ${portalKept.join(", ")}` : ""}`);
+console.log(`site-charts: ${charts} charts redrawn as one component, ${removed} removed, ${LINES.length} line illustrations and 3 diagrams readable on phones, 2 maps with a legend (${notes} country notes listed), ${tables} Perspectives tables made keyboard regions (${numCols} number columns right-aligned, ${corners} empty corner headers made plain cells, ${renamed} region names numbered); scroll-linked bar animation off ${barin} pages, rolling figures fixed on ${rolls}, portal script removed from ${portalOut} pages (${Math.round(portalKB / Math.max(1, portalOut))} KB each)${portalKept.length ? `, kept on ${portalKept.join(", ")}` : ""}`);

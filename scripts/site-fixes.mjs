@@ -46,6 +46,22 @@ const slugify = (t) => {
   return s.replace(/(-(?:a|an|the|its|by|on|in|of|to|and|with|after|from))+$/, "");
 };
 
+// The TikTok Shop affiliate case states one period everywhere (owner, 2026-11-27: "from $380K in
+// the first half of one year to $2.3M in the first half of the next"; QA F130). Its title said "in
+// a year", which read as full-year totals. The new title goes on every page that names the case
+// (cards, slide, site search); its address stays the same so existing links keep working.
+const RETITLE = [["Affiliate sales from $380K to $2.3M in a year", "First-half affiliate sales from $380K to $2.3M"]];
+const KEEP_URL = { "first-half affiliate sales from $380k to $2.3m": "/work/affiliate-sales-from-380k-to-2-3m-in-a-year" };
+for (const [was, now] of RETITLE) {
+  let n = 0;
+  for (const f of Object.keys(P)) {
+    const k = P[f].split(was).length + P[f].split(was.toLowerCase()).length - 2;
+    if (k) { P[f] = P[f].split(was).join(now).split(was.toLowerCase()).join(now.toLowerCase()); n += k; }
+  }
+  if (!P["work.html"].includes(`>${now}</h2>`)) fail(`the case "${was}" is no longer on the Work page to retitle`);
+  log.push(`"${was}" retitled "${now}" in ${n} places`);
+}
+
 const cards = [...P["work.html"].matchAll(/<a class="kq-ccard"([^>]*)>([\s\S]*?)<\/a>/g)].map(([, attrs, body]) => {
   const at = (k) => (attrs.match(new RegExp(k + '="([^"]*)"')) || [])[1] || "";
   const img = body.match(/<img[^>]*?src="([^"]+)"[^>]*?alt="([^"]*)"/) || fail("card without image");
@@ -61,7 +77,7 @@ const cards = [...P["work.html"].matchAll(/<a class="kq-ccard"([^>]*)>([\s\S]*?)
   };
 });
 if (cards.length !== 25) fail(`expected 25 case study cards, found ${cards.length}`);
-for (const c of cards) c.url = c.key.startsWith("$781k in shortage claims") ? EXISTING : "/work/" + slugify(c.title);
+for (const c of cards) c.url = c.key.startsWith("$781k in shortage claims") ? EXISTING : KEEP_URL[c.key] || "/work/" + slugify(c.title);
 if (new Set(cards.map((c) => c.url)).size !== cards.length) fail("duplicate case study slugs");
 if (!cards.some((c) => c.url === EXISTING)) fail("the existing case study is not in the library");
 const find = (kw) => {
@@ -82,7 +98,7 @@ const CASE_DESC = Object.fromEntries(Object.entries({
   "price claims recovered": "A personal care appliance vendor recovered $538K of $612K after Amazon kept paying its old cost for five months, and fixed the process that let it happen.",
   "walmart display": "A baby food supplier’s Walmart display ads, aimed at households new to the brand and judged on store sales too, turned $380K of spend into $2.60M in sales.",
   "sold at full price": "A cashmere label sold 71% of its first-season Amazon allocation at full price, against 58% across its wholesale accounts, reordering only proven colors.",
-  "affiliate sales": "A skincare brand took TikTok Shop affiliate sales from $380K to $2.3M in a year by sampling only acne and sensitive-skin creators with similar product sales.",
+  "affiliate sales": "TikTok Shop affiliate sales for a skincare brand rose from $380K in the first half of one year to $2.3M in the first half of the next.",
   "claims it could not prove": "A sports nutrition brand went from 7 to 21 of 45 tracked AI assistant answers by removing claims it could not prove and leading with third-party testing.",
   "roundel roas": "A clean skincare brand raised always-on Roundel ROAS from 2.4x to 3.9x by restructuring a campaign that spent 38% of its budget on branded search.",
   "amazon mexico": "A pet grooming brand listed all 41 products on Amazon Mexico from US FBA stock, in Spanish written from Mexican searches, to see which earned local inventory.",
@@ -95,6 +111,71 @@ const CASE_DESC = Object.fromEntries(Object.entries({
   "premium beauty": "A clinical skincare brand grew Amazon sales 64% after we cleared unauthorized sellers and rebuilt its pages, and Amazon accepted it into Premium Beauty.",
   "without losing the amazon buy box": "A kitchen tools brand kept the Amazon Buy Box while selling on Temu: price floors tied to Amazon and daily checks restored 14 suppressed offers in 3 weeks."
 }).map(([kw, d]) => [find(kw).url, d]));
+
+// A sentence added to a case's summary where a figure printed beside it (a result tile, or a
+// figure on /work, a capability or a channel page) was not explained on the case itself (QA
+// F044, F051, F093, F130). Every figure here is already on the site, or is arithmetic on figures
+// the same summary states; nothing is new.
+// TODO(owner, QA F093/F118): full write-ups (situation, what we did, period and measurement) need
+// detail the owner signs off from the engagement records. Still without a stated basis: Amazon
+// Mexico "nearly 2x" conversion (against what?), Mercado Libre "+33%" official store sales (period),
+// the Temu "99%" Buy Box figure (period and comparison).
+const EXTRA = Object.fromEntries(Object.entries({
+  // 38% of $2.60M is $0.99M, on $380K of spend: 2.6x (the Retail Media page and the /work chart)
+  "walmart display": "Online sales alone, 38% of the total, returned 2.6x on the same spend.",
+  // $4.76M / $2.90M = 1.64; $71 / $58 = 1.22 (the Creative Studio chart and result tiles)
+  "premium beauty": "That is a 64% rise in sales and a 22% rise in order value.",
+  // the owner's statement of the period (2026-11-27), as the /work chart states it
+  "affiliate sales": "Affiliate sales rose from $380K in the first half of one year to $2.3M in the first half of the next.",
+  "viral spike": "The brand sold 66,800 tumblers in 12 weeks without running out.",
+  // the Target Plus page (1,140 items, 97% first time) and the Marketplace Operations chart (3% resubmitted)
+  "live on target plus": "Of the 1,140 items, 97% were approved on first submission; the other 3% were resubmitted.",
+  // the Mercado Libre page's hero
+  "infringing listings": "Official store sales rose 33%.",
+}).map(([kw, s]) => [find(kw).url, s]));
+
+// <title>: the result and the channel, no full stop, always with the suffix, at most 60 characters
+// (QA F075, F140; site-seo.mjs drops the suffix past 60, which left 11 of 25 without it)
+const TITLE_SUFFIX = " | Kwontified";
+const TITLES = Object.fromEntries(Object.entries({
+  "shortage claims": "$781K in Amazon shortage claims recovered",
+  "41,200 aged units": "41,200 aged units cleared through Temu",
+  "price claims recovered": "$538K in Amazon price claims recovered",
+  "walmart display": "6.8x omnichannel ROAS from Walmart display",
+  "sold at full price": "71% of an Amazon allocation sold at full price",
+  "winter stock": "78% of winter stock sold on Zalando",
+  "90-day revenue": "Revenue per new Instagram customer: $64 to $88",
+  "affiliate sales": "TikTok Shop affiliate sales from $380K to $2.3M",
+  "claims it could not prove": "AI recommendations gained by removing claims",
+  "roundel roas": "Target Plus Roundel ROAS from 2.4x to 3.9x",
+  "amazon mexico": "Amazon Mexico tested before committing stock",
+  "break-even ad cost": "Amazon launch at break-even ad cost in 7 weeks",
+  "conversion doubled": "Conversion doubled on Amazon UK",
+  "first six months on zalando": "€820K net sales in six months on Zalando",
+  "23 of 40": "From 6 to 23 of 40 Alexa for Shopping answers",
+  "viral spike": "TikTok Shop: in stock through a viral spike",
+  "infringing listings": "Mercado Libre infringing listings: 312 to 12",
+  "instagram-referred revenue": "Instagram-referred revenue up 45%",
+  "live on target plus": "Live on Target Plus in 9 weeks",
+  "luxury stores conversion": "Luxury Stores conversion from 3.4% to 5.1%",
+  "listing types": "Mercado Libre margin nearly doubled",
+  "tacos fell": "Amazon sales up 22% while TACoS fell 3.7 points",
+  "premium beauty": "Sales up 64% after entering Premium Beauty",
+  "without losing the amazon buy box": "Selling on Temu, keeping the Amazon Buy Box",
+  "5% less ad spend": "Walmart.com sales up 23% on 5% less ad spend",
+}).map(([kw, t]) => [find(kw).url, t + TITLE_SUFFIX]));
+for (const c of cards) {
+  const t = TITLES[c.url] || fail(`${c.url}: no <title> in TITLES`);
+  if (t.length > 60 || /\.\s*\|/.test(t)) fail(`${c.url}: the title "${t}" is longer than 60 characters or ends in a full stop`);
+}
+function setTitle(h, url) {
+  const t = esc(TITLES[url]);
+  let n = 0;
+  h = h.replace(/<title>[^<]*<\/title>/, () => { n++; return `<title>${t}</title>`; })
+    .replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*/g, (_, a) => { n++; return a + t; });
+  if (n !== 3) fail(`${url}: expected a <title>, og:title and twitter:title, found ${n}`);
+  return h;
+}
 
 const TPL = P["work--shortage-claims.html"];
 function casePage(c) {
@@ -126,7 +207,7 @@ function casePage(c) {
   rep(/<div[^>]*><figure class="kq-vis"[\s\S]*?<\/figure><\/div>/g, () => "");
   rep(/<p[^>]*>July 2024 to March 2025\. The figures[\s\S]*?<\/p>/g, () => "");
   rep(/(<h2 id="sit-title"[^>]*>)The situation(<\/h2>)/g, (_, a, b) => a + "Summary" + b);
-  rep(/(<p[^>]*>)The vendor had taken[\s\S]*?(<\/p>)/g, (_, a, b) => a + (c.long || c.sum) + b);
+  rep(/(<p[^>]*>)The vendor had taken[\s\S]*?(<\/p>)/g, (_, a, b) => a + (c.long || c.sum) + (EXTRA[c.url] ? " " + EXTRA[c.url] : "") + b);
   const did = h.indexOf('id="did-title"');
   if (did < 0) fail("case template: no What we did section");
   h = h.slice(0, h.lastIndexOf("<section", did)) + h.slice(h.indexOf("</section>", did) + 10);
@@ -136,11 +217,11 @@ function casePage(c) {
     return r ? `<a href="${r.url}"${rest}${p}Case study, ${esc(r.channel)}${mid}${esc(r.title)}${end}` : "";
   }, 3);
   rep(/(<h2 id="close-title"[^>]*>)Find out what Amazon owes you\.(<\/h2>)/g, (_, a, b) => a + "Let’s write your next case study." + b);
-  rep(/(<p[^>]*>)Share your Vendor Central deduction history\.[^<]*(<\/p>)/g, (_, a, b) => a + "Share your channels and goals. We return a first read on where growth is most within reach for your brand." + b);
+  rep(/(<p[^>]*>)It starts with a call\. Once we have signed a mutual NDA, we look at your Vendor Central deduction history[^<]*(<\/p>)/g, (_, a, b) => a + "It starts with a call about your channels and goals. We send a written first read on where growth is most within reach for your brand." + b);
   rep(/>Request a recovery review<\/a>/g, () => ">Start your review</a>");
   const body = h.slice(h.indexOf("<main"), h.indexOf('id="related-title"'));
-  for (const stale of ["July 2024", "kitchen appliance", "$1.42M"]) if (body.includes(stale) && !c.sum.includes(stale)) fail(`${c.url}: template text "${stale}" left behind`);
-  return h;
+  for (const stale of ["July 2024", "kitchen appliance", "$1.42M", "shortage"]) if (body.includes(stale) && !c.sum.includes(stale)) fail(`${c.url}: template text "${stale}" left behind`);
+  return setTitle(h, c.url);
 }
 const newRoutes = [];
 for (const c of cards) {
@@ -150,6 +231,7 @@ for (const c of cards) {
   P[file] = casePage(c);
   newRoutes.push({ route: c.url, file: `/_kq/${file}`, source: "CaseStudy.html + Work.html card (site-fixes)" });
 }
+P["work--shortage-claims.html"] = setTitle(P["work--shortage-claims.html"], EXISTING);
 
 // ---- 2. case study references ---------------------------------------------------
 {
