@@ -37,9 +37,9 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 31 | How do you train new hires? | Careers | Omitted by Jordan 2026-11-27 |
 | 32 | What is the hiring process, and what benefits do you offer? | Careers | Omitted by Jordan 2026-11-27 |
 | 33 | How do I subscribe to the newsletter, and how often does it arrive? | Perspectives | Omitted by Jordan 2026-11-27 |
-| Fix 1 | Fee answers differ on Why Kwontified and Capabilities | Why Kwontified | Done 2026-11-27: Why Kwontified uses the Capabilities answer |
+| Fix 1 | Fee answers differ on Why Kwontified and Capabilities | Why Kwontified, Capabilities | Superseded 2026-11-27: Jordan had all fee statements removed from the FAQs (both fee entries deleted; fee wording taken out of "How are engagements structured?" and the Contact review answer) |
 
-Totals: 24 questions live, 9 omitted; both fixes done (Zalando duplicate removed; Why Kwontified fee answer matches Capabilities).
+Totals: 24 questions live, 9 omitted; Zalando duplicate removed; Kwontified's own fees are no longer stated in any FAQ (Jordan, 2026-11-27).
 
 Notes
 - Results questions on channel pages go first and open by default, with a "See the case studies" link, as on the Amazon page.
