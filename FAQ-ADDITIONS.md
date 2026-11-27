@@ -14,9 +14,15 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 8 | Do you work with brands that compete with us? | Why Kwontified | Omitted by Jordan 2026-11-27 |
 | 9 | Do you manage our brand website and stores, or only plan around them? | Home, Channels, Why Kwontified | Omitted by Jordan 2026-11-27 |
 | 10 | Do you manage channels that are not listed here, such as eBay or Wayfair? | Channels | Live 2026-11-27 ("In some cases", no other channels named) |
-| 11–15 | Client portal; results on Walmart, Target Plus, Zalando, Temu | | Sent for approval (batch 3) |
-| 16–33, fixes 1–2 | See the workbook | | Not yet sent |
+| 11 | What is the client portal, and what will we see in it? | Why Kwontified | Live 2026-11-27 (no refresh frequency stated) |
+| 12 | What results have you delivered on Walmart? | Walmart (first entry) | Live 2026-11-27 |
+| 13 | What results have you delivered on Target Plus? | Target Plus (first entry) | Live 2026-11-27 |
+| 14 | What results have you delivered on Zalando? | Zalando (first entry) | Live 2026-11-27; fix 2 done: duplicate "Can we use our own fulfillment on Zalando?" removed |
+| 15 | What results have you delivered on Temu? | Temu (first entry) | Live 2026-11-27 |
+| 16–20 | Results on TikTok Shop, Instagram, Mercado Libre, brand programs, agentic commerce | | Sent for approval (batch 4) |
+| 21–33, fix 1 | See the workbook | | Not yet sent |
 
 Notes
+- Results questions on channel pages go first and open by default, with a "See the case studies" link, as on the Amazon page.
 - The Contact page had no FAQ; a "Questions executives ask" section and FAQPage block were added for entries 1 to 4.
 - Facts that changed since the workbook was written: item 30 says Sandy Springs (now Atlanta); item 33 should use newsletter@kwontified.com and the current confirmation page wording; item 11 is partly answered on the Analytics page (a dashboard per channel, CSV and Excel export).
