@@ -12,7 +12,8 @@
 //        places to start and the three newest articles. Served by app/not-found.tsx with
 //        status 404.
 //   403  Someone reached a page they may not open (a client-only page, or a request the host
-//        refused). Say so, offer the client sign-in, say who to ask. Served at /403 by
+//        refused). Say so, offer the client sign-in, say who to ask (support@, as on the
+//        sign-in page). Served at /403 by
 //        app/403/route.ts with status 403.
 //
 // Each page has its own picture, made for it on 2026-11-27 in the site's still-life style
@@ -105,14 +106,18 @@ const CSS = `<style data-kq-err>
 </style>`;
 
 // 404 only: offer the pages whose address or title is closest to the address that was asked for.
-// It reads the list the site search already has in the page and the archive's titles.
+// It reads the list the site search already has in the page and the archive's titles, one entry
+// per address (the same article can be in both).
 const SUGGEST = `<script>/* 404: pages closest to the address that was asked for */
 (function(){var d=document,box=d.querySelector('.kq-esug');if(!box)return;
 var STOP={the:1,and:1,for:1,with:1,from:1,that:1,this:1,your:1,what:1,how:1,why:1,are:1,was:1,html:1,php:1,www:1,index:1,page:1,blog:1,post:1,news:1,perspectives:1,work:1,category:1,tag:1};
 var words=decodeURIComponent(location.pathname).toLowerCase().split(/[^a-z0-9]+/).filter(function(x){return x.length>2&&!STOP[x]&&!/^\\d+$/.test(x);});
 if(!words.length)return;
 var mail=d.querySelector('[data-kq-report]');if(mail)mail.href='mailto:contact@kwontified.com?subject='+encodeURIComponent('Broken link on kwontified.com')+'&body='+encodeURIComponent('This address did not open: '+location.href+'\\n\\nI found the link on: '+(d.referrer||'(please say where)'));
-function rank(rows){var out=[];rows.forEach(function(r){var hay=(r.h+' '+r.t).toLowerCase(),hits=0,len=0;words.forEach(function(x){if(hay.indexOf(x)>-1){hits++;len+=x.length;}});
+function rank(rows){var out=[],seen={};
+/* one entry per page: the site list and the archive can both name the same article */
+rows=rows.filter(function(r){var h=String(r.h||'').replace(/[?#].*$/,'').replace(/\\/$/,'')||'/';if(seen[h])return false;seen[h]=1;return true;});
+rows.forEach(function(r){var hay=(r.h+' '+r.t).toLowerCase(),hits=0,len=0;words.forEach(function(x){if(hay.indexOf(x)>-1){hits++;len+=x.length;}});
 if(hits>=Math.min(2,words.length)&&hits/words.length>=0.5)out.push({r:r,s:hits*10+len});});
 out.sort(function(a,b){return b.s-a.s;});return out.slice(0,3).map(function(x){return x.r;});}
 function show(list){if(!list.length)return;var ul=box.querySelector('ul');ul.innerHTML='';
@@ -161,7 +166,8 @@ const pages = {
       h1: "You don’t have access to this page.",
       lead: "This page is restricted, usually to clients who are signed in. If you are a client, sign in and open the link again.",
       body: `<div class="kq-eh-act kq-load" style="--d: 460ms"><a class="kq-btn" href="/client-sign-in" style="background: #102A4C; color: #F8F6F1; text-decoration: none; padding: 16px 28px; min-height: 52px; font-size: 18px; box-sizing: border-box; display: inline-flex; align-items: center">Client sign-in</a><a href="/">Back to the homepage</a></div>` +
-        `<p class="kq-eh-note">If you think you should have access, ask your Kwontified account lead or write to <a href="mailto:contact@kwontified.com?subject=Access%20to%20a%20page%20on%20kwontified.com">contact@kwontified.com</a>.</p>`,
+        // the same address the client sign-in page gives for access help
+        `<p class="kq-eh-note">If you think you should have access, ask your Kwontified account lead or write to <a href="mailto:support@kwontified.com?subject=Access%20to%20a%20page%20on%20kwontified.com">support@kwontified.com</a>.</p>`,
     }) + start("Open to everyone"),
     tail: "",
   },

@@ -501,6 +501,16 @@
    "k": "b210019daa",
    "src": "{n} results",
    "t": "{n} 条结果"
+  },
+  {
+   "k": "031aa8690a",
+   "src": "We use necessary cookies to run the site. With your permission, we also use cookies to measure visits and to measure and show our ads. Read our <1>Privacy Policy</1>.",
+   "t": "我们使用必要 Cookie 来保障网站运行。经您同意，我们还会使用 Cookie 衡量访问情况，并衡量和展示我们的广告。请阅读我们的<1>隐私政策</1>。"
+  },
+  {
+   "k": "bbfa773e5a",
+   "src": "Close",
+   "t": "关闭"
   }
  ]
 }

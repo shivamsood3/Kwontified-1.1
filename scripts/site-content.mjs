@@ -63,6 +63,7 @@ const addPage = (route, html, source) => {
   const one = (re, fn) => { let k = 0; h = h.replace(re, (...a) => { k++; return fn(...a); }); if (k !== 1) fail(`accessibility template: ${k} of ${re}`); };
   const m0 = h.indexOf("<main");
   one(/(<span class="kq-line">)Terms of Use(<\/span>)/g, (_, a, b) => a + "Accessibility" + b);
+  one(/(<nav aria-label="Breadcrumb"[^>]*>[\s\S]*?<span aria-current="page">)Terms of Use(<\/span>)/g, (_, a, b) => a + "Accessibility" + b);
   one(/(<\/h1><p[^>]*>)The terms that govern[^<]*/g, (_, a) => a + "How we work to make kwontified.com and the Kwontified client portal usable by everyone, and how to reach us if something gets in your way.");
   const nav = h.indexOf('<nav aria-label="On this page"', m0), navEnd = h.indexOf("</nav>", nav) + 6;
   const li = h.slice(nav, navEnd).match(/<li[^>]*><a href="#s1"[^>]*>/) || fail("no contents entry");

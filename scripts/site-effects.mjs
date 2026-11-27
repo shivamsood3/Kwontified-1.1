@@ -11,13 +11,20 @@
 //   3. Faster page changes: the browser fetches a page when the pointer rests on its link.
 //   4. Form feedback: the button says what is happening, and a field explains its error.
 //   5. A "Skip to main content" link for keyboard users.
-//   6. A back-to-top button on long pages (on narrow screens it appears when the visitor
-//      scrolls back up or reaches the end, so it never covers text being read).
+//   6. A back-to-top button on long pages (on narrow screens it appears only at the end of the
+//      page, so it never covers text being read).
 //   7. A reading progress line on articles, news items and press releases.
 //   8. Phones: "Request a review" stays in the header while scrolling (the wordmark
 //      shortens to the K to make room), as it already does on tablets and desktop.
 //   9. Tap feedback in the brand colours.
 //  10. A short fade when a filter, search or pager changes a list.
+//  11. From the QA review of 2026-11-27: about 80 characters a line on articles, legal and job
+//      pages; balanced headings; a visible focus ring on every Perspectives row; the header
+//      row kept to one line while fonts load, with a fallback face sized like the web font so
+//      the swap barely moves the text; 44 px touch targets for standalone links on phones;
+//      outlines and a visible wordmark in Windows contrast themes; a shorter phone footer
+//      (two link columns, and no newsletter sign-up on the contact page, whose job is the
+//      review request); a field-specific message for each empty required field.
 //
 // Everything that moves is off for visitors who ask for reduced motion. Nothing here hides
 // content without JavaScript except the home page's scroll reveals, which are applied by the
@@ -38,6 +45,9 @@ const one = (html, re, to, what) => {
 
 // ---------------------------------------------------------------- styles, every page
 const EASE = "var(--ease-out,cubic-bezier(.22,1,.36,1))";
+// the white wordmark in the header and footer (shown dark in a light Windows contrast theme)
+const LOGO = "023b2419eb30.svg";
+if (!fs.existsSync(path.join(ASSETS, LOGO))) fail(`the white wordmark ${LOGO} is not in public/assets`);
 const CSS = `<style data-kq-fx>
 /* skip link: off screen until a keyboard user reaches it */
 .kq-skip{position:fixed;left:16px;top:12px;z-index:100;padding:12px 18px;background:#FDFCFA;color:#102A4C!important;font-size:16px;font-weight:500;line-height:1.2;text-decoration:none!important;border-radius:14px;corner-shape:squircle;box-shadow:0 8px 24px rgba(10,28,54,.28);transform:translateY(-250%)}
@@ -101,6 +111,21 @@ form[data-kq-form] button[aria-busy="true"]{cursor:progress}
 .kq-hh.is-stuck .kq-hact>a[href="/contact"]{box-sizing:border-box;min-height:44px;padding:10px 14px!important;font-size:14px;white-space:nowrap}
 .kq-hh.is-stuck .kq-menu{order:3;margin-left:0}
 }
+/* English pages show the review button from the top of the page on phones too, with the short K
+   (translated previews keep it for when the visitor scrolls: their labels are longer) */
+@media (max-width:600px){
+html[lang="en"] .kq-head a[aria-label="Kwontified home"]>img,html[lang="en"] .kq-hh>div>a:first-child>img{clip-path:inset(0 calc(100% - 22px) 0 0)}
+html[lang="en"] .kq-head a[aria-label="Kwontified home"],html[lang="en"] .kq-hh>div>a:first-child{flex:none;width:44px;overflow:hidden}
+html[lang="en"] .kq-head .kq-links{display:flex!important;margin-left:auto;flex-wrap:nowrap!important}
+html[lang="en"] .kq-head .kq-links>:not(.kq-btn){display:none!important}
+html[lang="en"] .kq-head .kq-links>.kq-btn{padding:10px 14px!important;font-size:14px!important;white-space:nowrap}
+}
+@media (max-width:760px){
+html[lang="en"] .kq-hh .kq-hact{display:flex!important;margin-left:auto;order:2;flex-wrap:nowrap!important}
+html[lang="en"] .kq-hh .kq-hact>:not([href="/contact"]){display:none!important}
+html[lang="en"] .kq-hh .kq-hact>a[href="/contact"]{box-sizing:border-box;min-height:44px;padding:10px 14px!important;font-size:14px;white-space:nowrap}
+html[lang="en"] .kq-hh .kq-menu{order:3;margin-left:0}
+}
 @media screen and (prefers-reduced-motion:no-preference){
 .kq-skip{transition:transform 140ms ${EASE}}
 .kq-swap{animation:kq-swap 280ms ${EASE} both}
@@ -118,6 +143,60 @@ form[data-kq-form] button[aria-busy="true"]{cursor:progress}
 main a[style*="gap"]:hover>svg[aria-hidden]:last-child,.kq-top:active,:is(a[style*="background: #DCBF85"],a[style*="background: #102A4C"],footer button[type="submit"],#finder button,button[data-gf]):active{transform:none}
 }
 @media print{.kq-skip,.kq-top,.kq-prog{display:none!important}}
+/* back to top on narrower screens: a ring in the page colour sets it apart from what is behind it */
+@media (max-width:1199px){.kq-top{right:max(8px,env(safe-area-inset-right));bottom:calc(8px + env(safe-area-inset-bottom) + var(--lift,0px));box-shadow:0 0 0 3px #F8F6F1,0 8px 24px rgba(10,28,54,.28)}}
+/* reading measure: about 80 characters a line on articles, legal pages, job pages and channel
+   introductions (the 68ch and 75ch caps from the export ran to 95-110, because "0" is wide in
+   this face). Tables and figures keep the full column. */
+article[data-art="body"] :is(p,li),main[data-kq-read] :is(p,li),main p.kq-wwr,main .kq-mappanel p,main p:is([style*="max-width: 36em"],[style*="max-width: 40em"],[style*="max-width: 44em"],[style*="max-width: 50em"]){max-width:33em!important}
+/* a table that scrolls sideways can be focused and scrolled with the keyboard; show where focus is */
+div[role="region"][tabindex="0"]:focus-visible{outline:3px solid #00618D;outline-offset:2px}
+/* headings do not leave one word on the last line; paragraphs avoid a lone last word */
+h1,h2,h3{text-wrap:balance}
+@media (min-width:700px){.kq-nw{white-space:nowrap}}
+@media (max-width:359px){main h1#page-title{font-size:31px!important}}
+main p{text-wrap:pretty}
+/* focus ring on Perspectives rows: one colour that shows on the page, including round the navy
+   featured card (the ring took the text colour, cream on cream) */
+[data-kq-row]:focus-within{outline:3px solid #00618D!important;outline-offset:4px}
+:is([style*="background: #102A4C"],[style*="background: #0A1C36"],.kq-close,.kq-band,.kq-s-pattern) [data-kq-row]:focus-within{outline-color:#DCBF85!important}
+/* while the web fonts load, text is set in Arial (or its metric twin) scaled to the web font's
+   width and line metrics, so the swap barely moves anything (measured against the woff2 files) */
+@font-face{font-family:'KQ Fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Arimo');font-weight:100 450;size-adjust:92.3%;ascent-override:81.3%;descent-override:27.1%;line-gap-override:0%}
+@font-face{font-family:'KQ Fallback';src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('Arimo');font-weight:451 599;size-adjust:95.9%;ascent-override:78.2%;descent-override:26.1%;line-gap-override:0%}
+@font-face{font-family:'KQ Fallback';src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('LiberationSans-Bold'),local('Arimo Bold');font-weight:600 900;size-adjust:92.4%;ascent-override:81.2%;descent-override:27.1%;line-gap-override:0%}
+body>div[style*="Neue Haas Grotesk"]{font-family:'Neue Haas Grotesk Display Pro','Neue Haas Grotesk Text Pro','KQ Fallback','Helvetica Neue',Helvetica,Arial,sans-serif!important}
+/* the header row keeps to one line while the web fonts load (it wrapped in the wider fallback
+   face and then snapped back: layout shift of 0.2 to 1.2 at 1440) */
+.kq-head>nav,.kq-hh>div{flex-wrap:nowrap!important}
+.kq-head .kq-links,.kq-hh nav[aria-label="Primary"],.kq-hh .kq-hact{flex-wrap:nowrap!important;white-space:nowrap}
+/* touch targets of at least 44 by 44 px for links that stand on their own (an invisible layer
+   enlarges the tap area without moving the text) */
+@media (max-width:760px){
+:is([data-art="authlink"],p[data-art="kicker"]>a,main p>a:not([class]):only-child,main li>a:not([class]):only-child,main .kq-xl>a,main a.kq-why,main a[style*="display: inline-block"]:not([class]),.kq-cr-direct>a,.kq-ab-reach>a){position:relative}
+:is([data-art="authlink"],p[data-art="kicker"]>a,main p>a:not([class]):only-child,main li>a:not([class]):only-child,main .kq-xl>a,main a.kq-why,main a[style*="display: inline-block"]:not([class]),.kq-cr-direct>a,.kq-ab-reach>a)::after{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:48px;transform:translateY(-50%)}
+header nav>a[href="/"]:not([aria-label]){min-height:44px!important}
+main nav[aria-label="On this page"] li{margin-top:0!important}
+main nav[aria-label="On this page"] li>a{display:flex;align-items:center;min-height:44px;padding:4px 0;box-sizing:border-box}
+.kq-stat>p>a.kq-il{display:inline-block;padding:3px 0}
+.kq-filter>input{clip:rect(0 0 0 0);clip-path:inset(50%)}
+}
+/* Windows contrast themes: buttons keep an outline, and the white wordmark stays visible */
+@media (forced-colors:active){
+.kq-btn,a[style*="background: #DCBF85"],a[style*="background: #102A4C"],form[data-kq-form] button[type="submit"],.kq-top{border:1px solid ButtonText!important}
+}
+@media (forced-colors:active) and (prefers-color-scheme:light){img[src="/assets/${LOGO}"]{filter:invert(1)}}
+/* phones: the footer's link lists in two columns with 44 px rows (it was four and a half screens long) */
+@media (max-width:600px){
+footer>div{padding-top:40px!important;padding-bottom:24px!important;gap:28px!important}
+footer div:has(>a[href^="tel:"]){display:grid!important;grid-template-columns:auto auto;justify-content:start;gap:4px 24px!important}
+footer div:has(>a[href^="tel:"])>img{grid-column:1/-1}
+footer>div>div:last-child>div{gap:0 16px!important}
+footer .kq-flinks{display:block!important;columns:2;column-gap:20px}
+footer .kq-flinks>div{break-inside:avoid;margin:0 0 24px;gap:0!important}
+footer .kq-flinks>div>a{min-height:44px!important;padding:0!important;box-sizing:border-box;display:flex;align-items:center;line-height:1.3}
+footer .kq-flinks>div>h2{margin:0 0 4px!important;min-height:44px;display:flex;align-items:center}
+}
 </style>`;
 
 // ---------------------------------------------------------------- styles, home page only
@@ -192,7 +271,9 @@ if('MutationObserver' in w&&!b.kqWatch){b.kqWatch=1;new MutationObserver(functio
 w.addEventListener('pageshow',function(e){if(!e.persisted)return;[].slice.call(d.querySelectorAll('form[data-kq-form] button[data-kq-label]')).forEach(function(b){b.disabled=false;rest(b);});});
 function text(el){var v=el.validity;
 if(el.type==='email'){if(v.valueMissing)return T('Enter your work email address.');if(v.typeMismatch)return T('Check the email address. It should look like name@company.com.');}
-if(v.valueMissing)return T('This field is required.');if(v.patternMismatch&&el.title)return el.title;return el.validationMessage||T('Check this field.');}
+if(v.valueMissing)return MISSING[el.name]||T('This field is required.');if(v.patternMismatch&&el.title)return el.title;return el.validationMessage||T('Check this field.');}
+/* a required field that is empty says what it needs (the visible words are looked up through T for translated pages) */
+var MISSING={first_name:T('Enter your first name.'),last_name:T('Enter your last name.'),company:T('Enter your company or brand.'),website:T('Enter your brand website, for example brand.com.'),notes:T('Tell us what you want to achieve.'),password:T('Enter your password.')};
 function slot(el){var id=el.id||(el.id='kq-f'+(n++)),m=d.getElementById(id+'-err');if(m)return m;
 m=d.createElement('p');m.id=id+'-err';m.className='kq-ferr';m.setAttribute('aria-live','polite');
 var f=el.form,nl=f&&f.getAttribute('data-kq-form')==='newsletter';
@@ -213,12 +294,11 @@ var b=d.createElement('button');b.type='button';b.className='kq-top';b.setAttrib
 b.innerHTML='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 19V6M6 11l6-6 6 6"/></svg>';
 root.appendChild(b);
 var foot=d.querySelector('footer'),box=foot&&foot.firstElementChild,last=box&&box.lastElementChild,on=false;
-/* wide screens: the button sits in the page margin, so it stays. Narrower screens: it would cover the
-   end of a line of text, so it shows when the visitor scrolls back up or reaches the end of the page */
-var wide=w.matchMedia('(min-width:1200px)'),y0=w.scrollY,up=false;
+/* wide screens: the button sits in the page margin, so it stays. Narrower screens: it would sit over
+   the end of the lines being read, so it shows only once the visitor reaches the end of the page */
+var wide=w.matchMedia('(min-width:1200px)');
 var upd=raf(function(){var y=w.scrollY,top=last?last.getBoundingClientRect().top:1e9;
-if(Math.abs(y-y0)>12){up=y<y0;y0=y;}
-var show=html.scrollHeight>w.innerHeight*3&&y>w.innerHeight*2&&(wide.matches||up||top<w.innerHeight);
+var show=html.scrollHeight>w.innerHeight*3&&y>w.innerHeight*2&&(wide.matches||top<w.innerHeight);
 if(show!==on){on=show;b.classList.toggle('is-on',on);}
 if(on)b.style.setProperty('--lift',Math.max(0,w.innerHeight-top+8)+'px');});
 w.addEventListener('scroll',upd,{passive:true});w.addEventListener('resize',upd,{passive:true});upd();
@@ -320,26 +400,78 @@ function home(html) {
   return html;
 }
 
+// ---------------------------------------------------------------- headings: no lone last word
+// text-wrap:balance evens out the lines but still leaves "operators." alone under "Built by
+// marketplace". The last two words of each h1-h3 are kept together: with a no-break space when the
+// pair is short enough for a 320px phone at that heading's size, otherwise (when both words are in
+// the same run of text) in a span that stays on one line from 700px wide. Pages that have a
+// translation keep their headings as they are, so the translation memory still matches them; a
+// no-break space is fine there (the memory compares text with runs of white space made one).
+const PAIR = { 1: 13, 2: 16, 3: 20 };
+const translated = new Set();
+for (const lang of fs.existsSync(path.join(ROOT, "site-i18n")) ? fs.readdirSync(path.join(ROOT, "site-i18n")) : []) {
+  const dir = path.join(ROOT, "site-i18n", lang, "pages");
+  if (fs.existsSync(dir)) for (const f of fs.readdirSync(dir)) translated.add(f.replace(/\.json$/, ".html"));
+}
+let kept = 0, spanned = 0;
+function headings(html, f) {
+  return html.replace(/<h([123])\b([^>]*)>([\s\S]*?)<\/h\1>/g, (all, lv, attrs, inner) => {
+    if (/<(svg|br)\b/i.test(inner.replace(/<svg[\s\S]*?<\/svg>\s*(?=(<\/[a-z]+>\s*)*$)/i, ""))) return all;
+    // the text runs, outside tags and outside any svg
+    const parts = inner.split(/(<svg[\s\S]*?<\/svg>|<[^>]+>)/);
+    const words = [];
+    parts.forEach((t, i) => { if (i % 2) return; const re = /\S+/g; let m; while ((m = re.exec(t))) words.push({ i, at: m.index, w: m[0] }); });
+    if (words.length < 3) return all;
+    const a = words[words.length - 2], b = words[words.length - 1];
+    if (/&nbsp;|\u00a0/.test(inner)) return all;
+    const pair = a.w.length + 1 + b.w.length;
+    // the white space after word a: at the end of a's run, or (when a ends its run) the start of b's run
+    let wi = a.i, wat = a.at + a.w.length;
+    if (a.i !== b.i && !/^\s/.test(parts[a.i].slice(wat))) { wi = b.i; wat = 0; if (!/^\s/.test(parts[b.i])) return all; }
+    if (pair <= PAIR[lv]) {
+      const t = parts[wi], m = /^\s+/.exec(t.slice(wat));
+      if (!m) return all;
+      parts[wi] = t.slice(0, wat) + "\u00a0" + t.slice(wat + m[0].length);
+      kept++;
+    } else if (a.i === b.i && pair <= 26 && !translated.has(f)) {
+      const t = parts[a.i];
+      parts[a.i] = t.slice(0, a.at) + `<span class="kq-nw">${t.slice(a.at, b.at + b.w.length)}</span>` + t.slice(b.at + b.w.length);
+      spanned++;
+    } else return all;
+    return `<h${lv}${attrs}>${parts.join("")}</h${lv}>`;
+  });
+}
+
 // ---------------------------------------------------------------- every page
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith(".html"));
 if (files.length < 1000) fail(`expected the whole site in public/_kq, found ${files.length} pages`);
-let articles = 0;
+let articles = 0, read = 0;
+// pages read as running text: legal pages and job descriptions (articles are marked data-art="body")
+const READ = /^(privacy|terms|accessibility|about--careers--[a-z0-9-]+)\.html$/;
 for (const f of files) {
   const file = path.join(DIR, f);
   let html = fs.readFileSync(file, "utf8");
   if (html.includes("data-kq-fx")) fail(`${f}: already applied; run the whole build`);
   if (f === "index.html") html = home(html);
+  html = headings(html, f);
   // skip link: first thing in the page, inside the wrapper that sets the font
   html = one(html, /(<body[^>]*>\s*<div\b[^>]*>)/, (m) => m + SKIP, `${f}: page wrapper`);
   html = one(html, /<main(?=[\s>])([^>]*)>/, (m, attrs) => {
     if (/\bid=/.test(attrs)) fail(`${f}: <main> already has an id`);
-    return `<main id="main" tabindex="-1"${attrs}>`;
+    return `<main id="main" tabindex="-1"${READ.test(f) ? " data-kq-read" : ""}${attrs}>`;
   }, `${f}: <main>`);
+  if (READ.test(f)) read++;
+  // the contact page's one job is the review request: no newsletter sign-up in its footer
+  if (f === "contact.html") {
+    if (!/<form data-kq-form="newsletter"/.test(html)) fail("contact.html: the footer sign-up changed; update the rule that hides it");
+    html = html.replace("</head>", () => `<style data-kq-fx-contact>footer>div>div:has(>div>form[data-kq-form="newsletter"]){display:none!important}</style></head>`);
+  }
   if (html.split("</head>").length !== 2) fail(`${f}: expected one </head>`);
   html = html.replace("</head>", () => CSS + SPECULATION + "</head>");
   html = html.replace(/<\/body>(?![\s\S]*<\/body>)/, () => SCRIPT + "</body>");
   if (/<article\b[^>]*data-art="body"/.test(html)) articles++;
   fs.writeFileSync(file, html);
 }
+if (read !== 8) fail(`expected the reading measure on 3 legal pages and 5 job pages, marked ${read}`);
 if (articles < 900) fail(`expected the archive's articles to carry data-art="body" for the reading progress line, found ${articles}`);
-console.log(`site-effects: ${files.length} pages (skip link, hover and tap feedback, form feedback, back to top, faster page changes); reading progress on ${articles} articles; home page motion; script /assets/${jsName} (${(JS.length / 1024).toFixed(1)} KB)`);
+console.log(`site-effects: ${files.length} pages (skip link, hover and tap feedback, form feedback, back to top, faster page changes); reading progress on ${articles} articles; home page motion; reading measure on ${read} legal and job pages; last two words of ${kept + spanned} headings kept together (${spanned} from 700px); script /assets/${jsName} (${(JS.length / 1024).toFixed(1)} KB)`);
