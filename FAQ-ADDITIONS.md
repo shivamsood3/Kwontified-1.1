@@ -29,8 +29,12 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 23 | What results have forecasting and analytics delivered? | Analytics and Forecasting (first entry) | Live 2026-11-27 |
 | 24 | What does revenue recovery cost? | Revenue Recovery | Omitted by Jordan 2026-11-27 |
 | 25 | Do you recover claims on Walmart or Target? | Revenue Recovery (after "What do you recover?") | Live 2026-11-27 |
-| 26–30 | Brand protection; creative ownership; agency or software; Amazon partner status; remote roles | | Sent for approval (batch 6) |
-| 31–33, fix 1 | See the workbook | | Not yet sent |
+| 26 | Do you remove unauthorized sellers and infringing listings? | Marketplace Operations, Amazon | Live 2026-11-27 |
+| 27 | Who owns the creative you produce, and what do you need from us to start? | Creative Studio | Live 2026-11-27 (no payment condition, at Jordan's request) |
+| 28 | Is Kwontified an agency or a software company? | About | Live 2026-11-27 (no claim that AI tools run the accounts, at Jordan's request) |
+| 29 | Is Kwontified an Amazon Ads Partner and in the Amazon Service Provider Network? | About | Live 2026-11-27 |
+| 30 | Are the roles remote? | Careers | Omitted by Jordan 2026-11-27 |
+| 31–33, fix 1 | Training; hiring process and benefits; newsletter; matching fee answers | | Sent for approval (batch 7) |
 
 Notes
 - Results questions on channel pages go first and open by default, with a "See the case studies" link, as on the Amazon page.
