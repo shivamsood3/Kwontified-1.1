@@ -212,7 +212,7 @@ function note(f,msg){var old=f.parentNode.querySelector('[data-kq-nl-error]');if
 var p=d.createElement('p');p.setAttribute('role','alert');p.setAttribute('data-kq-nl-error','');
 p.style.cssText='margin:10px 0 0;font-size:14px;color:#F8F6F1';p.textContent=msg;f.insertAdjacentElement('afterend',p);}
 var nl=d.querySelectorAll('form[data-kq-form=newsletter]'),now=String(Date.now());
-var st=d.querySelectorAll('.kq-nl-static');for(var j=0;j<st.length;j++)st[j].remove();
+var st=d.querySelectorAll('.kq-nl-static');for(var j=0;j<st.length;j++){var key=st[j].id.slice(3);if(MSG[key])MSG[key]=st[j].textContent;st[j].remove();}
 for(var i=0;i<nl.length;i++){var t=nl[i].querySelector('input[name="t"]');if(t)t.value=now;}
 var back=/[?&]nl=(wait|invalid|failed)(?:&|$)/.exec(location.search);if(back&&nl[0])note(nl[0],MSG[back[1]]);
 d.addEventListener('submit',function(e){
