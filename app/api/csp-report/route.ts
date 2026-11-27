@@ -20,7 +20,22 @@ const short = (u: string) => {
   }
 };
 
+// at most 60 reports a minute from one address (per server instance), so the log cannot be flooded
+const seen = new Map<string, number[]>();
+function limited(ip: string) {
+  const now = Date.now();
+  const t = (seen.get(ip) || []).filter((x) => now - x < 60_000);
+  t.push(now);
+  seen.set(ip, t);
+  if (seen.size > 5000) for (const [k, v] of seen) if (!v.some((x) => now - x < 60_000)) seen.delete(k);
+  return t.length > 60;
+}
+
 export async function POST(req: Request) {
+  // refuse oversized bodies before reading them (QA engineering-r2-05)
+  if (Number(req.headers.get("content-length") || 0) > MAX_BYTES) return new Response(null, { status: 204 });
+  const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "unknown";
+  if (limited(ip)) return new Response(null, { status: 204 });
   const text = await req.text().catch(() => "");
   if (!text || text.length > MAX_BYTES) return new Response(null, { status: 204 });
   let data: unknown;

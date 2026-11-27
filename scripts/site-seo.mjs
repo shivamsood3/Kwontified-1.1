@@ -104,7 +104,7 @@ const SHORT_TITLES = {
   "Careers at Kwontified": "Careers at Kwontified | Marketplace Management Jobs",
   "Leadership": "Leadership | The Team That Runs Kwontified",
   "Accessibility": "Accessibility Statement | Kwontified",
-  "Client Sign-In": "Client Sign-In | Kwontified Client Portal",
+  "Client Sign-In": "Client portal sign-in | Kwontified",
   "Thank You": "Thank You for Your Request | Kwontified",
   "Privacy Policy": "Privacy Policy | How Kwontified Uses Your Data",
   "Terms of Use": "Website Terms of Use | Kwontified",

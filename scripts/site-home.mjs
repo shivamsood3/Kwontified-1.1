@@ -218,7 +218,7 @@ for (const [href, name] of CHANNELS) if (name !== "Amazon" && name !== "Amazon b
 if (row("International").line !== "Amazon in 20+ countries, plus Zalando, Mercado Libre and Temu") fail("channels: the International line changed");
 // the brand programs line is the channels page's own
 if (!read("channels.html").includes("Vine, Premium Beauty, Luxury Stores and Creator Connections.")) fail("the channels page no longer describes the Amazon brand programs this way");
-const picture = (C.match(/<img loading="lazy" decoding="async" src="\/assets\/[^"]+" alt="A laptop showing a client portal dashboard[^"]*" style="width: 100%; height: auto; display: block; border-radius: 2px">\s*<p style="margin: 0; font-size: 14px; color: #626366">Illustrative data\.<\/p>/) || fail("channels: the picture or its caption changed"))[0];
+const picture = (C.match(/<img loading="lazy" decoding="async" src="\/assets\/[^"]+" alt="A laptop showing a client portal (?:sales )?dashboard[^"]*" style="width: 100%; height: auto; display: block; border-radius: 2px">\s*<p style="margin: 0; font-size: 14px; color: #626366">Illustrative data\.<\/p>/) || fail("channels: the picture or its caption changed"))[0];
 if (count(C, ">9 weeks</p>") !== 1) fail("channels: the Target Plus result changed");
 const channels = `<section id="channels" style="background: #F8F6F1">
 <div class="kq-hm-chwrap" style="${WRAP}; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px 72px">
@@ -303,6 +303,10 @@ if (!/^<section id="interlude" aria-label="Product photograph"/.test(S.interlude
 
 // ---- styles, this page only ----
 const CSS = `<style data-kq-home>
+/* the sticky header covers the top 91px; keep focused elements clear of it, as every other page does (QA ux-r2-01) */
+html{scroll-padding-top:104px}
+/* the pause button sits above the hero's dark overlay at 1200px and wider (QA visual-21) */
+.kq-fh .kq-fh-pause{z-index:5}
 /* phones: a shorter hero picture and tighter spacing, so the review button is on the first screen.
    overflow-anchor: the header gets shorter on the first scroll; the browser holds the page still by
    pinning an element, and it cannot pin the hero text (its entrance animation rules that out), so it

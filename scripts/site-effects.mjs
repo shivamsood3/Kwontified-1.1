@@ -111,21 +111,24 @@ form[data-kq-form] button[aria-busy="true"]{cursor:progress}
 .kq-hh.is-stuck .kq-hact>a[href="/contact"]{box-sizing:border-box;min-height:44px;padding:10px 14px!important;font-size:14px;white-space:nowrap}
 .kq-hh.is-stuck .kq-menu{order:3;margin-left:0}
 }
-/* English pages show the review button from the top of the page on phones too, with the short K
-   (translated previews keep it for when the visitor scrolls: their labels are longer) */
+/* every page, translated previews included, shows the review button from the top of the page on
+   phones, with the short K (QA F084, ux-r2-03); longer translated labels drop to 13px */
 @media (max-width:600px){
-html[lang="en"] .kq-head a[aria-label="Kwontified home"]>img,html[lang="en"] .kq-hh>div>a:first-child>img{clip-path:inset(0 calc(100% - 22px) 0 0)}
-html[lang="en"] .kq-head a[aria-label="Kwontified home"],html[lang="en"] .kq-hh>div>a:first-child{flex:none;width:44px;overflow:hidden}
-html[lang="en"] .kq-head .kq-links{display:flex!important;margin-left:auto;flex-wrap:nowrap!important}
-html[lang="en"] .kq-head .kq-links>:not(.kq-btn){display:none!important}
-html[lang="en"] .kq-head .kq-links>.kq-btn{padding:10px 14px!important;font-size:14px!important;white-space:nowrap}
+.kq-head a[aria-label="Kwontified home"]>img,.kq-hh>div>a:first-child>img{clip-path:inset(0 calc(100% - 22px) 0 0)}
+.kq-head a[aria-label="Kwontified home"],.kq-hh>div>a:first-child{flex:none;width:44px;overflow:hidden}
+.kq-head .kq-links{display:flex!important;margin-left:auto;flex-wrap:nowrap!important}
+.kq-head .kq-links>:not(.kq-btn){display:none!important}
+.kq-head .kq-links>.kq-btn{padding:10px 14px!important;font-size:14px!important;white-space:nowrap}
+html:not([lang="en"]) .kq-head .kq-links>.kq-btn,html:not([lang="en"]) .kq-hh .kq-hact>a[href="/contact"]{font-size:13px!important;padding:10px 12px!important}
 }
 @media (max-width:760px){
-html[lang="en"] .kq-hh .kq-hact{display:flex!important;margin-left:auto;order:2;flex-wrap:nowrap!important}
-html[lang="en"] .kq-hh .kq-hact>:not([href="/contact"]){display:none!important}
-html[lang="en"] .kq-hh .kq-hact>a[href="/contact"]{box-sizing:border-box;min-height:44px;padding:10px 14px!important;font-size:14px;white-space:nowrap}
-html[lang="en"] .kq-hh .kq-menu{order:3;margin-left:0}
+.kq-hh .kq-hact{display:flex!important;margin-left:auto;order:2;flex-wrap:nowrap!important}
+.kq-hh .kq-hact>:not([href="/contact"]){display:none!important}
+.kq-hh .kq-hact>a[href="/contact"]{box-sizing:border-box;min-height:44px;padding:10px 14px!important;font-size:14px;white-space:nowrap}
+.kq-hh .kq-menu{order:3;margin-left:0}
 }
+/* closing band: keep the paragraph to its reading measure in every language (QA ux-r2-04) */
+h2#close-title+p{max-width:28em!important}
 @media screen and (prefers-reduced-motion:no-preference){
 .kq-skip{transition:transform 140ms ${EASE}}
 .kq-swap{animation:kq-swap 280ms ${EASE} both}
