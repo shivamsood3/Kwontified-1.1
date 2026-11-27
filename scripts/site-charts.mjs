@@ -54,9 +54,9 @@ function findSvg(h, f, label) {
   if (n !== 1) fail(`${f}: expected the chart "${label.slice(0, 60)}" once, found ${n}`);
   const i = h.indexOf(at), s = h.lastIndexOf("<svg", i);
   if (s < 0 || h.slice(s, i).includes(">")) fail(`${f}: "${label.slice(0, 60)}" is not on an <svg>`);
-  let depth = 0, k = s, e = -1; // the matching </svg>, past any drawing nested inside
+  let depth = 0, e = -1; // the matching </svg>, past any drawing nested inside
   const re = /<svg\b|<\/svg>/g; re.lastIndex = s;
-  for (let m; (m = re.exec(h));) { depth += m[0] === "</svg>" ? -1 : 1; if (depth === 0) { e = m.index + 6; break; } k = m.index; }
+  for (let m; (m = re.exec(h));) { depth += m[0] === "</svg>" ? -1 : 1; if (depth === 0) { e = m.index + 6; break; } }
   if (e < 0) fail(`${f}: "${label.slice(0, 60)}" has no closing </svg>`);
   return { s, e, svg: h.slice(s, e) };
 }
@@ -292,8 +292,7 @@ for (const f of files.filter((x) => x.startsWith("perspectives--"))) {
     }
     let out = t;
     if (right.length) {
-      let ri = 0;
-      out = t.replace(/<tr>([\s\S]*?)<\/tr>/g, (row, inner) => { let ci = -1; ri++; return "<tr>" + inner.replace(/<(t[hd])\b([^>]*)>/g, (cell, tag, a) => { ci++; if (!right.includes(ci)) return cell; if (!/style="/.test(a)) fail(`${f}: a table cell has no style`); return `<${tag}${/text-align:\s*\w+/.test(a) ? a.replace(/text-align:\s*\w+/, "text-align: right") : a.replace(/style="/, 'style="text-align: right; ')}>`; }) + "</tr>"; });
+      out = t.replace(/<tr>([\s\S]*?)<\/tr>/g, (row, inner) => { let ci = -1; return "<tr>" + inner.replace(/<(t[hd])\b([^>]*)>/g, (cell, tag, a) => { ci++; if (!right.includes(ci)) return cell; if (!/style="/.test(a)) fail(`${f}: a table cell has no style`); return `<${tag}${/text-align:\s*\w+/.test(a) ? a.replace(/text-align:\s*\w+/, "text-align: right") : a.replace(/style="/, 'style="text-align: right; ')}>`; }) + "</tr>"; });
       numCols += right.length;
     }
     tables++;

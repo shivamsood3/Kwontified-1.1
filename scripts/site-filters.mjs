@@ -35,7 +35,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const DIR = path.join(ROOT, "public/_kq");
 const fail = (m) => { throw new Error("site-filters: " + m); };
 const routes = JSON.parse(fs.readFileSync(path.join(ROOT, "site-routes.json"), "utf8"));
 const fileOf = (route) => path.join(ROOT, "public", (routes.find((r) => r.route === route) || fail(`${route} is not a route`)).file);
@@ -45,7 +44,6 @@ const once = (h, find, put, what) => {
   return h.replace(find, () => put);
 };
 const count = (h, re, n, what) => { const k = (h.match(re) || []).length; if (k !== n) fail(`${what}: expected ${n}, found ${k}`); };
-const text = (s) => s.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
 
 // ---- the facets --------------------------------------------------------------------------------
 const CH = [["amazon", "Amazon"], ["walmart", "Walmart"], ["target", "Target Plus"], ["temu", "Temu"], ["intl", "International"], ["social", "TikTok Shop and Instagram Shop"]];

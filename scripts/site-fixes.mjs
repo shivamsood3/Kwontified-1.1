@@ -170,6 +170,13 @@ const NAMED = { "read the amazon case study": "premium beauty", "read the walmar
 // the carousel's play button: its accessible name must contain its visible word ("Play"),
 // or speech-input users cannot say what they see (Lighthouse: label-content-name-mismatch)
 for (const f of Object.keys(P)) P[f] = P[f].split("'Start rotation'").join("'Play rotation'");
+// International: the route table's scroll region took its name from the section's heading, so two
+// regions were called "Choosing the route into each market" (axe: landmark-unique)
+{
+  const f = "channels--international.html", from = '<div class="kq-rtw" tabindex="0" role="region" aria-labelledby="routes-title">';
+  if (P[f].split(from).length !== 2) fail(`${f}: the route table's scroll region changed`);
+  P[f] = P[f].replace(from, '<div class="kq-rtw" tabindex="0" role="region" aria-label="Table: routes into each market">');
+}
 for (const f of Object.keys(P)) {
   P[f] = P[f].replace(/<a\b([^>]*?)href="(\/work|\/work\/shortage-claims|\/channels\/walmart|\/capabilities\/revenue-recovery)"([^>]*)>([\s\S]*?)<\/a>/g, (all, a, href, b, inner, at) => {
     if (/kq-ccard|kq-tab|data-case=/.test(a + b)) return all; // data-case links are resolved by keyword below

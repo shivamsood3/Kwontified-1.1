@@ -19,16 +19,17 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
   9. `scripts/site-channel-content.mjs` (added 2026-11-27): new copy on the capability and channel pages: marketplace facts, rewritten "How we work" and questions on the seven thin channel pages, "How we measure it" on three capability pages, related reading. See "Capability and channel content" below.
   10. `scripts/site-filters.mjs` (added 2026-11-27): the Work page filter and pager, the creative gallery filter, links from case study labels to the filtered list, and Creative Studio's links to the gallery. See "Filters" below.
   11. `scripts/site-home.mjs` (added 2026-11-27): rebuilds the home page's order and sections. See "Home page" below.
-  12. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
-  13. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
-  14. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
-  15. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
-  16. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
-  17. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
-  18. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
-  19. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
-  20. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
-  21. `next build`.
+  12. `scripts/site-charts.mjs` (added 2026-11-27): every data chart redrawn as one accessible component, readable diagrams and maps on phones, keyboard-reachable tables. See "Charts" below.
+  13. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
+  14. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
+  15. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
+  16. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
+  17. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
+  18. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
+  19. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
+  20. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
+  21. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
+  22. `next build`.
   The full build takes about a minute; most of it is the site-images step making the WebP copies.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
@@ -122,7 +123,19 @@ Approved by Jordan. Helper's scores on the review's rubrics: capabilities 58 to 
 - A step that wants the client logos leaves `<!--kq-logos:clients-->`; `site-logos.mjs` fills it on any page. `npm run dev` does not run `site-logos`, so logo bands are empty there.
 - Left for Jordan: the Retail Media platform list differs between the page body, the "Where this applies" row and the FAQ; the Revenue Recovery wording on when the audit starts.
 
-## Capability and channel content (added 2026-11-27, `scripts/site-channel-content.mjs`)
+## Charts (added 2026-11-27, `scripts/site-charts.mjs`)
+
+Jordan asked for the charts and graphs across the site to be improved. An audit scored the 11 chart families at 70/100 on average (phone legibility cost the most: text inside charts rendered at 5 to 9px); after this step about 86.
+
+- Nine data charts (Walmart, Creative Studio, the four Work carousel slides, the shortage-claims case page, the Retail Media and Marketplace Operations share bars) are one component, `figure.kq-chart`: HTML bars from zero on one baseline, real text labels never under 13px at 320, and a visually hidden table with every value for screen readers. Each chart is found by its own `aria-label` and checked against a spec in `CHARTS`/`LINES`: every printed figure and every bar height must match, or the build stops. Never change the step to accept a different figure; if the export's words or figures change, update the spec.
+- One motion rule: the export's scroll-linked bar animation is removed; bars grow together, once, through the export's own "exhibits draw" script, and stay still under reduced motion. The rolling figures settle without gaps (each digit column takes its own digit's width).
+- Line illustrations on Analytics carry their words in HTML with a legend, a "Today" label and axis labels (the viral-spike baseline reads "0"). The Channels hub and the data-flow diagram get an HTML phone layout below 500px; the Agentic Commerce illustration is HTML at every width.
+- Maps (Amazon, International): legend; channel countries at 3:1 or better against land, sea and the selected colour; the United States outlined on International; a button-toggled list of the 56 country notes for keyboard users (a button, not `<details>`, because the FAQ check counts every `<details>`).
+- Perspectives: all 286 tables are focusable scroll regions named from the nearest heading; number columns are right-aligned.
+- Decisions applied as defaults (Jordan, 2026-11-27): the International "1x to 2x" chart is removed (it repeated the figure above it); the shortage chart reads "H1 2024 / H1 2025" everywhere; Creative Studio's two pairs are indexed to 100 before, with the dollar labels kept; no periods are added where the site states none.
+- The client portal's chart script (32 KB) is dropped from every page that has no `.pt` element (none today).
+
+, `scripts/site-channel-content.mjs`)
 
 Jordan asked for the content each page needs, with special attention to the seven thin channel pages (Amazon brand programs, Target Plus, Zalando, Mercado Libre, Temu, TikTok Shop, Instagram Shop). Helper's scores on its 100-point rubric: capability pages averaged 69 before and 80 after, channel pages 60 and 80 (thin pages 52 to 61 before, 73 to 86 after).
 
