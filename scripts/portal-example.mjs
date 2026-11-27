@@ -126,8 +126,8 @@ check(near(avg(WK.roas, 1, 3), SEP.roas, 0.01) && near(avg(WK.roas, 6, 7), roas,
 // return reason, repeat buyers %, Subscribe and Save subscriptions, and the open step if there is one
 const PRODUCTS = [
   { n: "Retinol serum", sku: "SKN-RS-30", sales: 129500, ad: 53611, units: 3083, sess: 39025, chg: 9.8, fo: 99.2, rt: 4.5, rc: 2140, rank: 1420, on: 2700, inb: 3000, wk: 938, ret: 96, why: "Not as expected", rep: 24, sns: 610 },
-  { n: "Gift set", sku: "SKN-GS-3P", sales: 67700, ad: 31445, units: 1058, sess: 25190, chg: 38.5, fo: 84.6, rt: 4.6, rc: 380, rank: 5600, on: 980, inb: 2000, wk: 322, ret: 19, why: "Arrived damaged", rep: 6, sns: 0, tag: ["bad", "Suppressed"], step: "Corrected image with Amazon", who: "Creative Studio · filed Oct 20, next check Oct 25" },
-  { n: "Mineral sunscreen", sku: "SKN-MS-50, -100", sales: 107100, ad: 41094, units: 3825, sess: 56250, chg: -3.4, fo: 89.1, rt: 4.3, rc: 1920, rank: 1860, on: 9800, inb: 0, wk: 1164, ret: 61, why: "No longer needed", rep: 22, sns: 420, tag: ["bad", "Suppressed"], step: "Safety data sheet with Amazon", who: "<span class=\"w\">Marketplace </span>Operations · both sizes, filed Oct 17, next check Oct 25" },
+  { n: "Gift set", sku: "SKN-GS-3P", sales: 67700, ad: 31445, units: 1058, sess: 25190, chg: 38.5, fo: 78.4, rt: 4.6, rc: 380, rank: 5600, on: 980, inb: 2000, wk: 322, ret: 19, why: "Arrived damaged", rep: 6, sns: 0, tag: ["bad", "Suppressed"], step: "Corrected image with Amazon", who: "Creative Studio · filed Oct 20, next check Oct 25" },
+  { n: "Mineral sunscreen", sku: "SKN-MS-50, -100", sales: 107100, ad: 41094, units: 3825, sess: 56250, chg: -3.4, fo: 87.2, rt: 4.3, rc: 1920, rank: 1860, on: 9800, inb: 0, wk: 1164, ret: 61, why: "No longer needed", rep: 22, sns: 420, tag: ["bad", "Suppressed"], step: "Safety data sheet with Amazon", who: "<span class=\"w\">Marketplace </span>Operations · both sizes, filed Oct 17, next check Oct 25" },
   { n: "Eye cream", sku: "SKN-EC-15", sales: 54600, ad: 19847, units: 1517, sess: 24869, chg: 1.7, fo: 99.4, rt: 4.4, rc: 860, rank: 3900, on: 4100, inb: 0, wk: 462, ret: 26, why: "Not as expected", rep: 19, sns: 280, tag: ["warn", "Listing issue"], step: "Bullet point rewrite due Oct 27", who: "<span class=\"w\">Marketplace </span>Operations · restricted claim, in progress" },
   { n: "Vitamin C serum", sku: "SKN-VC-30", sales: 262400, ad: 90083, units: 6905, sess: 75880, chg: 14.2, fo: 97.8, rt: 4.6, rc: 5310, rank: 410, on: 13100, inb: 9000, wk: 2102, ret: 124, why: "No longer needed", rep: 31, sns: 1840 },
   { n: "Night cream", sku: "SKN-NC-50", sales: 169800, ad: 56579, units: 3691, sess: 48566, chg: 6.1, fo: 99.6, rt: 4.5, rc: 2480, rank: 1150, on: 7400, inb: 4500, wk: 1123, ret: 89, why: "Arrived damaged", rep: 27, sns: 960 },
@@ -320,7 +320,7 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
     { t: `Run a 10% coupon on the vitamin C serum, Oct 27 to 31`, d: `About ${usd(coupon.more)} more sales at September’s ${SEPC.lift}% lift, for about ${usd(coupon.cost)} in discounts.`, who: "Operations", by: "Oct 25", go: go("Promotions", hashOf("Promotions"), "kq-pt-pr-new", "for the proposed coupon") },
     { t: `Order ${num(order(retinol))} units of retinol serum by ${orderBy(retinol)}`, d: `${cover(retinol).toFixed(1)} weeks of cover with the ${num(retinol.inb)} in transit; runs out around ${runsOut(retinol)}.`, who: "Operations", by: "Oct 30", go: go("Inventory", hashOf("Inventory"), rowId(retinol), "for retinol serum") },
   ];
-  const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two recover about ${usd(recovered)} of Amazon’s ${usd(amzGap)} gap</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="ans js" role="group" aria-label="Your answer"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="On the Oct 28 call" aria-pressed="false" disabled>Discuss</button></span><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note">Your team makes the change once you agree. Discuss adds it to your Oct 28 call.</p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
+  const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two recover about ${usd(recovered)} of Amazon’s ${usd(amzGap)} gap</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="ans js" role="group" aria-label="Your answer: ${x.t}"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="On the Oct 28 call" aria-pressed="false" disabled>Discuss</button></span><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note">Your team makes the change once you agree. Discuss adds it to your Oct 28 call.</p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
 
   // what the team is handling: ranked by severity, then by the weekly sales of what is affected
   const ALERTS = [
@@ -372,8 +372,8 @@ ${channels}
   const inventory = tool(`${num(inboundUnits)} units inbound in ${word(SHIPMENTS.length)} shipments · as of ${INV_ASOF}`, "", "kq-pt-c3-t")
     + tbl("kq-pt-c3", `Inventory and replenishment by product, as of ${INV_ASOF}`,
       th("Product", "", true, "") + th("On hand") + th("Inbound", "expected") + th("Weekly units", "four-week average") + coverHead + th("Suggested order", `to ${COVER[1]} weeks`) + th("Order by", "cover at 5 weeks"),
-      PRODUCTS.map((p) => `<tr>${name(p, rowId(p))}${td(p.on, num(p.on))}${td(p.inb, p.inb ? num(p.inb) : "None", due(p))}${td(p.wk, num(p.wk))}${coverCell(cover(p))}${td(order(p), order(p) ? `<strong>${num(order(p))}</strong>` : "Not needed")}${td(cover(p), orderBy(p), low(p) ? "awaiting your decision" : undefined)}</tr>`).join(""))
-    + defs(`<b>Suggested order</b> when cover with inbound falls under ${COVER[0]} weeks, the units that bring it back to ${COVER[1]}, in cases of 100. <b>Order by</b> the day cover reaches the ${LEAD_WEEKS}-week lead time from order to stock at Amazon. 460 units in two listings are stranded and cannot sell.`);
+      PRODUCTS.map((p) => `<tr>${name(p, rowId(p))}${td(p.on, num(p.on))}${td(p.inb, p.inb ? num(p.inb) : "None", due(p))}${td(p.wk, num(p.wk))}${coverCell(cover(p))}${td(order(p), order(p) ? `<strong>${num(order(p))}</strong>` : "Not yet")}${td(cover(p), orderBy(p), low(p) ? "awaiting your decision" : undefined)}</tr>`).join(""))
+    + defs(`<b>Suggested order</b> once cover with inbound is under ${COVER[0]} weeks, the units back to ${COVER[1]}, in cases of 100. <b>Order by</b> the day cover reaches the ${LEAD_WEEKS}-week lead time from order to stock at Amazon. 460 units in two listings are stranded.`);
 
   const returns = tool("Returns and repeat purchase by product, Oct 1 to 23", "", "kq-pt-c4-t")
     + tbl("kq-pt-c4", "Returns and repeat purchase by product, Oct 1 to 23",
@@ -542,13 +542,13 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-stamp{position:relative;flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:12px;line-height:16px;color:var(--muted);text-align:right}
 .kq-pt .kq-pt-asof{font-size:12px;line-height:16px;color:var(--muted)}
 .kq-pt-fig.is-live .kq-pt-asof{color:var(--acc);text-decoration:underline dotted;text-underline-offset:3px}
-.kq-pt-fig.is-live .kq-pt-asof::after{content:" ▾"}
+.kq-pt-fig.is-live .kq-pt-asof::after{content:" ▾";content:" ▾"/""}
 .kq-pt-pop{position:absolute;top:100%;right:0;z-index:3;width:300px;margin-top:6px;padding:10px 14px;background:#FFFFFF;border:1px solid #CFD5D9;border-radius:8px;box-shadow:0 10px 30px -10px rgba(10,28,54,.35);text-align:left;color:#262524}
 .kq-pt-pop[hidden]{display:none}
 .kq-pt-pop li{display:flex;flex-direction:column;padding:4px 0;border-top:1px solid var(--rule)}.kq-pt-pop li:first-child{border-top:0}
 .kq-pt-pop li span{font-size:12px}
 .kq-pt-ctl{display:flex;flex-wrap:wrap;gap:8px}
-.kq-pt-ctl span{display:inline-flex;align-items:center;height:30px;padding:0 10px;border:1px solid #CFD5D9;border-radius:8px;background:#FFFFFF;white-space:nowrap;font-size:13px}
+.kq-pt-ctl span{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:#EEF2F4;color:#3D4449;white-space:nowrap;font-size:13px}
 .kq-pt-chsw{display:flex;flex-wrap:wrap;gap:6px}
 .kq-pt-chsw label{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid #CFD5D9;border-radius:8px;background:#FFFFFF;cursor:pointer;white-space:nowrap}
 
@@ -589,7 +589,7 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-defs b,.kq-pt-note b{color:#262524}
 .kq-pt-hint{display:none}
 .kq-pt .kq-pt-dfb{display:none;align-items:center;min-height:32px;margin-top:4px;font-size:12px;font-weight:500;color:var(--acc)}
-.kq-pt .kq-pt-dfb::after{content:" ▾";white-space:pre}.kq-pt .kq-pt-dfb[aria-expanded=true]::after{content:" ▴"}.kq-pt .kq-pt-dfb.hd{min-height:36px;margin:0;font-size:16px;font-weight:600;color:#262524}.kq-pt .kq-pt-dfb.hd::after{color:var(--acc)}
+.kq-pt .kq-pt-dfb::after{content:" ▾";content:" ▾"/"";white-space:pre}.kq-pt .kq-pt-dfb[aria-expanded=true]::after{content:" ▴";content:" ▴"/""}.kq-pt .kq-pt-dfb.hd{min-height:36px;margin:0;font-size:16px;font-weight:600;color:#262524}.kq-pt .kq-pt-dfb.hd::after{color:var(--acc)}
 .kq-pt-cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px;align-items:stretch}.kq-pt-cols.eq{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.kq-pt-cols.eq>div{display:flex;flex-direction:column;min-width:0}.kq-pt-cols.eq>div>.kq-pt-card:last-child{flex:1}
 .kq-pt-cols.ops{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr)}
 .kq-pt-h2{font-size:16px;line-height:22px;font-weight:600}.kq-pt-h2 small{margin-left:6px;font-weight:400}
@@ -703,6 +703,7 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-kkey{margin-top:10px!important;font-size:12px;line-height:16px;color:var(--muted)}.kq-pt-kkey+.kq-pt-card{margin-top:4px}.kq-pt .kd{display:inline}.kq-pt table.chan{min-width:820px}.kq-pt table.chan tbody th{min-width:86px;max-width:96px}.kq-pt-stamp>span{display:none}
 .kq-pt-bars{height:76px}.kq-pt .kq-pt-hint{display:inline-block;margin-right:14px}.kq-pt-chsw label{padding:0 10px}
 .kq-pt-sw{font-size:15px}.kq-pt-sw>span:first-child{flex-basis:100%}.kq-pt-sw label{padding:0 14px}.kq-pt-empty{padding:16px}}
-@media (max-width:380px){.kq-pt{contain-intrinsic-block-size:auto 2400px}.kq-pt .xw{display:none}.kq-pt .kv{font-size:18px}.kq-pt-kstrip>li{padding:8px 10px}.kq-pt-tabs{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}.kq-pt-tabs button{font-size:13px}}
+@media (max-width:380px){.kq-pt{contain-intrinsic-block-size:auto 2380px}.kq-pt-bars{height:64px}.kq-pt-card{padding:10px 12px}.kq-pt .xw{display:none}.kq-pt .kv{font-size:18px}.kq-pt-kstrip>li{padding:8px 10px}.kq-pt-tabs{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}.kq-pt-tabs button{font-size:13px}}
+@media (forced-colors:active){.kq-pt .gb,.kq-pt .gb i,.kq-pt .cb,.kq-pt .cb i,.kq-pt .cb b,.kq-pt-bars .col>i,.kq-pt-leg i,.kq-pt-pop li::before,.kq-pt-list li::before{forced-color-adjust:none}}
 /* end of the client portal example */
 `;
