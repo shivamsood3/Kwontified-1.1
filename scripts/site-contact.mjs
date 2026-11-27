@@ -16,6 +16,13 @@
 //     the form to /api/contact and opens the Thank-you page only when the server says the
 //     request was delivered. Otherwise a message says it did not send, keeps the answers and
 //     offers the same request by email.
+//   - When the server turns a field down (422) the field is marked where it is, as the
+//     browser's own check would; when it has had too many requests (429) the visitor is asked
+//     to wait a few minutes. The email field uses the server's rule (a dot after the @), so
+//     "name@domain" is caught before it is sent. (2026-11-27 QA, F037)
+//   - Needs use the six capabilities' house names; "Where you sell today" includes Temu, which
+//     has its own channel page. The privacy line says what happens: the request is kept in the
+//     contact records, and is not sold. (2026-11-27 QA, F054, F139)
 //   - Answers from the home page case finder (/contact#ch=wm&rev=m) are carried into the form,
 //     and the page the visitor came from is sent with the request.
 //   - Other routes: email and phone, press, careers, existing clients, and the three offices.
@@ -55,16 +62,19 @@ const button = (old.match(/<button type="submit" class="kq-btn"[^>]*>/) || fail(
 const channels = [...old.matchAll(/<input type="checkbox" name="channels" value="([^"]+)"[^>]*>([^<]+)<\/label>/g)].map((m) => [m[1], m[2].trim()]);
 const revenue = [...(old.match(/<select id="rev"[\s\S]*?<\/select>/) || fail("no revenue menu"))[0].matchAll(/<option>([^<]+)<\/option>/g)].map((m) => m[1]);
 const example = (old.match(/<textarea\b[^>]*\splaceholder="([^"]+)"/) || fail("no example in the notes field"))[1];
-if (channels.length !== 7 || revenue.length !== 5) fail(`expected 7 channels and 5 revenue bands, found ${channels.length} and ${revenue.length}`);
+if (channels.length !== 8 || revenue.length !== 5) fail(`expected 8 channels and 5 revenue bands, found ${channels.length} and ${revenue.length}`);
+// Temu is a marketplace with its own page; the case finder's channel codes (site-fixes.mjs) do not include it
+if (!channels.some(([v]) => v === "temu")) fail("the export's channel options no longer include Temu");
 
-// what the visitor needs help with: the six capabilities, then the two requests that span them
+// what the visitor needs help with: the six capabilities by their house names, then the two
+// requests that span them
 const NEEDS = [
-  ["retail-media", "Retail media and advertising"],
-  ["creative", "Creative and content"],
-  ["operations", "Marketplace operations"],
-  ["analytics", "Analytics and forecasting"],
-  ["agentic-commerce", "AI shopping assistants"],
-  ["revenue-recovery", "Revenue recovery"],
+  ["retail-media", "Retail Media and Advertising"],
+  ["creative", "Creative Studio"],
+  ["operations", "Marketplace Operations"],
+  ["analytics", "Analytics and Forecasting"],
+  ["agentic-commerce", "Agentic Commerce"],
+  ["revenue-recovery", "Revenue Recovery"],
   ["new-marketplace", "Launching a new marketplace or country"],
   ["full-service", "Full-service management"],
 ];
@@ -86,7 +96,7 @@ const TICK = `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"
 const FORM = `<form class="kq-cf" data-kq-form="contact" method="post" action="/api/contact" aria-labelledby="page-title">
 <p class="kq-cf-note">Every field here is required.</p>
 <div class="kq-cf-row">${field("f0", "First name", `<input id="f0" type="text" name="first_name" autocomplete="given-name" required>`)}${field("f1", "Last name", `<input id="f1" type="text" name="last_name" autocomplete="family-name" required>`)}</div>
-${field("f2", "Work email", `<input id="f2" type="email" name="email" autocomplete="email" autocapitalize="off" spellcheck="false" required>`, `<p class="kq-cf-hint" role="status" hidden>A work address helps us prepare, but this one is fine.</p>`)}
+${field("f2", "Work email", `<input id="f2" type="email" name="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="254" pattern="[^\\s@<>&quot;]+@[^\\s@<>&quot;]+\\.[^\\s@<>&quot;]+" title="Check the email address. It should look like name@company.com.">`, `<p class="kq-cf-hint" role="status" hidden>A work address helps us prepare, but this one is fine.</p>`)}
 <div class="kq-cf-row">${field("f4", "Company or brand", `<input id="f4" type="text" name="company" autocomplete="organization" required>`)}${field("f5", "Brand website", `<input id="f5" type="text" name="website" autocomplete="url" inputmode="url" autocapitalize="off" spellcheck="false" required pattern="\\s*(https?://)?([A-Za-z0-9\\-]+\\.)+[A-Za-z]{2,}(/\\S*)?\\s*" title="Enter a web address, such as yourbrand.com.">`)}</div>
 ${field("notes", "What do you want to achieve?", `<textarea id="notes" name="notes" rows="3" required placeholder="${example}"></textarea>`)}
 <details class="kq-cf-more"><summary><span>Add detail</span> <span class="kq-cf-opt">Optional. It helps us prepare.</span></summary>
@@ -99,8 +109,9 @@ ${field("rev", "Annual e-commerce revenue", `<select id="rev" name="revenue"><op
 </div></details>
 <div class="kq-cf-hp" aria-hidden="true"><label for="kq-hp">Leave this field empty</label><input id="kq-hp" type="text" name="contact_me_by_fax_only" tabindex="-1" autocomplete="off"></div>
 <input type="hidden" name="t" value=""><input type="hidden" name="from" value=""><input type="hidden" name="finder" value="">
-<p class="kq-cf-priv">We use what you share only to prepare for and hold this conversation. We do not share it with third parties. <a href="/privacy">Privacy Policy</a></p>
+<p class="kq-cf-priv">We use what you share to prepare for this conversation and keep it in our contact records. We do not sell it. <a href="/privacy">Privacy Policy</a></p>
 <p class="kq-cf-fail" id="send-failed" role="alert" tabindex="-1">That did not send, so we have not received it. Please try again, or <a data-kq-mailto href="mailto:contact@kwontified.com?subject=Marketplace%20review%20request">send it by email</a>. Your answers are still here.</p>
+<p class="kq-cf-fail kq-cf-wait" id="send-wait" role="alert" tabindex="-1">We have had several requests from this connection in the last few minutes. Please wait a few minutes and try again, or <a data-kq-mailto href="mailto:contact@kwontified.com?subject=Marketplace%20review%20request">send it by email</a>. Your answers are still here.</p>
 <div>${button.replace(/margin-top:[^;"]*;?/, "")}Request a marketplace review</button></div>
 </form>`;
 
@@ -199,7 +210,7 @@ const CSS = `<style data-kq-contact>
 // ---- the page's own script: carry answers in, send the form, say so if it fails ----
 const JS = `<script>/* Contact form (scripts/site-contact.mjs) */
 (function(){var d=document,w=window,f=d.querySelector('form[data-kq-form="contact"]');if(!f)return;
-var E=f.elements,fail=f.querySelector('.kq-cf-fail'),more=f.querySelector('.kq-cf-more');
+var E=f.elements,fail=f.querySelector('#send-failed'),wait=f.querySelector('#send-wait'),more=f.querySelector('.kq-cf-more');
 /* when the page was opened (the server ignores a form sent within two seconds), and where the visitor came from */
 E.t.value=String(Date.now());
 try{var r=d.referrer?new URL(d.referrer):null;if(r&&r.origin===location.origin&&r.pathname!==location.pathname)E.from.value=r.pathname;}catch(_){}
@@ -219,14 +230,24 @@ E.website.addEventListener('blur',function(){this.value=this.value.trim();});
 /* a field with an error inside the closed optional block would be invisible: none are required there */
 function byMail(){var rows=[['First name',E.first_name.value],['Last name',E.last_name.value],['Work email',em.value],['Company or brand',E.company.value],['Brand website',E.website.value],['What we want to achieve',E.notes.value]];
 var body=rows.filter(function(x){return x[1];}).map(function(x){return x[0]+': '+x[1];}).join('\\n').slice(0,1500);
-var a=fail.querySelector('[data-kq-mailto]');if(a)a.href='mailto:contact@kwontified.com?subject='+encodeURIComponent('Marketplace review request')+'&body='+encodeURIComponent(body);}
-w.kqContact=function(form){var b=form.querySelector('button[type="submit"]');if(!b||b.disabled)return;b.disabled=true;fail.classList.remove('is-on');
+[].forEach.call(f.querySelectorAll('[data-kq-mailto]'),function(a){a.href='mailto:contact@kwontified.com?subject='+encodeURIComponent('Marketplace review request')+'&body='+encodeURIComponent(body);});}
+/* the server turned a field down (422): mark it where it is, as the browser's own check would. A
+   field of only spaces counts as empty; the email uses the same rule as the server (its title says how). */
+function refuse(names){var any=false;(names||[]).forEach(function(n){var el=E[n];if(!el||!el.willValidate)return;any=true;
+if(n==='email')el.setCustomValidity(el.title||el.validationMessage||'');else el.value=el.value.trim();});
+return any&&!f.reportValidity();}
+em.addEventListener('input',function(){if(!em.validity.customError)return;em.setCustomValidity('');em.removeAttribute('aria-invalid');var m=d.getElementById(em.id+'-err');if(m)m.textContent='';});
+w.kqContact=function(form){var b=form.querySelector('button[type="submit"]');if(!b||b.disabled)return;b.disabled=true;fail.classList.remove('is-on');wait.classList.remove('is-on');
 var ctl='AbortController' in w?new AbortController():null,timer=setTimeout(function(){if(ctl)ctl.abort();},20000);
 fetch('/api/contact',{method:'POST',body:new FormData(form),headers:{'x-kq-form':'1',accept:'application/json'},signal:ctl?ctl.signal:undefined})
-.then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok||!j.ok)throw 0;return j;});})
+.then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok||!j.ok)throw {status:r.status,fields:j.fields};return j;});})
 .then(function(j){clearTimeout(timer);try{sessionStorage.setItem('kq-lead','1');}catch(_){}location.assign('/contact/thank-you'+(j.confirmed?'?c=1':''));})
-.catch(function(){clearTimeout(timer);b.disabled=false;byMail();fail.classList.add('is-on');fail.focus();});};
+.catch(function(x){clearTimeout(timer);b.disabled=false;var s=x&&x.status;
+/* 422: a field to correct; 429: too many tries, so wait; anything else: it did not send */
+if(s===422&&refuse(x.fields))return;
+var m=s===429?wait:fail;byMail();m.classList.add('is-on');m.focus();});};
 if(/[?&]sent=0/.test(location.search))fail.classList.add('is-on');
+if(/[?&]sent=wait/.test(location.search))wait.classList.add('is-on');
 })();</script>`;
 
 h = h.slice(0, a) + TOP + h.slice(b);

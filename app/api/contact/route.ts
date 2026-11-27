@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { esc, isEmail, saveContact, sendEmail, settings } from "../_lib/resend";
 import { context, toMailchimp, toSheet } from "../_lib/sinks";
+import { answer as reply, clientIp, crossSite, domainOf, limiter, logId, looksAutomated, readFields } from "../_lib/guard";
 
 /**
  * "Request a marketplace review" form (/contact). The page's script
@@ -12,9 +12,19 @@ import { context, toMailchimp, toSheet } from "../_lib/sinks";
  * again or send the same request by email. (Until 2026-11-27 every request was answered
  * with success, including ones that reached nobody.)
  *
- * Spam: a hidden field people never see, a minimum time on the page, a same-site check and
- * a small per-address limit. A request caught by the first two is answered with success and
- * dropped, so a bot learns nothing.
+ * Spam (../_lib/guard.ts, shared with the newsletter form): a hidden field people never see, a
+ * minimum time on the page, a same-site check (403) and at most 5 accepted requests per address
+ * in 10 minutes (429). A request caught by the first two is answered with success and dropped,
+ * so a bot learns nothing. A field the server turns down is named in a 422 answer
+ * ({ fields: [...] }) so the page can mark it.
+ *
+ * Only the fields below are used: the sheet row is built from them, with the server's own
+ * values (time, page, country) and the sheet's secret after them, so a submitted key cannot add
+ * a column or replace them. The log records a request id, each destination's outcome and the
+ * email's domain, never what the visitor typed.
+ *
+ * The visitor is saved in Resend's "Marketplace review requests" segment as an unsubscribed
+ * contact (they asked for a review, not for email), and in Mailchimp as non-subscribed.
  *
  * The visitor gets a short confirmation email. It contains nothing they typed, so the form
  * cannot be used to send someone else a message. Set CONTACT_CONFIRMATION=off to disable it.
@@ -36,70 +46,32 @@ const FIELDS: [string, string][] = [
   ["from", "Page before the form"],
 ];
 const REQUIRED = ["first_name", "last_name", "email", "company", "website", "notes"];
-const HONEYPOT = "contact_me_by_fax_only";
 
-// at most 5 requests in 10 minutes from one address (per server instance: a brake, not a wall)
-const WINDOW = 10 * 60 * 1000;
-const LIMIT = 5;
-const seen = new Map<string, number[]>();
-function limited(ip: string) {
-  const now = Date.now();
-  const times = (seen.get(ip) || []).filter((t) => now - t < WINDOW);
-  times.push(now);
-  seen.set(ip, times);
-  if (seen.size > 5000) for (const [k, v] of seen) if (!v.some((t) => now - t < WINDOW)) seen.delete(k);
-  return times.length > LIMIT;
-}
+const brake = limiter();
 
 export async function POST(req: Request) {
-  // a browser posting the form without the page's script wants a page back, not JSON
-  const plain = !req.headers.get("x-kq-form") && (req.headers.get("accept") || "").includes("text/html");
+  const id = logId();
   const answer = (body: Record<string, unknown>, status: number) =>
-    plain
-      ? NextResponse.redirect(new URL(body.ok ? "/contact/thank-you" : "/contact?sent=0#send-failed", req.url), 303)
-      : NextResponse.json(body, { status });
+    reply(req, body, status, () => (body.ok ? "/contact/thank-you" : status === 429 ? "/contact?sent=wait#send-wait" : "/contact?sent=0#send-failed"));
 
   // only from this site's own pages
-  const origin = req.headers.get("origin");
-  const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "";
-  if (origin && host) {
-    let from = "";
-    try {
-      from = new URL(origin).host;
-    } catch {}
-    if (from !== host) return answer({ ok: false, error: "cross-site request" }, 403);
-  }
-
-  const data: Record<string, string> = {};
-  try {
-    const ct = req.headers.get("content-type") || "";
-    if (ct.includes("application/json")) {
-      for (const [k, v] of Object.entries(await req.json())) data[k] = Array.isArray(v) ? v.join(", ") : String(v ?? "");
-    } else {
-      const form = await req.formData();
-      // repeated fields (the "channels" and "goal" checkboxes) keep every value
-      for (const key of new Set(form.keys())) data[key] = form.getAll(key).map(String).join(", ");
-    }
-  } catch {
-    return answer({ ok: false, error: "invalid payload" }, 400);
-  }
-  for (const k of Object.keys(data)) data[k] = data[k].trim().slice(0, k === "notes" ? 5000 : 500);
+  if (crossSite(req)) return answer({ ok: false, error: "cross-site request" }, 403);
+  const data = await readFields(req, (k) => (k === "notes" ? 5000 : 500));
+  if (!data) return answer({ ok: false, error: "invalid payload" }, 400);
 
   // bots: the hidden field is filled, or the form came back faster than a person can type it
-  const opened = Number(data.t || 0);
-  if (data[HONEYPOT] || (opened > 0 && Date.now() - opened < 2000)) {
-    console.warn("[contact] dropped a request that looks automated");
+  if (looksAutomated(data)) {
+    console.warn(`[contact ${id}] dropped a request that looks automated`);
     return answer({ ok: true }, 200);
   }
-  const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "unknown";
-  if (limited(ip)) return answer({ ok: false, error: "too many requests" }, 429);
+  const ip = clientIp(req);
+  if (brake.full(ip)) return answer({ ok: false, error: "too many requests" }, 429);
 
   const missing = REQUIRED.filter((k) => !data[k]);
   if (missing.length || !isEmail(data.email)) {
-    return answer({ ok: false, error: missing.length ? "missing fields" : "valid email required", fields: missing }, 422);
+    const fields = missing.length ? missing : ["email"];
+    return answer({ ok: false, error: missing.length ? "missing fields" : "valid email required", fields }, 422);
   }
-  delete data.t;
-  delete data[HONEYPOT];
 
   const rows = FIELDS.filter(([k]) => data[k]);
   const name = [data.first_name, data.last_name].filter(Boolean).join(" ") || data.email;
@@ -118,24 +90,28 @@ export async function POST(req: Request) {
       .join("") +
     `</table><p style="margin:20px 0 0;color:#626366">Reply to this email to answer ${esc(name)} directly.</p></div>`;
 
-  console.log("[contact] marketplace review request:", JSON.stringify({ ...data, submittedAt: new Date().toISOString() }));
+  // the sheet row: the form's own fields only, then the server's values
+  const row = { ...Object.fromEntries(FIELDS.map(([k]) => [k, data[k] || ""])), ...context(req) };
 
-  const [mailed, , sheet] = await Promise.allSettled([
+  const [mailed, saved, sheet, mailchimp] = await Promise.allSettled([
     sendEmail({ to: settings().contactTo, subject, html, text, replyTo: data.email }),
-    saveContact({ email: data.email, firstName: data.first_name, lastName: data.last_name }, "reviews"),
-    toSheet("contact", { ...context(req), ...data }),
+    saveContact({ email: data.email, firstName: data.first_name, lastName: data.last_name }, "reviews", { unsubscribed: true }),
+    toSheet("contact", row),
     toMailchimp("contact", { email: data.email, firstName: data.first_name, lastName: data.last_name }),
   ]);
   const emailed = mailed.status === "fulfilled" && mailed.value === true;
   const logged = sheet.status === "fulfilled" && sheet.value === true;
+  const outcome =
+    `team email=${emailed ? "sent" : "no"} sheet=${logged ? "saved" : "no"}` +
+    ` resend=${saved.status === "fulfilled" && saved.value.stored ? "saved" : "no"} mailchimp=${mailchimp.status === "fulfilled" && mailchimp.value ? "saved" : "no"}`;
   if (!emailed && !logged) {
     console.error(
-      settings().key
-        ? "[contact] the request reached neither the team inbox nor the sheet; the visitor was told it did not send"
-        : "[contact] RESEND_API_KEY is not set and no sheet is connected: the request was logged only; the visitor was told it did not send",
+      `[contact ${id}] reached neither the team inbox nor the sheet (${outcome}, domain ${domainOf(data.email)}` +
+        `${settings().key ? "" : ", RESEND_API_KEY not set"}); the visitor was told it did not send`,
     );
     return answer({ ok: false, error: "not delivered" }, 502);
   }
+  brake.hit(ip);
 
   // a short receipt for the visitor; nothing they typed is repeated in it
   let confirmed = false;
@@ -161,5 +137,6 @@ export async function POST(req: Request) {
     }).catch(() => false);
   }
 
+  console.log(`[contact ${id}] delivered (${outcome}, receipt ${confirmed ? "sent" : "not sent"}, domain ${domainOf(data.email)})`);
   return answer({ ok: true, emailed, confirmed }, 200);
 }
