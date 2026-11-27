@@ -493,6 +493,10 @@ for (const r of routes) {
       for (const m of nav[1].matchAll(/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g)) items.push([strip(m[2]), SITE + (m[1] === "/" ? "" : m[1])]);
       const cur = nav[1].match(/<span[^>]*aria-current="page"[^>]*>([\s\S]*?)<\/span>/);
       const curName = cur ? strip(cur[1]) : "";
+      // news and press: the section level (site-perspectives-ux adds the visible link at step 17,
+      // pointing at the same section page)
+      const hub = HUBS[(r.route.match(/^\/perspectives\/(news|press-releases)\/./) || [])[1]];
+      if (hub && byRoute.has(hub[0]) && !items.some(([, u]) => u === SITE + hub[0])) items.push([hub[1], SITE + hub[0]]);
       items.push([curName && !curName.endsWith("…") ? curName : headline, url]);
     } else {
       const trail = ["/"];

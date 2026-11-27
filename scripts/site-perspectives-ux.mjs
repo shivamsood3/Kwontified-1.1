@@ -34,6 +34,7 @@ const DIR = path.join(ROOT, "public/_kq");
 const ASSETS = path.join(ROOT, "public/assets");
 const fail = (m) => { throw new Error("site-perspectives-ux: " + m); };
 const routes = JSON.parse(fs.readFileSync(path.join(ROOT, "site-routes.json"), "utf8"));
+const HUB_ROUTES = new Set((Array.isArray(routes) ? routes : routes.routes || []).map((r) => r.route));
 const lastmod = JSON.parse(fs.readFileSync(path.join(ROOT, "site-lastmod.json"), "utf8"));
 const text = (s) => s.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim();
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
@@ -105,7 +106,10 @@ for (const p of pieces) {
   if (T.crumb) {
     const cr = new RegExp(`(<nav aria-label="Breadcrumb"[^>]*>[\\s\\S]*?</a> / )${T.crumb}( / <span aria-current="page")`);
     if (!cr.test(h)) fail(`${p.route}: breadcrumb has no "${T.crumb}" step`);
-    h = h.replace(cr, (_, a, z) => `${a}<a href="${typeUrl(p.type)}" style="color: #626366">${T.crumb}</a>${z}`);
+    // link the section's own page (site-archive registers it; the BreadcrumbList names the same URL)
+    const hub = { news: "/perspectives/news", press: "/perspectives/press-releases" }[p.type];
+    const crumbHref = hub && HUB_ROUTES.has(hub) ? hub : typeUrl(p.type);
+    h = h.replace(cr, (_, a, z) => `${a}<a href="${crumbHref}" style="color: #626366">${T.crumb}</a>${z}`);
   }
   // previous (older) and next (newer) piece of the same type
   const list = order[p.type], i = list.indexOf(p), prev = list[i - 1], next = list[i + 1];
