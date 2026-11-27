@@ -218,7 +218,7 @@ function casePage(c) {
   }, 3);
   rep(/(<h2 id="close-title"[^>]*>)Find out what Amazon owes you\.(<\/h2>)/g, (_, a, b) => a + "Let’s write your next case study." + b);
   rep(/(<p[^>]*>)It starts with a call\. Once we have signed a mutual NDA, we look at your Vendor Central deduction history[^<]*(<\/p>)/g, (_, a, b) => a + "It starts with a call about your channels and goals. We send a written first read on where growth is most within reach for your brand." + b);
-  rep(/>Request a recovery review<\/a>/g, () => ">Start your review</a>");
+  rep(/>Request a recovery review<\/a>/g, () => ">Request a marketplace review</a>");
   const body = h.slice(h.indexOf("<main"), h.indexOf('id="related-title"'));
   for (const stale of ["July 2024", "kitchen appliance", "$1.42M", "shortage"]) if (body.includes(stale) && !c.sum.includes(stale)) fail(`${c.url}: template text "${stale}" left behind`);
   return setTitle(h, c.url);
@@ -423,7 +423,7 @@ for (const [line, kw] of [["Sales growth for a clinical skincare brand after it 
   sub("about.html", new RegExp(`(<p[^>]*>)${reEsc(line)}(<\\/p>)`, "g"), (_, a, b) => a + link(find(kw).url, line, "kq-il kq-ul") + b);
 
 // ---- 6. whole-card links, article meta, shared styles ------------------------------------
-const CSS = `<style>/* site-fixes */[data-kq-row]{position:relative}a.kq-sl::after{content:"";position:absolute;inset:0;z-index:1}a.kq-il{color:inherit;text-decoration:none}a.kq-il:hover,a.kq-ul{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}[data-kq-row]:focus-within{outline:2px solid currentColor;outline-offset:4px}[data-kq-row] a.kq-sl:focus{outline:none}[data-kq-row]:hover a.kq-sl{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}</style>`;
+const CSS = `<style>/* site-fixes */[data-kq-row]{position:relative}a.kq-sl::after{content:"";position:absolute;inset:0;z-index:1}a.kq-il{color:inherit;text-decoration:none}a.kq-il:hover,a.kq-ul{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}[data-kq-row] a.kq-sl:focus{outline:none}[data-kq-row]:hover a.kq-sl{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}</style>`;
 const MONTH = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
 let stretched = 0, metas = 0;
 for (const f of Object.keys(P)) {
@@ -489,14 +489,6 @@ const routesFile = path.join(ROOT, "site-routes.json");
 const routes = JSON.parse(fs.readFileSync(routesFile, "utf8")).filter((r) => !newRoutes.some((n) => n.route === r.route)).concat(newRoutes);
 routes.sort((a, b) => a.route.localeCompare(b.route));
 fs.writeFileSync(routesFile, JSON.stringify(routes, null, 2) + "\n");
-{
-  const llms = path.join(ROOT, "public/llms.txt");
-  let t = fs.readFileSync(llms, "utf8");
-  const lines = cards.filter((c) => c.url !== EXISTING).map((c) => `- [${c.title}](https://kwontified.com${c.url}): ${text(c.sum)}`).join("\n");
-  if (!t.includes("\n## Work\n")) fail("llms.txt has no Work section");
-  t = t.replace(/(\n## Work\n(?:- .*\n)+)/, (m) => m + lines + "\n");
-  fs.writeFileSync(llms, t);
-}
 // every internal link must resolve
 const known = new Set(routes.map((r) => r.route));
 const bad = [];

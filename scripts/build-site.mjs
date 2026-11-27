@@ -350,37 +350,6 @@ for (const a of SRC_ASSET_FILES) {
 routes.sort((a, b) => a.route.localeCompare(b.route));
 fs.writeFileSync(path.join(ROOT, "site-routes.json"), JSON.stringify(routes, null, 2) + "\n");
 
-// llms.txt: a plain index of the site for AI answer engines, taken from each
-// page's own title and description
-{
-  const unescape = (s) =>
-    s.replace(/&rsquo;|&#x27;|&#39;/g, "’").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-  const groups = [
-    ["Capabilities", (r) => r.startsWith("/capabilities")],
-    ["Channels", (r) => r.startsWith("/channels")],
-    ["Work", (r) => r.startsWith("/work")],
-    ["Articles", (r) => /^\/perspectives\/(?!news\/|press-releases\/)./.test(r)],
-    ["News", (r) => r.startsWith("/perspectives/news/")],
-    ["Press releases", (r) => r.startsWith("/perspectives/press-releases/")],
-    ["Company", (r) => /^\/(about|why-kwontified|perspectives$|contact$|privacy|terms)/.test(r)],
-  ];
-  const home = read(path.join(OUT_PAGES, "index.html"));
-  const homeDesc = unescape(home.match(/<meta name="description" content="([^"]*)"/)[1]);
-  let out = `# Kwontified\n\n> ${homeDesc}\n\nKwontified LLC. Offices: Atlanta (headquarters), New York, Seattle. Contact: contact@kwontified.com, 404.873.9148.\n`;
-  for (const [name, test] of groups) {
-    const items = routes.filter((r) => r.route !== "/" && test(r.route));
-    if (!items.length) continue;
-    out += `\n## ${name}\n`;
-    for (const r of items) {
-      const h = read(path.join(ROOT, "public", r.file));
-      const title = unescape(h.match(/<title>([\s\S]*?)<\/title>/)[1]).replace(/\s*\|\s*Kwontified$/, "");
-      const desc = unescape(h.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "");
-      out += `- [${title}](https://kwontified.com${r.route})${desc ? `: ${desc}` : ""}\n`;
-    }
-  }
-  fs.writeFileSync(path.join(ROOT, "public/llms.txt"), out);
-}
-
 // ---- checks ----------------------------------------------------------------------
 const problems = [];
 if (unknownLinks.size) problems.push(`unmapped .html links: ${[...unknownLinks].join(", ")}`);

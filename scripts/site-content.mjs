@@ -108,7 +108,7 @@ const addPage = (route, html, source) => {
   one(/(<h2 id="related-title"[^>]*>[^<]*<\/h2><div[^>]*>)[\s\S]*?(<\/div><\/div><\/section>\s*<\/main>)/g, (_, a, b) => a + latestCards(P["perspectives.html"]) + b, "cards");
   // the visitor has just signed up, so the footer does not ask again
   one(/(<h2[^>]*>)Get our marketplace briefing once a month\.(<\/h2>\s*<p[^>]*>)[^<]*(<\/p>)\s*<form data-kq-form="newsletter"[\s\S]*?<\/form>/g, (_, a, b, c) =>
-    `${a}Want a first read on your own account?${b}Share your channels and goals. A member of our team will reply within one business day with a first read on where the growth is.${c}` +
+    `${a}Want a first read on your own account?${b}Share your channels and goals. A member of our team will reply within one business day to suggest times for a discovery call; your written first read follows the call.${c}` +
     '<a class="kq-btn" href="/contact" style="align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; box-sizing: border-box; background: #DCBF85; color: #102A4C; font-size: 16px; font-weight: 500; text-decoration: none">Request a marketplace review</a>', "footer sign-up block");
   // double opt-in: the same page, worded for someone who still has to confirm by email
   sw("</section>\n<section", `</section><script>/* confirm by email (double opt-in) */
@@ -249,13 +249,6 @@ const routesFile = path.join(ROOT, "site-routes.json");
 let routes = JSON.parse(fs.readFileSync(routesFile, "utf8")).map((r) => (MOVED[r.route] ? { ...r, route: MOVED[r.route], file: "/_kq/" + MOVED[r.route].slice(1).replace(/\//g, "--") + ".html" } : r));
 routes = routes.filter((r) => !newRoutes.some((n) => n.route === r.route)).concat(newRoutes).sort((a, b) => a.route.localeCompare(b.route));
 fs.writeFileSync(routesFile, JSON.stringify(routes, null, 2) + "\n");
-{
-  const llms = path.join(ROOT, "public/llms.txt");
-  let t = fs.readFileSync(llms, "utf8");
-  for (const [a, b] of Object.entries(MOVED)) t = t.split(a).join(b);
-  fs.writeFileSync(llms, t.replace(/Kwontified’s [^\]]*? to attend (Amazon [^\]]*)\]/g, "Kwontified to attend $1]").replace(/: Kwontified’s [^\n]*? to attend (Amazon [^\n]*)/g, ": Kwontified to attend $1"));
-  if (/Corey Brown|Priyanka/.test(fs.readFileSync(llms, "utf8"))) fail("llms.txt still names a removed person");
-}
 const known = new Set(routes.map((r) => r.route));
 const bad = [];
 for (const r of routes) for (const m of fs.readFileSync(path.join(ROOT, "public", r.file), "utf8").matchAll(/href=\\?"(\/[a-z0-9\-/]*)(#[^"\\]*)?\\?"/g))

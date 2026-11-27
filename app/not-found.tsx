@@ -10,7 +10,8 @@ import type { Metadata } from "next";
 // body are rendered as-is, so the menu, search and cookie banner still work.
 const html = fs.readFileSync(path.join(process.cwd(), "public/_kq/404.html"), "utf8");
 const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1] ?? "";
-const headAssets = (head.match(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/g) ?? []).join("\n");
+// styles are <link rel="stylesheet"> to /assets files since scripts/site-bundle.mjs, inline <style> otherwise
+const headAssets = (head.match(/<link rel="stylesheet"[^>]*>|<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/g) ?? []).join("\n");
 const body = html.match(/<body[^>]*>([\s\S]*?)<\/body>/)?.[1] ?? "";
 
 export const metadata: Metadata = {

@@ -46,7 +46,7 @@ const START = [
   ["/capabilities", "Capabilities", "Retail media, creative, operations, analytics, agentic commerce and revenue recovery"],
   ["/channels", "Channels", "Amazon, Walmart, Target Plus and the other marketplaces we run"],
   ["/work", "Work", "Twenty-five case studies with figures"],
-  ["/perspectives", "Perspectives", "Articles, news and press releases, dated so you know they are current"],
+  ["/perspectives", "Perspectives", "Articles, news and press releases, each dated so you can judge how current it is"],
   ["/about", "About", "Who we are, who leads the work and how to join us"],
   ["/contact", "Contact", "Request a marketplace review"],
 ];
@@ -75,6 +75,8 @@ const CSS = `<style data-kq-err>
 .kq-es span{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .kq-es kbd{flex:none;font:inherit;font-size:14px;line-height:1;padding:5px 9px;border:1px solid #C9D0D8;border-radius:6px;color:#626366;background:#F8F6F1}
 @media (hover:none),(max-width:760px){.kq-es kbd{display:none!important}}
+.kq-es .kq-es-s{display:none}
+@media (max-width:760px){.kq-es .kq-es-l{display:none}.kq-es .kq-es-s{display:inline}}
 .kq-esug{margin-top:28px}
 .kq-esug[hidden]{display:none}
 .kq-esug p{margin:0;font-size:15px;color:#626366}
@@ -150,7 +152,7 @@ const pages = {
       label: "Page not found", crumb: "Page not found", x: "100%",
       h1: "We can’t find that page.",
       lead: "The address may be mistyped, or the page may have moved or been retired. Search the site, or start from one of the pages below.",
-      body: `<button type="button" class="kq-es kq-load" style="--d: 460ms" data-cmdk>${SEARCH_ICON}<span>Search pages, case studies and articles</span><kbd aria-hidden="true">/</kbd></button>` +
+      body: `<button type="button" class="kq-es kq-load" style="--d: 460ms" data-cmdk>${SEARCH_ICON}<span><span class="kq-es-l">Search pages, case studies and articles</span><span class="kq-es-s">Search the site</span></span><kbd aria-hidden="true">/</kbd></button>` +
         `<div class="kq-esug" hidden><p>Were you looking for one of these?</p><ul></ul></div>` +
         `<div class="kq-eh-act kq-load" style="--d: 540ms"><a class="kq-btn" href="/" style="background: #102A4C; color: #F8F6F1; text-decoration: none; padding: 16px 28px; min-height: 52px; font-size: 18px; box-sizing: border-box; display: inline-flex; align-items: center">Back to the homepage</a><a href="/work">See our work</a></div>` +
         `<p class="kq-eh-note">If a link on our site brought you here, <a data-kq-report href="mailto:contact@kwontified.com?subject=Broken%20link%20on%20kwontified.com">tell us</a> and we will fix it.</p>`,

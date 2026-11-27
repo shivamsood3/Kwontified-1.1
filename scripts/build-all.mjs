@@ -34,6 +34,7 @@ const STEPS = [
   "site-i18n.mjs",
   "site-capchan.mjs --check", //  final checks on the finished pages
   "site-llms.mjs", //            llms.txt and feed.xml from the finished pages; structured-data and description gates
+  "site-bundle.mjs", //          LAST: shared CSS and JS into cached files, script hashes for the CSP (site-csp.json)
 ];
 
 if (process.argv.includes("--list")) {

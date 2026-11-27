@@ -239,6 +239,7 @@ fs.writeFileSync(PAGE, html);
 // for the <title>; its H1, og:title and structured data keep the full headline.
 {
   const CLOSE_P = "Tell us where you sell and what you want to grow. A member of our team will reply within one business day.";
+  const REPLY = "A member of our team will reply within one business day to suggest times for a discovery call; your written first read follows the call.";
   const entries = {};
   for (const f of ["Post", "PostNews", "PostPressRelease"]) {
     const tpl = fs.readFileSync(path.join(ROOT, "site-src/pages", `${f}.html`), "utf8");
@@ -261,7 +262,11 @@ fs.writeFileSync(PAGE, html);
     if (m[1] !== "PostPressRelease") {
       const n = h.split(CLOSE_P).length - 1;
       if (n !== 1) fail(`${r.route}: expected the closing band sentence once, found ${n}`);
-      if (e.closep) { h = h.replace(CLOSE_P, () => e.closep); q4++; }
+      // one reply-time promise site-wide (the same sentence as the core pages' closing bands)
+      const close = (e.closep || CLOSE_P).replace(/ A member of our team will reply within one business day\.$/, () => " " + REPLY);
+      if (close === (e.closep || CLOSE_P)) fail(`${r.route}: the closing band sentence no longer ends with the reply-time promise`);
+      h = h.replace(CLOSE_P, () => close);
+      if (e.closep) q4++;
       banded++;
     }
     if (e.seo_title) {

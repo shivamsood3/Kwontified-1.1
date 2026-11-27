@@ -49,7 +49,7 @@ Medium:
 - Every page: one H1, no skipped heading levels, no duplicate IDs, `lang`, viewport, charset, canonical matching the URL, Open Graph and Twitter tags, no duplicate titles or descriptions.
 - No `noindex` or snippet limits except the client sign-in and two thank-you pages, which are meant to be hidden.
 - Images: every content image has alt text except the Perspectives index cards (empty on purpose, the linked title sits beside them).
-- Homepage video: autoplays muted with `playsinline`, has a 44 px pause button, a text description and is hidden for visitors who prefer reduced motion.
+- Homepage video: muted with `playsinline`, a 44 px pause button on a navy disc and a text description. Since the 2026-11-27 QA fixes its sources are added by script only when the visitor has no reduced-motion preference and Save-Data is off (see `HANDOVER.md`, "Homepage hero").
 - No script errors and no failed requests on 30 template pages at four widths (1440, 768, 375, 320); spacing and gutters consistent across templates.
 - Sitemap: 1,080 URLs, no duplicates, nothing missing, nothing extra.
 
@@ -87,7 +87,7 @@ Medium:
 - **Resolved 2026-11-26:** careers@, legal@, security@ and support@kwontified.com all receive mail (Jordan confirmed); sales@ is no longer used anywhere.
 - **Resolved 2026-11-26, homepage video:** a still frame now shows until the video plays (see HANDOVER.md). The video itself still shows people; it is kept as it is.
 - **Resolved 2026-11-26, Perspectives index:** only the first page of each list is in the HTML (212 KB, down from 1.2 MB); the rest loads on demand. Lighthouse mobile 98 on four runs, TBT 0-10 ms.
-- **Resolved 2026-11-27, security headers:** `X-Content-Type-Options: nosniff` and `Referrer-Policy: strict-origin-when-cross-origin` on every response; Vercel adds HSTS.
+- **Resolved 2026-11-27, security headers:** `nosniff`, `Referrer-Policy`, `X-Frame-Options: DENY`, `Permissions-Policy` and HSTS on every response; a Content-Security-Policy is sent **report-only** (owner review of the Tag Manager container first). Current state and how to enforce it: `HANDOVER.md`, "Security headers".
 - **26 template images without width and height attributes:** no measured layout shift (CLS 0), so no action needed.
 - **Audit storage:** rows were not added to `seo_geo_ops` because this was a pre-launch local audit; the first live-site audit should be the baseline.
 

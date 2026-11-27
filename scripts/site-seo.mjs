@@ -111,90 +111,8 @@ const SHORT_TITLES = {
   "Why Brands Choose Kwontified": "Why Brands Choose Kwontified | One Team, Every Channel",
   "Creative Gallery": "Creative Gallery | Marketplace Creative by Kwontified",
   "Page not found": "Page Not Found (404) | Kwontified",
-  // case studies over 65 characters (WS5's casePage title rule supersedes these when merged)
-  "Instagram-referred revenue up 45% after rebuilding its catalog and tags.": "Instagram-referred revenue up 45% after a catalog rebuild",
-  "Margin nearly doubled by choosing listing types product by product.": "Margin nearly doubled by choosing listing types per product",
-  // articles, news and press releases whose headline is over 65 characters
-  "Amazon dynamic bidding up and down overpays on your own brand’s searches": "Amazon dynamic bidding overpays on your own brand searches",
-  "Amazon’s 2019 fee changes move every product’s advertising ceiling": "Amazon’s 2019 fee changes move your advertising ceiling",
-  "Amazon home and kitchen in 2018 sells the sofa without the showroom": "Amazon home in 2018 sells the sofa without the showroom",
-  "Shoppers trust the Amazon Prime badge because Amazon keeps the promise": "Why shoppers trust the Amazon Prime badge",
-  "Mercado Libre earns buyer trust by owning the payment and the parcel": "Mercado Libre earns trust by owning payment and parcel",
-  "Amazon Accelerate 2020: Brand Follow, repeat-purchase data and $100 million to promote small sellers": "Accelerate 2020: Brand Follow and $100M for small sellers",
-  "Amazon Accelerate 2022: email for brands and new ways to test listings": "Amazon Accelerate 2022: brand email and listing tests",
-  "Amazon bars sellers from using FedEx Ground for Prime orders through the holidays": "Amazon bars FedEx Ground for Prime orders over the holidays",
-  "Amazon confirms its October Prime event: Prime Early Access Sale, October 11–12": "Amazon confirms Prime Early Access Sale for October 11–12",
-  "Amazon cuts referral fees on low-priced items and raises most FBA fees, effective February 19": "Amazon cuts low-price referral fees, raises most FBA fees",
-  "Amazon details 2024 fee changes, including a low-inventory-level fee": "Amazon details 2024 fees, including a low-inventory fee",
-  "Amazon halts weekly orders to smaller vendors and points them to Seller Central": "Amazon halts weekly orders to smaller vendors",
-  "Amazon held its first ad conference for brands, AdCon 2019, in Seattle": "Amazon held its first brand ad conference, AdCon 2019",
-  "Amazon introduces Rufus, a generative AI shopping assistant, in beta": "Amazon introduces Rufus, an AI shopping assistant, in beta",
-  "Amazon launches Project Zero, letting brands remove counterfeit listings themselves": "Amazon’s Project Zero lets brands remove counterfeits",
-  "Amazon limits FBA inbound shipments to household staples, medical supplies and other high-demand products until April 5": "Amazon limits FBA inbound to essentials until April 5",
-  "Amazon opens registration for Accelerate 2021, its virtual seller conference on October 20 and 21": "Amazon Accelerate 2021 registration opens: October 20–21",
-  "Amazon opens registration for Accelerate 2022, its seller conference": "Amazon opens registration for Accelerate 2022",
-  "Amazon raises clothing and handbag referral fees as FBA fees rise on February 22": "Amazon raises clothing and handbag fees as FBA fees rise",
-  "Amazon raises FBA fees about 3% and cuts some referral fees, effective February 18": "Amazon raises FBA fees about 3%, cuts some referral fees",
-  "Amazon raises the US Prime fee and reports advertising revenue as its own line": "Amazon raises US Prime fee and reports ad revenue separately",
-  "Amazon releases a local MCP package for Selling Partner API developers": "Amazon releases a local MCP package for SP-API developers",
-  "Amazon sets Black Friday Deals Week for November 20 to 27, weeks after Walmart and Target opened theirs": "Amazon sets Black Friday Deals Week for November 20 to 27",
-  "Amazon sets Black Friday Deals Week for November 22 to 29, with Cyber Monday deals on December 2": "Amazon sets Black Friday Deals Week for November 22 to 29",
-  "Amazon sets Black Friday Week and Cyber Monday for November 20 to December 1": "Amazon sets Black Friday Week for November 20 to December 1",
-  "Amazon sets Prime Big Deal Days for October 6–7, and Target matches the dates": "Amazon sets Prime Big Deal Days for October 6–7",
-  "Amazon sets Prime Day 2018 for July 16, a 36-hour event in 17 countries": "Amazon sets Prime Day 2018 for July 16, a 36-hour event",
-  "Amazon sets Prime Day 2019 for July 15 and 16, its first 48-hour event": "Amazon sets Prime Day 2019 for July 15 and 16",
-  "Amazon sets Prime Day 2020 for October 13-14, with a $10 credit for buying from small businesses first": "Amazon sets Prime Day 2020 for October 13-14",
-  "Amazon sets Prime Day 2025 for July 8 to 11, its first four-day event": "Amazon sets Prime Day 2025 for July 8 to 11",
-  "Amazon starts its Black Friday deals on November 16, a week before Black Friday": "Amazon starts its Black Friday deals on November 16",
-  "Amazon unifies AMS, AMG and AAP as Amazon Advertising; Headline Search Ads become Sponsored Brands": "AMS, AMG and AAP become Amazon Advertising",
-  "Amazon will let more non-essential products into FBA this week, in capped quantities": "Amazon lets more non-essential products into FBA, capped",
-  "Amazon’s first-quarter sales rise 44% as it moves Prime Day into the second quarter": "Amazon Q1 sales up 44% as Prime Day moves into Q2",
-  "Amazon’s second AdCon ran online and steered brands toward streaming TV and video ads": "Amazon’s second AdCon steers brands toward streaming TV",
-  "Andy Jassy becomes Amazon’s chief executive as Jeff Bezos moves to executive chair": "Andy Jassy becomes Amazon’s chief executive",
-  "Cyber Week 2019 early read: Thanksgiving and Black Friday set online records but land just under Adobe’s forecast": "Cyber Week 2019 early read: records, just under forecast",
-  "De minimis duty-free treatment ends for all countries on August 29": "De minimis duty-free treatment ends for all countries",
-  "Duty-free treatment ends for low-value goods from China and Hong Kong": "Duty-free ends for low-value goods from China and Hong Kong",
-  "Early read: Black Friday 2021 online sales slip as the season spreads out": "Early read: Black Friday 2021 online sales slip",
-  "Early read, Cyber Week 2018: Black Friday online sales rose 23.6% to $6.22 billion (preliminary)": "Cyber Week 2018 early read: Black Friday up 23.6% online",
-  "Early read: Cyber Week 2020 sets online records on Thanksgiving and Black Friday, below Adobe’s October forecast (preliminary)": "Early read: Cyber Week 2020 sets online records",
-  "Early read: Cyber Week 2022 from public sources, labeled preliminary": "Early read: Cyber Week 2022 from public sources",
-  "Early read: Cyber Week 2024 online sales rose 8%, led by Black Friday": "Early read: Cyber Week 2024 online sales rose 8%",
-  "Early read on Prime Day 2022: shoppers spent more per order, and hunted for value": "Prime Day 2022 early read: bigger orders, more value hunting",
-  "Early read: Prime Big Deal Days 2024 set an October record, details thin": "Early read: Prime Big Deal Days 2024 set an October record",
-  "Early read: Prime Day 2020 ends with panel data only and Amazon’s tally still to come (preliminary)": "Early read: Prime Day 2020 ends with panel data only",
-  "Early read: Prime Day 2021 set a record for third-party sellers, with no total disclosed": "Early read: Prime Day 2021 record for third-party sellers",
-  "Early read: Prime Day 2024 drew $14.2 billion online, preliminary data shows": "Early read: Prime Day 2024 drew $14.2 billion online",
-  "Early read: Prime Early Access Sale 2022, from public sources (preliminary)": "Early read: Prime Early Access Sale 2022",
-  "Facebook launches Shops, one free storefront across Facebook and Instagram": "Facebook launches Shops for Facebook and Instagram",
-  "GDPR takes effect across the EU, with fines up to 4% of global turnover": "GDPR takes effect, with fines up to 4% of global turnover",
-  "Google delays the end of third-party cookies in Chrome to late 2023": "Google delays Chrome’s cookie phase-out to late 2023",
-  "Google launches Shopping Actions, a shared cart for retailers across Search and Assistant": "Google launches Shopping Actions, a shared retail cart",
-  "INFORM Consumers Act signed into law; marketplace seller rules take effect in June 2023": "INFORM Consumers Act signed; seller rules start June 2023",
-  "Instagram adds shopping to Stories, starting with Adidas, Aritzia and Louis Vuitton": "Instagram adds shopping to Stories",
-  "Instagram launches Checkout, letting US shoppers buy from 20-plus brands in the app": "Instagram launches Checkout with 20-plus brands",
-  "Instagram opens a Shop in Explore, with in-app checkout through Facebook Pay": "Instagram opens a Shop in Explore with in-app checkout",
-  "Instagram opens shoppable posts to businesses in eight more countries": "Instagram opens shoppable posts in eight more countries",
-  "Jeff Bezos to hand Amazon’s CEO role to Andy Jassy in the third quarter": "Jeff Bezos to hand Amazon’s CEO role to Andy Jassy",
-  "OpenAI adds Instant Checkout to ChatGPT and opens its commerce protocol": "OpenAI adds Instant Checkout to ChatGPT",
-  "OpenAI releases ChatGPT, a conversational AI model, as a free preview": "OpenAI releases ChatGPT as a free preview",
-  "Prime Day 2018, early read: sales ran ahead of 2017 after a broken first hour": "Prime Day 2018 early read: sales ran ahead of 2017",
-  "Supreme Court lets states require out-of-state online sellers to collect sales tax": "Supreme Court lets states make online sellers collect tax",
-  "Temu runs its first Super Bowl ad, five months after launching in the U.S.": "Temu runs its first Super Bowl ad",
-  "US 15% tariffs on $112 billion of Chinese imports, including most clothing, take effect": "15% US tariffs on $112B of Chinese imports take effect",
-  "US announces broad new tariffs on imports from nearly every country": "US announces broad new tariffs on nearly every country",
-  "Walmart Connect sets 2024 plans: auction display, self-serve access, new advertisers": "Walmart Connect 2024 plans: auction display and self-serve",
-  "Walmart launches Walmart+ on September 15: free same-day delivery from stores for $98 a year": "Walmart launches Walmart+ on September 15 at $98 a year",
-  "Walmart opens its marketplace to Shopify merchants and expects 1,200 to join this year": "Walmart opens its marketplace to Shopify merchants",
-  "Walmart partners with OpenAI to sell through ChatGPT Instant Checkout": "Walmart partners with OpenAI on ChatGPT Instant Checkout",
-  "Walmart renames its ad business Walmart Connect and plans a DSP with The Trade Desk": "Walmart renames its ad business Walmart Connect",
-  "Kwontified launches Perspectives and the Kwontified Briefing newsletter": "Kwontified launches Perspectives and the Kwontified Briefing",
-  "Kwontified managing partners Elaine Kwon and Jordan Taylor to attend Amazon Accelerate 2023 in Seattle": "Kwontified to attend Amazon Accelerate 2023 in Seattle",
-  "Kwontified managing partners Elaine Kwon and Jordan Taylor to attend Amazon Accelerate 2024 in Seattle": "Kwontified to attend Amazon Accelerate 2024 in Seattle",
-  "Kwontified managing partners Elaine Kwon and Jordan Taylor to attend Amazon Accelerate 2025 in Seattle": "Kwontified to attend Amazon Accelerate 2025 in Seattle",
-  "Kwontified managing partners Elaine Kwon and Jordan Taylor to attend Amazon Ads unBoxed 2023 in New York": "Kwontified to attend Amazon Ads unBoxed 2023 in New York",
-  "Kwontified managing partners Elaine Kwon and Jordan Taylor to attend Amazon Ads unBoxed 2024 in Austin": "Kwontified to attend Amazon Ads unBoxed 2024 in Austin",
-  "Kwontified managing partners Elaine Kwon and Jordan Taylor to attend Amazon Ads unBoxed 2025 in Nashville": "Kwontified to attend Amazon Ads unBoxed 2025 in Nashville",
-  "Kwontified partners Elaine Kwon and Jordan Taylor to attend NRF 2018: Retail’s Big Show": "Kwontified to attend NRF 2018: Retail’s Big Show",
+  // a page whose own title is over 65 characters (a long case study or article headline) gets
+  // an entry here; the length check below names any such page
 };
 
 // The files a core page's content comes from, beyond its own source page (site-routes.json
@@ -543,6 +461,18 @@ for (const r of routes) {
 // the index changes whenever a piece is published
 const newest = Object.entries(lastmod).filter(([r]) => r.startsWith("/perspectives/")).map(([, d]) => d).sort().pop();
 if (newest) { lastmod["/perspectives"] = newest; counts.core++; }
+// the archive hubs (site-archive.mjs) change when a piece they list is published: the newest
+// news item, press release or piece of that year
+{
+  const pieces = Object.entries(lastmod).filter(([r]) => /^\/perspectives\/./.test(r) && !routes.some((x) => x.route === r && /archive hub/.test(x.source || "")));
+  const newestOf = (test) => pieces.filter(test).map(([, d]) => d).sort().pop();
+  for (const r of routes.filter((x) => /archive hub/.test(x.source || ""))) {
+    const y = /^\/perspectives\/(\d{4})$/.exec(r.route);
+    const d = y ? newestOf(([, d]) => d.startsWith(y[1])) : r.route === "/perspectives/news" ? newestOf(([p]) => p.startsWith("/perspectives/news/")) : r.route === "/perspectives/press-releases" ? newestOf(([p]) => p.startsWith("/perspectives/press-releases/")) : null;
+    if (!d) fail(`${r.route}: an archive hub with no dated piece to take its date from`);
+    lastmod[r.route] = d; counts.core++;
+  }
+}
 
 // error pages are not routes, but have titles too
 for (const f of ["404.html", "403.html"]) {

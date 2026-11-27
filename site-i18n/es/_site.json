@@ -413,9 +413,9 @@
    "t": "Revise la dirección de correo. Debe tener la forma nombre@empresa.com."
   },
   {
-   "k": "ab90d9d736",
-   "src": "This field is required.",
-   "t": "Este campo es obligatorio."
+   "k": "dab410f1c5",
+   "src": "Fill in “{f}”.",
+   "t": "Complete «{f}»."
   },
   {
    "k": "c020d2b492",

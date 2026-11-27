@@ -198,7 +198,7 @@ for (const l of LINES) {
 
 // ---------- diagrams: a phone layout in HTML (Channels hub, data flow); Agentic illustration in HTML
 {
-  const f = "channels.html", label = "Diagram: one plan at the centre, connected to ten channels: Amazon, Walmart, Target Plus, Temu, International, Zalando, Mercado Libre, TikTok Shop, Instagram Shop and Amazon brand programs";
+  const f = "channels.html", label = "Diagram: one plan at the center, connected to ten channels: Amazon, Walmart, Target Plus, Temu, International, Zalando, Mercado Libre, TikTok Shop, Instagram Shop and Amazon brand programs";
   let h = page(f);
   const { s, e, svg } = findSvg(h, f, label);
   const items = [...svg.matchAll(/(<svg x="[^"]*" y="[^"]*" width="28" height="28" (viewBox="0 0 24 24"[^>]*)>([\s\S]*?)<\/svg>)<text\b[^>]*>([^<]*)<\/text>/g)].map((m) => ({ icon: `<svg width="22" height="22" ${m[2]} aria-hidden="true">${m[3]}</svg>`, name: dec(m[4]) }));
@@ -245,7 +245,7 @@ for (const l of LINES) {
 const MAPS = [
   { file: "channels--amazon.html", mode: "groups", key: [["kq-mk-on", "Chosen marketplace"], ["kq-mk-in", "Other Amazon marketplaces"]] },
   { file: "channels--international.html", mode: "countries", key: [["kq-mk-on", "Chosen channel or country"], ["kq-mk-in", "Other channels in this list"], ["kq-mk-home", "United States"]],
-    note: ["The United States, where most of our brands start, is shown in grey.", "The United States, where most of our brands start, is outlined in grey."] },
+    note: ["The United States, where most of our brands start, is shown in grey.", "The United States, where most of our brands start, is outlined in gray."] },
 ];
 let notes = 0;
 for (const m of MAPS) {

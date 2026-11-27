@@ -167,6 +167,8 @@ const WCSS = `<style data-kq-filters>
 .kq-fpanel .kq-fchips button[aria-disabled="true"]::before{opacity:.45}
 .kq-fpills button{min-height:36px}
 .kq-fsent{height:1px;margin-bottom:-1px}
+/* the search field fills its bar, so the whole bar (52-56px) is the tap target */
+.kq-fsearch input{align-self:stretch;min-height:44px}
 @media (max-width:760px) and (min-height:501px){
 .kq-wf.is-live .kq-fctl{position:sticky;top:var(--kq-hh,64px);z-index:15}
 }
@@ -186,6 +188,8 @@ pills=wf.querySelector('.kq-fpills'),dds=[].slice.call(wf.querySelectorAll('.kq-
 ctls=[].slice.call(d.querySelectorAll('[data-pg-for="work-grid"]')),F=['ch','ind','cap'],AT={ch:'data-ch',ind:'data-ind',cap:'data-cap'},N={ch:'Channel',ind:'Industry',cap:'Capability'},H={ch:'channel',ind:'industry',cap:'capability'},
 OLD={tiktok:'social',instagram:'social','tiktok-shop':'social','instagram-shop':'social',international:'intl','target-plus':'target'},SIZE=+grid.getAttribute('data-pg-size')||12,
 st={ch:[],ind:[],cap:[],q:''},shown=cards.slice(),page=0,mine='';
+/* phones: a prompt short enough to show in full */
+if(q){var ph=q.getAttribute('placeholder'),mq=w.matchMedia&&w.matchMedia('(max-width: 760px)'),fit=function(){q.setAttribute('placeholder',mq&&mq.matches?'Search case studies':ph);};fit();if(mq&&mq.addEventListener)mq.addEventListener('change',fit);}
 function vals(c,f){return (c.getAttribute(AT[f])||'').split(/\\s+/);}
 function hit(c,s,skip){for(var i=0;i<3;i++){var f=F[i],v=s[f];if(f!==skip&&v.length&&!v.some(function(x){return vals(c,f).indexOf(x)>=0;}))return false;}return !s.q||c.getAttribute('data-text').indexOf(s.q)>=0;}
 function lab(f,v){var b=wf.querySelector('.kq-fchips button[data-f="'+f+'"][data-v="'+v+'"]');return b?b.getAttribute('data-l'):v;}
