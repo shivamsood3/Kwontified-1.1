@@ -10,11 +10,12 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 4 | Will you sign an NDA before we share account data? | Contact | Live 2026-11-27 |
 | 5 | How long does onboarding take? | Home, Why Kwontified, Capabilities | Omitted by Jordan 2026-11-27 (was live briefly, removed) |
 | 6 | Is there a minimum contract length, and how do we end an engagement? | Why Kwontified, Capabilities | Omitted by Jordan 2026-11-27 |
-| 7 | Can you take over from our current agency or in-house team partway through the year? | Why Kwontified, Capabilities | Sent for approval |
-| 8 | Do you work with brands that compete with us? | Why Kwontified | Sent for approval |
-| 9 | Do you manage our brand website and stores, or only plan around them? | Home, Channels, Why Kwontified | Sent for approval |
-| 10 | Do you manage channels that are not listed here, such as eBay or Wayfair? | Channels | Sent for approval |
-| 11–33, fixes 1–2 | See the workbook | | Not yet sent |
+| 7 | Can you take over from our current agency or in-house team partway through the year? | Why Kwontified, Capabilities | Live 2026-11-27 |
+| 8 | Do you work with brands that compete with us? | Why Kwontified | Omitted by Jordan 2026-11-27 |
+| 9 | Do you manage our brand website and stores, or only plan around them? | Home, Channels, Why Kwontified | Omitted by Jordan 2026-11-27 |
+| 10 | Do you manage channels that are not listed here, such as eBay or Wayfair? | Channels | Live 2026-11-27 ("In some cases", no other channels named) |
+| 11–15 | Client portal; results on Walmart, Target Plus, Zalando, Temu | | Sent for approval (batch 3) |
+| 16–33, fixes 1–2 | See the workbook | | Not yet sent |
 
 Notes
 - The Contact page had no FAQ; a "Questions executives ask" section and FAQPage block were added for entries 1 to 4.
