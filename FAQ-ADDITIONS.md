@@ -24,8 +24,13 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 18 | What results have you delivered on Mercado Libre? | Mercado Libre (first entry) | Live 2026-11-27 |
 | 19 | What results have brand programs delivered? | Amazon brand programs (first entry) | Live 2026-11-27 |
 | 20 | What results have you delivered in agentic commerce? | Agentic Commerce (first entry) | Live 2026-11-27 |
-| 21–25 | Results for Creative Studio, Marketplace Operations, Analytics; recovery fees; recovery on Walmart or Target | | Sent for approval (batch 5) |
-| 26–33, fix 1 | See the workbook | | Not yet sent |
+| 21 | What results has creative work delivered? | Creative Studio (first entry) | Live 2026-11-27 |
+| 22 | What results have you delivered in marketplace operations? | Marketplace Operations (first entry) | Live 2026-11-27 |
+| 23 | What results have forecasting and analytics delivered? | Analytics and Forecasting (first entry) | Live 2026-11-27 |
+| 24 | What does revenue recovery cost? | Revenue Recovery | Omitted by Jordan 2026-11-27 |
+| 25 | Do you recover claims on Walmart or Target? | Revenue Recovery (after "What do you recover?") | Live 2026-11-27 |
+| 26–30 | Brand protection; creative ownership; agency or software; Amazon partner status; remote roles | | Sent for approval (batch 6) |
+| 31–33, fix 1 | See the workbook | | Not yet sent |
 
 Notes
 - Results questions on channel pages go first and open by default, with a "See the case studies" link, as on the Amazon page.
