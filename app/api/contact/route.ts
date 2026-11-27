@@ -142,7 +142,7 @@ export async function POST(req: Request) {
   if (emailed && process.env.CONTACT_CONFIRMATION !== "off") {
     const lines = [
       "Thank you for your request. It has reached us.",
-      "A managing partner will read it, and we will reply within one business day to suggest times for a discovery call. On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take.",
+      "A senior team member will read it, and we will reply within one business day to suggest times for a discovery call. On the call we ask about your channels, your goals and your constraints. Afterwards we send a short written note on where we see the growth and what it would take.",
       "If something changes before we speak, reply to this email.",
       "Kwontified\n7000 Central Parkway, Suite 1100, Atlanta, GA 30328\n404.873.9148",
       "You are receiving this because this address was entered in the review request form on kwontified.com. If that was not you, ignore this email and we will not write again.",

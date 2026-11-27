@@ -19,7 +19,7 @@
 //   - Answers from the home page case finder (/contact#ch=wm&rev=m) are carried into the form,
 //     and the page the visitor came from is sent with the request.
 //   - Other routes: email and phone, press, careers, existing clients, and the three offices.
-//   - Copy: "A managing partner reads every request." (Jordan's choice of wording.) No booking
+//   - Copy: "A senior team member reads every request." (Jordan, 2026-11-27: say "team member" across the site, "a senior team member" where seniority is the point; never "a managing partner".) No booking
 //     link yet (to be added later).
 //
 // The words a script shows are in the page's markup (hidden until needed), not in the script,
@@ -105,11 +105,11 @@ ${field("rev", "Annual e-commerce revenue", `<select id="rev" name="revenue"><op
 </form>`;
 
 const TOP = `<section class="kq-ct" aria-label="Introduction" style="padding: 24px clamp(20px, 4.4vw, 64px) clamp(56px, 6vw, 88px); background: #102A4C; color: #F8F6F1"><div class="kq-ct-grid">
-<div class="kq-ct-intro"><nav aria-label="Breadcrumb" style="font-size: 15px; color: #C9D4DF; margin-bottom: clamp(24px, 3vw, 44px)"><a href="/" style="color: #C9D4DF">Home</a> / <span aria-current="page">Request a marketplace review</span></nav><div aria-hidden="true" style="width: 56px; height: 3px; background: #DCBF85; margin-bottom: 24px"></div><h1 id="page-title" style="margin: 0; font-weight: 400; font-size: clamp(36px, 3.6vw, 52px); line-height: 1.06; letter-spacing: -0.025em; max-width: 11em; color: #F8F6F1">Request a marketplace review.</h1><p class="kq-ct-lede">Tell us where you sell and what you want to grow. A managing partner reads every request.</p>
+<div class="kq-ct-intro"><nav aria-label="Breadcrumb" style="font-size: 15px; color: #C9D4DF; margin-bottom: clamp(24px, 3vw, 44px)"><a href="/" style="color: #C9D4DF">Home</a> / <span aria-current="page">Request a marketplace review</span></nav><div aria-hidden="true" style="width: 56px; height: 3px; background: #DCBF85; margin-bottom: 24px"></div><h1 id="page-title" style="margin: 0; font-weight: 400; font-size: clamp(36px, 3.6vw, 52px); line-height: 1.06; letter-spacing: -0.025em; max-width: 11em; color: #F8F6F1">Request a marketplace review.</h1><p class="kq-ct-lede">Tell us where you sell and what you want to grow. A senior team member reads every request.</p>
 <ul class="kq-ct-sure"><li>${TICK}<span>We reply within one business day.</span></li><li>${TICK}<span>The review is free and carries no obligation.</span></li><li>${TICK}<span>We sign a mutual NDA before reviewing any account data.</span></li></ul></div>
 ${FORM}
 <aside class="kq-ct-next" aria-labelledby="next-title"><h2 id="next-title">What happens next</h2><ol>
-<li><span aria-hidden="true">01</span><div><h3>We reply within one business day</h3><p>A managing partner reads your request, and we suggest times.</p></div></li>
+<li><span aria-hidden="true">01</span><div><h3>We reply within one business day</h3><p>A senior team member reads your request, and we suggest times.</p></div></li>
 <li><span aria-hidden="true">02</span><div><h3>A discovery call</h3><p>We ask about your channels, goals and constraints.</p></div></li>
 <li><span aria-hidden="true">03</span><div><h3>A written first read</h3><p>A short note on where we see the growth and what it would take.</p></div></li></ol>
 </aside>
@@ -233,7 +233,7 @@ h = h.slice(0, a) + TOP + h.slice(b);
 // the first question's answer, on the page and in the export's own copy of it for search engines
 const Q1 = "We reply within one business day to suggest times for a discovery call. On the call";
 if (h.split(Q1).length !== 3) fail(`the first question's answer: expected twice (page and structured data), found ${h.split(Q1).length - 1}`);
-h = h.split(Q1).join("A managing partner reads your request, and we reply within one business day to suggest times for a discovery call. On the call");
+h = h.split(Q1).join("A senior team member reads your request, and we reply within one business day to suggest times for a discovery call. On the call");
 h = once(h, "</head>", CSS + "</head>", "</head>");
 h = h.replace(/<\/body>(?![\s\S]*<\/body>)/, () => JS + "</body>");
 if (!h.includes("window.kqContact(f)")) fail("the form hook from build-site.mjs does not call window.kqContact");
@@ -244,7 +244,7 @@ fs.writeFileSync(FILE, h);
 // conversion signal for Google Tag Manager (only ever read by tags the visitor consented to) ----
 const TY = path.join(DIR, "contact--thank-you.html");
 let t = fs.readFileSync(TY, "utf8");
-t = once(t, "Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.</p>", 'Your request has reached us. A managing partner will read it, and we will reply within one business day to suggest times for a discovery call.</p><p data-kq-confirm hidden style="margin: 16px 0 0">We have sent a confirmation to your inbox.</p>', "the Thank-you page's first paragraph");
+t = once(t, "Your request has reached us. A member of our team will read it and reply within one business day to suggest times for a discovery call.</p>", 'Your request has reached us. A senior team member will read it, and we will reply within one business day to suggest times for a discovery call.</p><p data-kq-confirm hidden style="margin: 16px 0 0">We have sent a confirmation to your inbox.</p>', "the Thank-you page's first paragraph");
 t = t.replace(/<\/body>(?![\s\S]*<\/body>)/, () => `<script>/* Thank-you page (scripts/site-contact.mjs) */
 (function(){var p=document.querySelector('[data-kq-confirm]');if(p&&/[?&]c=1/.test(location.search))p.hidden=false;
 try{if(sessionStorage.getItem('kq-lead')){sessionStorage.removeItem('kq-lead');(window.dataLayer=window.dataLayer||[]).push({event:'generate_lead',form_id:'contact'});}}catch(_){}})();</script></body>`);
