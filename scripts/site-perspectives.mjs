@@ -42,8 +42,6 @@ const once = (s, from, to, what) => { if (s.split(from).length !== 2) fail(`${wh
 
 
 const KEEP = { "latest-grid": 9, "news-list": 12 };
-// card images sit in a grid of about 400 px columns, full width on phones
-const CARD_SIZES = "(max-width: 760px) calc(100vw - 48px), 420px";
 
 // The items of one list: a contiguous run of <tag ... data-pg-item ...>...</tag> after id="<id>".
 function split(id, tag, endMarker) {
@@ -65,9 +63,8 @@ function split(id, tag, endMarker) {
 
 const articles = split("latest-grid", "article", 'data-ptype="News"');
 const news = split("news-list", "li", "</ul>");
-const cards = (list) => list.map((a) => a.replace(/ sizes="100vw"/, () => ` sizes="${CARD_SIZES}"`));
-html = html.replace(/(<article\b[^>]*data-pg-item[\s\S]*?<\/article>)/g, (a) => cards([a])[0]);
-const data = { "latest-grid": cards(articles.moved), "news-list": news.moved };
+// card image sizes come from site-images.mjs (step 14), which runs before this step
+const data = { "latest-grid": articles.moved, "news-list": news.moved };
 for (const list of Object.values(data)) for (const item of list) if (/<img\b(?![^>]*loading="lazy")/.test(item)) fail("a moved card image is not lazy-loaded");
 
 // Every item on the index must open its page from anywhere on the card or row: picture, title,

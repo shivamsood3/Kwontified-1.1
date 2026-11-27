@@ -207,6 +207,7 @@ for (const r of indexable) {
   else if (listed.get(r.route) !== meta(page.get(r.route), "name", "description")) bad(`llms.txt description for ${r.route} differs from the page`);
 }
 for (const r of listed.keys()) if (!indexable.some((x) => x.route === r)) bad(`llms.txt lists ${r}, which is not an indexable page`);
+if (/Corey Brown|Priyanka|Dennis Wong/.test(out)) bad("llms.txt names a person removed from the press releases");
 if (/\beight marketplaces\b/i.test(out)) bad('llms.txt says "eight marketplaces"; the owner\'s wording is "eight channels: six marketplaces and two social commerce channels"');
 
 // ---------------------------------------------------------------- 2. feed.xml

@@ -249,13 +249,6 @@ const routesFile = path.join(ROOT, "site-routes.json");
 let routes = JSON.parse(fs.readFileSync(routesFile, "utf8")).map((r) => (MOVED[r.route] ? { ...r, route: MOVED[r.route], file: "/_kq/" + MOVED[r.route].slice(1).replace(/\//g, "--") + ".html" } : r));
 routes = routes.filter((r) => !newRoutes.some((n) => n.route === r.route)).concat(newRoutes).sort((a, b) => a.route.localeCompare(b.route));
 fs.writeFileSync(routesFile, JSON.stringify(routes, null, 2) + "\n");
-{
-  const llms = path.join(ROOT, "public/llms.txt");
-  let t = fs.readFileSync(llms, "utf8");
-  for (const [a, b] of Object.entries(MOVED)) t = t.split(a).join(b);
-  fs.writeFileSync(llms, t.replace(/Kwontified’s [^\]]*? to attend (Amazon [^\]]*)\]/g, "Kwontified to attend $1]").replace(/: Kwontified’s [^\n]*? to attend (Amazon [^\n]*)/g, ": Kwontified to attend $1"));
-  if (/Corey Brown|Priyanka/.test(fs.readFileSync(llms, "utf8"))) fail("llms.txt still names a removed person");
-}
 const known = new Set(routes.map((r) => r.route));
 const bad = [];
 for (const r of routes) for (const m of fs.readFileSync(path.join(ROOT, "public", r.file), "utf8").matchAll(/href=\\?"(\/[a-z0-9\-/]*)(#[^"\\]*)?\\?"/g))
