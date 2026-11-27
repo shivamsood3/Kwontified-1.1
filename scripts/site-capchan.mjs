@@ -231,7 +231,7 @@ const CSS = `<style data-kq-capchan>
 .kq-cc-rq{flex:1 1 320px;min-width:0}
 .kq-cc-svc{margin:0 0 8px;font-size:15px;line-height:1.4;color:#626366}
 .kq-cc-row h3{margin:0;font-weight:500;font-size:22px;line-height:1.3}
-.kq-cc-ra{flex:999 1 480px;min-width:0;margin:0;max-width:40em}
+.kq-cc-ra{flex:999 1 480px;min-width:0;margin:0;max-width:34em}
 .kq-cc-more{margin:24px 0 0;max-width:40em;font-size:18px;line-height:1.5}
 .kq-cc-more a{color:#102A4C}
 /* the capability cards on a channel page read as cards on every channel, not only some */

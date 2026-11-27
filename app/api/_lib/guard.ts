@@ -23,13 +23,18 @@ export const HONEYPOT = "contact_me_by_fax_only";
 export const MAX_KEYS = 30;
 const MIN_MS = 2000;
 
-/** True when the request came from another site's page. */
+/**
+ * True when the request did not come from one of this site's pages. Browsers send Origin with
+ * every POST (form or script), so a request with neither Origin nor a same-site Referer is a script
+ * calling the endpoint directly and is refused too (QA engineering-r2-04).
+ */
 export function crossSite(req: Request) {
-  const origin = req.headers.get("origin");
   const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "";
-  if (!origin || !host) return false;
+  if (!host) return false;
+  const from = req.headers.get("origin") || req.headers.get("referer");
+  if (!from || from === "null") return true;
   try {
-    return new URL(origin).host !== host;
+    return new URL(from).host !== host;
   } catch {
     return true;
   }
