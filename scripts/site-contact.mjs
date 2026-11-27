@@ -74,10 +74,10 @@ const PROOF = [
   ["6.8x", "Omnichannel ROAS for a baby food supplier from Walmart display", "/work/6-8x-omnichannel-roas-from-walmart-display"],
 ];
 for (const r of [...PROOF.map((p) => p[2]), "/about/careers", "/client-sign-in", "/privacy", "/perspectives", "/contact/thank-you"]) if (!routes.has(r)) fail(`${r} is not a page on the site`);
-// the case finder's revenue answers (site-fixes.mjs): its three bands do not line up with the
-// form's five, so only "under $5M" selects an option; the others are carried as words
-const FINDER_REV = [["s", "under $5M in annual marketplace revenue", "Under $5M"], ["m", "$5M to $25M in annual marketplace revenue", ""], ["l", "over $25M in annual marketplace revenue", ""]];
-if (!revenue.includes("Under $5M")) fail('the revenue menu no longer has "Under $5M"');
+// the case finder's revenue answers (site-fixes.mjs): the finder uses the form's bands (all but
+// "Pre-launch"), so every answer selects its option in the revenue menu
+const FINDER_REV = [["s", "Under $5M"], ["m", "$5M to $15M"], ["l", "$15M to $50M"], ["x", "$50M+"]].map(([k, opt]) => [k, `${opt} in annual e-commerce revenue`, opt]);
+for (const [, , opt] of FINDER_REV) if (!revenue.includes(opt)) fail(`the revenue menu no longer has "${opt}", which the case finder carries`);
 
 const field = (id, label, input, extra = "") => `<div class="kq-cf-f"><label for="${id}">${label}</label>${input}${extra}</div>`;
 const check = (name, [value, label]) => `<label class="kq-cf-c"><input type="checkbox" name="${name}" value="${value}">${label}</label>`;
