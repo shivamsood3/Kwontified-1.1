@@ -212,6 +212,7 @@ function note(f,msg){var old=f.parentNode.querySelector('[data-kq-nl-error]');if
 var p=d.createElement('p');p.setAttribute('role','alert');p.setAttribute('data-kq-nl-error','');
 p.style.cssText='margin:10px 0 0;font-size:14px;color:#F8F6F1';p.textContent=msg;f.insertAdjacentElement('afterend',p);}
 var nl=d.querySelectorAll('form[data-kq-form=newsletter]'),now=String(Date.now());
+var st=d.querySelectorAll('.kq-nl-static');for(var j=0;j<st.length;j++)st[j].remove();
 for(var i=0;i<nl.length;i++){var t=nl[i].querySelector('input[name="t"]');if(t)t.value=now;}
 var back=/[?&]nl=(wait|invalid|failed)(?:&|$)/.exec(location.search);if(back&&nl[0])note(nl[0],MSG[back[1]]);
 d.addEventListener('submit',function(e){
@@ -256,7 +257,11 @@ function footerForm(html) {
   if (forms !== 1 || n[0] !== 1 || n[1] !== 1) throw new Error(`footer sign-up form changed in the export (forms ${forms}, opening tag ${n[0]}, email field ${n[1]})`);
   html = html.replace(NL_FORM, () => '<form data-kq-form="newsletter" method="post" action="/api/subscribe" style="');
   html = html.replace(NL_EMAIL, () => `${NL_EMAIL} maxlength="254" pattern="${EMAIL_PATTERN}" title="Check the email address. It should look like name@company.com."`);
-  return html.replace(/(<form data-kq-form="newsletter"[^>]*>[\s\S]*?)(<\/form>)/, (_, body, end) => body + NL_TRAPS + end);
+  // without JavaScript the server sends the visitor back to #nl-<reason>; CSS :target shows the matching
+  // note (QA function-r2-01). The page script removes these and writes its own note instead.
+  const NOTES = [['wait', 'Too many sign-ups from this connection. Please wait a few minutes and try again.'], ['invalid', 'Check the email address. It should look like name@company.com.'], ['failed', 'That didn\u2019t go through. Please try again.']]
+    .map(([k, m]) => `<p id="nl-${k}" class="kq-nl-static" style="margin: 10px 0 0; font-size: 14px; color: #F8F6F1">${m}</p>`).join('');
+  return html.replace(/(<form data-kq-form="newsletter"[^>]*>[\s\S]*?)(<\/form>)/, (_, body, end) => body + NL_TRAPS + end + '<style>.kq-nl-static{display:none}.kq-nl-static:target{display:block}</style>' + NOTES);
 }
 
 function finalize(html) {

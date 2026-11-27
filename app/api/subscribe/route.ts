@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       const from = new URL(req.headers.get("referer") || "");
       if (from.host === new URL(req.url).host && from.pathname.startsWith("/") && !from.pathname.startsWith("/api/")) page = from.pathname;
     } catch {}
-    return `${page}?nl=${reason}#newsletter-email`;
+    return `${page}?nl=${reason}#nl-${reason}`;
   };
   const done = (confirm: boolean) => () => `/subscribe/thank-you${confirm ? "?confirm=1" : ""}`;
 

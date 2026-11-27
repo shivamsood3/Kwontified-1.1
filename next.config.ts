@@ -226,6 +226,9 @@ const nextConfig: NextConfig = {
       // the newsletter press release tells readers to subscribe at kwontified.com/subscribe;
       // the sign-up form is in the footer of every page (temporary, in case a page is added later)
       { source: "/subscribe", destination: "/perspectives#newsletter-email", permanent: false },
+      // a translated preview's bare language address opens its Perspectives index, the only translated
+      // section (temporary: other sections may be translated later; QA function-r2-02)
+      { source: "/:lang(es|fr|ko|zh)", destination: "/:lang/perspectives", permanent: false },
     ];
   },
   async headers() {
