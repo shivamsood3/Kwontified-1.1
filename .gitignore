@@ -44,4 +44,8 @@ next-env.d.ts
 /public/_kq/
 /public/assets/
 /public/llms.txt
+/public/feed.xml
 /site-routes.json
+/site-lastmod.json
+/site-csp.json
+__pycache__/

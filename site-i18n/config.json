@@ -1,0 +1,15 @@
+{
+  "languages": [
+    { "code": "es", "name": "Español", "language": "Idioma", "english": "Spanish", "live": false },
+    { "code": "fr", "name": "Français", "language": "Langue", "english": "French", "live": false },
+    { "code": "ko", "name": "한국어", "language": "언어", "english": "Korean", "live": false },
+    { "code": "zh", "name": "简体中文", "language": "语言", "english": "Chinese (Simplified)", "tag": "zh-Hans", "live": false }
+  ],
+  "keep": [
+    "Kwontified", "Amazon", "Walmart", "Target", "Target Plus", "Roundel", "Walmart Connect", "Zalando", "Mercado Libre", "Temu",
+    "TikTok Shop", "TikTok", "Instagram", "Instagram Shop", "Meta", "Alexa", "Rufus", "ChatGPT", "Claude", "Gemini", "Sparky",
+    "Vendor Central", "Seller Central", "Prime Day", "Prime Big Deal Days", "Buy Box", "A+ Content", "Storefront",
+    "ROAS", "TACoS", "ACoS", "DSP", "LinkedIn", "Substack", "YouTube", "Bluesky", "Threads", "Facebook",
+    "Elaine Kwon", "Jordan Taylor", "Atlanta", "New York", "Seattle"
+  ]
+}

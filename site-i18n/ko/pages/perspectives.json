@@ -1,0 +1,961 @@
+{
+ "lang": "ko",
+ "route": "/perspectives",
+ "segments": [
+  {
+   "k": "2c69137c84",
+   "src": "Perspectives: Marketplace Insights",
+   "t": "Perspectives: 마켓플레이스 인사이트"
+  },
+  {
+   "k": "9986257025",
+   "src": "Articles, news and press releases on running marketplaces for premium brands, by the people doing the work, each dated so you can judge how current it is.",
+   "t": "프리미엄 브랜드의 마켓플레이스 운영을 다룬 아티클, 뉴스, 보도자료입니다. 실무를 직접 수행하는 담당자가 작성하며, 얼마나 최신인지 판단할 수 있도록 날짜를 표기합니다."
+  },
+  {
+   "k": "d25a98fffa",
+   "src": "Four kraft parcels on a stone ledge against a sunlit navy wall, rising in height like a bar chart, with the Kwontified logo",
+   "t": "햇살이 드는 남색 벽 앞 돌 선반 위에 막대그래프처럼 점점 높아지게 놓인 크라프트 소포 네 개와 Kwontified 로고"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "2473e96bc6",
+   "src": "Introduction",
+   "t": "소개"
+  },
+  {
+   "k": "23cf46728d",
+   "src": "A reading room with a wall of bookshelves and a desk holding printed reports, a notebook and coffee",
+   "t": "책장이 한쪽 벽을 채운 열람실과 인쇄된 보고서, 노트, 커피가 놓인 책상"
+  },
+  {
+   "k": "42e3b2e953",
+   "src": "Perspectives",
+   "t": "Perspectives"
+  },
+  {
+   "k": "a393f5a42f",
+   "src": "What we learn running marketplaces for premium brands, written by the people doing the work and dated so you can judge how current each piece is.",
+   "t": "프리미엄 브랜드의 마켓플레이스를 운영하며 얻은 지식을 실무 담당자가 직접 쓰고, 글마다 얼마나 최신인지 판단할 수 있도록 날짜를 표기합니다."
+  },
+  {
+   "k": "d8e3f33c2a",
+   "src": "Here you will find articles on how we run marketplaces, news on platform changes and what they mean for brands, and press releases. Our monthly newsletter, the Kwontified Briefing, goes out by email. Search below, or filter by type, topic, channel, author or month.",
+   "t": "이곳에서는 Kwontified의 마켓플레이스 운영 방식을 다룬 아티클, 플랫폼 변화와 그 변화가 브랜드에 갖는 의미를 전하는 뉴스, 그리고 보도자료를 확인할 수 있습니다. 월간 뉴스레터 Kwontified Briefing은 이메일로 발송됩니다. 아래에서 검색하거나 유형, 주제, 채널, 작성자, 월별로 필터링하십시오."
+  },
+  {
+   "k": "bce0641417",
+   "src": "Search",
+   "t": "검색"
+  },
+  {
+   "k": "8087aa5c63",
+   "src": "Search Perspectives",
+   "t": "Perspectives 검색"
+  },
+  {
+   "k": "d97d1ee339",
+   "src": "Show",
+   "t": "보기"
+  },
+  {
+   "k": "6a72085653",
+   "src": "All",
+   "t": "전체"
+  },
+  {
+   "k": "7c422841b7",
+   "src": "Articles",
+   "t": "아티클"
+  },
+  {
+   "k": "34c808d0a6",
+   "src": "News",
+   "t": "뉴스"
+  },
+  {
+   "k": "cc5ad30c24",
+   "src": "Press releases",
+   "t": "보도자료"
+  },
+  {
+   "k": "7fb0b859f5",
+   "src": "Search by keyword",
+   "t": "키워드로 검색"
+  },
+  {
+   "k": "3deb745651",
+   "src": "Type",
+   "t": "유형"
+  },
+  {
+   "k": "30c8a0fc9c",
+   "src": "All types",
+   "t": "전체 유형"
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "주제"
+  },
+  {
+   "k": "e0631cd8f4",
+   "src": "All topics",
+   "t": "전체 주제"
+  },
+  {
+   "k": "0d4dca1d0a",
+   "src": "Retail media",
+   "t": "리테일 미디어"
+  },
+  {
+   "k": "421627fcb1",
+   "src": "Creative and conversion",
+   "t": "크리에이티브 및 전환"
+  },
+  {
+   "k": "a1fdaa6b2a",
+   "src": "Operations",
+   "t": "운영"
+  },
+  {
+   "k": "f81b631f73",
+   "src": "Agentic commerce",
+   "t": "에이전틱 커머스"
+  },
+  {
+   "k": "e42b669d73",
+   "src": "Event playbooks",
+   "t": "이벤트 플레이북"
+  },
+  {
+   "k": "919145c7b5",
+   "src": "Marketplace strategy",
+   "t": "마켓플레이스 전략"
+  },
+  {
+   "k": "25bc962957",
+   "src": "Analytics",
+   "t": "분석"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "채널"
+  },
+  {
+   "k": "844df142c6",
+   "src": "All channels",
+   "t": "전체 채널"
+  },
+  {
+   "k": "e634562fac",
+   "src": "Amazon Vendor Central",
+   "t": "Amazon Vendor Central"
+  },
+  {
+   "k": "57c7e8db6e",
+   "src": "Multiple channels",
+   "t": "복수 채널"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "작성자"
+  },
+  {
+   "k": "58b0f66211",
+   "src": "All authors",
+   "t": "전체 작성자"
+  },
+  {
+   "k": "082bc378cd",
+   "src": "Month",
+   "t": "월"
+  },
+  {
+   "k": "c44c25d6c3",
+   "src": "Any month",
+   "t": "전체 월"
+  },
+  {
+   "k": "7ceef8e697",
+   "src": "November 2026",
+   "t": "2026년 11월"
+  },
+  {
+   "k": "a02c6f3a71",
+   "src": "October 2026",
+   "t": "2026년 10월"
+  },
+  {
+   "k": "f17bbad3fa",
+   "src": "September 2026",
+   "t": "2026년 9월"
+  },
+  {
+   "k": "bd8aae602b",
+   "src": "August 2026",
+   "t": "2026년 8월"
+  },
+  {
+   "k": "431dacaca6",
+   "src": "July 2026",
+   "t": "2026년 7월"
+  },
+  {
+   "k": "db71b26bfd",
+   "src": "June 2026",
+   "t": "2026년 6월"
+  },
+  {
+   "k": "0050b7ab5c",
+   "src": "May 2026",
+   "t": "2026년 5월"
+  },
+  {
+   "k": "b3ca619935",
+   "src": "April 2026",
+   "t": "2026년 4월"
+  },
+  {
+   "k": "5400eb7941",
+   "src": "March 2026",
+   "t": "2026년 3월"
+  },
+  {
+   "k": "c2ebaba72a",
+   "src": "February 2026",
+   "t": "2026년 2월"
+  },
+  {
+   "k": "46c6ed8d5b",
+   "src": "January 2026",
+   "t": "2026년 1월"
+  },
+  {
+   "k": "e5c6b6e67c",
+   "src": "December 2025",
+   "t": "2025년 12월"
+  },
+  {
+   "k": "07c9a05603",
+   "src": "November 2025",
+   "t": "2025년 11월"
+  },
+  {
+   "k": "09262e48d2",
+   "src": "October 2025",
+   "t": "2025년 10월"
+  },
+  {
+   "k": "a2ef8e7c4d",
+   "src": "September 2025",
+   "t": "2025년 9월"
+  },
+  {
+   "k": "5c052e6e18",
+   "src": "August 2025",
+   "t": "2025년 8월"
+  },
+  {
+   "k": "2b70d91f18",
+   "src": "July 2025",
+   "t": "2025년 7월"
+  },
+  {
+   "k": "97125fca0e",
+   "src": "June 2025",
+   "t": "2025년 6월"
+  },
+  {
+   "k": "a9b9130234",
+   "src": "May 2025",
+   "t": "2025년 5월"
+  },
+  {
+   "k": "c9d711fecd",
+   "src": "April 2025",
+   "t": "2025년 4월"
+  },
+  {
+   "k": "c54fcf5fc7",
+   "src": "March 2025",
+   "t": "2025년 3월"
+  },
+  {
+   "k": "fe7ed3d57a",
+   "src": "February 2025",
+   "t": "2025년 2월"
+  },
+  {
+   "k": "c00459a8ae",
+   "src": "January 2025",
+   "t": "2025년 1월"
+  },
+  {
+   "k": "dfa84f8d85",
+   "src": "December 2024",
+   "t": "2024년 12월"
+  },
+  {
+   "k": "1aac3060ec",
+   "src": "November 2024",
+   "t": "2024년 11월"
+  },
+  {
+   "k": "1c0793663d",
+   "src": "October 2024",
+   "t": "2024년 10월"
+  },
+  {
+   "k": "64bde67da1",
+   "src": "September 2024",
+   "t": "2024년 9월"
+  },
+  {
+   "k": "1ecf41f68b",
+   "src": "August 2024",
+   "t": "2024년 8월"
+  },
+  {
+   "k": "1a208e15f1",
+   "src": "July 2024",
+   "t": "2024년 7월"
+  },
+  {
+   "k": "32eb8bd710",
+   "src": "June 2024",
+   "t": "2024년 6월"
+  },
+  {
+   "k": "a4fd8dee38",
+   "src": "May 2024",
+   "t": "2024년 5월"
+  },
+  {
+   "k": "a67b235f17",
+   "src": "April 2024",
+   "t": "2024년 4월"
+  },
+  {
+   "k": "32f6b479b0",
+   "src": "March 2024",
+   "t": "2024년 3월"
+  },
+  {
+   "k": "665e30b648",
+   "src": "February 2024",
+   "t": "2024년 2월"
+  },
+  {
+   "k": "dfe0219144",
+   "src": "January 2024",
+   "t": "2024년 1월"
+  },
+  {
+   "k": "d5f217b020",
+   "src": "December 2023",
+   "t": "2023년 12월"
+  },
+  {
+   "k": "7e86d20b58",
+   "src": "November 2023",
+   "t": "2023년 11월"
+  },
+  {
+   "k": "8bb5f1b661",
+   "src": "October 2023",
+   "t": "2023년 10월"
+  },
+  {
+   "k": "40d8aee894",
+   "src": "September 2023",
+   "t": "2023년 9월"
+  },
+  {
+   "k": "6c7d76f8fe",
+   "src": "August 2023",
+   "t": "2023년 8월"
+  },
+  {
+   "k": "9f119d279a",
+   "src": "July 2023",
+   "t": "2023년 7월"
+  },
+  {
+   "k": "88bb5dd01f",
+   "src": "June 2023",
+   "t": "2023년 6월"
+  },
+  {
+   "k": "64492d7985",
+   "src": "May 2023",
+   "t": "2023년 5월"
+  },
+  {
+   "k": "02f7d83bbe",
+   "src": "April 2023",
+   "t": "2023년 4월"
+  },
+  {
+   "k": "4d941f3162",
+   "src": "March 2023",
+   "t": "2023년 3월"
+  },
+  {
+   "k": "8191287c48",
+   "src": "February 2023",
+   "t": "2023년 2월"
+  },
+  {
+   "k": "01d2388ae4",
+   "src": "January 2023",
+   "t": "2023년 1월"
+  },
+  {
+   "k": "25d0f562f9",
+   "src": "December 2022",
+   "t": "2022년 12월"
+  },
+  {
+   "k": "97e459bef2",
+   "src": "November 2022",
+   "t": "2022년 11월"
+  },
+  {
+   "k": "f709d3713f",
+   "src": "October 2022",
+   "t": "2022년 10월"
+  },
+  {
+   "k": "6b3c3ed38c",
+   "src": "September 2022",
+   "t": "2022년 9월"
+  },
+  {
+   "k": "75c153c7bb",
+   "src": "August 2022",
+   "t": "2022년 8월"
+  },
+  {
+   "k": "50d1cabc27",
+   "src": "July 2022",
+   "t": "2022년 7월"
+  },
+  {
+   "k": "254510e60b",
+   "src": "June 2022",
+   "t": "2022년 6월"
+  },
+  {
+   "k": "b6700dbba4",
+   "src": "May 2022",
+   "t": "2022년 5월"
+  },
+  {
+   "k": "763f9e9215",
+   "src": "April 2022",
+   "t": "2022년 4월"
+  },
+  {
+   "k": "ea42b5ae27",
+   "src": "March 2022",
+   "t": "2022년 3월"
+  },
+  {
+   "k": "2bc308bd92",
+   "src": "February 2022",
+   "t": "2022년 2월"
+  },
+  {
+   "k": "a356a02400",
+   "src": "January 2022",
+   "t": "2022년 1월"
+  },
+  {
+   "k": "9fe3b41452",
+   "src": "December 2021",
+   "t": "2021년 12월"
+  },
+  {
+   "k": "86776d7537",
+   "src": "November 2021",
+   "t": "2021년 11월"
+  },
+  {
+   "k": "0a3fff9f8b",
+   "src": "October 2021",
+   "t": "2021년 10월"
+  },
+  {
+   "k": "59128de6d4",
+   "src": "September 2021",
+   "t": "2021년 9월"
+  },
+  {
+   "k": "6041da21f8",
+   "src": "August 2021",
+   "t": "2021년 8월"
+  },
+  {
+   "k": "587512c433",
+   "src": "July 2021",
+   "t": "2021년 7월"
+  },
+  {
+   "k": "03fee59374",
+   "src": "June 2021",
+   "t": "2021년 6월"
+  },
+  {
+   "k": "efed4f310d",
+   "src": "May 2021",
+   "t": "2021년 5월"
+  },
+  {
+   "k": "e2e98cc266",
+   "src": "April 2021",
+   "t": "2021년 4월"
+  },
+  {
+   "k": "8563d5c98c",
+   "src": "March 2021",
+   "t": "2021년 3월"
+  },
+  {
+   "k": "a3839dfbad",
+   "src": "February 2021",
+   "t": "2021년 2월"
+  },
+  {
+   "k": "0e76ec91d8",
+   "src": "January 2021",
+   "t": "2021년 1월"
+  },
+  {
+   "k": "36cd71104f",
+   "src": "December 2020",
+   "t": "2020년 12월"
+  },
+  {
+   "k": "b56ab63c7f",
+   "src": "November 2020",
+   "t": "2020년 11월"
+  },
+  {
+   "k": "0ed3464d89",
+   "src": "October 2020",
+   "t": "2020년 10월"
+  },
+  {
+   "k": "f71b0c05b5",
+   "src": "September 2020",
+   "t": "2020년 9월"
+  },
+  {
+   "k": "dfaaf88d7a",
+   "src": "August 2020",
+   "t": "2020년 8월"
+  },
+  {
+   "k": "73a8b7428e",
+   "src": "July 2020",
+   "t": "2020년 7월"
+  },
+  {
+   "k": "db29428039",
+   "src": "June 2020",
+   "t": "2020년 6월"
+  },
+  {
+   "k": "473e3e4d9b",
+   "src": "May 2020",
+   "t": "2020년 5월"
+  },
+  {
+   "k": "710ea7bb79",
+   "src": "April 2020",
+   "t": "2020년 4월"
+  },
+  {
+   "k": "7fa4bc6688",
+   "src": "March 2020",
+   "t": "2020년 3월"
+  },
+  {
+   "k": "8232710c13",
+   "src": "February 2020",
+   "t": "2020년 2월"
+  },
+  {
+   "k": "bfe58255ca",
+   "src": "January 2020",
+   "t": "2020년 1월"
+  },
+  {
+   "k": "071ac42fe8",
+   "src": "December 2019",
+   "t": "2019년 12월"
+  },
+  {
+   "k": "fc76170549",
+   "src": "November 2019",
+   "t": "2019년 11월"
+  },
+  {
+   "k": "4c07bb3eb8",
+   "src": "October 2019",
+   "t": "2019년 10월"
+  },
+  {
+   "k": "29a974a3f2",
+   "src": "September 2019",
+   "t": "2019년 9월"
+  },
+  {
+   "k": "01fa176291",
+   "src": "August 2019",
+   "t": "2019년 8월"
+  },
+  {
+   "k": "e727aaf321",
+   "src": "July 2019",
+   "t": "2019년 7월"
+  },
+  {
+   "k": "c9a6c8c9d6",
+   "src": "June 2019",
+   "t": "2019년 6월"
+  },
+  {
+   "k": "c215392d2e",
+   "src": "May 2019",
+   "t": "2019년 5월"
+  },
+  {
+   "k": "71ed794776",
+   "src": "April 2019",
+   "t": "2019년 4월"
+  },
+  {
+   "k": "e8da9d568c",
+   "src": "March 2019",
+   "t": "2019년 3월"
+  },
+  {
+   "k": "52c61d1f92",
+   "src": "February 2019",
+   "t": "2019년 2월"
+  },
+  {
+   "k": "9cf1be50c9",
+   "src": "January 2019",
+   "t": "2019년 1월"
+  },
+  {
+   "k": "43cb5d0969",
+   "src": "December 2018",
+   "t": "2018년 12월"
+  },
+  {
+   "k": "64c1b6915f",
+   "src": "November 2018",
+   "t": "2018년 11월"
+  },
+  {
+   "k": "b8e0bedd59",
+   "src": "October 2018",
+   "t": "2018년 10월"
+  },
+  {
+   "k": "7d6eaf7123",
+   "src": "September 2018",
+   "t": "2018년 9월"
+  },
+  {
+   "k": "9b00cc07fa",
+   "src": "August 2018",
+   "t": "2018년 8월"
+  },
+  {
+   "k": "7916acc3ce",
+   "src": "July 2018",
+   "t": "2018년 7월"
+  },
+  {
+   "k": "198d716952",
+   "src": "June 2018",
+   "t": "2018년 6월"
+  },
+  {
+   "k": "a2e3f60aac",
+   "src": "May 2018",
+   "t": "2018년 5월"
+  },
+  {
+   "k": "15cce13435",
+   "src": "April 2018",
+   "t": "2018년 4월"
+  },
+  {
+   "k": "257dbb2579",
+   "src": "March 2018",
+   "t": "2018년 3월"
+  },
+  {
+   "k": "fab24163b5",
+   "src": "February 2018",
+   "t": "2018년 2월"
+  },
+  {
+   "k": "747948c511",
+   "src": "January 2018",
+   "t": "2018년 1월"
+  },
+  {
+   "k": "879e32326c",
+   "src": "Year",
+   "t": "연도"
+  },
+  {
+   "k": "0977c76f66",
+   "src": "All years",
+   "t": "전체 연도"
+  },
+  {
+   "k": "7a22d73d33",
+   "src": "January",
+   "t": "1월"
+  },
+  {
+   "k": "5c3a35ef85",
+   "src": "February",
+   "t": "2월"
+  },
+  {
+   "k": "433632ea5c",
+   "src": "March",
+   "t": "3월"
+  },
+  {
+   "k": "a0393902db",
+   "src": "April",
+   "t": "4월"
+  },
+  {
+   "k": "c94f479833",
+   "src": "May",
+   "t": "5월"
+  },
+  {
+   "k": "a9db906761",
+   "src": "June",
+   "t": "6월"
+  },
+  {
+   "k": "df97a42549",
+   "src": "July",
+   "t": "7월"
+  },
+  {
+   "k": "69d97c5797",
+   "src": "August",
+   "t": "8월"
+  },
+  {
+   "k": "1c542e79c9",
+   "src": "September",
+   "t": "9월"
+  },
+  {
+   "k": "87206ae236",
+   "src": "October",
+   "t": "10월"
+  },
+  {
+   "k": "3c5bf776f5",
+   "src": "November",
+   "t": "11월"
+  },
+  {
+   "k": "65640c6577",
+   "src": "December",
+   "t": "12월"
+  },
+  {
+   "k": "15363eb576",
+   "src": "Active filters",
+   "t": "적용된 필터"
+  },
+  {
+   "k": "412226715c",
+   "src": "Clear filters",
+   "t": "필터 초기화"
+  },
+  {
+   "k": "ae31ad5d6f",
+   "src": "Featured",
+   "t": "추천"
+  },
+  {
+   "k": "3ba6f5e340",
+   "src": "Article. Event playbooks. All channels. Elaine Kwon. Nov 5, 2026. 4-minute read",
+   "t": "아티클. 이벤트 플레이북. 전체 채널. Elaine Kwon. 2026년 11월 5일. 읽는 시간 4분"
+  },
+  {
+   "k": "dfe890b074",
+   "src": "Holiday 2026: the season now starts in October",
+   "t": "2026 홀리데이 시즌, 이제 10월에 시작된다"
+  },
+  {
+   "k": "83600bc62b",
+   "src": "The 2026 holiday season now runs from early October to late December. What the forecasts show, how the season stretched, and how to plan each of its phases.",
+   "t": "2026년 홀리데이 시즌은 이제 10월 초부터 12월 말까지 이어집니다. 전망치가 보여 주는 내용, 시즌이 길어진 과정, 그리고 단계별 계획 방법을 살펴봅니다."
+  },
+  {
+   "k": "d7d3bd847e",
+   "src": "Elaine Kwon<1/><2>Co-Founder and Managing Partner</2>",
+   "t": "Elaine Kwon<1/><2>공동 창립자 겸 매니징 파트너</2>"
+  },
+  {
+   "k": "3dae53942a",
+   "src": "Gift-wrapped parcels and a bowl of oranges on a hallway table in autumn light",
+   "t": "가을 햇살이 드는 복도 테이블 위에 놓인 선물 포장 상자들과 오렌지가 담긴 그릇"
+  },
+  {
+   "k": "decd7ca800",
+   "src": "Latest",
+   "t": "최신 글"
+  },
+  {
+   "k": "fc6cd51be8",
+   "src": "Previous nine articles",
+   "t": "이전 아티클 9건"
+  },
+  {
+   "k": "cee55487cd",
+   "src": "Next nine articles",
+   "t": "다음 아티클 9건"
+  },
+  {
+   "k": "85a4f262d2",
+   "src": "Parcels stacked on the steps between three terraced front doors, with autumn leaves on the pavement",
+   "t": "나란히 붙은 주택 현관문 세 곳 사이 계단에 쌓인 택배 상자와 보도에 떨어진 낙엽"
+  },
+  {
+   "k": "e13df141bb",
+   "src": "Article. Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026. 4-minute read",
+   "t": "아티클. 이벤트 플레이북. Amazon. Jordan Taylor. 2026년 11월 3일. 읽는 시간 4분"
+  },
+  {
+   "k": "65361a21e8",
+   "src": "What Prime Big Deal Days 2026 actually added for brands",
+   "t": "Prime Big Deal Days 2026이 브랜드에 실제로 더해 준 것"
+  },
+  {
+   "k": "774f8f3385",
+   "src": "Prime Big Deal Days 2026 moved a lot of demand in time rather than creating it. Why event-day lift overstates the gain, and how to measure what the event added.",
+   "t": "Prime Big Deal Days 2026은 수요를 새로 만들어 내기보다 많은 수요의 발생 시점을 옮겼습니다. 행사 당일 상승폭이 실제 증가분보다 크게 나타나는 이유와 행사가 더한 효과를 측정하는 방법을 살펴봅니다."
+  },
+  {
+   "k": "197b86a798",
+   "src": "Loading the full archive…",
+   "t": "전체 아카이브를 불러오는 중…"
+  },
+  {
+   "k": "682c80a575",
+   "src": "Browse the archive",
+   "t": "아카이브 둘러보기"
+  },
+  {
+   "k": "df569f557d",
+   "src": "Browse the full archive",
+   "t": "전체 아카이브 둘러보기"
+  },
+  {
+   "k": "43a0ac6879",
+   "src": "All news",
+   "t": "모든 뉴스"
+  },
+  {
+   "k": "1c3b64a73c",
+   "src": "All press releases",
+   "t": "전체 보도자료"
+  },
+  {
+   "k": "5a7c3b639a",
+   "src": "Short reads on marketplace announcements, written the week they happen.",
+   "t": "마켓플레이스의 발표를 다룬 짧은 글로, 발표가 나온 그 주에 작성합니다."
+  },
+  {
+   "k": "623a6afce9",
+   "src": "Previous twelve news items",
+   "t": "이전 뉴스 12건"
+  },
+  {
+   "k": "c62d931364",
+   "src": "Next twelve news items",
+   "t": "다음 뉴스 12건"
+  },
+  {
+   "k": "8c48d79592",
+   "src": "All news, by year",
+   "t": "연도별 모든 뉴스"
+  },
+  {
+   "k": "aaa031d0ee",
+   "src": "Questions readers ask",
+   "t": "독자들이 묻는 질문"
+  },
+  {
+   "k": "1189707cad",
+   "src": "What is Perspectives?",
+   "t": "Perspectives란 무엇입니까?"
+  },
+  {
+   "k": "776b54c911",
+   "src": "Perspectives is where Kwontified publishes what it learns running marketplaces for premium brands. It holds articles, news on platform changes and press releases. The monthly newsletter, the Kwontified Briefing, goes out by email.",
+   "t": "Perspectives는 Kwontified가 프리미엄 브랜드의 마켓플레이스를 운영하며 얻은 지식을 게재하는 공간입니다. 아티클, 플랫폼 변화에 관한 뉴스, 보도자료를 제공합니다. 월간 뉴스레터 Kwontified Briefing은 이메일로 발송됩니다."
+  },
+  {
+   "k": "0c593c6677",
+   "src": "Who writes the articles?",
+   "t": "아티클은 누가 작성합니까?"
+  },
+  {
+   "k": "38fcad8b31",
+   "src": "The people doing the work. Each piece carries its author and its date, so you can judge how current it is.",
+   "t": "실무를 직접 수행하는 담당자들입니다. 얼마나 최신인지 판단할 수 있도록 모든 글에 작성자와 날짜를 표기합니다."
+  },
+  {
+   "k": "2ca564f1e1",
+   "src": "How do I find a topic?",
+   "t": "원하는 주제는 어떻게 찾습니까?"
+  },
+  {
+   "k": "ac195632a5",
+   "src": "Search the index, or filter by type, topic, channel, author or month.",
+   "t": "목록에서 검색하거나 유형, 주제, 채널, 작성자, 월별로 필터링하십시오."
+  },
+  {
+   "k": "cb98157de1",
+   "src": "Company announcements. Press inquiries: <1>press@kwontified.com</1>.",
+   "t": "회사 발표 사항입니다. 언론 문의: <1>press@kwontified.com</1>."
+  },
+  {
+   "k": "322f46b63e",
+   "src": "Nov 3, 2026",
+   "t": "2026년 11월 3일"
+  },
+  {
+   "k": "db71469670",
+   "src": "<1><2>Kwontified launches Perspectives and the Kwontified Briefing newsletter</2></1><3>Press release</3>",
+   "t": "<1><2>Kwontified, Perspectives와 뉴스레터 Kwontified Briefing 출시</2></1><3>보도자료</3>"
+  }
+ ]
+}

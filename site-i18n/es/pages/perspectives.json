@@ -1,0 +1,961 @@
+{
+ "lang": "es",
+ "route": "/perspectives",
+ "segments": [
+  {
+   "k": "2c69137c84",
+   "src": "Perspectives: Marketplace Insights",
+   "t": "Perspectives: análisis sobre marketplaces"
+  },
+  {
+   "k": "9986257025",
+   "src": "Articles, news and press releases on running marketplaces for premium brands, by the people doing the work, each dated so you can judge how current it is.",
+   "t": "Artículos, noticias y comunicados sobre marketplaces para marcas premium, escritos por quienes hacen el trabajo y fechados para que pueda juzgar su vigencia."
+  },
+  {
+   "k": "d25a98fffa",
+   "src": "Four kraft parcels on a stone ledge against a sunlit navy wall, rising in height like a bar chart, with the Kwontified logo",
+   "t": "Cuatro paquetes de papel kraft sobre una cornisa de piedra ante una pared azul marino iluminada por el sol, cada vez más altos como un gráfico de barras, con el logotipo de Kwontified"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "2473e96bc6",
+   "src": "Introduction",
+   "t": "Introducción"
+  },
+  {
+   "k": "23cf46728d",
+   "src": "A reading room with a wall of bookshelves and a desk holding printed reports, a notebook and coffee",
+   "t": "Una sala de lectura con una pared de libreros y un escritorio con informes impresos, un cuaderno y café"
+  },
+  {
+   "k": "42e3b2e953",
+   "src": "Perspectives",
+   "t": "Perspectives"
+  },
+  {
+   "k": "a393f5a42f",
+   "src": "What we learn running marketplaces for premium brands, written by the people doing the work and dated so you can judge how current each piece is.",
+   "t": "Lo que aprendemos al gestionar marketplaces para marcas premium, escrito por quienes hacen el trabajo y fechado para que pueda juzgar la vigencia de cada texto."
+  },
+  {
+   "k": "d8e3f33c2a",
+   "src": "Here you will find articles on how we run marketplaces, news on platform changes and what they mean for brands, and press releases. Our monthly newsletter, the Kwontified Briefing, goes out by email. Search below, or filter by type, topic, channel, author or month.",
+   "t": "Aquí encontrará artículos sobre cómo gestionamos marketplaces, noticias sobre los cambios en las plataformas y lo que significan para las marcas, y comunicados de prensa. Nuestro boletín mensual, Kwontified Briefing, se envía por correo electrónico. Busque abajo, o filtre por tipo, tema, canal, autor o mes."
+  },
+  {
+   "k": "bce0641417",
+   "src": "Search",
+   "t": "Buscar"
+  },
+  {
+   "k": "8087aa5c63",
+   "src": "Search Perspectives",
+   "t": "Buscar en Perspectives"
+  },
+  {
+   "k": "d97d1ee339",
+   "src": "Show",
+   "t": "Mostrar"
+  },
+  {
+   "k": "6a72085653",
+   "src": "All",
+   "t": "Todo"
+  },
+  {
+   "k": "7c422841b7",
+   "src": "Articles",
+   "t": "Artículos"
+  },
+  {
+   "k": "34c808d0a6",
+   "src": "News",
+   "t": "Noticias"
+  },
+  {
+   "k": "cc5ad30c24",
+   "src": "Press releases",
+   "t": "Comunicados de prensa"
+  },
+  {
+   "k": "7fb0b859f5",
+   "src": "Search by keyword",
+   "t": "Buscar por palabra clave"
+  },
+  {
+   "k": "3deb745651",
+   "src": "Type",
+   "t": "Tipo"
+  },
+  {
+   "k": "30c8a0fc9c",
+   "src": "All types",
+   "t": "Todos los tipos"
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "Tema"
+  },
+  {
+   "k": "e0631cd8f4",
+   "src": "All topics",
+   "t": "Todos los temas"
+  },
+  {
+   "k": "0d4dca1d0a",
+   "src": "Retail media",
+   "t": "Retail media"
+  },
+  {
+   "k": "421627fcb1",
+   "src": "Creative and conversion",
+   "t": "Creatividad y conversión"
+  },
+  {
+   "k": "a1fdaa6b2a",
+   "src": "Operations",
+   "t": "Operaciones"
+  },
+  {
+   "k": "f81b631f73",
+   "src": "Agentic commerce",
+   "t": "Comercio agéntico"
+  },
+  {
+   "k": "e42b669d73",
+   "src": "Event playbooks",
+   "t": "Guías de eventos"
+  },
+  {
+   "k": "919145c7b5",
+   "src": "Marketplace strategy",
+   "t": "Estrategia de marketplace"
+  },
+  {
+   "k": "25bc962957",
+   "src": "Analytics",
+   "t": "Analítica"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "Canal"
+  },
+  {
+   "k": "844df142c6",
+   "src": "All channels",
+   "t": "Todos los canales"
+  },
+  {
+   "k": "e634562fac",
+   "src": "Amazon Vendor Central",
+   "t": "Amazon Vendor Central"
+  },
+  {
+   "k": "57c7e8db6e",
+   "src": "Multiple channels",
+   "t": "Varios canales"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "Autor"
+  },
+  {
+   "k": "58b0f66211",
+   "src": "All authors",
+   "t": "Todos los autores"
+  },
+  {
+   "k": "082bc378cd",
+   "src": "Month",
+   "t": "Mes"
+  },
+  {
+   "k": "c44c25d6c3",
+   "src": "Any month",
+   "t": "Cualquier mes"
+  },
+  {
+   "k": "7ceef8e697",
+   "src": "November 2026",
+   "t": "Noviembre de 2026"
+  },
+  {
+   "k": "a02c6f3a71",
+   "src": "October 2026",
+   "t": "Octubre de 2026"
+  },
+  {
+   "k": "f17bbad3fa",
+   "src": "September 2026",
+   "t": "Septiembre de 2026"
+  },
+  {
+   "k": "bd8aae602b",
+   "src": "August 2026",
+   "t": "Agosto de 2026"
+  },
+  {
+   "k": "431dacaca6",
+   "src": "July 2026",
+   "t": "Julio de 2026"
+  },
+  {
+   "k": "db71b26bfd",
+   "src": "June 2026",
+   "t": "Junio de 2026"
+  },
+  {
+   "k": "0050b7ab5c",
+   "src": "May 2026",
+   "t": "Mayo de 2026"
+  },
+  {
+   "k": "b3ca619935",
+   "src": "April 2026",
+   "t": "Abril de 2026"
+  },
+  {
+   "k": "5400eb7941",
+   "src": "March 2026",
+   "t": "Marzo de 2026"
+  },
+  {
+   "k": "c2ebaba72a",
+   "src": "February 2026",
+   "t": "Febrero de 2026"
+  },
+  {
+   "k": "46c6ed8d5b",
+   "src": "January 2026",
+   "t": "Enero de 2026"
+  },
+  {
+   "k": "e5c6b6e67c",
+   "src": "December 2025",
+   "t": "Diciembre de 2025"
+  },
+  {
+   "k": "07c9a05603",
+   "src": "November 2025",
+   "t": "Noviembre de 2025"
+  },
+  {
+   "k": "09262e48d2",
+   "src": "October 2025",
+   "t": "Octubre de 2025"
+  },
+  {
+   "k": "a2ef8e7c4d",
+   "src": "September 2025",
+   "t": "Septiembre de 2025"
+  },
+  {
+   "k": "5c052e6e18",
+   "src": "August 2025",
+   "t": "Agosto de 2025"
+  },
+  {
+   "k": "2b70d91f18",
+   "src": "July 2025",
+   "t": "Julio de 2025"
+  },
+  {
+   "k": "97125fca0e",
+   "src": "June 2025",
+   "t": "Junio de 2025"
+  },
+  {
+   "k": "a9b9130234",
+   "src": "May 2025",
+   "t": "Mayo de 2025"
+  },
+  {
+   "k": "c9d711fecd",
+   "src": "April 2025",
+   "t": "Abril de 2025"
+  },
+  {
+   "k": "c54fcf5fc7",
+   "src": "March 2025",
+   "t": "Marzo de 2025"
+  },
+  {
+   "k": "fe7ed3d57a",
+   "src": "February 2025",
+   "t": "Febrero de 2025"
+  },
+  {
+   "k": "c00459a8ae",
+   "src": "January 2025",
+   "t": "Enero de 2025"
+  },
+  {
+   "k": "dfa84f8d85",
+   "src": "December 2024",
+   "t": "Diciembre de 2024"
+  },
+  {
+   "k": "1aac3060ec",
+   "src": "November 2024",
+   "t": "Noviembre de 2024"
+  },
+  {
+   "k": "1c0793663d",
+   "src": "October 2024",
+   "t": "Octubre de 2024"
+  },
+  {
+   "k": "64bde67da1",
+   "src": "September 2024",
+   "t": "Septiembre de 2024"
+  },
+  {
+   "k": "1ecf41f68b",
+   "src": "August 2024",
+   "t": "Agosto de 2024"
+  },
+  {
+   "k": "1a208e15f1",
+   "src": "July 2024",
+   "t": "Julio de 2024"
+  },
+  {
+   "k": "32eb8bd710",
+   "src": "June 2024",
+   "t": "Junio de 2024"
+  },
+  {
+   "k": "a4fd8dee38",
+   "src": "May 2024",
+   "t": "Mayo de 2024"
+  },
+  {
+   "k": "a67b235f17",
+   "src": "April 2024",
+   "t": "Abril de 2024"
+  },
+  {
+   "k": "32f6b479b0",
+   "src": "March 2024",
+   "t": "Marzo de 2024"
+  },
+  {
+   "k": "665e30b648",
+   "src": "February 2024",
+   "t": "Febrero de 2024"
+  },
+  {
+   "k": "dfe0219144",
+   "src": "January 2024",
+   "t": "Enero de 2024"
+  },
+  {
+   "k": "d5f217b020",
+   "src": "December 2023",
+   "t": "Diciembre de 2023"
+  },
+  {
+   "k": "7e86d20b58",
+   "src": "November 2023",
+   "t": "Noviembre de 2023"
+  },
+  {
+   "k": "8bb5f1b661",
+   "src": "October 2023",
+   "t": "Octubre de 2023"
+  },
+  {
+   "k": "40d8aee894",
+   "src": "September 2023",
+   "t": "Septiembre de 2023"
+  },
+  {
+   "k": "6c7d76f8fe",
+   "src": "August 2023",
+   "t": "Agosto de 2023"
+  },
+  {
+   "k": "9f119d279a",
+   "src": "July 2023",
+   "t": "Julio de 2023"
+  },
+  {
+   "k": "88bb5dd01f",
+   "src": "June 2023",
+   "t": "Junio de 2023"
+  },
+  {
+   "k": "64492d7985",
+   "src": "May 2023",
+   "t": "Mayo de 2023"
+  },
+  {
+   "k": "02f7d83bbe",
+   "src": "April 2023",
+   "t": "Abril de 2023"
+  },
+  {
+   "k": "4d941f3162",
+   "src": "March 2023",
+   "t": "Marzo de 2023"
+  },
+  {
+   "k": "8191287c48",
+   "src": "February 2023",
+   "t": "Febrero de 2023"
+  },
+  {
+   "k": "01d2388ae4",
+   "src": "January 2023",
+   "t": "Enero de 2023"
+  },
+  {
+   "k": "25d0f562f9",
+   "src": "December 2022",
+   "t": "Diciembre de 2022"
+  },
+  {
+   "k": "97e459bef2",
+   "src": "November 2022",
+   "t": "Noviembre de 2022"
+  },
+  {
+   "k": "f709d3713f",
+   "src": "October 2022",
+   "t": "Octubre de 2022"
+  },
+  {
+   "k": "6b3c3ed38c",
+   "src": "September 2022",
+   "t": "Septiembre de 2022"
+  },
+  {
+   "k": "75c153c7bb",
+   "src": "August 2022",
+   "t": "Agosto de 2022"
+  },
+  {
+   "k": "50d1cabc27",
+   "src": "July 2022",
+   "t": "Julio de 2022"
+  },
+  {
+   "k": "254510e60b",
+   "src": "June 2022",
+   "t": "Junio de 2022"
+  },
+  {
+   "k": "b6700dbba4",
+   "src": "May 2022",
+   "t": "Mayo de 2022"
+  },
+  {
+   "k": "763f9e9215",
+   "src": "April 2022",
+   "t": "Abril de 2022"
+  },
+  {
+   "k": "ea42b5ae27",
+   "src": "March 2022",
+   "t": "Marzo de 2022"
+  },
+  {
+   "k": "2bc308bd92",
+   "src": "February 2022",
+   "t": "Febrero de 2022"
+  },
+  {
+   "k": "a356a02400",
+   "src": "January 2022",
+   "t": "Enero de 2022"
+  },
+  {
+   "k": "9fe3b41452",
+   "src": "December 2021",
+   "t": "Diciembre de 2021"
+  },
+  {
+   "k": "86776d7537",
+   "src": "November 2021",
+   "t": "Noviembre de 2021"
+  },
+  {
+   "k": "0a3fff9f8b",
+   "src": "October 2021",
+   "t": "Octubre de 2021"
+  },
+  {
+   "k": "59128de6d4",
+   "src": "September 2021",
+   "t": "Septiembre de 2021"
+  },
+  {
+   "k": "6041da21f8",
+   "src": "August 2021",
+   "t": "Agosto de 2021"
+  },
+  {
+   "k": "587512c433",
+   "src": "July 2021",
+   "t": "Julio de 2021"
+  },
+  {
+   "k": "03fee59374",
+   "src": "June 2021",
+   "t": "Junio de 2021"
+  },
+  {
+   "k": "efed4f310d",
+   "src": "May 2021",
+   "t": "Mayo de 2021"
+  },
+  {
+   "k": "e2e98cc266",
+   "src": "April 2021",
+   "t": "Abril de 2021"
+  },
+  {
+   "k": "8563d5c98c",
+   "src": "March 2021",
+   "t": "Marzo de 2021"
+  },
+  {
+   "k": "a3839dfbad",
+   "src": "February 2021",
+   "t": "Febrero de 2021"
+  },
+  {
+   "k": "0e76ec91d8",
+   "src": "January 2021",
+   "t": "Enero de 2021"
+  },
+  {
+   "k": "36cd71104f",
+   "src": "December 2020",
+   "t": "Diciembre de 2020"
+  },
+  {
+   "k": "b56ab63c7f",
+   "src": "November 2020",
+   "t": "Noviembre de 2020"
+  },
+  {
+   "k": "0ed3464d89",
+   "src": "October 2020",
+   "t": "Octubre de 2020"
+  },
+  {
+   "k": "f71b0c05b5",
+   "src": "September 2020",
+   "t": "Septiembre de 2020"
+  },
+  {
+   "k": "dfaaf88d7a",
+   "src": "August 2020",
+   "t": "Agosto de 2020"
+  },
+  {
+   "k": "73a8b7428e",
+   "src": "July 2020",
+   "t": "Julio de 2020"
+  },
+  {
+   "k": "db29428039",
+   "src": "June 2020",
+   "t": "Junio de 2020"
+  },
+  {
+   "k": "473e3e4d9b",
+   "src": "May 2020",
+   "t": "Mayo de 2020"
+  },
+  {
+   "k": "710ea7bb79",
+   "src": "April 2020",
+   "t": "Abril de 2020"
+  },
+  {
+   "k": "7fa4bc6688",
+   "src": "March 2020",
+   "t": "Marzo de 2020"
+  },
+  {
+   "k": "8232710c13",
+   "src": "February 2020",
+   "t": "Febrero de 2020"
+  },
+  {
+   "k": "bfe58255ca",
+   "src": "January 2020",
+   "t": "Enero de 2020"
+  },
+  {
+   "k": "071ac42fe8",
+   "src": "December 2019",
+   "t": "Diciembre de 2019"
+  },
+  {
+   "k": "fc76170549",
+   "src": "November 2019",
+   "t": "Noviembre de 2019"
+  },
+  {
+   "k": "4c07bb3eb8",
+   "src": "October 2019",
+   "t": "Octubre de 2019"
+  },
+  {
+   "k": "29a974a3f2",
+   "src": "September 2019",
+   "t": "Septiembre de 2019"
+  },
+  {
+   "k": "01fa176291",
+   "src": "August 2019",
+   "t": "Agosto de 2019"
+  },
+  {
+   "k": "e727aaf321",
+   "src": "July 2019",
+   "t": "Julio de 2019"
+  },
+  {
+   "k": "c9a6c8c9d6",
+   "src": "June 2019",
+   "t": "Junio de 2019"
+  },
+  {
+   "k": "c215392d2e",
+   "src": "May 2019",
+   "t": "Mayo de 2019"
+  },
+  {
+   "k": "71ed794776",
+   "src": "April 2019",
+   "t": "Abril de 2019"
+  },
+  {
+   "k": "e8da9d568c",
+   "src": "March 2019",
+   "t": "Marzo de 2019"
+  },
+  {
+   "k": "52c61d1f92",
+   "src": "February 2019",
+   "t": "Febrero de 2019"
+  },
+  {
+   "k": "9cf1be50c9",
+   "src": "January 2019",
+   "t": "Enero de 2019"
+  },
+  {
+   "k": "43cb5d0969",
+   "src": "December 2018",
+   "t": "Diciembre de 2018"
+  },
+  {
+   "k": "64c1b6915f",
+   "src": "November 2018",
+   "t": "Noviembre de 2018"
+  },
+  {
+   "k": "b8e0bedd59",
+   "src": "October 2018",
+   "t": "Octubre de 2018"
+  },
+  {
+   "k": "7d6eaf7123",
+   "src": "September 2018",
+   "t": "Septiembre de 2018"
+  },
+  {
+   "k": "9b00cc07fa",
+   "src": "August 2018",
+   "t": "Agosto de 2018"
+  },
+  {
+   "k": "7916acc3ce",
+   "src": "July 2018",
+   "t": "Julio de 2018"
+  },
+  {
+   "k": "198d716952",
+   "src": "June 2018",
+   "t": "Junio de 2018"
+  },
+  {
+   "k": "a2e3f60aac",
+   "src": "May 2018",
+   "t": "Mayo de 2018"
+  },
+  {
+   "k": "15cce13435",
+   "src": "April 2018",
+   "t": "Abril de 2018"
+  },
+  {
+   "k": "257dbb2579",
+   "src": "March 2018",
+   "t": "Marzo de 2018"
+  },
+  {
+   "k": "fab24163b5",
+   "src": "February 2018",
+   "t": "Febrero de 2018"
+  },
+  {
+   "k": "747948c511",
+   "src": "January 2018",
+   "t": "Enero de 2018"
+  },
+  {
+   "k": "879e32326c",
+   "src": "Year",
+   "t": "Año"
+  },
+  {
+   "k": "0977c76f66",
+   "src": "All years",
+   "t": "Todos los años"
+  },
+  {
+   "k": "7a22d73d33",
+   "src": "January",
+   "t": "Enero"
+  },
+  {
+   "k": "5c3a35ef85",
+   "src": "February",
+   "t": "Febrero"
+  },
+  {
+   "k": "433632ea5c",
+   "src": "March",
+   "t": "Marzo"
+  },
+  {
+   "k": "a0393902db",
+   "src": "April",
+   "t": "Abril"
+  },
+  {
+   "k": "c94f479833",
+   "src": "May",
+   "t": "Mayo"
+  },
+  {
+   "k": "a9db906761",
+   "src": "June",
+   "t": "Junio"
+  },
+  {
+   "k": "df97a42549",
+   "src": "July",
+   "t": "Julio"
+  },
+  {
+   "k": "69d97c5797",
+   "src": "August",
+   "t": "Agosto"
+  },
+  {
+   "k": "1c542e79c9",
+   "src": "September",
+   "t": "Septiembre"
+  },
+  {
+   "k": "87206ae236",
+   "src": "October",
+   "t": "Octubre"
+  },
+  {
+   "k": "3c5bf776f5",
+   "src": "November",
+   "t": "Noviembre"
+  },
+  {
+   "k": "65640c6577",
+   "src": "December",
+   "t": "Diciembre"
+  },
+  {
+   "k": "15363eb576",
+   "src": "Active filters",
+   "t": "Filtros activos"
+  },
+  {
+   "k": "412226715c",
+   "src": "Clear filters",
+   "t": "Borrar filtros"
+  },
+  {
+   "k": "ae31ad5d6f",
+   "src": "Featured",
+   "t": "Destacado"
+  },
+  {
+   "k": "3ba6f5e340",
+   "src": "Article. Event playbooks. All channels. Elaine Kwon. Nov 5, 2026. 4-minute read",
+   "t": "Artículo. Guías de eventos. Todos los canales. Elaine Kwon. 5 de noviembre de 2026. Lectura de 4 minutos"
+  },
+  {
+   "k": "dfe890b074",
+   "src": "Holiday 2026: the season now starts in October",
+   "t": "Temporada navideña 2026: ahora empieza en octubre"
+  },
+  {
+   "k": "83600bc62b",
+   "src": "The 2026 holiday season now runs from early October to late December. What the forecasts show, how the season stretched, and how to plan each of its phases.",
+   "t": "La temporada navideña de 2026 ahora va de principios de octubre a finales de diciembre. Qué muestran los pronósticos, cómo se extendió la temporada y cómo planificar cada una de sus fases."
+  },
+  {
+   "k": "d7d3bd847e",
+   "src": "Elaine Kwon<1/><2>Co-Founder and Managing Partner</2>",
+   "t": "Elaine Kwon<1/><2>Co-Founder and Managing Partner</2>"
+  },
+  {
+   "k": "3dae53942a",
+   "src": "Gift-wrapped parcels and a bowl of oranges on a hallway table in autumn light",
+   "t": "Paquetes envueltos para regalo y un tazón de naranjas sobre una mesa de pasillo con luz de otoño"
+  },
+  {
+   "k": "decd7ca800",
+   "src": "Latest",
+   "t": "Lo más reciente"
+  },
+  {
+   "k": "fc6cd51be8",
+   "src": "Previous nine articles",
+   "t": "Nueve artículos anteriores"
+  },
+  {
+   "k": "cee55487cd",
+   "src": "Next nine articles",
+   "t": "Nueve artículos siguientes"
+  },
+  {
+   "k": "85a4f262d2",
+   "src": "Parcels stacked on the steps between three terraced front doors, with autumn leaves on the pavement",
+   "t": "Paquetes apilados en los escalones entre tres puertas de casas adosadas, con hojas de otoño en la acera"
+  },
+  {
+   "k": "e13df141bb",
+   "src": "Article. Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026. 4-minute read",
+   "t": "Artículo. Guías de eventos. Amazon. Jordan Taylor. 3 de noviembre de 2026. Lectura de 4 minutos"
+  },
+  {
+   "k": "65361a21e8",
+   "src": "What Prime Big Deal Days 2026 actually added for brands",
+   "t": "Lo que Prime Big Deal Days 2026 sumó realmente a las marcas"
+  },
+  {
+   "k": "774f8f3385",
+   "src": "Prime Big Deal Days 2026 moved a lot of demand in time rather than creating it. Why event-day lift overstates the gain, and how to measure what the event added.",
+   "t": "Prime Big Deal Days 2026 movió demanda en el tiempo más que crearla. Por qué el alza de los días del evento exagera la ganancia y cómo medir lo que aportó."
+  },
+  {
+   "k": "197b86a798",
+   "src": "Loading the full archive…",
+   "t": "Cargando el archivo completo…"
+  },
+  {
+   "k": "682c80a575",
+   "src": "Browse the archive",
+   "t": "Explorar el archivo"
+  },
+  {
+   "k": "df569f557d",
+   "src": "Browse the full archive",
+   "t": "Explorar el archivo completo"
+  },
+  {
+   "k": "43a0ac6879",
+   "src": "All news",
+   "t": "Todas las noticias"
+  },
+  {
+   "k": "1c3b64a73c",
+   "src": "All press releases",
+   "t": "Todos los comunicados de prensa"
+  },
+  {
+   "k": "5a7c3b639a",
+   "src": "Short reads on marketplace announcements, written the week they happen.",
+   "t": "Lecturas breves sobre los anuncios de los marketplaces, escritas la misma semana en que ocurren."
+  },
+  {
+   "k": "623a6afce9",
+   "src": "Previous twelve news items",
+   "t": "Doce noticias anteriores"
+  },
+  {
+   "k": "c62d931364",
+   "src": "Next twelve news items",
+   "t": "Doce noticias siguientes"
+  },
+  {
+   "k": "8c48d79592",
+   "src": "All news, by year",
+   "t": "Todas las noticias, por año"
+  },
+  {
+   "k": "aaa031d0ee",
+   "src": "Questions readers ask",
+   "t": "Preguntas de los lectores"
+  },
+  {
+   "k": "1189707cad",
+   "src": "What is Perspectives?",
+   "t": "¿Qué es Perspectives?"
+  },
+  {
+   "k": "776b54c911",
+   "src": "Perspectives is where Kwontified publishes what it learns running marketplaces for premium brands. It holds articles, news on platform changes and press releases. The monthly newsletter, the Kwontified Briefing, goes out by email.",
+   "t": "Perspectives es donde Kwontified publica lo que aprende al gestionar marketplaces para marcas premium. Reúne artículos, noticias sobre los cambios en las plataformas y comunicados de prensa. El boletín mensual, Kwontified Briefing, se envía por correo electrónico."
+  },
+  {
+   "k": "0c593c6677",
+   "src": "Who writes the articles?",
+   "t": "¿Quién escribe los artículos?"
+  },
+  {
+   "k": "38fcad8b31",
+   "src": "The people doing the work. Each piece carries its author and its date, so you can judge how current it is.",
+   "t": "Quienes hacen el trabajo. Cada texto lleva su autor y su fecha, para que pueda juzgar su vigencia."
+  },
+  {
+   "k": "2ca564f1e1",
+   "src": "How do I find a topic?",
+   "t": "¿Cómo encuentro un tema?"
+  },
+  {
+   "k": "ac195632a5",
+   "src": "Search the index, or filter by type, topic, channel, author or month.",
+   "t": "Busque en el índice, o filtre por tipo, tema, canal, autor o mes."
+  },
+  {
+   "k": "cb98157de1",
+   "src": "Company announcements. Press inquiries: <1>press@kwontified.com</1>.",
+   "t": "Anuncios de la empresa. Consultas de prensa: <1>press@kwontified.com</1>."
+  },
+  {
+   "k": "322f46b63e",
+   "src": "Nov 3, 2026",
+   "t": "3 de noviembre de 2026"
+  },
+  {
+   "k": "db71469670",
+   "src": "<1><2>Kwontified launches Perspectives and the Kwontified Briefing newsletter</2></1><3>Press release</3>",
+   "t": "<1><2>Kwontified lanza Perspectives y el boletín Kwontified Briefing</2></1><3>Comunicado de prensa</3>"
+  }
+ ]
+}

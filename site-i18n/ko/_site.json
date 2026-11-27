@@ -1,0 +1,586 @@
+{
+ "lang": "ko",
+ "about": "Text every page shares: header, menus, footer, search, cookie notice.",
+ "segments": [
+  {
+   "k": "be504f616f",
+   "src": "Skip to main content",
+   "t": "본문 바로가기"
+  },
+  {
+   "k": "a9a96ec019",
+   "src": "Primary",
+   "t": "주 메뉴"
+  },
+  {
+   "k": "c454a868b8",
+   "src": "Kwontified home",
+   "t": "Kwontified 홈"
+  },
+  {
+   "k": "ca09c54bff",
+   "src": "Capabilities",
+   "t": "역량"
+  },
+  {
+   "k": "747e2c0ce9",
+   "src": "Capabilities: show pages",
+   "t": "역량: 하위 페이지 보기"
+  },
+  {
+   "k": "cd2556b7f4",
+   "src": "Retail Media and Advertising",
+   "t": "리테일 미디어 및 광고"
+  },
+  {
+   "k": "745a9e9f8c",
+   "src": "Creative Studio",
+   "t": "크리에이티브 스튜디오"
+  },
+  {
+   "k": "3b59c7186b",
+   "src": "Marketplace Operations",
+   "t": "마켓플레이스 운영"
+  },
+  {
+   "k": "e46d7997f3",
+   "src": "Analytics and Forecasting",
+   "t": "분석 및 예측"
+  },
+  {
+   "k": "3532e859e4",
+   "src": "Agentic Commerce",
+   "t": "에이전틱 커머스"
+  },
+  {
+   "k": "26b5aa7a7a",
+   "src": "Revenue Recovery",
+   "t": "수익 회수"
+  },
+  {
+   "k": "f69c71b523",
+   "src": "All capabilities <1/>",
+   "t": "전체 역량 <1/>"
+  },
+  {
+   "k": "18e03e2a37",
+   "src": "Channels",
+   "t": "채널"
+  },
+  {
+   "k": "3da8b1119b",
+   "src": "Channels: show pages",
+   "t": "채널: 하위 페이지 보기"
+  },
+  {
+   "k": "c16254309d",
+   "src": "Amazon brand programs",
+   "t": "Amazon 브랜드 프로그램"
+  },
+  {
+   "k": "bc440f645c",
+   "src": "International",
+   "t": "글로벌"
+  },
+  {
+   "k": "c275df4e71",
+   "src": "All channels <1/>",
+   "t": "전체 채널 <1/>"
+  },
+  {
+   "k": "00040bab8a",
+   "src": "Work",
+   "t": "포트폴리오"
+  },
+  {
+   "k": "a1955cfdb3",
+   "src": "Work: show pages",
+   "t": "포트폴리오: 하위 페이지 보기"
+  },
+  {
+   "k": "2bdc7788ce",
+   "src": "Case studies",
+   "t": "사례 연구"
+  },
+  {
+   "k": "41771bfa85",
+   "src": "Creative gallery",
+   "t": "크리에이티브 갤러리"
+  },
+  {
+   "k": "d3d70c6ee9",
+   "src": "Why Kwontified",
+   "t": "왜 Kwontified인가"
+  },
+  {
+   "k": "42e3b2e953",
+   "src": "Perspectives",
+   "t": "Perspectives"
+  },
+  {
+   "k": "6b21fb791a",
+   "src": "About",
+   "t": "회사 소개"
+  },
+  {
+   "k": "bc51eacfd7",
+   "src": "About: show pages",
+   "t": "회사 소개: 하위 페이지 보기"
+  },
+  {
+   "k": "a681196cbe",
+   "src": "About Kwontified",
+   "t": "Kwontified 소개"
+  },
+  {
+   "k": "f5427e8f6f",
+   "src": "Leadership",
+   "t": "리더십"
+  },
+  {
+   "k": "68d70e596c",
+   "src": "Careers",
+   "t": "채용"
+  },
+  {
+   "k": "5bbcc92e55",
+   "src": "Search the site",
+   "t": "사이트 검색"
+  },
+  {
+   "k": "a81aecaaaa",
+   "src": "<1/>Search",
+   "t": "<1/>검색"
+  },
+  {
+   "k": "ecc722051b",
+   "src": "Client sign-in",
+   "t": "고객 로그인"
+  },
+  {
+   "k": "7ccfb0e5c2",
+   "src": "Request a review",
+   "t": "검토 요청"
+  },
+  {
+   "k": "57f5f5efbc",
+   "src": "Menu",
+   "t": "메뉴"
+  },
+  {
+   "k": "a866fadf4d",
+   "src": "Get our marketplace briefing once a month.",
+   "t": "마켓플레이스 브리핑을 매월 한 번 받아 보십시오."
+  },
+  {
+   "k": "b60eea94e7",
+   "src": "The marketplace changes that matter, what they mean for your brand and our latest guides. Unsubscribe in one click.",
+   "t": "주목해야 할 마켓플레이스 변화와 그 변화가 귀사 브랜드에 갖는 의미, 그리고 최신 가이드를 전해 드립니다. 클릭 한 번으로 구독을 해지할 수 있습니다."
+  },
+  {
+   "k": "43205764a6",
+   "src": "Work email",
+   "t": "업무용 이메일"
+  },
+  {
+   "k": "d6981f7476",
+   "src": "Subscribe",
+   "t": "구독"
+  },
+  {
+   "k": "6d2a02a560",
+   "src": "Follow Kwontified",
+   "t": "Kwontified 팔로우"
+  },
+  {
+   "k": "0322c17784",
+   "src": "Kwontified on LinkedIn",
+   "t": "Kwontified LinkedIn"
+  },
+  {
+   "k": "9f0e415b54",
+   "src": "Kwontified on Substack",
+   "t": "Kwontified Substack"
+  },
+  {
+   "k": "9590d9132e",
+   "src": "Kwontified on YouTube",
+   "t": "Kwontified YouTube"
+  },
+  {
+   "k": "940bc7514c",
+   "src": "Kwontified on Instagram",
+   "t": "Kwontified Instagram"
+  },
+  {
+   "k": "1cad30080a",
+   "src": "Kwontified on X",
+   "t": "Kwontified X"
+  },
+  {
+   "k": "e5aad7f741",
+   "src": "Kwontified on Threads",
+   "t": "Kwontified Threads"
+  },
+  {
+   "k": "943e004124",
+   "src": "Kwontified on Bluesky",
+   "t": "Kwontified Bluesky"
+  },
+  {
+   "k": "a22a755c51",
+   "src": "Kwontified on Facebook",
+   "t": "Kwontified Facebook"
+  },
+  {
+   "k": "15ff4b492e",
+   "src": "Kwontified on TikTok",
+   "t": "Kwontified TikTok"
+  },
+  {
+   "k": "7a1994999d",
+   "src": "Company",
+   "t": "회사"
+  },
+  {
+   "k": "b37456c453",
+   "src": "Contact",
+   "t": "문의"
+  },
+  {
+   "k": "559f5fabcd",
+   "src": "Offices",
+   "t": "사무소"
+  },
+  {
+   "k": "61ed7388ca",
+   "src": "<1>Atlanta (headquarters)</1><2/>7000 Central Parkway, Suite 1100<3/>Atlanta, GA 30328",
+   "t": "<1>Atlanta (본사)</1><2/>7000 Central Parkway, Suite 1100<3/>Atlanta, GA 30328"
+  },
+  {
+   "k": "e16838adef",
+   "src": "<1>New York</1><2/>175 Greenwich Street, 38th Floor<3/>New York, NY 10007",
+   "t": "<1>New York</1><2/>175 Greenwich Street, 38th Floor<3/>New York, NY 10007"
+  },
+  {
+   "k": "842b149b4f",
+   "src": "<1>Seattle</1><2/>1201 Third Avenue, Suite 2200<3/>Seattle, WA 98101",
+   "t": "<1>Seattle</1><2/>1201 Third Avenue, Suite 2200<3/>Seattle, WA 98101"
+  },
+  {
+   "k": "fb146d8c72",
+   "src": "© 2026 Kwontified LLC",
+   "t": "© 2026 Kwontified LLC"
+  },
+  {
+   "k": "cf01481f62",
+   "src": "Privacy",
+   "t": "개인정보 처리방침"
+  },
+  {
+   "k": "a55a275aa6",
+   "src": "Terms",
+   "t": "이용약관"
+  },
+  {
+   "k": "d660049bc1",
+   "src": "Accessibility",
+   "t": "접근성"
+  },
+  {
+   "k": "e7d3061b5e",
+   "src": "Cookie preferences",
+   "t": "쿠키 설정"
+  },
+  {
+   "k": "3ddf90fd31",
+   "src": "Cookie choices",
+   "t": "쿠키 선택 사항"
+  },
+  {
+   "k": "99f823777f",
+   "src": "Cookies on this site",
+   "t": "이 사이트의 쿠키"
+  },
+  {
+   "k": "0f5b084c48",
+   "src": "We use necessary cookies to run the site. With your permission, we also use analytics cookies to see how the site is used and advertising cookies to measure and show our ads. Read our <1>Privacy Policy</1>.",
+   "t": "사이트 운영에 필요한 필수 쿠키를 사용합니다. 동의하시는 경우 사이트 이용 현황을 파악하기 위한 분석 쿠키와 당사 광고를 측정하고 노출하기 위한 광고 쿠키도 사용합니다. <1>개인정보 처리방침</1>을 확인하십시오."
+  },
+  {
+   "k": "2796e71f48",
+   "src": "Cookie types",
+   "t": "쿠키 유형"
+  },
+  {
+   "k": "af2165189c",
+   "src": "<1>Necessary</1><2>Keep the site and client portal secure and working. Always on.</2>",
+   "t": "<1>필수</1><2>사이트와 고객 포털을 안전하게 유지하고 정상적으로 작동하게 합니다. 항상 켜져 있습니다.</2>"
+  },
+  {
+   "k": "b5d0ec0b4d",
+   "src": "<1>Functional</1><2>Remember preferences such as filters and display settings.</2>",
+   "t": "<1>기능</1><2>필터, 화면 표시 설정 등 기본 설정을 기억합니다.</2>"
+  },
+  {
+   "k": "da3b44a99b",
+   "src": "<1>Analytics</1><2>Measure visits and pages viewed, using Google Analytics.</2>",
+   "t": "<1>분석</1><2>Google Analytics로 방문 수와 조회한 페이지를 측정합니다.</2>"
+  },
+  {
+   "k": "d6469ca696",
+   "src": "<1>Advertising</1><2>Measure our advertising and show our ads on Google, LinkedIn and Meta.</2>",
+   "t": "<1>광고</1><2>당사 광고를 측정하고 Google, LinkedIn, Meta에 당사 광고를 노출합니다.</2>"
+  },
+  {
+   "k": "9946554fca",
+   "src": "Your browser sends a Global Privacy Control signal, so advertising cookies stay off.",
+   "t": "브라우저가 Global Privacy Control 신호를 보내고 있어 광고 쿠키는 꺼진 상태로 유지됩니다."
+  },
+  {
+   "k": "821d1f7909",
+   "src": "Accept all",
+   "t": "모두 허용"
+  },
+  {
+   "k": "d6505b0abc",
+   "src": "Reject non-essential",
+   "t": "필수 외 거부"
+  },
+  {
+   "k": "1f9fc0cf07",
+   "src": "Choose cookies",
+   "t": "쿠키 선택"
+  },
+  {
+   "k": "956fa7c245",
+   "src": "Save choices",
+   "t": "선택 저장"
+  },
+  {
+   "k": "bce0641417",
+   "src": "Search",
+   "t": "검색"
+  },
+  {
+   "k": "1f7a4f9e2f",
+   "src": "Esc",
+   "t": "Esc"
+  },
+  {
+   "k": "36f9fcfb3b",
+   "src": "Search pages, case studies and articles",
+   "t": "페이지, 사례 연구, 아티클 검색"
+  },
+  {
+   "k": "612e12d292",
+   "src": "Results",
+   "t": "검색 결과"
+  },
+  {
+   "k": "4624f45243",
+   "src": "↑ ↓ to move",
+   "t": "↑ ↓ 이동"
+  },
+  {
+   "k": "4683f69158",
+   "src": "Enter to open",
+   "t": "Enter 열기"
+  },
+  {
+   "k": "5329571c06",
+   "src": "Esc to close",
+   "t": "Esc 닫기"
+  },
+  {
+   "k": "9cf8ee2d09",
+   "src": "Subscribing…",
+   "t": "구독 처리 중…"
+  },
+  {
+   "k": "cf765512cc",
+   "src": "Sending…",
+   "t": "전송 중…"
+  },
+  {
+   "k": "239bd07fc4",
+   "src": "Enter your work email address.",
+   "t": "업무용 이메일 주소를 입력하십시오."
+  },
+  {
+   "k": "b66b301ef1",
+   "src": "Check the email address. It should look like name@company.com.",
+   "t": "이메일 주소를 확인하십시오. name@company.com 형식이어야 합니다."
+  },
+  {
+   "k": "dab410f1c5",
+   "src": "Fill in “{f}”.",
+   "t": "‘{f}’ 항목을 입력해 주십시오."
+  },
+  {
+   "k": "c020d2b492",
+   "src": "Check this field.",
+   "t": "이 항목을 확인하십시오."
+  },
+  {
+   "k": "d9c883a905",
+   "src": "Back to top",
+   "t": "맨 위로"
+  },
+  {
+   "k": "af9e3eb3ee",
+   "src": "Search Perspectives for",
+   "t": "Perspectives에서 검색:"
+  },
+  {
+   "k": "4360c2dcd4",
+   "src": "Article",
+   "t": "아티클"
+  },
+  {
+   "k": "34c808d0a6",
+   "src": "News",
+   "t": "뉴스"
+  },
+  {
+   "k": "6d234a17fe",
+   "src": "Press release",
+   "t": "보도자료"
+  },
+  {
+   "k": "97f6a406e5",
+   "src": "Remove filter",
+   "t": "필터 해제"
+  },
+  {
+   "k": "82478a0a5e",
+   "src": "Searching the full archive…",
+   "t": "전체 아카이브 검색 중…"
+  },
+  {
+   "k": "37a5301a88",
+   "src": "result",
+   "t": "결과"
+  },
+  {
+   "k": "cdf7e925f5",
+   "src": "results",
+   "t": "결과"
+  },
+  {
+   "k": "701b13ec1c",
+   "src": "No results. Try fewer filters or a different keyword.",
+   "t": "결과가 없습니다. 필터를 줄이거나 다른 키워드로 검색해 보십시오."
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "주제"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "채널"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "작성자"
+  },
+  {
+   "k": "eb9a4bc1c0",
+   "src": "Date",
+   "t": "날짜"
+  },
+  {
+   "k": "56cf601c5c",
+   "src": "{n} result",
+   "t": "결과 {n}건"
+  },
+  {
+   "k": "b210019daa",
+   "src": "{n} results",
+   "t": "결과 {n}건"
+  },
+  {
+   "k": "d25a98fffa",
+   "src": "Four kraft parcels on a stone ledge against a sunlit navy wall, rising in height like a bar chart, with the Kwontified logo",
+   "t": "햇살이 드는 남색 벽 앞 돌 선반 위에 막대그래프처럼 점점 높아지게 놓인 크라프트 소포 네 개와 Kwontified 로고"
+  },
+  {
+   "k": "d94dbe0e6b",
+   "src": "{a}–{b} of {n}",
+   "t": "{n}개 중 {a}–{b}"
+  },
+  {
+   "k": "b993b0c537",
+   "src": "No results",
+   "t": "결과 없음"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "031aa8690a",
+   "src": "We use necessary cookies to run the site. With your permission, we also use cookies to measure visits and to measure and show our ads. Read our <1>Privacy Policy</1>.",
+   "t": "사이트 운영에 필요한 필수 쿠키를 사용합니다. 동의하시는 경우 방문 현황을 측정하고 당사 광고를 측정하고 노출하기 위한 쿠키도 사용합니다. <1>개인정보 처리방침</1>을 확인하십시오."
+  },
+  {
+   "k": "bbfa773e5a",
+   "src": "Close",
+   "t": "닫기"
+  },
+  {
+   "k": "5826b136ec",
+   "src": "Leave this field empty",
+   "t": "이 칸은 비워 두세요"
+  },
+  {
+   "k": "c6dd62d329",
+   "src": "Enter your first name.",
+   "t": "이름을 입력하세요."
+  },
+  {
+   "k": "547f152441",
+   "src": "Enter your last name.",
+   "t": "성을 입력하세요."
+  },
+  {
+   "k": "99d248a8b2",
+   "src": "Enter your company or brand.",
+   "t": "회사 또는 브랜드를 입력하세요."
+  },
+  {
+   "k": "74169f4643",
+   "src": "Enter your brand website, for example brand.com.",
+   "t": "브랜드 웹사이트를 입력하세요(예: brand.com)."
+  },
+  {
+   "k": "d6e00f19dc",
+   "src": "Tell us what you want to achieve.",
+   "t": "이루고 싶은 목표를 알려 주세요."
+  },
+  {
+   "k": "46affb94e0",
+   "src": "Enter your password.",
+   "t": "비밀번호를 입력하세요."
+  },
+  {
+   "k": "817b910ba4",
+   "src": "All Perspectives",
+   "t": "전체 Perspectives"
+  },
+  {
+   "k": "07fc0169a1",
+   "src": "Too many sign-ups from this connection. Please wait a few minutes and try again.",
+   "t": "이 연결에서 가입 요청이 너무 많습니다. 몇 분 후 다시 시도해 주세요."
+  },
+  {
+   "k": "95cdd757ec",
+   "src": "That didn’t go through. Please try again.",
+   "t": "전송되지 않았습니다. 다시 시도해 주세요."
+  }
+ ]
+}

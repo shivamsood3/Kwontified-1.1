@@ -1,0 +1,961 @@
+{
+ "lang": "zh",
+ "route": "/perspectives",
+ "segments": [
+  {
+   "k": "2c69137c84",
+   "src": "Perspectives: Marketplace Insights",
+   "t": "Perspectives：电商平台洞察"
+  },
+  {
+   "k": "9986257025",
+   "src": "Articles, news and press releases on running marketplaces for premium brands, by the people doing the work, each dated so you can judge how current it is.",
+   "t": "这里汇集关于为高端品牌运营电商平台业务的文章、新闻和新闻稿。所有内容均由实际从事这项工作的人撰写，并注明发布日期，便于您判断每篇内容的时效。"
+  },
+  {
+   "k": "d25a98fffa",
+   "src": "Four kraft parcels on a stone ledge against a sunlit navy wall, rising in height like a bar chart, with the Kwontified logo",
+   "t": "阳光照射的海军蓝墙前，石台上四个牛皮纸包裹像柱状图一样由低到高排列，旁边是 Kwontified 标志"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "2473e96bc6",
+   "src": "Introduction",
+   "t": "简介"
+  },
+  {
+   "k": "23cf46728d",
+   "src": "A reading room with a wall of bookshelves and a desk holding printed reports, a notebook and coffee",
+   "t": "一间阅览室，一面墙摆满书架，书桌上放着打印的报告、一本笔记本和一杯咖啡"
+  },
+  {
+   "k": "42e3b2e953",
+   "src": "Perspectives",
+   "t": "Perspectives"
+  },
+  {
+   "k": "a393f5a42f",
+   "src": "What we learn running marketplaces for premium brands, written by the people doing the work and dated so you can judge how current each piece is.",
+   "t": "我们在为高端品牌运营电商平台业务的过程中积累的经验，由实际从事这项工作的人撰写，并注明日期，便于您判断每篇内容的时效。"
+  },
+  {
+   "k": "d8e3f33c2a",
+   "src": "Here you will find articles on how we run marketplaces, news on platform changes and what they mean for brands, and press releases. Our monthly newsletter, the Kwontified Briefing, goes out by email. Search below, or filter by type, topic, channel, author or month.",
+   "t": "在这里，您可以读到讲述我们如何运营电商平台业务的文章、关于平台变化及其对品牌影响的新闻，以及新闻稿。我们的月度简报 Kwontified Briefing 通过电子邮件发送。您可以在下方搜索，或按类型、主题、渠道、作者或月份筛选。"
+  },
+  {
+   "k": "bce0641417",
+   "src": "Search",
+   "t": "搜索"
+  },
+  {
+   "k": "8087aa5c63",
+   "src": "Search Perspectives",
+   "t": "搜索 Perspectives"
+  },
+  {
+   "k": "d97d1ee339",
+   "src": "Show",
+   "t": "显示"
+  },
+  {
+   "k": "6a72085653",
+   "src": "All",
+   "t": "全部"
+  },
+  {
+   "k": "7c422841b7",
+   "src": "Articles",
+   "t": "文章"
+  },
+  {
+   "k": "34c808d0a6",
+   "src": "News",
+   "t": "新闻"
+  },
+  {
+   "k": "cc5ad30c24",
+   "src": "Press releases",
+   "t": "新闻稿"
+  },
+  {
+   "k": "7fb0b859f5",
+   "src": "Search by keyword",
+   "t": "按关键词搜索"
+  },
+  {
+   "k": "3deb745651",
+   "src": "Type",
+   "t": "类型"
+  },
+  {
+   "k": "30c8a0fc9c",
+   "src": "All types",
+   "t": "全部类型"
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "主题"
+  },
+  {
+   "k": "e0631cd8f4",
+   "src": "All topics",
+   "t": "全部主题"
+  },
+  {
+   "k": "0d4dca1d0a",
+   "src": "Retail media",
+   "t": "零售媒体"
+  },
+  {
+   "k": "421627fcb1",
+   "src": "Creative and conversion",
+   "t": "创意与转化"
+  },
+  {
+   "k": "a1fdaa6b2a",
+   "src": "Operations",
+   "t": "运营"
+  },
+  {
+   "k": "f81b631f73",
+   "src": "Agentic commerce",
+   "t": "智能体电商"
+  },
+  {
+   "k": "e42b669d73",
+   "src": "Event playbooks",
+   "t": "大促打法"
+  },
+  {
+   "k": "919145c7b5",
+   "src": "Marketplace strategy",
+   "t": "电商平台策略"
+  },
+  {
+   "k": "25bc962957",
+   "src": "Analytics",
+   "t": "数据分析"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "渠道"
+  },
+  {
+   "k": "844df142c6",
+   "src": "All channels",
+   "t": "全部渠道"
+  },
+  {
+   "k": "e634562fac",
+   "src": "Amazon Vendor Central",
+   "t": "Amazon Vendor Central"
+  },
+  {
+   "k": "57c7e8db6e",
+   "src": "Multiple channels",
+   "t": "多渠道"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "作者"
+  },
+  {
+   "k": "58b0f66211",
+   "src": "All authors",
+   "t": "全部作者"
+  },
+  {
+   "k": "082bc378cd",
+   "src": "Month",
+   "t": "月份"
+  },
+  {
+   "k": "c44c25d6c3",
+   "src": "Any month",
+   "t": "不限月份"
+  },
+  {
+   "k": "7ceef8e697",
+   "src": "November 2026",
+   "t": "2026年11月"
+  },
+  {
+   "k": "a02c6f3a71",
+   "src": "October 2026",
+   "t": "2026年10月"
+  },
+  {
+   "k": "f17bbad3fa",
+   "src": "September 2026",
+   "t": "2026年9月"
+  },
+  {
+   "k": "bd8aae602b",
+   "src": "August 2026",
+   "t": "2026年8月"
+  },
+  {
+   "k": "431dacaca6",
+   "src": "July 2026",
+   "t": "2026年7月"
+  },
+  {
+   "k": "db71b26bfd",
+   "src": "June 2026",
+   "t": "2026年6月"
+  },
+  {
+   "k": "0050b7ab5c",
+   "src": "May 2026",
+   "t": "2026年5月"
+  },
+  {
+   "k": "b3ca619935",
+   "src": "April 2026",
+   "t": "2026年4月"
+  },
+  {
+   "k": "5400eb7941",
+   "src": "March 2026",
+   "t": "2026年3月"
+  },
+  {
+   "k": "c2ebaba72a",
+   "src": "February 2026",
+   "t": "2026年2月"
+  },
+  {
+   "k": "46c6ed8d5b",
+   "src": "January 2026",
+   "t": "2026年1月"
+  },
+  {
+   "k": "e5c6b6e67c",
+   "src": "December 2025",
+   "t": "2025年12月"
+  },
+  {
+   "k": "07c9a05603",
+   "src": "November 2025",
+   "t": "2025年11月"
+  },
+  {
+   "k": "09262e48d2",
+   "src": "October 2025",
+   "t": "2025年10月"
+  },
+  {
+   "k": "a2ef8e7c4d",
+   "src": "September 2025",
+   "t": "2025年9月"
+  },
+  {
+   "k": "5c052e6e18",
+   "src": "August 2025",
+   "t": "2025年8月"
+  },
+  {
+   "k": "2b70d91f18",
+   "src": "July 2025",
+   "t": "2025年7月"
+  },
+  {
+   "k": "97125fca0e",
+   "src": "June 2025",
+   "t": "2025年6月"
+  },
+  {
+   "k": "a9b9130234",
+   "src": "May 2025",
+   "t": "2025年5月"
+  },
+  {
+   "k": "c9d711fecd",
+   "src": "April 2025",
+   "t": "2025年4月"
+  },
+  {
+   "k": "c54fcf5fc7",
+   "src": "March 2025",
+   "t": "2025年3月"
+  },
+  {
+   "k": "fe7ed3d57a",
+   "src": "February 2025",
+   "t": "2025年2月"
+  },
+  {
+   "k": "c00459a8ae",
+   "src": "January 2025",
+   "t": "2025年1月"
+  },
+  {
+   "k": "dfa84f8d85",
+   "src": "December 2024",
+   "t": "2024年12月"
+  },
+  {
+   "k": "1aac3060ec",
+   "src": "November 2024",
+   "t": "2024年11月"
+  },
+  {
+   "k": "1c0793663d",
+   "src": "October 2024",
+   "t": "2024年10月"
+  },
+  {
+   "k": "64bde67da1",
+   "src": "September 2024",
+   "t": "2024年9月"
+  },
+  {
+   "k": "1ecf41f68b",
+   "src": "August 2024",
+   "t": "2024年8月"
+  },
+  {
+   "k": "1a208e15f1",
+   "src": "July 2024",
+   "t": "2024年7月"
+  },
+  {
+   "k": "32eb8bd710",
+   "src": "June 2024",
+   "t": "2024年6月"
+  },
+  {
+   "k": "a4fd8dee38",
+   "src": "May 2024",
+   "t": "2024年5月"
+  },
+  {
+   "k": "a67b235f17",
+   "src": "April 2024",
+   "t": "2024年4月"
+  },
+  {
+   "k": "32f6b479b0",
+   "src": "March 2024",
+   "t": "2024年3月"
+  },
+  {
+   "k": "665e30b648",
+   "src": "February 2024",
+   "t": "2024年2月"
+  },
+  {
+   "k": "dfe0219144",
+   "src": "January 2024",
+   "t": "2024年1月"
+  },
+  {
+   "k": "d5f217b020",
+   "src": "December 2023",
+   "t": "2023年12月"
+  },
+  {
+   "k": "7e86d20b58",
+   "src": "November 2023",
+   "t": "2023年11月"
+  },
+  {
+   "k": "8bb5f1b661",
+   "src": "October 2023",
+   "t": "2023年10月"
+  },
+  {
+   "k": "40d8aee894",
+   "src": "September 2023",
+   "t": "2023年9月"
+  },
+  {
+   "k": "6c7d76f8fe",
+   "src": "August 2023",
+   "t": "2023年8月"
+  },
+  {
+   "k": "9f119d279a",
+   "src": "July 2023",
+   "t": "2023年7月"
+  },
+  {
+   "k": "88bb5dd01f",
+   "src": "June 2023",
+   "t": "2023年6月"
+  },
+  {
+   "k": "64492d7985",
+   "src": "May 2023",
+   "t": "2023年5月"
+  },
+  {
+   "k": "02f7d83bbe",
+   "src": "April 2023",
+   "t": "2023年4月"
+  },
+  {
+   "k": "4d941f3162",
+   "src": "March 2023",
+   "t": "2023年3月"
+  },
+  {
+   "k": "8191287c48",
+   "src": "February 2023",
+   "t": "2023年2月"
+  },
+  {
+   "k": "01d2388ae4",
+   "src": "January 2023",
+   "t": "2023年1月"
+  },
+  {
+   "k": "25d0f562f9",
+   "src": "December 2022",
+   "t": "2022年12月"
+  },
+  {
+   "k": "97e459bef2",
+   "src": "November 2022",
+   "t": "2022年11月"
+  },
+  {
+   "k": "f709d3713f",
+   "src": "October 2022",
+   "t": "2022年10月"
+  },
+  {
+   "k": "6b3c3ed38c",
+   "src": "September 2022",
+   "t": "2022年9月"
+  },
+  {
+   "k": "75c153c7bb",
+   "src": "August 2022",
+   "t": "2022年8月"
+  },
+  {
+   "k": "50d1cabc27",
+   "src": "July 2022",
+   "t": "2022年7月"
+  },
+  {
+   "k": "254510e60b",
+   "src": "June 2022",
+   "t": "2022年6月"
+  },
+  {
+   "k": "b6700dbba4",
+   "src": "May 2022",
+   "t": "2022年5月"
+  },
+  {
+   "k": "763f9e9215",
+   "src": "April 2022",
+   "t": "2022年4月"
+  },
+  {
+   "k": "ea42b5ae27",
+   "src": "March 2022",
+   "t": "2022年3月"
+  },
+  {
+   "k": "2bc308bd92",
+   "src": "February 2022",
+   "t": "2022年2月"
+  },
+  {
+   "k": "a356a02400",
+   "src": "January 2022",
+   "t": "2022年1月"
+  },
+  {
+   "k": "9fe3b41452",
+   "src": "December 2021",
+   "t": "2021年12月"
+  },
+  {
+   "k": "86776d7537",
+   "src": "November 2021",
+   "t": "2021年11月"
+  },
+  {
+   "k": "0a3fff9f8b",
+   "src": "October 2021",
+   "t": "2021年10月"
+  },
+  {
+   "k": "59128de6d4",
+   "src": "September 2021",
+   "t": "2021年9月"
+  },
+  {
+   "k": "6041da21f8",
+   "src": "August 2021",
+   "t": "2021年8月"
+  },
+  {
+   "k": "587512c433",
+   "src": "July 2021",
+   "t": "2021年7月"
+  },
+  {
+   "k": "03fee59374",
+   "src": "June 2021",
+   "t": "2021年6月"
+  },
+  {
+   "k": "efed4f310d",
+   "src": "May 2021",
+   "t": "2021年5月"
+  },
+  {
+   "k": "e2e98cc266",
+   "src": "April 2021",
+   "t": "2021年4月"
+  },
+  {
+   "k": "8563d5c98c",
+   "src": "March 2021",
+   "t": "2021年3月"
+  },
+  {
+   "k": "a3839dfbad",
+   "src": "February 2021",
+   "t": "2021年2月"
+  },
+  {
+   "k": "0e76ec91d8",
+   "src": "January 2021",
+   "t": "2021年1月"
+  },
+  {
+   "k": "36cd71104f",
+   "src": "December 2020",
+   "t": "2020年12月"
+  },
+  {
+   "k": "b56ab63c7f",
+   "src": "November 2020",
+   "t": "2020年11月"
+  },
+  {
+   "k": "0ed3464d89",
+   "src": "October 2020",
+   "t": "2020年10月"
+  },
+  {
+   "k": "f71b0c05b5",
+   "src": "September 2020",
+   "t": "2020年9月"
+  },
+  {
+   "k": "dfaaf88d7a",
+   "src": "August 2020",
+   "t": "2020年8月"
+  },
+  {
+   "k": "73a8b7428e",
+   "src": "July 2020",
+   "t": "2020年7月"
+  },
+  {
+   "k": "db29428039",
+   "src": "June 2020",
+   "t": "2020年6月"
+  },
+  {
+   "k": "473e3e4d9b",
+   "src": "May 2020",
+   "t": "2020年5月"
+  },
+  {
+   "k": "710ea7bb79",
+   "src": "April 2020",
+   "t": "2020年4月"
+  },
+  {
+   "k": "7fa4bc6688",
+   "src": "March 2020",
+   "t": "2020年3月"
+  },
+  {
+   "k": "8232710c13",
+   "src": "February 2020",
+   "t": "2020年2月"
+  },
+  {
+   "k": "bfe58255ca",
+   "src": "January 2020",
+   "t": "2020年1月"
+  },
+  {
+   "k": "071ac42fe8",
+   "src": "December 2019",
+   "t": "2019年12月"
+  },
+  {
+   "k": "fc76170549",
+   "src": "November 2019",
+   "t": "2019年11月"
+  },
+  {
+   "k": "4c07bb3eb8",
+   "src": "October 2019",
+   "t": "2019年10月"
+  },
+  {
+   "k": "29a974a3f2",
+   "src": "September 2019",
+   "t": "2019年9月"
+  },
+  {
+   "k": "01fa176291",
+   "src": "August 2019",
+   "t": "2019年8月"
+  },
+  {
+   "k": "e727aaf321",
+   "src": "July 2019",
+   "t": "2019年7月"
+  },
+  {
+   "k": "c9a6c8c9d6",
+   "src": "June 2019",
+   "t": "2019年6月"
+  },
+  {
+   "k": "c215392d2e",
+   "src": "May 2019",
+   "t": "2019年5月"
+  },
+  {
+   "k": "71ed794776",
+   "src": "April 2019",
+   "t": "2019年4月"
+  },
+  {
+   "k": "e8da9d568c",
+   "src": "March 2019",
+   "t": "2019年3月"
+  },
+  {
+   "k": "52c61d1f92",
+   "src": "February 2019",
+   "t": "2019年2月"
+  },
+  {
+   "k": "9cf1be50c9",
+   "src": "January 2019",
+   "t": "2019年1月"
+  },
+  {
+   "k": "43cb5d0969",
+   "src": "December 2018",
+   "t": "2018年12月"
+  },
+  {
+   "k": "64c1b6915f",
+   "src": "November 2018",
+   "t": "2018年11月"
+  },
+  {
+   "k": "b8e0bedd59",
+   "src": "October 2018",
+   "t": "2018年10月"
+  },
+  {
+   "k": "7d6eaf7123",
+   "src": "September 2018",
+   "t": "2018年9月"
+  },
+  {
+   "k": "9b00cc07fa",
+   "src": "August 2018",
+   "t": "2018年8月"
+  },
+  {
+   "k": "7916acc3ce",
+   "src": "July 2018",
+   "t": "2018年7月"
+  },
+  {
+   "k": "198d716952",
+   "src": "June 2018",
+   "t": "2018年6月"
+  },
+  {
+   "k": "a2e3f60aac",
+   "src": "May 2018",
+   "t": "2018年5月"
+  },
+  {
+   "k": "15cce13435",
+   "src": "April 2018",
+   "t": "2018年4月"
+  },
+  {
+   "k": "257dbb2579",
+   "src": "March 2018",
+   "t": "2018年3月"
+  },
+  {
+   "k": "fab24163b5",
+   "src": "February 2018",
+   "t": "2018年2月"
+  },
+  {
+   "k": "747948c511",
+   "src": "January 2018",
+   "t": "2018年1月"
+  },
+  {
+   "k": "879e32326c",
+   "src": "Year",
+   "t": "年份"
+  },
+  {
+   "k": "0977c76f66",
+   "src": "All years",
+   "t": "全部年份"
+  },
+  {
+   "k": "7a22d73d33",
+   "src": "January",
+   "t": "1月"
+  },
+  {
+   "k": "5c3a35ef85",
+   "src": "February",
+   "t": "2月"
+  },
+  {
+   "k": "433632ea5c",
+   "src": "March",
+   "t": "3月"
+  },
+  {
+   "k": "a0393902db",
+   "src": "April",
+   "t": "4月"
+  },
+  {
+   "k": "c94f479833",
+   "src": "May",
+   "t": "5月"
+  },
+  {
+   "k": "a9db906761",
+   "src": "June",
+   "t": "6月"
+  },
+  {
+   "k": "df97a42549",
+   "src": "July",
+   "t": "7月"
+  },
+  {
+   "k": "69d97c5797",
+   "src": "August",
+   "t": "8月"
+  },
+  {
+   "k": "1c542e79c9",
+   "src": "September",
+   "t": "9月"
+  },
+  {
+   "k": "87206ae236",
+   "src": "October",
+   "t": "10月"
+  },
+  {
+   "k": "3c5bf776f5",
+   "src": "November",
+   "t": "11月"
+  },
+  {
+   "k": "65640c6577",
+   "src": "December",
+   "t": "12月"
+  },
+  {
+   "k": "15363eb576",
+   "src": "Active filters",
+   "t": "当前筛选条件"
+  },
+  {
+   "k": "412226715c",
+   "src": "Clear filters",
+   "t": "清除筛选"
+  },
+  {
+   "k": "ae31ad5d6f",
+   "src": "Featured",
+   "t": "精选"
+  },
+  {
+   "k": "3ba6f5e340",
+   "src": "Article. Event playbooks. All channels. Elaine Kwon. Nov 5, 2026. 4-minute read",
+   "t": "文章 · 大促打法 · 全部渠道 · Elaine Kwon · 2026年11月5日 · 阅读时长 4 分钟"
+  },
+  {
+   "k": "dfe890b074",
+   "src": "Holiday 2026: the season now starts in October",
+   "t": "2026年假日季：如今从10月开始"
+  },
+  {
+   "k": "83600bc62b",
+   "src": "The 2026 holiday season now runs from early October to late December. What the forecasts show, how the season stretched, and how to plan each of its phases.",
+   "t": "2026年假日季如今从10月初延续到12月底。预测数据显示了什么，假日季是如何拉长的，以及如何规划其中的每个阶段。"
+  },
+  {
+   "k": "d7d3bd847e",
+   "src": "Elaine Kwon<1/><2>Co-Founder and Managing Partner</2>",
+   "t": "Elaine Kwon<1/><2>联合创始人兼管理合伙人</2>"
+  },
+  {
+   "k": "3dae53942a",
+   "src": "Gift-wrapped parcels and a bowl of oranges on a hallway table in autumn light",
+   "t": "秋日光线下，门厅桌上摆着包装好的礼品包裹和一碗橙子"
+  },
+  {
+   "k": "decd7ca800",
+   "src": "Latest",
+   "t": "最新"
+  },
+  {
+   "k": "fc6cd51be8",
+   "src": "Previous nine articles",
+   "t": "上一页（九篇文章）"
+  },
+  {
+   "k": "cee55487cd",
+   "src": "Next nine articles",
+   "t": "下一页（九篇文章）"
+  },
+  {
+   "k": "85a4f262d2",
+   "src": "Parcels stacked on the steps between three terraced front doors, with autumn leaves on the pavement",
+   "t": "包裹堆放在三户联排住宅门前的台阶上，人行道上散落着秋叶"
+  },
+  {
+   "k": "e13df141bb",
+   "src": "Article. Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026. 4-minute read",
+   "t": "文章 · 大促打法 · Amazon · Jordan Taylor · 2026年11月3日 · 阅读时长 4 分钟"
+  },
+  {
+   "k": "65361a21e8",
+   "src": "What Prime Big Deal Days 2026 actually added for brands",
+   "t": "Prime Big Deal Days 2026 究竟为品牌带来了多少增量"
+  },
+  {
+   "k": "774f8f3385",
+   "src": "Prime Big Deal Days 2026 moved a lot of demand in time rather than creating it. Why event-day lift overstates the gain, and how to measure what the event added.",
+   "t": "Prime Big Deal Days 2026 把大量需求挪到了不同的时间点，而不是创造了这些需求。活动日的销售提升为何高估了实际收益，又该如何衡量活动带来的增量。"
+  },
+  {
+   "k": "197b86a798",
+   "src": "Loading the full archive…",
+   "t": "正在加载完整存档…"
+  },
+  {
+   "k": "682c80a575",
+   "src": "Browse the archive",
+   "t": "浏览存档"
+  },
+  {
+   "k": "df569f557d",
+   "src": "Browse the full archive",
+   "t": "浏览完整存档"
+  },
+  {
+   "k": "43a0ac6879",
+   "src": "All news",
+   "t": "全部新闻"
+  },
+  {
+   "k": "1c3b64a73c",
+   "src": "All press releases",
+   "t": "全部新闻稿"
+  },
+  {
+   "k": "5a7c3b639a",
+   "src": "Short reads on marketplace announcements, written the week they happen.",
+   "t": "关于电商平台公告的短文，在公告发布当周写成。"
+  },
+  {
+   "k": "623a6afce9",
+   "src": "Previous twelve news items",
+   "t": "上一页（十二条新闻）"
+  },
+  {
+   "k": "c62d931364",
+   "src": "Next twelve news items",
+   "t": "下一页（十二条新闻）"
+  },
+  {
+   "k": "8c48d79592",
+   "src": "All news, by year",
+   "t": "按年份查看全部新闻"
+  },
+  {
+   "k": "aaa031d0ee",
+   "src": "Questions readers ask",
+   "t": "读者常问的问题"
+  },
+  {
+   "k": "1189707cad",
+   "src": "What is Perspectives?",
+   "t": "Perspectives 是什么？"
+  },
+  {
+   "k": "776b54c911",
+   "src": "Perspectives is where Kwontified publishes what it learns running marketplaces for premium brands. It holds articles, news on platform changes and press releases. The monthly newsletter, the Kwontified Briefing, goes out by email.",
+   "t": "Kwontified 把为高端品牌运营电商平台业务的经验所得发布在 Perspectives，内容包括文章、关于平台变化的新闻和新闻稿。月度简报 Kwontified Briefing 通过电子邮件发送。"
+  },
+  {
+   "k": "0c593c6677",
+   "src": "Who writes the articles?",
+   "t": "文章由谁撰写？"
+  },
+  {
+   "k": "38fcad8b31",
+   "src": "The people doing the work. Each piece carries its author and its date, so you can judge how current it is.",
+   "t": "由实际从事这项工作的人撰写。每篇内容都标明作者和日期，便于您判断内容的时效。"
+  },
+  {
+   "k": "2ca564f1e1",
+   "src": "How do I find a topic?",
+   "t": "如何查找某个主题？"
+  },
+  {
+   "k": "ac195632a5",
+   "src": "Search the index, or filter by type, topic, channel, author or month.",
+   "t": "您可以搜索索引，或按类型、主题、渠道、作者或月份筛选。"
+  },
+  {
+   "k": "cb98157de1",
+   "src": "Company announcements. Press inquiries: <1>press@kwontified.com</1>.",
+   "t": "公司公告。媒体垂询：<1>press@kwontified.com</1>。"
+  },
+  {
+   "k": "322f46b63e",
+   "src": "Nov 3, 2026",
+   "t": "2026年11月3日"
+  },
+  {
+   "k": "db71469670",
+   "src": "<1><2>Kwontified launches Perspectives and the Kwontified Briefing newsletter</2></1><3>Press release</3>",
+   "t": "<1><2>Kwontified 推出 Perspectives 与邮件简报 Kwontified Briefing</2></1><3>新闻稿</3>"
+  }
+ ]
+}
