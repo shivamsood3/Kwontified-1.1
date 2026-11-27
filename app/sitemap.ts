@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import siteRoutes from "../site-routes.json";
-// publication dates of dated pages (articles, news, press releases), written by scripts/site-seo.mjs
+// last-change dates, written by scripts/site-seo.mjs: the publication date of articles, news and
+// press releases, and for other pages the date of the last commit to the files their content comes from
 import lastmod from "../site-lastmod.json";
 // translated pages, written by scripts/site-i18n.mjs; only languages marked live are listed
 import translated from "../site-i18n-routes.json";
@@ -21,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const dates = lastmod as Record<string, string>;
   const entry = (route: string, en: string, priority: number) => ({
     url: url(route),
-    // a real date only where the page has one; a build-time date on every URL would tell crawlers nothing
+    // a real date only where one is known; a build-time date on every URL would tell crawlers nothing
     ...(dates[en] ? { lastModified: dates[en] } : {}),
     changeFrequency: "monthly" as const,
     priority,

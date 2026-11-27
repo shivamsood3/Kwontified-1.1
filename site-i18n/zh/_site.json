@@ -501,6 +501,26 @@
    "k": "b210019daa",
    "src": "{n} results",
    "t": "{n} 条结果"
+  },
+  {
+   "k": "d25a98fffa",
+   "src": "Four kraft parcels on a stone ledge against a sunlit navy wall, rising in height like a bar chart, with the Kwontified logo",
+   "t": "阳光照射的海军蓝墙前，石台上四个牛皮纸包裹像柱状图一样由低到高排列，旁边是 Kwontified 标志"
+  },
+  {
+   "k": "d94dbe0e6b",
+   "src": "{a}–{b} of {n}",
+   "t": "第 {a}–{b} 条，共 {n} 条"
+  },
+  {
+   "k": "b993b0c537",
+   "src": "No results",
+   "t": "没有结果"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
   }
  ]
 }
