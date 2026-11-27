@@ -90,12 +90,12 @@ const CK_CSS = `<style data-kq-ck>
 .kq-ck-x{position:absolute;top:8px;right:8px;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:none;color:#102A4C;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background-color 180ms ease}
 .kq-ck-x:hover{background:#E1E9F1}
 .kq-ck-x:focus-visible{outline:3px solid #00618D;outline-offset:0}
-.kq-ck:has(.kq-ck-x:not([hidden])) h2{padding-right:40px}
+.kq-ck:has(.kq-ck-x:not([hidden])) .kq-ck-t{padding-right:40px}
 /* while the notice is open the footer gains room below it, so nothing ends up permanently under it */
 html.kq-ck-on footer{padding-bottom:var(--kq-ck-h,0px)}
 @media (max-width:600px){
 .kq-ck{left:8px;bottom:8px;width:calc(100vw - 16px);max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);padding:14px 14px 12px;font-size:14px;line-height:1.4;border-radius:12px}
-.kq-ck h2{font-size:17px;line-height:1.25}
+.kq-ck .kq-ck-t{font-size:17px;line-height:1.25}
 .kq-ck p{margin-top:4px}
 .kq-ck-x{top:2px;right:2px}
 .kq-ck-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}
@@ -157,6 +157,11 @@ for (const file of fs.readdirSync(DIR).filter((f) => f.endsWith(".html"))) {
     if (ck.split(find).length !== 2) throw new Error(`site-tags: ${file}: the cookie notice changed ("${find.slice(0, 40)}")`);
     ck = ck.replace(find, () => put);
   }
+  // ...nor as its first heading: the title becomes a paragraph with role="heading", so assistive tech still
+  // hears a heading while the page's own H1 is the first heading in its source (QA seo-r2-02, round 3)
+  if (ck.split("<h2>Cookies on this site</h2>").length !== 2) throw new Error(`site-tags: ${file}: cookie notice title changed`);
+  ck = ck.replace("<h2>Cookies on this site</h2>", '<p class="kq-ck-t" role="heading" aria-level="2">Cookies on this site</p>');
+  html = html.split(".kq-ck h2").join(".kq-ck .kq-ck-t").split("box.querySelector('h2')").join("box.querySelector('.kq-ck-t')");
   // snippet generators and text extractors must not read the notice as the page's opening text (QA seo-r2-02)
   ck = ck.replace('<aside class="kq-ck"', '<aside class="kq-ck" data-nosnippet');
   html = html.replace(aside[0], "");

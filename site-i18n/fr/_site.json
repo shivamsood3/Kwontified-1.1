@@ -160,7 +160,7 @@
   {
    "k": "7ccfb0e5c2",
    "src": "Request a review",
-   "t": "Demander une analyse"
+   "t": "Demande d’analyse"
   },
   {
    "k": "57f5f5efbc",
@@ -571,6 +571,16 @@
    "k": "817b910ba4",
    "src": "All Perspectives",
    "t": "Toutes les Perspectives"
+  },
+  {
+   "k": "07fc0169a1",
+   "src": "Too many sign-ups from this connection. Please wait a few minutes and try again.",
+   "t": "Trop d’inscriptions depuis cette connexion. Patientez quelques minutes, puis réessayez."
+  },
+  {
+   "k": "95cdd757ec",
+   "src": "That didn’t go through. Please try again.",
+   "t": "L’envoi n’a pas abouti. Veuillez réessayer."
   }
  ]
 }
