@@ -12,7 +12,12 @@
 //     to the English page where it is not;
 //   - a language menu in the footer, in the phone menu and (on wide screens) in the header;
 //   - structured data in that language (headline, description, inLanguage, address);
-//   - on the Perspectives index: only the items that exist in that language.
+//   - on the Perspectives index: only the items that exist in that language, and only the tabs
+//     and filter choices that lead to them; the pager's "1–9 of 12" in that language;
+//   - language links that keep the visitor's filter (?…) and section (#…);
+//   - the share image's alt text in that language;
+//   - title and description lengths checked like the English pages (" | Kwontified" dropped past
+//     60 characters; titles 30-60, descriptions 70-160), so a long translation stops the build.
 //
 // A language marked "live": false in the config is a PREVIEW: its pages are built and can be
 // opened, but they carry noindex, are left out of the sitemap, and the English pages do not
@@ -33,6 +38,7 @@ const routes = siteRoutes();
 const fileOfRoute = new Map(routes.map((r) => [r.route, path.basename(r.file)]));
 for (const l of cfg.languages) if (!/^[a-z]{2}(-[a-z]{2})?$/.test(l.code) || l.code === "en") fail(`language code "${l.code}" must be two letters (optionally a region, as in pt-br) and not "en"`);
 for (const l of cfg.languages) if (l.tag && !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(l.tag)) fail(`language tag "${l.tag}" is not a valid language tag (examples: zh-Hans, pt-BR)`);
+const out = (lang, file) => `${lang}--${file}`;
 const loc = (lang, route) => `/${lang}${route === "/" ? "" : route}`;
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 
@@ -43,7 +49,7 @@ const CSS = `<style data-kq-i18n>
 .kq-lang svg{flex:none}
 .kq-lang a{color:#C9D4DF;padding:12px 0}
 .kq-lang a[aria-current]{color:#F8F6F1;text-decoration:none;font-weight:500}
-.kq-ddb.kq-ddb-lang{width:auto;margin:0;padding:0 2px;gap:6px;font:inherit;font-size:14px;letter-spacing:.04em}
+.kq-ddb.kq-ddb-lang{width:auto;min-width:44px;justify-content:center;margin:0;padding:0 2px;gap:6px;font:inherit;font-size:14px;letter-spacing:.04em}
 .kq-dd-lang .kq-ddp{left:auto;right:-14px;min-width:190px;transform-origin:top right}
 .kq-head .kq-links>.kq-dd.kq-dd-lang,.kq-hh .kq-hact>.kq-dd.kq-dd-lang{display:none!important}
 @media (min-width:1280px){.kq-head .kq-links>.kq-dd.kq-dd-lang{display:inline-flex!important}}
@@ -51,14 +57,24 @@ const CSS = `<style data-kq-i18n>
 .kq-mlang{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;align-self:stretch;margin:6px 0 2px;padding-top:10px;border-top:1px solid #E3E8ED;color:#626366}
 .kq-navpanel .kq-mlang>a,.kq-menu .kq-mlang>a{display:inline-block;padding:9px 0!important;font-size:15px!important;color:#262524!important}
 .kq-navpanel .kq-mlang>a[aria-current],.kq-menu .kq-mlang>a[aria-current]{color:#102A4C!important;font-weight:500;text-decoration:none}
+.kq-lang-vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 </style>`;
+// Switching language keeps the visitor's place: the filter in the address (?topic=…) and the
+// section they were reading (#…). Read at the moment of the click, since filters change the address.
+const KEEP_PLACE_JS = `<script>/* language links keep the query and the #section */
+(function(){function keep(e){var a=e.target&&e.target.closest&&e.target.closest('a[hreflang]');if(!a||!a.closest('.kq-lang,.kq-dd-lang,.kq-mlang'))return;
+var base=a.getAttribute('href').split(/[?#]/)[0];a.setAttribute('href',base+location.search+location.hash);}
+['pointerdown','focusin','click'].forEach(function(t){document.addEventListener(t,keep,true);});})();</script>`;
 
 // The language menu, three times: header (wide screens), phone menu, footer.
+// The header button shows the language code; its accessible name starts with that code
+// (WCAG 2.5.3) and adds the language's name in a visually hidden span.
 function switcher(html, here, versions) {
   if (versions.length < 2) return html;
   const cur = versions.find((v) => v.code === here);
   const links = (cls) => versions.map((v) => `<a${cls ? ` class="${cls}"` : ""} href="${v.href}" lang="${v.tag}" hreflang="${v.tag}"${v.code === here ? ' aria-current="true"' : ""}>${v.name}</a>`).join("");
-  const head = `<span class="kq-dd kq-dd-lang"><button type="button" class="kq-ddb kq-ddb-lang" aria-expanded="false" aria-controls="kq-dd-lang" aria-label="Language: ${cur.name}">${here.toUpperCase()}${CHEVRON}</button><div class="kq-ddp" id="kq-dd-lang">${links("")}</div></span>`;
+  const word = here === "en" ? "Language" : cfg.languages.find((l) => l.code === here).language || fail(`site-i18n/config.json: give ${here} a "language" (the word for "Language")`);
+  const head = `<span class="kq-dd kq-dd-lang"><button type="button" class="kq-ddb kq-ddb-lang" aria-expanded="false" aria-controls="kq-dd-lang">${here.toUpperCase()}<span class="kq-lang-vh"> (${word}: ${cur.name})</span>${CHEVRON}</button><div class="kq-ddp" id="kq-dd-lang">${links("")}</div></span>`;
   const a = html.indexOf("<header"), b = html.indexOf("</header>", a);
   let h = html.slice(a, b);
   const menu = h.match(/<details class="kq-(navd|menu)"[\s\S]*?<\/details>/);
@@ -71,7 +87,8 @@ function switcher(html, here, versions) {
   html = html.slice(0, a) + h + html.slice(b);
   const cookie = '<button type="button" data-kq-ck-open="footer"';
   if (html.split(cookie).length === 2) html = html.replace(cookie, () => `<span class="kq-lang">${GLOBE}${links("")}</span> ` + cookie);
-  return html.replace("</head>", () => CSS + "</head>");
+  if (html.split("</body>").length !== 2) fail("expected one </body>");
+  return html.replace("</head>", () => CSS + "</head>").replace("</body>", () => KEEP_PLACE_JS + "</body>");
 }
 const hreflang = (versions, enHref) => versions.map((v) => `<link rel="alternate" hreflang="${v.tag}" href="${BASE}${v.href === "/" ? "" : v.href}">`).join("") + `<link rel="alternate" hreflang="x-default" href="${BASE}${enHref === "/" ? "" : enHref}">`;
 
@@ -98,6 +115,15 @@ const FIT_CSS = `<style data-kq-fit>
 .kq-head>nav,.kq-hh>div{flex-wrap:nowrap!important}.kq-head .kq-links,.kq-hh nav[aria-label="Primary"],.kq-hh .kq-hact{flex-wrap:nowrap!important;white-space:nowrap}
 @media (max-width:600px){.kq-fit1 .kq-head.is-stuck .kq-links>.kq-btn,.kq-fit1 .kq-hh.is-stuck .kq-hact>a[href="/contact"]{padding:8px 10px!important;font-size:13px!important}.kq-fit2 .kq-head.is-stuck .kq-links,.kq-fit2 .kq-hh.is-stuck .kq-hact{display:none!important}}
 </style>`;
+// The Perspectives pager writes "1–9 of 12" and "No results" in English; on a translated page
+// they are rewritten in the page's language (window.kqT, from the shared text in site-i18n/<lang>/_site.json).
+const PAGER_JS = `<script>/* pager text in this language */
+(function(){var T=window.kqT||{},R=T['{a}–{b} of {n}'],N=T['No results'];if(!R&&!N)return;
+function fix(el){var s=el.textContent,m=/^([\\d.,]+)\\u2013([\\d.,]+) of ([\\d.,]+)$/.exec(s);
+if(m&&R){var t=R.replace('{a}',m[1]).replace('{b}',m[2]).replace('{n}',m[3]);if(t!==s)el.textContent=t;}else if(s==='No results'&&N&&N!==s)el.textContent=N;}
+var els=[].slice.call(document.querySelectorAll('[data-pg-count]'));if(!els.length||!window.MutationObserver)return;
+var mo=new MutationObserver(function(list){list.forEach(function(r){var el=r.target.nodeType===1?r.target:r.target.parentNode;if(el&&el.hasAttribute&&el.hasAttribute('data-pg-count'))fix(el);});});
+els.forEach(function(el){fix(el);mo.observe(el,{childList:true,characterData:true,subtree:true});});})();</script>`;
 // a translated index may list only a few items; keep them card-sized
 const FEW_CSS = `<style data-kq-few>#latest-grid{grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))!important}</style>`;
 const FIT_JS = `<script>/* translated pages: keep the header on one line; tighten in steps, then use the Menu button */
@@ -155,6 +181,28 @@ for (const L of cfg.languages) {
       if (name) { const j = JSON.parse(fs.readFileSync(path.join(ASSETS, name), "utf8")); more = {}; for (const [id, list] of Object.entries(j)) more[id] = list.filter(keepItem); }
       // a list with nothing in this language is not shown
       html = html.replace(/<section\b[^>]*data-ptype="[^"]*"[^>]*>[\s\S]*?<\/section>/g, (sec) => { const id = (sec.match(/id="(latest-grid|news-list)"/) || [])[1]; const extra = more && id ? more[id].length : 0; return /data-date="/.test(sec) || extra ? sec : sec.replace(/^<section\b/, '<section hidden="hidden"'); });
+      // tabs and filter choices that would only lead to "no results" in this language are not offered
+      const shownTypes = new Set([...html.matchAll(/<section\b(?![^>]*\shidden)[^>]*data-ptype="([^"]*)"/g)].map((m) => m[1]));
+      const items = [html, ...(more ? Object.values(more).flat() : [])].join("\n");
+      const vals = (a) => new Set([...items.matchAll(new RegExp(`<(?:article|li)\\b[^>]*\\s${a}="([^"]*)"`, "g"))].map((m) => m[1]));
+      const dates = [...vals("data-date")], topics = vals("data-topic"), channels = vals("data-channel"), authors = vals("data-author");
+      const offered = { "ps-ty": (v) => shownTypes.has(v), "ps-t": (v) => topics.has(v), "ps-c": (v) => channels.has(v), "ps-a": (v) => authors.has(v),
+        "ps-m": (v) => dates.some((d) => d.startsWith(v + "-")), "ps-y": (v) => dates.some((d) => d.startsWith(v + "-")), "ps-mo": (v) => dates.some((d) => d.slice(5, 7) === v) };
+      for (const [id, ok] of Object.entries(offered)) {
+        const n = html.split(`<select id="${id}"`).length - 1;
+        if (n !== 1) fail(`${file}: expected one <select id="${id}">, found ${n}`);
+        html = html.replace(new RegExp(`(<select id="${id}"[^>]*>)([\\s\\S]*?)(</select>)`), (_, a, body, z) => {
+          let first = true;
+          // an option's value is its value attribute, or its text when it has none
+          return a + body.replace(/<option\b([^>]*)>([\s\S]*?)<\/option>\s*/g, (opt, at, label) => { const v = (at.match(/\svalue="([^"]*)"/) || [null, label.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim()])[1]; if (first) { first = false; return opt; } if (!v || ok(v)) return opt; return ""; }) + z;
+        });
+      }
+      const tabs = html.split("data-kq-type=").length - 1;
+      html = html.replace(/<button\b([^>]*)\sdata-kq-type="([^"]+)"/g, (b, pre, t) => (shownTypes.has(t) ? b : `<button hidden${pre} data-kq-type="${t}"`));
+      if (!tabs) fail(`${file}: expected the type tabs (data-kq-type)`);
+      html = html.replace("</head>", () => `<style>.kq-ptabs [hidden]{display:none!important}</style></head>`);
+      // the pager's "1–9 of 12" and "No results", which the page's script writes in English
+      html = html.replace("</body>", () => PAGER_JS + "</body>");
     }
     const tree = read(html);
     tagHooks(tree);
@@ -195,6 +243,15 @@ for (const L of cfg.languages) {
       })(j);
       return a + JSON.stringify(j) + z;
     });
+    // title and description lengths, as for the English pages: " | Kwontified" goes when the title
+    // would pass 60 characters; a title must be 30-60 characters and a description 70-160
+    // (shorten or lengthen the translation in site-i18n/<lang>/pages/<page>.json)
+    const plain = (s) => s.replace(/&(amp|quot|apos|#39|lt|gt|rsquo|nbsp);/g, (m, e) => ({ amp: "&", quot: '"', apos: "'", "#39": "'", lt: "<", gt: ">", rsquo: "’", nbsp: " " })[e]);
+    const title = (html.match(/<title>([\s\S]*?)<\/title>/) || fail(`${out(lang, file)}: no <title>`))[1];
+    if (plain(title).length > 60 && title.endsWith(" | Kwontified")) html = html.replace(/<title>[\s\S]*?<\/title>/, () => `<title>${title.slice(0, -" | Kwontified".length)}</title>`);
+    const tLen = plain(html.match(/<title>([\s\S]*?)<\/title>/)[1]).length, desc = plain((html.match(/<meta name="description" content="([^"]*)"/) || ["", ""])[1]);
+    if (tLen < 30 || tLen > 60) fail(`${out(lang, file)}: title is ${tLen} characters (30-60): ${plain(html.match(/<title>([\s\S]*?)<\/title>/)[1])}`);
+    if (desc.length < 70 || desc.length > 160) fail(`${out(lang, file)}: meta description is ${desc.length} characters (70-160): ${desc}`);
     // styles and scripts find elements by the English label or address kept in data-kq-label / data-kq-href
     html = html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, hooks)
       .replace(/<script\b(?![^>]*\b(?:src=|type="application\/(?:ld\+)?json"|type="speculationrules"))[^>]*>[\s\S]*?<\/script>/g, hooks)
@@ -204,9 +261,8 @@ for (const L of cfg.languages) {
     html = html.replace("</head>", () => `<script>window.kqT=${JSON.stringify(dict).replace(/</g, "\\u003c")}</script>` + hooks(FIT_CSS) + FEW_CSS + scriptCss(lang) + "</head>");
     if (html.split("</header>").length !== 2) fail(`${file}: expected one header`);
     html = html.replace("</header>", () => "</header>" + FIT_JS);
-    const out = `${lang}--${file}`;
-    fs.writeFileSync(path.join(DIR, out), html);
-    built.push({ lang, tag, route: loc(lang, route), en: route, file: "/_kq/" + out, live: !!L.live, done: res.done, missing: res.missing });
+    fs.writeFileSync(path.join(DIR, out(lang, file)), html);
+    built.push({ lang, tag, route: loc(lang, route), en: route, file: "/_kq/" + out(lang, file), live: !!L.live, done: res.done, missing: res.missing });
     if (!versionsOf.has(route)) versionsOf.set(route, [{ code: "en", tag: "en", name: "English", href: route, live: true }]);
     versionsOf.get(route).push({ code: lang, tag, name: L.name, href: loc(lang, route), live: !!L.live });
   }

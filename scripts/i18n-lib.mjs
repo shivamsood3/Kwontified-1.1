@@ -62,7 +62,8 @@ const closest = (n, test) => { for (let x = n; x; x = x.up) if (test(x)) return 
 
 // What a visitor reads or hears from an attribute.
 const ATTRS = ["alt", "title", "aria-label", "placeholder"];
-const META = /^(description|og:title|og:description|twitter:title|twitter:description)$/;
+// (the share image's alt text is the hero picture's alt, so it reads in the page's language too)
+const META = /^(description|og:title|og:description|og:image:alt|twitter:title|twitter:description|twitter:image:alt)$/;
 
 // A run of inline content as text with numbered placeholders; `map` remembers what each stands for.
 function flatten(nodes, map) {
@@ -222,8 +223,10 @@ export const hooks = (code) => code.replace(/\[aria-label(?=[*^$~|]?=)/g, "[data
 
 // Words the site's own scripts show a visitor (a button that says "Sending…"). They are written
 // T('…') in the scripts; the build hands each translated page a small dictionary for them.
+// Also the Perspectives pager's words, which an inline script writes and site-i18n.mjs rewrites.
+export const PAGER_STRINGS = ["{a}\u2013{b} of {n}", "No results"];
 export function runtimeStrings() {
-  const out = new Set(), dir = path.join(ROOT, "public/assets");
+  const out = new Set(PAGER_STRINGS), dir = path.join(ROOT, "public/assets");
   for (const f of fs.readdirSync(dir)) if (/^kq-(fx|nav|px)-[0-9a-f]{12}\.js$/.test(f)) for (const m of fs.readFileSync(path.join(dir, f), "utf8").matchAll(/\bT\('((?:[^'\\]|\\.)*)'\)/g)) out.add(JSON.parse('"' + m[1].replace(/\\'/g, "'").replace(/"/g, '\\"') + '"'));
   return [...out];
 }
