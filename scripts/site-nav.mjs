@@ -322,7 +322,7 @@ for (const f of files) {
   const file = path.join(DIR, f);
   let html = fs.readFileSync(file, "utf8");
   if (html.includes("data-kq-nav")) fail(`${f}: already applied; run the whole build`);
-  const route = fileRoute.get(f) || (f === "404.html" ? "/404" : fail(`${f}: not in site-routes.json`));
+  const route = fileRoute.get(f) || (f === "404.html" ? "/404" : f === "403.html" ? "/403" : fail(`${f}: not in site-routes.json`));
   // the client sign-in page has its own plain header (logo and a way back), by design
   const plain = PLAIN.has(f);
   if (!plain) html = header(html, route, f);

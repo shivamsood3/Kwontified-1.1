@@ -49,6 +49,8 @@ const moved: Record<string, string> = {
 };
 
 const nextConfig: NextConfig = {
+  // app/403/route.ts reads the built 403 page at run time; make sure the file ships with it
+  outputFileTracingIncludes: { "/403": ["./public/_kq/403.html"] },
   async rewrites() {
     return { beforeFiles: [...pageRewrites, ...articleRewrites], afterFiles: [], fallback: [] };
   },
