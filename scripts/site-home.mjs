@@ -252,6 +252,9 @@ let faq = S["faq-title"];
   const channelsPage = text(read("channels.html"));
   for (const q of CUT.slice(0, 2)) if (!channelsPage.includes(q)) fail(`"${q}" is no longer answered on /channels; keep it here or move it`);
   faq = once(faq, "Six capabilities within one agile omni-channel strategy: retail media and advertising, creative, marketplace operations, analytics and forecasting, agentic commerce, and revenue recovery on Amazon.", "Six capabilities within one agile omni-channel strategy: Retail Media and Advertising, Creative Studio, Marketplace Operations, Analytics and Forecasting, Agentic Commerce, and Revenue Recovery on Amazon.", "questions: what is included");
+  // the categories answer, as broad as Why Kwontified's list (Jordan, 2026-11-27: the site must not read as niche)
+  faq = once(faq, "Kwontified works across hardlines, softlines and consumables. In hardlines that includes consumer electronics, small appliances and housewares. In softlines it includes apparel, footwear, handbags, luggage, accessories and jewelry. We also manage beauty and personal care, health and wellness, home goods, and consumer packaged goods such as food and beverage, household, baby and pet products.",
+    "Almost any product that sells on marketplaces and social channels. Kwontified works across hardlines, softlines and consumables: apparel, footwear, handbags, swimwear, intimates, watches, jewelry, luggage and accessories; beauty, skincare, hair care and personal hygiene; health and wellness, supplements, consumer packaged goods, food and beverages; baby and pet products; home goods, housewares, home appliances, and lawn and garden equipment; and consumer electronics. If a product can be sold on these channels, we will most likely work with it.");
   if (count(faq, "<details") !== 5) fail("expected five questions");
 }
 
@@ -311,7 +314,7 @@ main>section:not(#top):not(#finder):not(#contact)>div{padding-top:48px!important
 .kq-hm-press{gap:36px}
 .kq-hm-after{margin-top:20px}
 /* section headings at the size the inner pages use on a phone (the finder keeps its own) */
-main>section:not(#finder) h2[style*="font-size: 40px"]{font-size:30px!important}
+main>section h2[style*="font-size: 40px"]{font-size:30px!important}
 /* six capabilities: one row to swipe, as the creative strip */
 .kq-hm-caps{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:-6px calc(-1 * clamp(24px,5.5vw,80px)) -6px -6px;padding:6px clamp(24px,5.5vw,80px) 10px 6px;scroll-padding-left:6px}
 .kq-hm-caps::-webkit-scrollbar{display:none}

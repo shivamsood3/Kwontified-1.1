@@ -167,6 +167,9 @@ for (const c of cards) {
   });
 }
 const NAMED = { "read the amazon case study": "premium beauty", "read the walmart case study": "walmart display", "read the revenue recovery case study": "shortage claims" };
+// the carousel's play button: its accessible name must contain its visible word ("Play"),
+// or speech-input users cannot say what they see (Lighthouse: label-content-name-mismatch)
+for (const f of Object.keys(P)) P[f] = P[f].split("'Start rotation'").join("'Play rotation'");
 for (const f of Object.keys(P)) {
   P[f] = P[f].replace(/<a\b([^>]*?)href="(\/work|\/work\/shortage-claims|\/channels\/walmart|\/capabilities\/revenue-recovery)"([^>]*)>([\s\S]*?)<\/a>/g, (all, a, href, b, inner, at) => {
     if (/kq-ccard|kq-tab|data-case=/.test(a + b)) return all; // data-case links are resolved by keyword below
