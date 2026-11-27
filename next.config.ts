@@ -19,6 +19,8 @@ const articleRewrites = [
 
 // URLs from the previous build of the site that moved or were merged.
 const moved: Record<string, string> = {
+  // the sleep-brand case study was renamed when the site adopted "Alexa for Shopping" (2026-11-27)
+  "/work/from-6-to-23-of-40-rufus-answers": "/work/from-6-to-23-of-40-alexa-for-shopping-answers",
   "/capabilities/ai-commerce": "/capabilities/agentic-commerce",
   "/capabilities/analytics": "/capabilities/analytics-forecasting",
   "/perspectives/holiday-2026-season-starts-in-october": "/perspectives/holiday-season-starts-october",
@@ -62,6 +64,15 @@ const nextConfig: NextConfig = {
     return [
       // asset file names are content hashes, so they never change in place
       { source: "/assets/:file*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      // every response: browsers must not guess content types, and other sites receive only
+      // the origin (not the full address) when a visitor follows a link away from kwontified.com
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
       // the built files are only meant to be reached through their routes
       { source: "/_kq/:file*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
       // staging and preview deployments (*.vercel.app) must never be indexed alongside

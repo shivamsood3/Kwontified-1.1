@@ -81,13 +81,13 @@ Medium:
 ## Still open (low)
 
 - **Titles over 60 characters (497):** the article headlines themselves. Google truncates rather than penalises; shorten in the sheets if any underperform in Search Console.
-- **Meta descriptions over 160 characters (17):** capability and case study pages, cut off in results after about 155 characters. **Under 70 (2):** the two original 2026 press releases ("Kwontified to attend Amazon Accelerate 2026 in Seattle.").
+- **Resolved 2026-11-27, meta descriptions:** none over 160 or under 70 characters on core pages, case studies and press releases.
 - **External links:** 2,092 outside links to 699 sites could not be tested from the audit machine (network blocked). All are well formed; one uses plain http (techlicious.com). Run a live link check (for example `lychee`) in CI or after launch.
 - **Leadership photographs:** done 2026-11-26 (see HANDOVER.md).
 - **Resolved 2026-11-26:** careers@, legal@, security@ and support@kwontified.com all receive mail (Jordan confirmed); sales@ is no longer used anywhere.
 - **Resolved 2026-11-26, homepage video:** a still frame now shows until the video plays (see HANDOVER.md). The video itself still shows people; it is kept as it is.
 - **Resolved 2026-11-26, Perspectives index:** only the first page of each list is in the HTML (212 KB, down from 1.2 MB); the rest loads on demand. Lighthouse mobile 98 on four runs, TBT 0-10 ms.
-- **Security headers:** Vercel adds HSTS; consider `X-Content-Type-Options: nosniff` and a `Referrer-Policy`.
+- **Resolved 2026-11-27, security headers:** `X-Content-Type-Options: nosniff` and `Referrer-Policy: strict-origin-when-cross-origin` on every response; Vercel adds HSTS.
 - **26 template images without width and height attributes:** no measured layout shift (CLS 0), so no action needed.
 - **Audit storage:** rows were not added to `seo_geo_ops` because this was a pre-launch local audit; the first live-site audit should be the baseline.
 

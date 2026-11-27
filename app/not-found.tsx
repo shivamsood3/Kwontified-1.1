@@ -13,6 +13,7 @@ const body = html.match(/<body[^>]*>([\s\S]*?)<\/body>/)?.[1] ?? "";
 
 export const metadata: Metadata = {
   title: "Page not found | Kwontified",
+  description: "The page you were looking for has moved or no longer exists. Use Search in the menu, or start from Kwontified’s case studies or the homepage.",
   robots: { index: false },
 };
 

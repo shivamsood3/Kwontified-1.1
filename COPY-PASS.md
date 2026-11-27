@@ -55,8 +55,8 @@ No figure, name, date, requirement or claim was changed. Each of the 29 edited p
 
 ## Questions for Jordan
 
-1. **Rufus or Alexa for Shopping.** The home page channel list says "AI shopping assistants: Rufus, ChatGPT, Gemini and Claude". Everywhere else the site says Amazon combined Rufus and Alexa+ into Alexa for Shopping in the US in May 2026. Jordan's profile also says "Amazon Rufus". Left as is, because it is a naming fact.
-2. **A value's name.** "We Raise the Bar — Together" is now "We Raise the Bar, Together" (the site uses no em dashes in prose). Say if the dash is part of the official name.
+1. **Rufus or Alexa for Shopping.** Resolved 2026-11-27: Jordan chose Alexa for Shopping. Current references use it; the sleep-brand case study is now "From 6 to 23 of 40 Alexa for Shopping answers" (its summary says "formerly Rufus", and the old address redirects). Explanations of the rename and dated archive articles keep Rufus.
+2. **A value's name.** Resolved 2026-11-27: "We Raise the Bar Together", no punctuation (recommended to Jordan: it matches the other value names and the calm voice; the original export had a dash).
 3. **White papers.** Removed from the Perspectives introduction because none are published there yet. They can go back when the first one is.
-4. **Creative gallery caption.** "Display creative, haircare" sits on the baby food supplier's Walmart result. One of the two labels is wrong.
+4. **Creative gallery caption.** Resolved 2026-11-27: the shampoo display piece no longer carries the baby food result (no haircare case exists); the tumbler video, captioned with the skincare affiliate result, now carries the drinkware case it shows. The other nine pieces link to their case studies.
 5. **omni-channel and omnichannel.** The approved phrase "one agile omni-channel strategy" is hyphenated; the metric "omnichannel ROAS" (seven uses) is not. Left as is.

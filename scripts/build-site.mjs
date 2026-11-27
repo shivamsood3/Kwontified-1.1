@@ -265,6 +265,8 @@ for (const f of pages) {
     "Use Search in the menu to find a page, or start from our work or the homepage.",
   );
   swap("If something changes before we speak, write to ", "If a link brought you here, let us know at ");
+  // a fuller description than the first sentence (the page is noindex, but it is what a shared link shows)
+  h = h.replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*/g, (_, a) => a + "The page you were looking for has moved or no longer exists. Use Search in the menu, or start from Kwontified’s case studies or the homepage.");
   fs.writeFileSync(path.join(OUT_PAGES, "404.html"), finalize(h));
 }
 

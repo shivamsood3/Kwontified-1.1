@@ -75,6 +75,27 @@ for (const [, t, para] of P["work.html"].matchAll(/class="kq-slide-text"><h2[^>]
   c.long = para;
 }
 
+// Search descriptions for case studies whose card summary is too long for a results page
+// (Google shows about 155 characters). Keyed by a phrase naming exactly one case study;
+// the other cases use their card summary as before.
+const CASE_DESC = Object.fromEntries(Object.entries({
+  "price claims recovered": "A personal care appliance vendor recovered $538K of $612K after Amazon kept paying its old cost for five months, and fixed the process that let it happen.",
+  "walmart display": "A baby food supplier’s Walmart display ads, aimed at households new to the brand and judged on store sales too, turned $380K of spend into $2.60M in sales.",
+  "sold at full price": "A cashmere label sold 71% of its first-season Amazon allocation at full price, against 58% across its wholesale accounts, reordering only proven colors.",
+  "affiliate sales": "A skincare brand took TikTok Shop affiliate sales from $380K to $2.3M in a year by sampling only acne and sensitive-skin creators with similar product sales.",
+  "claims it could not prove": "A sports nutrition brand went from 7 to 21 of 45 tracked AI assistant answers by removing claims it could not prove and leading with third-party testing.",
+  "roundel roas": "A clean skincare brand raised always-on Roundel ROAS from 2.4x to 3.9x by restructuring a campaign that spent 38% of its budget on branded search.",
+  "amazon mexico": "A pet grooming brand listed all 41 products on Amazon Mexico from US FBA stock, in Spanish written from Mexican searches, to see which earned local inventory.",
+  "break-even ad cost": "An oral care launch reached break-even ad cost in 7 weeks, not 12: Vine reviews arrived before the main ad spend, which came in at $38K against a $52K plan.",
+  "conversion doubled": "A travel luggage brand doubled its Amazon UK conversion rate from 3.1% after its pages were rewritten in British English, with cabin sizes in centimetres.",
+  "23 of 40": "A sleep brand went from 6 to 23 of 40 tracked Alexa for Shopping answers after completing the firmness, loft, sleep position and cooling data on its listings.",
+  "viral spike": "A drinkware brand sold 66,800 tumblers in 12 weeks on TikTok Shop without running out: daily alerts on affiliate videos started restocking as the spike began.",
+  "luxury stores conversion": "A fine jewelry brand raised Amazon Luxury Stores conversion from 3.4% to 5.1% with on-body imagery, scale references and short videos that show size.",
+  "listing types": "A personal care brand nearly doubled its Mercado Libre margin from 9% by choosing the Clásica or Premium listing type product by product, not Premium for all.",
+  "premium beauty": "A clinical skincare brand grew Amazon sales 64% after we cleared unauthorized sellers and rebuilt its pages, and Amazon accepted it into Premium Beauty.",
+  "without losing the amazon buy box": "A kitchen tools brand kept the Amazon Buy Box while selling on Temu: price floors tied to Amazon and daily checks restored 14 suppressed offers in 3 weeks."
+}).map(([kw, d]) => [find(kw).url, d]));
+
 const TPL = P["work--shortage-claims.html"];
 function casePage(c) {
   let h = TPL;
@@ -88,7 +109,9 @@ function casePage(c) {
   const title = esc(c.title) + ".";
   h = h.split("$781K in shortage claims recovered.").join(title);
   h = h.split("https://kwontified.com" + EXISTING).join("https://kwontified.com" + c.url);
-  rep(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*/g, (_, a) => a + esc(text(c.sum)), 3);
+  const desc = CASE_DESC[c.url] || text(c.sum);
+  if (desc.length > 160) fail(`case study ${c.url}: search description is ${desc.length} characters; add a shorter one to CASE_DESC`);
+  rep(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*/g, (_, a) => a + esc(desc), 3);
   rep(/(<span aria-current="page"[^>]*>)Shortage claims(<\/span>)/g, (_, a, b) => a + esc(c.brand.replace(/^An? /, "").replace(/^./, (x) => x.toUpperCase())) + b);
   rep(/(<p[^>]*>)A kitchen appliance vendor, Amazon Vendor Central(<\/p>)/g, (_, a, b) => `${a}${esc(c.brand)}, ${esc(c.channel)}${b}`);
   rep(/(<dt[^>]*>Category<\/dt><dd[^>]*>)[^<]*/g, (_, a) => a + c.category);
@@ -146,7 +169,7 @@ for (const c of cards) {
 const NAMED = { "read the amazon case study": "premium beauty", "read the walmart case study": "walmart display", "read the revenue recovery case study": "shortage claims" };
 for (const f of Object.keys(P)) {
   P[f] = P[f].replace(/<a\b([^>]*?)href="(\/work|\/work\/shortage-claims|\/channels\/walmart|\/capabilities\/revenue-recovery)"([^>]*)>([\s\S]*?)<\/a>/g, (all, a, href, b, inner, at) => {
-    if (/kq-ccard|kq-tab/.test(a + b)) return all;
+    if (/kq-ccard|kq-tab|data-case=/.test(a + b)) return all; // data-case links are resolved by keyword below
     const t = norm(inner);
     let c = NAMED[t] ? find(NAMED[t]) : cards.find((x) => t.includes(x.key));
     if (!c && href.startsWith("/work") && /\bcase study\b/.test(t)) {
@@ -174,6 +197,13 @@ for (const f of Object.keys(P)) {
     }
     return a + JSON.stringify(data).replace(/<\//g, "<\\/") + z;
   });
+}
+
+// creative gallery: each piece links to its case study, named in the export by a keyword
+{
+  let n = 0;
+  P["work--creative.html"] = P["work--creative.html"].replace(/href="\/work" data-case="([^"]+)"/g, (_, kw) => { n++; return `href="${find(kw).url}"`; });
+  if (n !== 10) fail(`creative gallery: expected 10 case study links, found ${n}`);
 }
 
 // ---- 3. homepage -------------------------------------------------------------------

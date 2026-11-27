@@ -60,6 +60,14 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - `app/api/_lib/sinks.ts`: the Mailchimp call no longer sets a status on people who are already in the audience unless the sign-up changes something, so an existing subscriber is never moved back to pending. Nine cases tested against a mocked API.
 - The briefing is sent from newsletter@kwontified.com (Jordan, 2026-11-27). The confirmation page names that address and `MAILCHIMP-SETUP.md` sets it as the audience's From address; it must be a mailbox or alias that receives mail. The confirmation page also sends questions about the briefing there, and `/subscribe` (quoted in the newsletter press release) redirects to the sign-up field.
 
+## Decisions and fixes, 2026-11-27 (final QA round)
+
+- Alexa for Shopping (Jordan): current references use it. The sleep-brand case study is "From 6 to 23 of 40 Alexa for Shopping answers" at `/work/from-6-to-23-of-40-alexa-for-shopping-answers`; the old Rufus address redirects (308). Explanations of the rename and dated archive articles keep "Rufus".
+- Creative gallery: the shampoo display piece no longer carries the baby food Walmart result (no haircare case study exists); the tumbler video now carries the drinkware TikTok case it shows. The other pieces link to their case studies; links are written as `href="Work.html" data-case="<keyword>"` in `Gallery.html` and resolved by keyword in `site-fixes.mjs`, so a renamed case cannot leave a broken link.
+- Value name: "We Raise the Bar Together" (recommended to Jordan; the original export had a dash).
+- Search descriptions: 15 case studies get their own (146 to 158 characters, `CASE_DESC` in `site-fixes.mjs`; the build fails on any over 160); the two renamed press releases get full descriptions (`site-content.mjs`); the 404 page has one (`build-site.mjs` and `app/not-found.tsx`).
+- Security headers on every response: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin` (`next.config.ts`).
+
 ## Whole-card links (checked and completed 2026-11-27)
 
 - Every article, news item and press release opens from anywhere on its card or row: picture, title, summary and date line. This works through one link per item whose click area covers the item (`data-kq-row` on the item, class `kq-sl` on its link; `scripts/site-fixes.mjs` section 6 and the rows written by `scripts/site-archive.mjs`).
@@ -92,7 +100,7 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Perspectives index: done 2026-11-26. First page in the HTML (212 KB instead of 1.2 MB), the rest of the archive on demand (build step 8). Lighthouse mobile 98 on four runs (LCP 2.3-2.5 s, TBT 0-10 ms, CLS 0). Every item stays discoverable through the sitemap, llms.txt and the related-article links on each article. Visitors without JavaScript see the first nine articles and twelve news items only.
 - From the QA pass (details in `QA-REPORT.md`): robots.txt change approved and applied 2026-11-26; careers@, legal@, security@ and support@ confirmed to receive mail. Still to do: run geo-optimizer and a live external-link check where the site is reachable.
 - Homepage hero: done 2026-11-26. A still frame of the parcel conveyor (frame at 26.2 s of the desktop video: no people, navy wall behind the headline) shows until the video is actually playing, then the video fades in over 0.8 s. Files `site-src/assets/home-hero-still{,-960,-1440,-1920}` (WebP 17-47 KB, JPEG fallback); it is also the video's poster and the page's LCP image. Visitors who prefer reduced motion get the still and the video is paused (not downloaded further); if the browser refuses autoplay (iOS Low Power Mode, data saver) the still stays and the button offers Play. The two old first-frame background images (`11948d288a83.jpg`, `e57c7576b74e.jpg`) are no longer referenced.
-- Leadership profiles: waiting for Jordan to read and approve the text of both pages (sent as screenshots and a text file on 2026-11-26).
+- Leadership profiles: approved by Jordan on 2026-11-27 (after the second polish).
 - Google Ads conversions: after go-live (Jordan's decision).
 - Jordan is handling: link sharing on the Google Drive folders, and the 2019 and 2020 archive sheets.
 - The six draft press releases and the two `[DATA NEEDED]` articles can be imported once the sheets are completed and marked Final.

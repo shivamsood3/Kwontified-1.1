@@ -142,6 +142,15 @@ for (const [oldSlug, slug, oldTitle, title, oldLead, lead] of [
   MOVED[a] = b;
   for (const f of Object.keys(P)) P[f] = P[f].split(oldTitle).join(title).split(oldLead).join(lead).split(a).join(b);
 }
+// the two renamed releases kept only their title as a description; give them a full one
+for (const [f, d] of Object.entries({
+  "perspectives--press-releases--kwontified-to-attend-amazon-accelerate-2026-in-seattle.html": "Kwontified’s Jordan Taylor will attend Amazon Accelerate 2026 in Seattle, September 22–24, watching AI shopping agents, holiday readiness and creator demand.",
+  "perspectives--press-releases--kwontified-to-attend-amazon-ads-unboxed-2026-in-san-francisco.html": "Elaine Kwon and Jordan Taylor of Kwontified will attend Amazon Ads unBoxed 2026 in San Francisco from September 28, watching ads in AI shopping and video."
+})) {
+  let k = 0;
+  P[f] = P[f].replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*/g, (_, a) => { k++; return a + d; });
+  if (!k) fail(`${f}: no description to replace`);
+}
 // the press materials block held placeholder links only; it comes back with the press kit
 {
   let n = 0;
