@@ -531,6 +531,41 @@
    "k": "bbfa773e5a",
    "src": "Close",
    "t": "닫기"
+  },
+  {
+   "k": "5826b136ec",
+   "src": "Leave this field empty",
+   "t": "이 칸은 비워 두세요"
+  },
+  {
+   "k": "c6dd62d329",
+   "src": "Enter your first name.",
+   "t": "이름을 입력하세요."
+  },
+  {
+   "k": "547f152441",
+   "src": "Enter your last name.",
+   "t": "성을 입력하세요."
+  },
+  {
+   "k": "99d248a8b2",
+   "src": "Enter your company or brand.",
+   "t": "회사 또는 브랜드를 입력하세요."
+  },
+  {
+   "k": "74169f4643",
+   "src": "Enter your brand website, for example brand.com.",
+   "t": "브랜드 웹사이트를 입력하세요(예: brand.com)."
+  },
+  {
+   "k": "d6e00f19dc",
+   "src": "Tell us what you want to achieve.",
+   "t": "이루고 싶은 목표를 알려 주세요."
+  },
+  {
+   "k": "46affb94e0",
+   "src": "Enter your password.",
+   "t": "비밀번호를 입력하세요."
   }
  ]
 }

@@ -3,8 +3,8 @@
  "route": "/perspectives/holiday-season-starts-october",
  "segments": [
   {
-   "k": "572c58521b",
-   "src": "Holiday 2026: The Season Now Starts in October",
+   "k": "dfe890b074",
+   "src": "Holiday 2026: the season now starts in October",
    "t": "Temporada navideña 2026: ahora empieza en octubre"
   },
   {
@@ -13,14 +13,19 @@
    "t": "Adobe prevé que los compradores de EE. UU. gasten 95.8 mil millones de dólares en línea en octubre, un 8% más, en un mes fuera de su ventana navideña."
   },
   {
-   "k": "c6b996e48c",
-   "src": "Article header",
-   "t": "Encabezado del artículo"
-  },
-  {
    "k": "3dae53942a",
    "src": "Gift-wrapped parcels and a bowl of oranges on a hallway table in autumn light",
    "t": "Paquetes envueltos para regalo y un tazón de naranjas sobre una mesa de pasillo con luz de otoño"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "c6b996e48c",
+   "src": "Article header",
+   "t": "Encabezado del artículo"
   },
   {
    "k": "c766e66518",
@@ -38,11 +43,6 @@
    "t": "<1>Artículo</1>. <2>Guías de eventos</2>. Todos los canales"
   },
   {
-   "k": "dfe890b074",
-   "src": "Holiday 2026: the season now starts in October",
-   "t": "Temporada navideña 2026: ahora empieza en octubre"
-  },
-  {
    "k": "f70e5cca95",
    "src": "By <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Published Nov 5, 2026. 4-minute read.",
    "t": "Por <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Publicado el 5 de noviembre de 2026. Lectura de 4 minutos."
@@ -53,9 +53,9 @@
    "t": "Adobe prevé que los compradores de Estados Unidos gasten 95.8 mil millones de dólares en línea en octubre, un 8% más, en un mes que queda fuera de su ventana navideña y que aun así equivale a cerca del 35% de la temporada que pronostica, <1>según informó PPC Land</1>. Los minoristas trasladaron eventos importantes a octubre y principios de noviembre, y los compradores gastan mucho antes de que empiece la temporada tradicional."
   },
   {
-   "k": "d75aafb8dd",
-   "src": "So the 2026 holiday season now starts in October. Brands should plan a ten-week season with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
-   "t": "Por eso, la temporada navideña de 2026 ahora empieza en octubre. Las marcas deberían planificar una temporada de diez semanas con una tarea distinta para cada fase, en lugar de concentrarlo todo en Black Friday y Cyber Monday."
+   "k": "ee067a2ac2",
+   "src": "So the 2026 holiday season now starts in October. Brands should plan a season of about twelve weeks with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
+   "t": "Por eso, la temporada navideña de 2026 ahora empieza en octubre. Las marcas deberían planificar una temporada de unas doce semanas con una tarea distinta para cada fase, en lugar de concentrarlo todo en Black Friday y Cyber Monday."
   },
   {
    "k": "f966d67de1",
@@ -113,9 +113,9 @@
    "t": "Cuatro fases, cada una con su propia tarea"
   },
   {
-   "k": "27d46d28f3",
-   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. In 2026, it used October to test prices on its best sellers, started gift advertising when Walmart’s early deals opened in mid-November, concentrated spend in Cyber Week and kept a smaller budget for December gift buyers. Its stock plan followed the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
-   "t": "Pensemos en una marca de juguetes que, en años anteriores, reservaba la mayor parte de su presupuesto para la semana de Black Friday. En 2026 usó octubre para probar precios en sus productos más vendidos, empezó la publicidad de regalos cuando abrieron las ofertas anticipadas de Walmart a mediados de noviembre, concentró el gasto en Cyber Week y mantuvo un presupuesto menor para quienes compran regalos en diciembre. Su plan de inventario siguió las mismas fases: una prueba en octubre, una acumulación a principios de noviembre, un punto más alto en Cyber Week y un cierre en diciembre."
+   "k": "0295a6f6b1",
+   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. A toy brand planning 2026 would use October to test prices on its best sellers, start gift advertising when Walmart’s early deals open on November 12, concentrate spend in Cyber Week and keep a smaller budget for December gift buyers. Its stock plan would follow the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
+   "t": "Piense en una marca de juguetes que, en años anteriores, reservaba la mayor parte de su presupuesto para la semana del Black Friday. Una marca de juguetes que planifique 2026 usaría octubre para probar precios en sus productos más vendidos, empezaría la publicidad de regalos cuando abran las ofertas anticipadas de Walmart el 12 de noviembre, concentraría la inversión en la Cyber Week y mantendría un presupuesto menor para quienes compran regalos en diciembre. Su plan de inventario seguiría las mismas fases: una prueba en octubre, un aumento a principios de noviembre, un pico en la Cyber Week y un cierre en diciembre."
   },
   {
    "k": "4e210b58e3",
@@ -213,19 +213,9 @@
    "t": "Cuéntenos dónde vende y cómo se perfila su cuarto trimestre. Alguien de nuestro equipo le responderá en un día hábil."
   },
   {
-   "k": "4c4f33367d",
-   "src": "Request an incrementality review",
-   "t": "Solicitar una revisión de incrementalidad"
-  },
-  {
-   "k": "ee067a2ac2",
-   "src": "So the 2026 holiday season now starts in October. Brands should plan a season of about twelve weeks with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
-   "t": "Por eso, la temporada navideña de 2026 ahora empieza en octubre. Las marcas deberían planificar una temporada de unas doce semanas con una tarea distinta para cada fase, en lugar de concentrarlo todo en Black Friday y Cyber Monday."
-  },
-  {
-   "k": "2f70dd1d35",
-   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. Planning 2026, it would use October to test prices on its best sellers, start gift advertising when Walmart’s early deals open on November 12, concentrate spend in Cyber Week and keep a smaller budget for December gift buyers. Its stock plan would follow the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
-   "t": "Pensemos en una marca de juguetes que, en años anteriores, reservaba la mayor parte de su presupuesto para la semana de Black Friday. Al planificar 2026, usaría octubre para probar precios en sus productos más vendidos, empezaría la publicidad de regalos cuando abran las ofertas anticipadas de Walmart el 12 de noviembre, concentraría el gasto en Cyber Week y mantendría un presupuesto menor para quienes compran regalos en diciembre. Su plan de inventario seguiría las mismas fases: una prueba en octubre, una acumulación a principios de noviembre, un punto más alto en Cyber Week y un cierre en diciembre."
+   "k": "2f6b197551",
+   "src": "Request an event plan review",
+   "t": "Solicite una revisión de su plan de temporada"
   }
  ]
 }

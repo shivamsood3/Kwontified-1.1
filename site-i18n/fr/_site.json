@@ -531,6 +531,41 @@
    "k": "bbfa773e5a",
    "src": "Close",
    "t": "Fermer"
+  },
+  {
+   "k": "5826b136ec",
+   "src": "Leave this field empty",
+   "t": "Laissez ce champ vide"
+  },
+  {
+   "k": "c6dd62d329",
+   "src": "Enter your first name.",
+   "t": "Saisissez votre prénom."
+  },
+  {
+   "k": "547f152441",
+   "src": "Enter your last name.",
+   "t": "Saisissez votre nom."
+  },
+  {
+   "k": "99d248a8b2",
+   "src": "Enter your company or brand.",
+   "t": "Saisissez votre entreprise ou votre marque."
+  },
+  {
+   "k": "74169f4643",
+   "src": "Enter your brand website, for example brand.com.",
+   "t": "Saisissez le site web de votre marque, par exemple brand.com."
+  },
+  {
+   "k": "d6e00f19dc",
+   "src": "Tell us what you want to achieve.",
+   "t": "Dites-nous ce que vous voulez accomplir."
+  },
+  {
+   "k": "46affb94e0",
+   "src": "Enter your password.",
+   "t": "Saisissez votre mot de passe."
   }
  ]
 }

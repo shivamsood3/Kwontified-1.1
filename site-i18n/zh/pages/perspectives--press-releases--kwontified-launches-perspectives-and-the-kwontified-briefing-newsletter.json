@@ -3,14 +3,29 @@
  "route": "/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
  "segments": [
   {
+   "k": "72cab237c1",
+   "src": "Kwontified launches Perspectives and the Kwontified Briefing",
+   "t": "Kwontified 推出 Perspectives 与 Kwontified Briefing"
+  },
+  {
+   "k": "b86cdf5c93",
+   "src": "Kwontified launched Perspectives, its articles on kwontified.com, and the Kwontified Briefing, a newsletter for brands selling on Amazon, Walmart and Target.",
+   "t": "Kwontified 推出 Perspectives（kwontified.com 上的文章栏目）和 Kwontified Briefing。后者是一份面向在Amazon、Walmart和 Target 上销售的品牌的电子简报，分享市场运营的实用见解。"
+  },
+  {
    "k": "4ce790462c",
    "src": "Kwontified launches Perspectives and the Kwontified Briefing newsletter",
    "t": "Kwontified 推出 Perspectives 与邮件简报 Kwontified Briefing"
   },
   {
-   "k": "095e92c1ec",
-   "src": "Kwontified, an e-commerce channel management, marketing and technology services firm, today announced the launch of Perspectives, its articles on…",
-   "t": "Kwontified 宣布推出 kwontified.com 上的文章栏目 Perspectives 和月度邮件简报 Kwontified Briefing，为在 Amazon、Walmart、Target 等平台销售的品牌提供分析与要闻。"
+   "k": "d25a98fffa",
+   "src": "Four kraft parcels on a stone ledge against a sunlit navy wall, rising in height like a bar chart, with the Kwontified logo",
+   "t": "阳光照射的海军蓝墙前，石台上四个牛皮纸包裹像柱状图一样由低到高排列，旁边是 Kwontified 标志"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
   },
   {
    "k": "c6b996e48c",
@@ -38,9 +53,9 @@
    "t": "佐治亚州 Atlanta · 2026年11月3日"
   },
   {
-   "k": "cf48c465eb",
-   "src": "ATLANTA — November 3, 2026 — Kwontified, an e-commerce channel management, marketing and technology services firm, today announced the launch of Perspectives, its articles on kwontified.com, and the Kwontified Briefing, a newsletter for brands that sell on Amazon, Walmart, Target and other marketplaces.",
-   "t": "Atlanta，2026年11月3日——提供电商渠道管理、营销与技术服务的公司 Kwontified 今日宣布推出 Perspectives 与 Kwontified Briefing。Perspectives 是其发布于 kwontified.com 的文章栏目；Kwontified Briefing 是一份邮件简报，面向在 Amazon、Walmart、Target 及其他电商平台销售的品牌。"
+   "k": "9d26324298",
+   "src": "ATLANTA — November 3, 2026 — Kwontified, a marketplace management agency for consumer brands, today announced the launch of Perspectives, its articles on kwontified.com, and the Kwontified Briefing, a newsletter for brands that sell on Amazon, Walmart, Target and other marketplaces.",
+   "t": "亚特兰大 — 2026 年 11 月 3 日 — 面向消费品牌的电商平台运营代理机构 Kwontified 今天宣布推出 Perspectives（kwontified.com 上的文章栏目）和 Kwontified Briefing，一份面向在Amazon、Walmart、Target 及其他电商平台销售的品牌的电子简报。"
   },
   {
    "k": "4ec5fbd096",
@@ -83,9 +98,9 @@
    "t": "关于 Kwontified"
   },
   {
-   "k": "a220d408c6",
-   "src": "Kwontified is an e-commerce channel management, marketing and technology services firm that helps brands plan, run and measure their business on Amazon, Walmart, Target and other marketplaces. Learn more at kwontified.com.",
-   "t": "Kwontified 是一家提供电商渠道管理、营销与技术服务的公司，帮助品牌规划、运营和衡量其在 Amazon、Walmart、Target 及其他电商平台上的业务。详情请访问 kwontified.com。"
+   "k": "ffc308ab2a",
+   "src": "Kwontified is a marketplace management agency that runs Amazon, Walmart, Target Plus and other marketplaces for consumer brands. Founded in 2016, it is headquartered in Atlanta. Learn more at kwontified.com.",
+   "t": "Kwontified 是一家电商平台运营代理机构，为消费品牌运营Amazon、Walmart、Target Plus 及其他电商平台。公司成立于 2016 年，总部位于 Atlanta。了解更多请访问 kwontified.com。"
   },
   {
    "k": "7cf0f2c0e2",
@@ -126,11 +141,6 @@
    "k": "0ace7b270e",
    "src": "Reporters and editors: send your questions or interview requests and a member of our team will reply within one business day.",
    "t": "记者和编辑：请将您的问题或采访请求发送给我们，我们的团队成员将在一个工作日内回复。"
-  },
-  {
-   "k": "72cab237c1",
-   "src": "Kwontified launches Perspectives and the Kwontified Briefing",
-   "t": "Kwontified 推出 Perspectives 与 Kwontified Briefing"
   }
  ]
 }

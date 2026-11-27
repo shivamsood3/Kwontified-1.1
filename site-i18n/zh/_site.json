@@ -531,6 +531,41 @@
    "k": "bbfa773e5a",
    "src": "Close",
    "t": "关闭"
+  },
+  {
+   "k": "5826b136ec",
+   "src": "Leave this field empty",
+   "t": "请勿填写此栏"
+  },
+  {
+   "k": "c6dd62d329",
+   "src": "Enter your first name.",
+   "t": "请输入您的名字。"
+  },
+  {
+   "k": "547f152441",
+   "src": "Enter your last name.",
+   "t": "请输入您的姓氏。"
+  },
+  {
+   "k": "99d248a8b2",
+   "src": "Enter your company or brand.",
+   "t": "请输入您的公司或品牌。"
+  },
+  {
+   "k": "74169f4643",
+   "src": "Enter your brand website, for example brand.com.",
+   "t": "请输入您的品牌网站，例如 brand.com。"
+  },
+  {
+   "k": "d6e00f19dc",
+   "src": "Tell us what you want to achieve.",
+   "t": "请告诉我们您希望实现的目标。"
+  },
+  {
+   "k": "46affb94e0",
+   "src": "Enter your password.",
+   "t": "请输入您的密码。"
   }
  ]
 }

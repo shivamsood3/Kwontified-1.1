@@ -3,8 +3,8 @@
  "route": "/perspectives/holiday-season-starts-october",
  "segments": [
   {
-   "k": "572c58521b",
-   "src": "Holiday 2026: The Season Now Starts in October",
+   "k": "dfe890b074",
+   "src": "Holiday 2026: the season now starts in October",
    "t": "2026年假日季：如今从10月开始"
   },
   {
@@ -13,14 +13,19 @@
    "t": "Adobe 预计，美国消费者10月的线上支出将达 958 亿美元，增长 8%，而10月并不在其假日季统计窗口之内。因此，2026年假日季实际上从10月就已开始。"
   },
   {
-   "k": "c6b996e48c",
-   "src": "Article header",
-   "t": "文章头部"
-  },
-  {
    "k": "3dae53942a",
    "src": "Gift-wrapped parcels and a bowl of oranges on a hallway table in autumn light",
    "t": "秋日光线下，门厅桌上摆着包装好的礼品包裹和一碗橙子"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "c6b996e48c",
+   "src": "Article header",
+   "t": "文章头部"
   },
   {
    "k": "c766e66518",
@@ -38,11 +43,6 @@
    "t": "<1>文章</1> · <2>大促打法</2> · 全部渠道"
   },
   {
-   "k": "dfe890b074",
-   "src": "Holiday 2026: the season now starts in October",
-   "t": "2026年假日季：如今从10月开始"
-  },
-  {
    "k": "f70e5cca95",
    "src": "By <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Published Nov 5, 2026. 4-minute read.",
    "t": "作者：<1>Elaine Kwon</1>，联合创始人兼管理合伙人。发布于2026年11月5日。阅读时长 4 分钟。"
@@ -53,9 +53,9 @@
    "t": "据 <1>PPC Land 报道</1>，Adobe 预计美国消费者10月的线上支出将达 958 亿美元，增长 8%。10月并不在 Adobe 的假日季统计窗口之内，但这一金额仍相当于其预测的假日季支出的约 35%。零售商把重要的大促活动挪到了10月和11月初，消费者在传统假日季开始之前就已大量消费。"
   },
   {
-   "k": "d75aafb8dd",
-   "src": "So the 2026 holiday season now starts in October. Brands should plan a ten-week season with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
-   "t": "因此，2026年假日季如今从10月开始。品牌应按十周来规划这个假日季，为每个阶段设定不同的任务，而不是把一切都集中在黑色星期五和网络星期一。"
+   "k": "ee067a2ac2",
+   "src": "So the 2026 holiday season now starts in October. Brands should plan a season of about twelve weeks with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
+   "t": "因此，2026年假日季如今从10月开始。品牌应按约十二周来规划这个假日季，为每个阶段设定不同的任务，而不是把一切都集中在黑色星期五和网络星期一。"
   },
   {
    "k": "f966d67de1",
@@ -113,9 +113,9 @@
    "t": "四个阶段，各有任务"
   },
   {
-   "k": "27d46d28f3",
-   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. In 2026, it used October to test prices on its best sellers, started gift advertising when Walmart’s early deals opened in mid-November, concentrated spend in Cyber Week and kept a smaller budget for December gift buyers. Its stock plan followed the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
-   "t": "以一个玩具品牌为例。往年，它把大部分预算留给黑色星期五那一周。2026年，它利用10月测试畅销品的价格，在11月中旬 Walmart 提前优惠开启时启动礼品广告，把投入集中在网络周，并为12月的礼品买家保留了一笔较小的预算。它的备货计划也遵循同样的阶段：10月测试，11月初备货，网络周冲高，12月收尾。"
+   "k": "0295a6f6b1",
+   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. A toy brand planning 2026 would use October to test prices on its best sellers, start gift advertising when Walmart’s early deals open on November 12, concentrate spend in Cyber Week and keep a smaller budget for December gift buyers. Its stock plan would follow the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
+   "t": "以一个往年把大部分预算留给黑色星期五那一周的玩具品牌为例。规划 2026 年的玩具品牌会在 10 月测试畅销品的价格，在 11 月 12 日Walmart提前促销开启时开始投放礼品广告，在网络星期一周集中投入，并为 12 月的礼品买家保留较小的预算。它的库存计划也遵循同样的阶段：10 月测试、11 月初备货、网络星期一周达到高峰、12 月收尾。"
   },
   {
    "k": "4e210b58e3",
@@ -213,19 +213,9 @@
    "t": "请告诉我们您在哪些渠道销售，以及您第四季度的情况。我们的团队成员将在一个工作日内回复。"
   },
   {
-   "k": "4c4f33367d",
-   "src": "Request an incrementality review",
-   "t": "申请增量评估"
-  },
-  {
-   "k": "ee067a2ac2",
-   "src": "So the 2026 holiday season now starts in October. Brands should plan a season of about twelve weeks with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
-   "t": "因此，2026年假日季如今从10月开始。品牌应按约十二周来规划这个假日季，为每个阶段设定不同的任务，而不是把一切都集中在黑色星期五和网络星期一。"
-  },
-  {
-   "k": "2f70dd1d35",
-   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. Planning 2026, it would use October to test prices on its best sellers, start gift advertising when Walmart’s early deals open on November 12, concentrate spend in Cyber Week and keep a smaller budget for December gift buyers. Its stock plan would follow the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
-   "t": "以一个玩具品牌为例。往年，它把大部分预算留给黑色星期五那一周。若为2026年做规划，它会利用10月测试畅销品的价格，在11月12日 Walmart 提前优惠开启时启动礼品广告，把投入集中在网络周，并为12月的礼品买家保留一笔较小的预算。它的备货计划也会遵循同样的阶段：10月测试，11月初备货，网络周冲高，12月收尾。"
+   "k": "2f6b197551",
+   "src": "Request an event plan review",
+   "t": "申请活动计划评估"
   }
  ]
 }

@@ -3,8 +3,8 @@
  "route": "/perspectives/holiday-season-starts-october",
  "segments": [
   {
-   "k": "572c58521b",
-   "src": "Holiday 2026: The Season Now Starts in October",
+   "k": "dfe890b074",
+   "src": "Holiday 2026: the season now starts in October",
    "t": "2026 홀리데이 시즌, 이제 10월에 시작된다"
   },
   {
@@ -13,14 +13,19 @@
    "t": "Adobe는 10월 미국 소비자의 온라인 지출이 8% 증가한 958억 달러에 이를 것으로 전망합니다. 10월은 Adobe의 홀리데이 집계 기간에 포함되지 않는 달입니다."
   },
   {
-   "k": "c6b996e48c",
-   "src": "Article header",
-   "t": "아티클 헤더"
-  },
-  {
    "k": "3dae53942a",
    "src": "Gift-wrapped parcels and a bowl of oranges on a hallway table in autumn light",
    "t": "가을 햇살이 드는 복도 테이블 위에 놓인 선물 포장 상자들과 오렌지가 담긴 그릇"
+  },
+  {
+   "k": "f1e3028eb1",
+   "src": "Kwontified Perspectives",
+   "t": "Kwontified Perspectives"
+  },
+  {
+   "k": "c6b996e48c",
+   "src": "Article header",
+   "t": "아티클 헤더"
   },
   {
    "k": "c766e66518",
@@ -38,11 +43,6 @@
    "t": "<1>아티클</1>. <2>이벤트 플레이북</2>. 전체 채널"
   },
   {
-   "k": "dfe890b074",
-   "src": "Holiday 2026: the season now starts in October",
-   "t": "2026 홀리데이 시즌, 이제 10월에 시작된다"
-  },
-  {
    "k": "f70e5cca95",
    "src": "By <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Published Nov 5, 2026. 4-minute read.",
    "t": "글: <1>Elaine Kwon</1>, 공동 창립자 겸 매니징 파트너. 2026년 11월 5일 게시. 읽는 시간 4분."
@@ -53,9 +53,9 @@
    "t": "<1>PPC Land 보도</1>에 따르면 Adobe는 10월 미국 소비자의 온라인 지출이 8% 증가한 958억 달러에 이를 것으로 전망합니다. 10월은 Adobe의 홀리데이 집계 기간에 포함되지 않는데도, 이 금액은 Adobe가 전망한 시즌 전체 지출의 약 35%에 해당합니다. 리테일러들이 주요 행사를 10월과 11월 초로 옮기면서 소비자들은 전통적인 시즌이 시작되기 전부터 큰 금액을 지출하고 있습니다."
   },
   {
-   "k": "d75aafb8dd",
-   "src": "So the 2026 holiday season now starts in October. Brands should plan a ten-week season with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
-   "t": "따라서 2026년 홀리데이 시즌은 이제 10월에 시작됩니다. 브랜드는 블랙프라이데이와 사이버먼데이에 모든 것을 집중하기보다, 단계마다 역할이 다른 10주짜리 시즌으로 계획해야 합니다."
+   "k": "ee067a2ac2",
+   "src": "So the 2026 holiday season now starts in October. Brands should plan a season of about twelve weeks with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
+   "t": "따라서 2026년 홀리데이 시즌은 이제 10월에 시작됩니다. 브랜드는 블랙프라이데이와 사이버먼데이에 모든 것을 집중하기보다, 단계마다 역할이 다른 약 12주짜리 시즌으로 계획해야 합니다."
   },
   {
    "k": "f966d67de1",
@@ -113,9 +113,9 @@
    "t": "네 단계, 단계마다 다른 역할"
   },
   {
-   "k": "27d46d28f3",
-   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. In 2026, it used October to test prices on its best sellers, started gift advertising when Walmart’s early deals opened in mid-November, concentrated spend in Cyber Week and kept a smaller budget for December gift buyers. Its stock plan followed the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
-   "t": "예년에 예산 대부분을 블랙프라이데이 주간 몫으로 남겨 두던 완구 브랜드를 예로 들어 보겠습니다. 이 브랜드는 2026년에 10월을 베스트셀러 가격 테스트에 활용했고, 11월 중순 Walmart의 조기 할인 행사가 시작될 때 선물 광고를 시작했으며, 사이버위크에 지출을 집중하고 12월 선물 구매자를 위해 더 작은 예산을 남겨 두었습니다. 재고 계획도 같은 단계를 따랐습니다. 10월 테스트, 11월 초 재고 확충, 사이버위크 정점, 12월 마무리입니다."
+   "k": "0295a6f6b1",
+   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. A toy brand planning 2026 would use October to test prices on its best sellers, start gift advertising when Walmart’s early deals open on November 12, concentrate spend in Cyber Week and keep a smaller budget for December gift buyers. Its stock plan would follow the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
+   "t": "예년에 예산 대부분을 블랙프라이데이 주간에 몰아 두던 완구 브랜드를 생각해 보겠습니다. 2026년을 계획하는 완구 브랜드라면 10월에는 베스트셀러 가격을 시험하고, 11월 12일 Walmart의 조기 할인이 시작될 때 선물 광고를 시작하며, 사이버 위크에 지출을 집중하고, 12월 선물 구매자를 위해 더 작은 예산을 남겨 둘 것입니다. 재고 계획도 같은 단계를 따릅니다. 10월 테스트, 11월 초 확대, 사이버 위크 정점, 12월 마무리입니다."
   },
   {
    "k": "4e210b58e3",
@@ -213,19 +213,9 @@
    "t": "판매 채널과 4분기 상황을 알려 주십시오. 담당자가 1영업일 이내에 회신해 드립니다."
   },
   {
-   "k": "4c4f33367d",
-   "src": "Request an incrementality review",
-   "t": "증분 효과 검토 요청"
-  },
-  {
-   "k": "ee067a2ac2",
-   "src": "So the 2026 holiday season now starts in October. Brands should plan a season of about twelve weeks with a different job for each phase, rather than concentrating everything on Black Friday and Cyber Monday.",
-   "t": "따라서 2026년 홀리데이 시즌은 이제 10월에 시작됩니다. 브랜드는 블랙프라이데이와 사이버먼데이에 모든 것을 집중하기보다, 단계마다 역할이 다른 약 12주짜리 시즌으로 계획해야 합니다."
-  },
-  {
-   "k": "2f70dd1d35",
-   "src": "Take a toy brand that, in past years, held most of its budget for Black Friday week. Planning 2026, it would use October to test prices on its best sellers, start gift advertising when Walmart’s early deals open on November 12, concentrate spend in Cyber Week and keep a smaller budget for December gift buyers. Its stock plan would follow the same phases: an October test, an early November build, a Cyber Week peak and a December finish.",
-   "t": "예년에 예산 대부분을 블랙프라이데이 주간 몫으로 남겨 두던 완구 브랜드를 예로 들어 보겠습니다. 2026년을 계획한다면 이 브랜드는 10월을 베스트셀러 가격 테스트에 활용하고, 11월 12일 Walmart의 조기 할인 행사가 시작될 때 선물 광고를 시작하며, 사이버위크에 지출을 집중하고 12월 선물 구매자를 위해 더 작은 예산을 남겨 둘 것입니다. 재고 계획도 같은 단계를 따릅니다. 10월 테스트, 11월 초 재고 확충, 사이버위크 정점, 12월 마무리입니다."
+   "k": "2f6b197551",
+   "src": "Request an event plan review",
+   "t": "이벤트 계획 검토 요청"
   }
  ]
 }
