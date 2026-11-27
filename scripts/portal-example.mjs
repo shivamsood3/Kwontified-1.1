@@ -4,10 +4,11 @@
 // the visual language of the Kwontified Client Portal mockups (Jordan's design artifact,
 // https://claude.ai/artifact/4Fau4NpFZQrvPX5Y3auZP9), with a sample brand's figures. It shows the
 // portal as it is planned, with two screens, one for each kind of reader the portal serves:
-//   1. Overview: what an executive opens. The month against goal for each channel (sales to date,
-//      forecast with its likely range, ad spend against plan, ROAS, TACoS), contribution after
-//      Amazon fees and ad spend, sales by day, the decisions waiting for the client (which they can
-//      answer), what needs attention with its owner, status and date, and what the team did.
+//   1. Overview: what an executive opens. The month, or the quarter, against goal for each channel
+//      (forecast with its likely range, sales and contribution to date, ad spend against plan, ROAS,
+//      TACoS), contribution after each marketplace's fees and ad spend, sales by day, the decisions
+//      waiting for the client (which they can answer), what needs attention with its owner, status
+//      and date, and what the team did.
 //   2. Operations: what the people who run the channels open. A channel switch (Amazon, Walmart,
 //      Target Plus). Amazon has seven tabs, each a real table that sorts and exports to CSV
 //      (Products, Advertising by campaign, Search terms, Inventory, Returns and repeat, Promotions,
@@ -15,14 +16,17 @@
 //      view; Target Plus shows the honest "no feed for this account yet" state.
 //
 // How it works
-//   - The screen switch and the channel switch are radio groups and CSS (:has), so they work
-//     without the script. Screens, channels and tab panels each share one grid cell and the ones
-//     not chosen are hidden with visibility, so the page never moves.
+//   - The screen, channel, period and Advertising view switches are radio groups and CSS (:has), so
+//     they work without the script. Screens, channels, tab panels, periods and Advertising views
+//     each share one grid cell and the ones not chosen are hidden with visibility, so the page and
+//     the cards below the tabs never move.
 //   - Everything else is switched on by PORTAL_JS: the tabs (a tablist with arrow keys), search and
 //     the "With an open step" filter, column sorting (aria-sort), CSV export, the "Data as of"
 //     freshness panel, Agree and Discuss on each decision, and the buttons that open the place in
-//     the example where a number's detail is. The screen and tab are kept in the address
-//     (#portal-ops-inventory and so on), so Back returns to where you were. Without the script none
+//     the example where a number's detail is (first choosing the view that holds it), and the sales
+//     by day chart as a slider (arrow keys read each day). The screen, tab and Advertising view are
+//     kept in the address (#portal-ops-inventory, #portal-ops-advertising-keywords and so on), so
+//     Back returns to where you were. Without the script none
 //     of those controls is shown (they are hidden with visibility, so nothing moves when the script
 //     turns them on), and the example is a still picture of the two screens.
 //   - It is real structure for assistive technology (headings, lists, tables with captions). The
@@ -34,8 +38,8 @@
 // Every figure is derived below from one small set of invented base numbers (most of them the
 // mockups' own sample figures), and check() stops the build if a total, a ratio, a date or a
 // sentence no longer follows from its parts. Change a base number and everything that depends on
-// it follows. Keep the picture under about 1,150px tall at 1440px wide, 2,100px on an iPhone 13 and
-// 2,400px at 320px: it is as tall as the taller screen, so measure both after any change.
+// it follows. Keep the picture under about 1,170px tall at 1440px wide, 2,000px on an iPhone 13 and
+// 2,350px at 320px: it is as tall as the taller screen, so measure both after any change.
 //
 // scripts/site-about.mjs calls portalSection() with its own section helpers and adds PORTAL_CSS to
 // the page. Everything about the example, its script included, lives in this file.
@@ -81,10 +85,34 @@ check(CH.every((c) => c.lo <= c.fc && c.fc <= c.hi) && AMZ.hi < AMZ.goal, "each 
 check((AMZ.adSales / AMZ.spend).toFixed(2) === "4.65" && ((100 * CH[1].spend) / CH[1].sales).toFixed(1) === "8.3", "the mockup's channel table");
 const ON_GOAL = 0.0025; // within 0.25% of goal reads "On goal"
 
-// contribution on Amazon: sales less refunds, Amazon's fees, promotions and ad spend (no product cost)
+// contribution by channel: sales less refunds, the marketplace's fees, promotions, fulfilment and ad
+// spend (no product cost). Amazon and Walmart from their settlements; Target Plus from the weekly
+// upload (Target's commission and refunds) and the brand's own 3PL invoices for shipping its orders.
 const COSTS = { refunds: 15400, referral: 133950, fulfilment: 109040, storage: 7410, promotions: 11800 };
-const contribution = AMZ.sales - sum(Object.values(COSTS), (v) => v) - AMZ.spend, contribShare = ((100 * contribution) / AMZ.sales).toFixed(1);
-check(contribution === 542450 && contribShare === "59.7", "contribution");
+const CCOSTS = [COSTS, { refunds: 3650, referral: 34220, fulfilment: 31940, storage: 1060, promotions: 0 }, { refunds: 1520, referral: 15240, fulfilment: 9860, storage: 0, promotions: 0 }];
+CH.forEach((c, i) => { c.contrib = c.sales - sum(Object.values(CCOSTS[i]), (v) => v) - c.spend; });
+ALL.contrib = sum(CH, (c) => c.contrib);
+const contribution = AMZ.contrib, contribShare = ((100 * contribution) / AMZ.sales).toFixed(1), allShare = ((100 * ALL.contrib) / ALL.sales).toFixed(1);
+check(contribution === 542450 && contribShare === "59.7", "contribution on Amazon");
+check(CH[1].contrib === 138330 && CH[2].contrib === 67290 && ALL.contrib === 748070 && allShare === "60.4", "contribution by channel");
+check(near(CCOSTS[1].referral / CH[1].sales, 0.15, 0.01) && near(CCOSTS[2].referral / CH[2].sales, 0.15, 0.01), "Walmart's and Target Plus's 15% referral fee and commission");
+check(CH.every((c) => c.contrib / c.sales > 0.55 && c.contrib / c.sales < 0.7), "contribution shares in a plausible band");
+
+// the quarter (Oct 1 to Dec 31): the October figures above, plus November and December goals, ad
+// plans and forecasts from the holiday plan, each forecast with its likely range (half-width)
+const Q4 = [
+  { goal: [1520000, 1610000], plan: [148000, 162000], fc: [1497000, 1586000], half: [52000, 68000] },
+  { goal: [385000, 425000], plan: [31000, 34000], fc: [391000, 433000], half: [16000, 20000] },
+  { goal: [172000, 198000], plan: [12500, 14000], fc: [168000, 194500], half: [9000, 12000] },
+];
+const QDAYS = 92;
+const CHQ = CH.map((c, i) => { const q = Q4[i], fc = c.fc + q.fc[0] + q.fc[1], rest = sum(q.half, (h) => h * h);
+  return { ...c, goal: c.goal + q.goal[0] + q.goal[1], plan: c.plan + q.plan[0] + q.plan[1], fc, lo: r1k(fc - Math.sqrt((c.fc - c.lo) ** 2 + rest)), hi: r1k(fc + Math.sqrt((c.hi - c.fc) ** 2 + rest)) }; });
+const ALLQ = { ...ALL, goal: sum(CHQ, (c) => c.goal), plan: sum(CHQ, (c) => c.plan), fc: sum(CHQ, (c) => c.fc) };
+ALLQ.lo = r1k(ALLQ.fc - Math.sqrt(sum(CHQ, (c) => (c.fc - c.lo) ** 2)));
+ALLQ.hi = r1k(ALLQ.fc + Math.sqrt(sum(CHQ, (c) => (c.hi - c.fc) ** 2)));
+check(CHQ[0].goal === 4370000 && CHQ[0].fc === 4312100 && ALLQ.goal === 6000000 && ALLQ.fc === 5959100 && ALLQ.plan === 560000, "the quarter's goals, forecasts and ad plans");
+check([...CHQ, ALLQ].every((c) => c.lo <= c.fc && c.fc <= c.hi && c.lo < c.goal && c.goal < c.hi) && CHQ.every((c, i) => c.fc > CH[i].fc && c.spend < c.plan), "each quarter forecast inside its range, and the goal inside it too");
 
 // ---- sales by day, by channel: a weekly rhythm, Prime Big Deal Days on Oct 7 and 8, scaled to the totals
 const DOW = [0.95, 1.05, 1.03, 1.0, 0.98, 0.97, 1.02]; // Sunday to Saturday
@@ -101,23 +129,24 @@ check(DAILY.every((v, i) => sum(v, (x) => x) === CH[i].sales && v.length === CH[
 const dayTotal = (d) => sum(DAILY, (v) => v[d] || 0);
 const span = (a, b) => { let t = 0; for (let d = a; d <= b; d++) t += dayTotal(d); return t; };
 
-// eight complete weeks, Aug 25 to Oct 19 (all channels, in thousands; contribution is Amazon's). The
-// three October weeks come from the days above; Sep 29 and 30 run at September's daily rate.
-const SEP = { sales: ALL.sales / 1.083, spend: ALL.spend / 1.084, roas: roas / 1.017, contrib: contribution / 1.074 };
+// eight complete weeks, Aug 25 to Oct 19 (all channels, in thousands). The three October weeks come
+// from the days above (contribution at each channel's October share of sales); Sep 29 and 30 run at
+// September's daily rate.
+const SEP = { sales: ALL.sales / 1.083, spend: ALL.spend / 1.084, roas: roas / 1.017, contrib: ALL.contrib / 1.074 };
 const wk = (v) => (v / DAYS) * 7;
-const amzWeek = (a, b) => { let t = 0; for (let d = a; d <= b; d++) t += DAILY[0][d]; return t; };
+const chWeek = (a, b) => { let t = 0; for (let d = a; d <= b; d++) CH.forEach((c, i) => { t += (DAILY[i][d] || 0) * (c.contrib / c.sales); }); return t; };
 const WK = {
   sales: [340, 345, 347, 352, 358, Math.round((span(0, 4) + (2 * SEP.sales) / DAYS) / 1000), Math.round(span(5, 11) / 1000), Math.round(span(12, 18) / 1000)],
   spend: [31.8, 32.0, 32.3, 32.6, 33.2, 33.9, 35.2, 34.8],
   roas: [4.24, 4.28, 4.3, 4.32, 4.33, 4.35, 4.39, 4.36],
-  contrib: [150, 152, 153, 156, 158, 162, Math.round((amzWeek(5, 11) * contribShare) / 100000), Math.round((amzWeek(12, 18) * contribShare) / 100000)],
+  contrib: [207, 210, 211, 215, 218, 224, Math.round(chWeek(5, 11) / 1000), Math.round(chWeek(12, 18) / 1000)],
 };
 WK.tacos = WK.sales.map((s, i) => (100 * WK.spend[i]) / s);
 const avg = (a, i, j) => sum(a.slice(i, j + 1), (x) => x) / (j - i + 1);
 for (const k of ["sales", "spend", "contrib"]) {
   const scale = k === "spend" || k === "sales" ? 1000 : 1000;
   check(near(avg(WK[k], 1, 3) * scale, wk(SEP[k]), 0.02), `the ${k} line in September (${avg(WK[k], 1, 3)} against ${Math.round(wk(SEP[k]))})`);
-  check(near(avg(WK[k], 6, 7) * scale, wk(k === "contrib" ? contribution : ALL[k]), 0.035), `the ${k} line in October (${avg(WK[k], 6, 7)} against ${Math.round(wk(k === "contrib" ? contribution : ALL[k]))})`);
+  check(near(avg(WK[k], 6, 7) * scale, wk(ALL[k]), 0.035), `the ${k} line in October (${avg(WK[k], 6, 7)} against ${Math.round(wk(ALL[k]))})`);
 }
 check(near(avg(WK.roas, 1, 3), SEP.roas, 0.01) && near(avg(WK.roas, 6, 7), roas, 0.01), "the ROAS line");
 
@@ -160,6 +189,12 @@ check(retinolWeekly === 39400, "retinol serum weekly sales");
 const withStep = PRODUCTS.filter((p) => p.tag), suppressed = PRODUCTS.filter((p) => p.tag && p.tag[1] === "Suppressed");
 check(withStep.length === 4 && suppressed.length === 2, "open steps");
 const byName = PRODUCTS.map((p) => p.n).sort();
+// FBA reimbursements this month: product, units, what happened, amount. Each is paid per unit at
+// about 65% of the product's average selling price, to the cent, so a unit comes to $24.70 to $41.59.
+const REIMB = [["Night cream", 12, "lost in a warehouse"], ["Vitamin C serum", 8, "lost in a warehouse"], ["Retinol serum", 6, "damaged in fulfilment"], ["Gift set", 2, "damaged in fulfilment"]]
+  .map(([n, u, why]) => { const p = PRODUCTS.find((x) => x.n === n); return [n, u, why, Math.round(u * Math.round(65 * p.sales / p.units) / 100)]; });
+const reimbTotal = sum(REIMB, (r) => r[3]);
+check(reimbTotal === 804 && REIMB.every(([, u, , v]) => v / u >= 24 && v / u <= 60), "reimbursements: four cases, $804, $24 to $60 a unit");
 const rowId = (p, k = "i") => `kq-pt-${k}-` + p.sku.replace(/[^A-Za-z0-9-]/g, "");
 
 const SHIPMENTS = [["Vitamin C serum", 9000, "receiving", "Oct 26", "FBA18VK2Q7", "ONT8"], ["Retinol serum", 3000, "in transit", "Oct 29", "FBA18WD41M", "PHX7"], ["Gift set", 2000, "in transit", "Oct 31", "FBA18X3NTA", "BWI2"], ["Night cream", 4500, "ready to ship", "Nov 6", "FBA18Y92LR", "CLT2"]];
@@ -194,18 +229,26 @@ const rRange = `${Math.min(...capped.map((c) => c.roas)).toFixed(2)}x to ${Math.
 check(rRange === "4.06x to 5.21x", "returns of the campaigns out of budget");
 
 // keywords in the three keyword campaigns: keyword, match type, campaign, bid, spend, ad sales,
-// top-of-search impression share, next step. Each campaign's keywords stay within its totals, and a
-// keyword's spend is at least that of the search terms it matched (Search terms tab).
+// top-of-search impression share, next step, and the day it was added if that was this month. Each
+// campaign's keywords stay within its totals. A keyword that ran all month spent at least what any
+// search term it matched did (Search terms tab); one added this month has only its days since.
 const KEYWORDS = [
   ["vitamin c serum", "phrase", 0, 2.2, 5860, 33990, 38, "Bid raised 10% Oct 20"],
   ["vitamin c", "broad", 0, 1.65, 3540, 19120, 22, ""],
+  ["vitamin c serum for face", "exact", 0, 2.45, 260, 1790, 41, "Added from search terms", "Oct 22"],
   ["retinol serum", "phrase", 1, 2.4, 4310, 23060, 35, "Cap lift awaiting your decision"],
   ["retinol", "broad", 1, 1.8, 2980, 15200, 18, "Cap lift awaiting your decision"],
   ["night cream", "phrase", 2, 1.95, 3880, 20560, 31, ""],
   ["anti aging night cream", "broad", 2, 1.7, 1710, 7950, 14, ""],
   ["night cream for face", "exact", 2, 2.05, 1260, 6690, 29, "Top-of-search adjustment Oct 19"],
+  ["night cream for dry skin", "phrase", 2, 1.85, 120, 500, 24, "Added from search terms", "Oct 21"],
 ];
 for (let k = 0; k < 3; k++) { const c = CAMPAIGNS[k], ks = KEYWORDS.filter((x) => x[2] === k); check(ks.length && sum(ks, (x) => x[4]) <= c.spend && sum(ks, (x) => x[5]) <= c.sales, c.n + " keywords within the campaign"); }
+check(KEYWORDS.filter((k) => k[8]).length === 2 && KEYWORDS.filter((k) => k[8]).every((k) => date(-7) <= k[8] && k[8] < "Oct 24"), "keywords added this week (Oct 17 to 23)");
+const kwSpend = sum(KEYWORDS, (x) => x[4]), kwCampSpend = sum(CAMPAIGNS.slice(0, 3), (c) => c.spend), kwShare = Math.round((100 * kwSpend) / kwCampSpend);
+check(kwSpend === 23920 && kwCampSpend === 27270 && kwShare === 88, "keywords against the keyword campaigns' spend");
+// a keyword added this month: its spend is no more than its days at the campaign's daily budget
+check(KEYWORDS.filter((x) => x[8]).every((x) => x[4] <= (CAMPAIGNS[x[2]].day * (Date.UTC(2026, 9, DAYS) - Date.UTC(2026, 9, +x[8].split(" ")[1] - 1)) / 864e5) && x[4] < 0.1 * CAMPAIGNS[x[2]].spend), "keywords added this month");
 // Sponsored Products placements for the five Sponsored Products campaigns shown
 const SPC = CAMPAIGNS.filter((c) => c.type.startsWith("Sponsored Products"));
 const PLACES = [["Top of search, first page", 40, 19940, 118430, "Hold the +40%"], ["Rest of search", 0, 9860, 39050, "No change"], ["Product pages", 0, 6110, 25720, "Test +15%, proposed for Oct 28"]];
@@ -246,14 +289,18 @@ const TERMS = [
   ["vitamin c serum", 6.1, 6.8, 2310, 5.12, "Bid raised 10%", "Retail Media and Advertising", "done Oct 20"],
   ["retinol serum", 4.9, 5.3, 2950, 5.48, "Budget cap lift", "Retail Media and Advertising", "awaiting your decision"],
   ["night cream for face", 3.7, 4.2, 1260, 5.31, "Top-of-search bid adjustment", "Retail Media and Advertising", "done Oct 19"],
-  ["foaming face cleanser", 3.1, 3.6, 860, 4.41, "Added as an exact keyword", "Retail Media and Advertising", "done Oct 18"],
+  ["foaming face cleanser", 3.1, 3.6, 860, 4.41, "Auto close-match bid raised 10%", "Retail Media and Advertising", "done Oct 18"],
   ["mineral sunscreen for face", 2.6, 2.1, 980, 2.94, "Ads paused with the listing", "Retail Media and Advertising", "paused Oct 21; resume when reinstated"],
   ["eye cream for dark circles", 1.8, 1.5, 520, 3.1, "Hold until the bullet fix", "Marketplace Operations", "review Oct 28"],
   ["night cream for dry skin", 1.4, 1.9, 430, 3.95, "Moved to phrase match", "Retail Media and Advertising", "done Oct 21"],
   ["sunscreen spf 50 face", 0.9, 0.3, 640, 0.64, "Added as a negative", "Retail Media and Advertising", "done Oct 20"],
 ];
 const TERM_COUNT = 412;
-check(KEYWORDS.every(([kw, m, , , sp, sa]) => TERMS.filter((t) => t[0] === kw || (m !== "exact" && t[0].includes(kw))).every((t) => t[3] <= sp)) && near(6690 / 1260, 5.31, 0.002), "keywords against the search terms they matched");
+const matches = ([kw, m], t) => t[0] === kw || (m !== "exact" && t[0].includes(kw));
+check(KEYWORDS.filter((k) => !k[8]).every((k) => TERMS.filter((t) => matches(k, t)).every((t) => t[3] <= k[4])) && near(6690 / 1260, 5.31, 0.002), "keywords that ran all month against the search terms they matched");
+check(TERMS.every((t) => { const ks = KEYWORDS.filter((k) => matches(k, t)); return !ks.length || t[3] <= sum(ks, (k) => k[4]); }), "each search term's spend within the keywords that matched it");
+// every search term moved to a match type is in the Keywords view, added on the day the action was done
+check(TERMS.filter((t) => /^Moved to (exact|phrase) match$/.test(t[5])).every((t) => KEYWORDS.some((k) => k[0] === t[0] && t[5] === `Moved to ${k[1]} match` && t[7] === "done " + k[8])) && !TERMS.some((t) => /as an? (exact|phrase|broad) keyword/i.test(t[5])), "search-term actions against the Keywords view");
 
 // ---- Walmart items, Oct 1 to 22 ---------------------------------------------------------------------
 // sales, Buy Box win rate, listing quality score, Walmart Fulfillment Services weeks of cover (with inbound)
@@ -324,20 +371,24 @@ export function portalSection({ section, two, H2, P }) {
     ["Ad spend", usd(ALL.spend), ["+8.4%", "mut"], ["+17.9%", "mut"], WK.spend],
     ["ROAS", roas.toFixed(2) + "x", ["+1.7%", "pos"], ["+3.1%", "pos"], WK.roas],
     ["TACoS", tacos.toFixed(1) + "%", ["+0.0 pts", "mut"], ["−0.3 pts", "pos"], WK.tacos],
-    ["Contribution, Amazon", usd(contribution), ["+7.4%", "pos"], ["+20.3%", "pos"], WK.contrib],
+    ["Contribution", usd(ALL.contrib), ["+7.4%", "pos"], ["+20.3%", "pos"], WK.contrib],
   ];
   const kstrip = `<p class="kq-pt-kkey n">Change vs Sep 1 to 23 · vs 2025</p><ul class="kq-pt-card kq-pt-kstrip">${KPIS.map(([l, v, a, b, s]) => `<li><p class="kl">${l}</p><div class="kr"><p class="kv">${v}</p>${spark(s)}</div><p class="kd"><span class="${a[1]}">${a[0]}</span> <span class="mut w">vs Sep 1 to 23</span></p><p class="kd"><span class="n mut">· </span><span class="${b[1]}">${b[0]}</span> <span class="mut w">vs Oct 1 to 23, 2025</span></p></li>`).join("")}</ul>
-${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon ads and DSP, Walmart Connect, Target Roundel. <b>ROAS</b> ad-attributed sales ÷ ad spend. <b>TACoS</b> ad spend ÷ total sales. <b>Contribution</b> Amazon sales less refunds, fees, promotions and ad spend, before product cost (${contribShare}% of sales). Lines: the eight weeks to Oct 19.<span class="n"> <b>A week</b> (Needs attention) four-week average sales of what is affected.</span>`, "kq-pt-defs")}`;
+${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon ads and DSP, Walmart Connect, Target Roundel. <b>ROAS</b> ad-attributed sales ÷ ad spend. <b>TACoS</b> ad spend ÷ total sales. <b>Contribution</b> sales less refunds, marketplace fees, promotions, fulfilment and ad spend, before product cost (${allShare}% of sales; by channel below). Lines: the eight weeks to Oct 19.<span class="n"> <b>A week</b> (Needs attention) four-week average sales of what is affected.</span>`, "kq-pt-defs")}`;
 
   const SCALE = 1.1; // the bars run to 110% of goal, so a forecast above goal still fits
   const status = (c) => { const gap = c.fc - c.goal; return Math.abs(gap) / c.goal < ON_GOAL ? pill("flat", "On goal") : gap < 0 ? pill("warn", `${usd(-gap)} short`) : pill("good", `${usd(gap)} ahead`); };
   const gbar = (c) => { const w = (v) => ((100 * v) / c.goal / SCALE).toFixed(1); return `<span class="gb" aria-hidden="true"><i class="f" style="width:${w(c.fc)}%"></i><i class="a" style="width:${w(c.sales)}%"></i><i class="g" style="left:${(100 / SCALE).toFixed(1)}%"></i></span>`; };
-  const chRow = (c, total) => `<tr${total ? ' class="tot"' : ""}><th scope="row"${attr("data-c", [c.n, c.thru ? iso(c.thru) : ""])}>${c.n}<span class="sp" aria-hidden="true">${status(c)}</span><small>${c.thru ? `to ${c.thru}` : "combined"}</small></th><td class="num"${attr("data-c", [c.fc, c.lo, c.hi])}><strong>${usd(c.fc)}</strong><small>${usd(c.lo)} to ${usd(c.hi)}</small></td><td class="gl"${attr("data-c", [c.goal, f1((100 * c.fc) / c.goal), Math.abs(c.fc - c.goal) / c.goal < ON_GOAL ? "On goal" : c.fc < c.goal ? "Short" : "Ahead", c.fc - c.goal])}><span class="gt">${status(c)} <small>${pct((100 * c.fc) / c.goal)} of ${usd(c.goal)}</small></span>${gbar(c)}</td><td class="num"${attr("data-c", [c.sales])}>${usd(c.sales)}</td><td class="num"${attr("data-c", [c.spend, c.plan])}>${usd(c.spend)}<small>${pct((100 * c.spend) / c.plan, 0)} of ${usd(c.plan)}</small></td><td class="num"${attr("data-c", [f2(c.adSales / c.spend)])}>${(c.adSales / c.spend).toFixed(2)}x</td><td class="num"${attr("data-c", [f1((100 * c.spend) / c.sales)])}>${pct((100 * c.spend) / c.sales)}</td></tr>`;
-  const channels = `<div class="kq-pt-card"><div class="kq-pt-chead"><h4 class="kq-pt-h2">October by channel <small class="w">forecast against goal, then the month so far</small></h4><p class="kq-pt-leg" aria-hidden="true"><span><i class="a"></i>Sales to date</span><span><i class="f"></i>Forecast</span><span><i class="g"></i>Goal</span></p>${exportBtn("kq-pt-ch-t")}</div>`
-    + tbl("kq-pt-ch", "October by channel: forecast against goal, sales to date, ad spend against plan, ROAS and TACoS",
-      th("Channel", "", false, "", ["Channel", "Data through"]) + th("Forecast", "likely range", false, "num", ["Forecast (USD)", "Likely low (USD)", "Likely high (USD)"]) + th("Against goal", "forecast ÷ goal", false, "gl", ["Goal (USD)", "Forecast of goal (%)", "Status", "Forecast less goal (USD)"]) + th("Sales to date", "", false, "num", ["Sales to date (USD)"]) + th("Ad spend", "of October plan", false, "num", ["Ad spend (USD)", "October ad plan (USD)"]) + th("ROAS", "", false) + th("TACoS", "", false, "num", ["TACoS (%)"]),
-      CH.map((c) => chRow(c)).join("") + chRow(ALL, true), "plain chan", "channels") + `<p class="kq-pt-hint ph">Amazon to ${AMZ.thru}, others ${CH[1].thru}. Scroll sideways.</p>`
-    + defs(`<b>Forecast</b> sales to Oct 31, projected each morning from eight weeks’ trend and day-of-week pattern with booked promotions, before the recommendations below. <b>Likely range</b> where the month ends four times in five. <b>On goal</b> within 0.25%. <b>Plan</b> the October ad budget agreed with you; ${pct((100 * DAYS) / 31, 0)} of the month has passed. Ad sales for the last 14 days are provisional.`) + `</div>`;
+  const chRow = (c, total) => `<tr${total ? ' class="tot"' : ""}><th scope="row"${attr("data-c", [c.n, c.thru ? iso(c.thru) : ""])}>${c.n}<span class="sp" aria-hidden="true">${status(c)}</span><small>${c.thru ? `to ${c.thru}` : "combined"}</small></th><td class="num"${attr("data-c", [c.fc, c.lo, c.hi])}><strong>${usd(c.fc)}</strong><small>${usd(c.lo)} to ${usd(c.hi)}</small></td><td class="gl"${attr("data-c", [c.goal, f1((100 * c.fc) / c.goal), Math.abs(c.fc - c.goal) / c.goal < ON_GOAL ? "On goal" : c.fc < c.goal ? "Short" : "Ahead", c.fc - c.goal])}><span class="gt">${status(c)} <small>${pct((100 * c.fc) / c.goal)} of ${usd(c.goal)}</small></span>${gbar(c)}</td><td class="num"${attr("data-c", [c.sales])}>${usd(c.sales)}</td><td class="num"${attr("data-c", [c.contrib, f1((100 * c.contrib) / c.sales)])}>${usd(c.contrib)}<small>${pct((100 * c.contrib) / c.sales)} of sales</small></td><td class="num"${attr("data-c", [c.spend, c.plan])}>${usd(c.spend)}<small>${pct((100 * c.spend) / c.plan, 0)} of ${usd(c.plan)}</small></td><td class="num"${attr("data-c", [f2(c.adSales / c.spend)])}>${(c.adSales / c.spend).toFixed(2)}x</td><td class="num"${attr("data-c", [f1((100 * c.spend) / c.sales)])}>${pct((100 * c.spend) / c.sales)}</td></tr>`;
+  const chHead = (per) => th("Channel", "", false, "", ["Channel", "Data through"]) + th("Forecast", `likely range, to ${per === "q" ? "Dec" : "Oct"} 31`, false, "num", ["Forecast (USD)", "Likely low (USD)", "Likely high (USD)"]) + th("Against goal", `forecast ÷ ${per === "q" ? "Q4" : "October"} goal`, false, "gl", [`${per === "q" ? "Q4" : "October"} goal (USD)`, "Forecast of goal (%)", "Status", "Forecast less goal (USD)"]) + th("Sales to date", "", false, "num", ["Sales to date (USD)"]) + th("Contribution", "to date", false, "num", ["Contribution to date (USD)", "Contribution share of sales (%)"]) + th("Ad spend", `of ${per === "q" ? "Q4" : "October"} plan`, false, "num", ["Ad spend to date (USD)", `${per === "q" ? "Q4" : "October"} ad plan (USD)`]) + th("ROAS", "", false) + th("TACoS", "", false, "num", ["TACoS (%)"]);
+  const PER = [["m", "October"], ["q", "Q4"]];
+  const perSeg = `<div class="kq-pt-seg kq-pt-perseg" role="radiogroup" aria-label="Period">${PER.map(([k, t], i) => `<span class="o"><input type="radio" name="kq-pt-per" id="kq-pt-p${k}" value="${k}"${i ? "" : " checked"}><label for="kq-pt-p${k}">${t}</label></span>`).join("")}</div>`;
+  const channels = `<div class="kq-pt-card"><div class="kq-pt-chead"><h4 class="kq-pt-h2">By channel <small class="w">forecast against goal, then the period so far</small></h4>${perSeg}<p class="kq-pt-leg" aria-hidden="true"><span><i class="a"></i>Sales to date</span><span><i class="f"></i>Forecast</span><span><i class="g"></i>Goal</span></p>${exportBtn("kq-pt-chs")}</div>`
+    + `<div class="kq-pt-pers" id="kq-pt-chs"><div class="kq-pt-per kq-pt-per-m">` + tbl("kq-pt-ch", "October by channel: forecast against goal, sales and contribution to date, ad spend against plan, ROAS and TACoS",
+      chHead("m"), CH.map((c) => chRow(c)).join("") + chRow(ALL, true), "plain chan", "channels-october") + `</div><div class="kq-pt-per kq-pt-per-q">`
+    + tbl("kq-pt-cq", "Q4 by channel, Oct 1 to Dec 31: forecast against goal, sales and contribution to date, ad spend against plan, ROAS and TACoS",
+      chHead("q"), CHQ.map((c) => chRow(c)).join("") + chRow(ALLQ, true), "plain chan", "channels-q4") + `</div></div><p class="kq-pt-hint ph">Amazon to ${AMZ.thru}, others ${CH[1].thru}<span class="w">. Scroll sideways</span>.</p>`
+    + defs(`<b>Forecast</b> sales to month or quarter end, projected each morning from eight weeks’ trend, day-of-week pattern and booked promotions, before the recommendations below. <b>Likely range</b> four times in five. <b>On goal</b> within 0.25%. <b>Plan</b> the ad budget agreed with you. <b>Q4</b> began Oct 1 (${pct((100 * DAYS) / QDAYS, 0)} passed, ${pct((100 * DAYS) / 31, 0)} of October), so to date is October’s; goal, plan and forecast add November and December from the holiday plan. <b>Contribution</b> for Target Plus uses the weekly upload and your 3PL’s shipping invoices. The last 14 days’ ad sales are provisional.`) + `</div>`;
 
   // sales by day, stacked by channel in the mockups' three blues, with a 2px gap between segments
   const MAXD = 75000, TICKS = [0, 25000, 50000, 75000];
@@ -349,18 +400,18 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
   }).join("");
   const [dayHead, dayId] = foldHead("Sales by day");
   const daily = `<div class="kq-pt-card kq-pt-daily"><div class="kq-pt-chead">${dayHead}<p class="kq-pt-leg" aria-hidden="true">${CH.map((c, i) => `<span><i class="${CHC[i]}"></i>${c.n}</span>`).join("")}</p></div>
-<div class="kq-pt-df" id="${dayId}"><div class="kq-pt-bars" aria-hidden="true"><span class="ax">${TICKS.map((t) => `<span style="bottom:${((100 * t) / MAXD).toFixed(1)}%"><small>${t ? t / 1000 + "K" : "0"}</small></span>`).join("")}</span><span class="cols">${cols}<span class="tip" hidden></span></span><span class="xl"><small>Oct 1</small><small>Oct 7 and 8<span class="w">: Prime Big Deal Days</span></small><small>Oct 23<span class="w">: Amazon only</span></small></span></div>
+<div class="kq-pt-df" id="${dayId}"><div class="kq-pt-bars" aria-hidden="true"><span class="ax" aria-hidden="true">${TICKS.map((t) => `<span style="bottom:${((100 * t) / MAXD).toFixed(1)}%"><small>${t ? t / 1000 + "K" : "0"}</small></span>`).join("")}</span><span class="cols">${cols}<span class="tip" hidden></span></span><span class="xl" aria-hidden="true"><small>Oct 1</small><small>Oct 7 and 8<span class="w">: Prime Big Deal Days</span></small><small>Oct 23<span class="w">: Amazon only</span></small></span></div>
 </div><table class="sr"><caption>Sales by day and channel, Oct 1 to 23</caption><thead><tr><th scope="col">Day</th>${CH.map((c) => `<th scope="col">${c.n}</th>`).join("")}</tr></thead><tbody>${Array.from({ length: DAYS }, (_, d) => `<tr><th scope="row">Oct ${d + 1}</th>${DAILY.map((v) => `<td>${v[d] ? usd(v[d]) : "not yet reported"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 
-  const LOG = [["Oct 22", RMA, "38 negative search terms added, 2 moved to exact match"], ["Oct 21", "Call note", "Weekly review: notes and six action items posted"], ["Oct 20", "Creative Studio", "Corrected gift set main image filed with Amazon"]];
+  const LOG = [["Oct 22", RMA, "38 negative search terms added, one moved to exact match"], ["Oct 21", "Call note", "Weekly review: notes and six action items posted"], ["Oct 20", "Creative Studio", "Corrected gift set main image filed with Amazon"]];
   const [teamHead, teamId] = foldHead("From your team this week");
   const team = `<div class="kq-pt-team kq-pt-log">${teamHead}<ul class="kq-pt-df" id="${teamId}">${LOG.map(([dt, who, t]) => `<li><small>${dt} · ${who}</small><span>${t}</span></li>`).join("")}</ul></div>`;
   const DECISIONS = [
-    { t: `Lift the budget caps on ${word(capped.length)} campaigns, Oct 25 to 31`, d: `${cappedHrs} campaign-hours lost: about ${usd(lift.spend)} more spend, ${usd(lift.sales)} more sales.`, who: RMA, by: "Oct 24", go: go("Campaigns", hashOf("Advertising"), "kq-pt-a-capped", "that ran out of budget") },
+    { t: `Lift the budget caps on ${word(capped.length)} campaigns, Oct 25 to 31`, d: `${cappedHrs} campaign-hours lost: about ${usd(lift.spend)} more spend, ${usd(lift.sales)} more sales.`, who: RMA, by: "Oct 24", go: go("Campaigns", hashOf("Advertising") + "-campaigns", "kq-pt-a-capped", "that ran out of budget") },
     { t: `Run a 10% coupon on the vitamin C serum, Oct 27 to 31`, d: `About ${usd(coupon.more)} more sales at September’s ${SEPC.lift}% lift; ${usd(coupon.cost)} in discounts.`, who: MO, by: "Oct 25", go: go("Promotions", hashOf("Promotions"), "kq-pt-pr-new", "for the proposed coupon") },
     { t: `Order ${num(order(retinol))} units of retinol serum by ${orderBy(retinol)}`, d: `${cover(retinol).toFixed(1)} weeks of cover with the ${num(retinol.inb)} in transit; out around ${runsOut(retinol)}.`, who: MO, by: "Oct 28", go: go("Inventory", hashOf("Inventory"), rowId(retinol), "for retinol serum") },
   ];
-  const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two recover about ${usd(recovered)} of Amazon’s ${usd(amzGap)} gap</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span><span class="ans js" role="group" aria-label="Your answer: ${plain(x.t)}"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="On the Oct 28 call" aria-pressed="false" disabled>Discuss</button></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note">Your team acts once you agree.<span class="w"> Discuss adds it to your Oct 28 call.</span></p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
+  const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two recover about ${usd(recovered)} of Amazon’s ${usd(amzGap)} gap</small><small class="n">we act once you agree</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span><span class="ans js" role="group" aria-label="Your answer: ${plain(x.t)}"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="On the Oct 28 call" aria-pressed="false" disabled>Discuss</button></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note w">Your team acts once you agree. Discuss adds it to your Oct 28 call.</p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
 
   // what the team is handling: ranked by severity, then by the weekly sales of what is affected
   const ALERTS = [
@@ -406,14 +457,14 @@ ${channels}
       CAMPAIGNS.map((c, i) => `<tr><th scope="row" data-v="${i}"${attr("data-c", [c.n, c.type])}${c === capped[0] ? ' id="kq-pt-a-capped" tabindex="-1"' : ""}>${c.n}<small class="w">${c.type}</small></th>${td(c.day, c.day ? usd(c.day) : "Flight", c.day ? undefined : "DSP budget", "num", [c.day || "", c.day ? "daily" : "DSP flight"])}${td(c.spend, usd(c.spend), pct((100 * c.spend) / AMZ.spend), "num", [c.spend, f1((100 * c.spend) / AMZ.spend)])}${td(c.sales, usd(c.sales))}${td(c.roas.toFixed(3), `${c.roas.toFixed(2)}x`, pct((100 * c.spend) / c.sales), "num", [f2(c.roas), f1((100 * c.spend) / c.sales)])}${td(c.hrs, c.hrs ? `${c.hrs} hours` : "None", c.hrs ? `${usd(c.missed)} missed` : undefined, "num", [c.hrs, c.missed])}<td>${c.hrs ? `${pill("warn", "Cap lift")} <span class="at">Oct 25 to 31</span><small>awaiting your decision, by Oct 24${c.day === 280 ? "; raised from $250 Oct 19" : ""}</small>` : `<span class="mut">No open step</span>`}</td></tr>`).join(""), "", "advertising-campaigns")
     + defs(`<b>Share of spend</b> of all Amazon ad spend. <b>ROAS</b> ad-attributed sales ÷ spend; <b>ACoS</b> spend ÷ ad-attributed sales. <b>Est. missed</b> hours out of budget × that day’s budget per hour (the video’s rose from $250 to $280 on Oct 19) × ROAS. Sponsored ads: 7-day window, DSP: 14; the last 14 days are provisional.`);
   const keywords = tbl("kq-pt-kw", "Keywords in the keyword campaigns, Oct 1 to 23",
-      th("Keyword", "match type", true, "", ["Keyword", "Match type"]) + th("Campaign", "", false, "") + th("Bid", "", true, "num", ["Bid (USD)"]) + th("Spend", "", true, "num", ["Spend (USD)"]) + th("Ad sales", "", true, "num", ["Ad sales (USD)"]) + th("ROAS") + th("Top of search", "impression share", true, "num", ["Top-of-search impression share (%)"]) + th("Next step", "", false, ""),
-      KEYWORDS.map(([k, m, ci, bid, sp, sa, is, st], i) => `<tr><th scope="row" data-v="${i}"${attr("data-c", [k, m])}>${k}<small>${m}</small></th><td>${CAMPAIGNS[ci].n}</td>${td(bid, usd2(bid), undefined, "num", [f2(bid)])}${td(sp, usd(sp))}${td(sa, usd(sa))}${td((sa / sp).toFixed(3), `${(sa / sp).toFixed(2)}x`, undefined, "num", [f2(sa / sp)])}${td(is, `${is}%`)}<td>${st || `<span class="mut">No open step</span>`}</td></tr>`).join(""), "", "advertising-keywords")
-    + defs(`<b>Top-of-search impression share</b> the share of top-of-search impressions for the keyword that your ads won. A keyword’s spend covers every search term it matched (see Search terms).`);
+      th("Keyword", "match type", true, "", ["Keyword", "Match type"]) + th("Campaign", "", false, "") + th("Bid", "", true, "num", ["Bid (USD)"]) + th("Spend", "", true, "num", ["Spend (USD)"]) + th("Ad sales", "", true, "num", ["Ad sales (USD)"]) + th("ROAS") + th("Top of search", "impression share", true, "num", ["Top-of-search impression share (%)"]) + th("Next step", "", false, "", ["Next step", "Added"]),
+      KEYWORDS.map(([k, m, ci, bid, sp, sa, is, st, since], i) => `<tr><th scope="row" data-v="${i}"${attr("data-c", [k, m])}>${k}<small>${m}</small></th><td>${CAMPAIGNS[ci].n}</td>${td(bid, usd2(bid), undefined, "num", [f2(bid)])}${td(sp, usd(sp), since ? `since ${since}` : undefined, "num", [sp])}${td(sa, usd(sa))}${td((sa / sp).toFixed(3), `${(sa / sp).toFixed(2)}x`, undefined, "num", [f2(sa / sp)])}${td(is, `${is}%`)}<td${attr("data-c", [st, since ? iso(since) : ""])}>${st ? (since ? `${st}<small>${since}</small>` : st) : `<span class="mut">No open step</span>`}</td></tr>`).join(""), "", "advertising-keywords")
+    + defs(`<b>Top-of-search impression share</b> the share of top-of-search impressions for the keyword that your ads won. A keyword’s spend covers every search term it matched (see Search terms); one added this month shows its spend since then.`);
   const places = tbl("kq-pt-pl", "Sponsored Products placements, Oct 1 to 23",
       th("Placement", "", false, "") + th("Bid adjustment", "", false, "num", ["Bid adjustment (%)"]) + th("Spend", "share", true, "num", ["Spend (USD)", "Share of spend (%)"]) + th("Ad sales", "", true, "num", ["Ad sales (USD)"]) + th("ROAS") + th("Next step", "", false, ""),
       PLACES.map(([n, adj, sp, sa, st], i) => `<tr><th scope="row" data-v="${i}">${n}</th>${td(adj, adj ? `+${adj}%` : "None", undefined, "num", [adj])}${td(sp, usd(sp), pct((100 * sp) / sum(PLACES, (x) => x[2])), "num", [sp, f1((100 * sp) / sum(PLACES, (x) => x[2]))])}${td(sa, usd(sa))}${td((sa / sp).toFixed(3), `${(sa / sp).toFixed(2)}x`, undefined, "num", [f2(sa / sp)])}<td>${st}</td></tr>`).join(""), "plain", "advertising-placements")
     + `<p class="kq-pt-note"><b>Bid adjustment</b> how much more a bid pays for that placement.</p>`;
-  const SUMS = [`${CAMPAIGNS.length} of ${CAMPAIGN_COUNT} campaigns, ${spendShare}% of Amazon ad spend. All: ${usd(AMZ.spend)} spend, ${usd(AMZ.adSales)} ad sales, ${(AMZ.adSales / AMZ.spend).toFixed(2)}x`, `${KEYWORDS.length} keywords in the three keyword campaigns`, `The ${word(SPC.length)} Sponsored Products campaigns, by placement`];
+  const SUMS = [`${CAMPAIGNS.length} of ${CAMPAIGN_COUNT} campaigns, ${spendShare}% of Amazon ad spend. All: ${usd(AMZ.spend)} spend, ${usd(AMZ.adSales)} ad sales, ${(AMZ.adSales / AMZ.spend).toFixed(2)}x`, `${KEYWORDS.length} keywords, ${kwShare}% of the three keyword campaigns’ spend, ${word(KEYWORDS.filter((k) => k[8]).length)} added this week`, `The ${word(SPC.length)} Sponsored Products campaigns, by placement`];
   const ads = `<div class="kq-pt-tool">${seg}<div class="kq-pt-avs kq-pt-sums">${AV.map(([k], i) => `<p class="kq-pt-av kq-pt-av-${k}">${SUMS[i]}, Oct 1 to 23</p>`).join("")}</div><div class="kq-pt-tr">${exportBtn("kq-pt-p1")}</div></div><div class="kq-pt-avs"><div class="kq-pt-av kq-pt-av-c">${campaigns}</div><div class="kq-pt-av kq-pt-av-k">${keywords}</div><div class="kq-pt-av kq-pt-av-p">${places}</div></div>`;
 
   const terms = tool(`${TERMS.length} search terms your team acted on or is reviewing, of ${TERM_COUNT} with ad spend this month`, "", "kq-pt-c2-t")
@@ -432,7 +483,7 @@ ${channels}
     + tbl("kq-pt-c4", "Returns and repeat purchase by product, Oct 1 to 23",
       th("Product", "", true, "", PH) + th("Units ordered") + th("Returned") + th("Return rate", "", true, "num", ["Return rate (%)"]) + th("Top return reason", "", false, "") + th("Repeat buyers", "share of customers", true, "num", ["Repeat buyers (%)"]) + th("Subscribe and Save", "active subscriptions", true, "num", ["Subscribe and Save subscriptions"]),
       PRODUCTS.map((p) => `<tr>${name(p)}${td(p.units, num(p.units))}${td(p.ret, num(p.ret))}${td(((100 * p.ret) / p.units).toFixed(2), pct((100 * p.ret) / p.units), undefined, "num", [f1((100 * p.ret) / p.units)])}<td>${p.why}</td>${td(p.rep, `${p.rep}%`)}${td(p.sns, p.sns ? num(p.sns) : "Not enrolled")}</tr>`).join(""), "", "returns")
-    + `<p class="kq-pt-note">Reimbursements this month: four cases, $1,180, for two units lost in a warehouse and two damaged, filed by Revenue Recovery.</p>`
+    + `<p class="kq-pt-note">Reimbursements this month: ${word(REIMB.length)} cases, ${num(sum(REIMB, (r) => r[1]))} units, ${usd(reimbTotal)}, filed by Revenue Recovery. ${["lost in a warehouse", "damaged in fulfilment"].map((why, i) => (i ? why : cap(why)) + ": " + REIMB.filter((r) => r[2] === why).map(([n, u, , v]) => `${u} ${(u > 1 && n === "Gift set" ? "gift sets" : n.replace(/^./, (c) => c.toLowerCase()))} (${usd(v)})`).join(" and ")).join("; ")}.</p>`
     + defs(`<b>Return rate</b> units returned ÷ units ordered. <b>Repeat buyers</b> customers who bought the product more than once, from Brand Analytics, to Oct 17. Subscriptions as of ${INV_ASOF}.`);
 
   const promos = tool(`October promotions cost ${usd(COSTS.promotions)}, counted in contribution`, "", "kq-pt-c5-t")
@@ -455,10 +506,10 @@ ${channels}
   const panes = `<div class="kq-pt-panes">${TABS.map(([, html], i) => `<div class="kq-pt-pane${i ? "" : " on"}" role="tabpanel" id="kq-pt-p${i}" aria-labelledby="kq-pt-t${i}">${withHint(html)}</div>`).join("")}</div>`;
 
   const ships = `<div class="kq-pt-card"><h4 class="kq-pt-h2">Inbound shipments</h4><p class="kq-pt-csub">${num(inboundUnits)} units · ${MO}</p><ul class="kq-pt-att two">${SHIPMENTS.map(([n, u, s, eta, id, fc]) => `<li><div><p><span class="at">${n}</span> <small>${num(u)}<span class="sr"> units</span></small></p><p class="ad"><small>${id} to ${fc}</small></p></div><div class="av"><span><small>${s}, due</small> <strong>${eta}</strong></span></div></li>`).join("")}</ul></div>`;
-  const CHANGES = [["Oct 22", "Search terms", "38 negatives added, 2 moved to exact match"], ["Oct 21", "Featured Offer", `Vitamin C serum lost it for 6 hours to an offer at $36.90 (yours ${usd2(vc.sales / vc.units)})`], ["Oct 21", "Listing", "Mineral sunscreen suppressed while Amazon reviews the safety data sheet; its ads paused"], ["Oct 20", "Listing", "Gift set main image replaced, with Amazon for review"], ["Oct 19", "Budget", `Brands video raised from $250 to ${usd(capped.find((c) => c.day === 280).day)} a day`]];
+  const CHANGES = [["Oct 22", "Search terms", "38 negatives added; “vitamin c serum for face” moved to exact match"], ["Oct 21", "Featured Offer", `Vitamin C serum lost it for 6 hours to an offer at $36.90 (yours ${usd2(vc.sales / vc.units)})`], ["Oct 21", "Listing", "Mineral sunscreen suppressed while Amazon reviews the safety data sheet; its ads paused"], ["Oct 20", "Listing", "Gift set main image replaced, with Amazon for review"], ["Oct 19", "Budget", `Brands video raised from $250 to ${usd(capped.find((c) => c.day === 280).day)} a day`]];
   const FO = [["Vitamin C serum", "Lost 6 hours on Oct 21 to a $36.90 offer", "held again"], ["Mineral sunscreen", "Suppressed since Oct 21: no offer shown", "with Amazon"], ["Gift set", "Suppressed since Oct 19: no offer shown", "with Amazon"], [`${cap(word(PRODUCTS.filter((p) => p.fo >= 99).length))} other products`, "Held on 99% or more of page views", "no change"]];
   check(PRODUCTS.filter((p) => p.fo >= 99).length === 4 && PRODUCTS.filter((p) => p.fo < 99).map((p) => p.n).sort().join() === FO.slice(0, 3).map((f) => f[0]).sort().join(), "Featured Offer card against the products");
-  const [foHead, foId] = foldHead("Featured Offer", "", " nw");
+  const [foHead, foId] = foldHead("Featured Offer");
   const offers = `<div class="kq-pt-card">${foHead}<p class="kq-pt-csub">Last 7 days, prices unchanged · ${MO}</p><ul class="kq-pt-att kq-pt-fo kq-pt-df" id="${foId}">${FO.map(([n, d, st]) => `<li><p><span class="at">${n}</span> <small>${st}</small></p><p class="ad">${d}</p></li>`).join("")}</ul></div>`;
   const changes = `<div class="kq-pt-card kq-pt-team"><h4 class="kq-pt-h2">Changes this week</h4><ul>${CHANGES.map(([dt, k, t]) => `<li><small>${dt} · ${k}</small><span>${t}</span></li>`).join("")}</ul></div>`;
 
@@ -503,13 +554,14 @@ function up(e,c){while(e&&e!==f){if(e.classList&&e.classList.contains(c))return 
 var ops=f.querySelector('.kq-pt-v2'),box=f.querySelector('.kq-pt-panes'),say=f.querySelector('.kq-pt-say'),osay=el('kq-pt-osay'),flt=f.querySelector('.kq-pt-flt'),qi=f.querySelector('.kq-pt-q input'),none=f.querySelector('.kq-pt-none'),tabs=all('[role=tab]'),panes=tabs.map(function(t){return el(t.getAttribute('aria-controls'))}),cur=0;
 var keys=tabs.map(function(t){return t.getAttribute('data-key')});
 function pick(i,focus){cur=i;box.style.minHeight='';tabs.forEach(function(t,j){var on=i===j;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;panes[j].classList.toggle('on',on)});ops.setAttribute('data-tab',i);say.textContent='';if(focus)tabs[i].focus()}
-function now(){if(el('kq-pt-v1').checked)return 'portal-overview';var c=f.querySelector('[name=kq-pt-ch]:checked').value;return 'portal-ops-'+(c==='amazon'?keys[cur]:c)}
+var AVN={c:'campaigns',k:'keywords',p:'placements'};function av(){var r=f.querySelector('[name=kq-pt-av]:checked');return r?r.value:'c'}
+function now(){if(el('kq-pt-v1').checked)return 'portal-overview';var c=f.querySelector('[name=kq-pt-ch]:checked').value;return 'portal-ops-'+(c==='amazon'?keys[cur]+(keys[cur]==='advertising'?'-'+AVN[av()]:''):c)}
 function mark(push){var h='#'+now();if(location.hash===h)return;try{history[push?'pushState':'replaceState'](history.state,'',h)}catch(e){}}
 function go(h){h=(h||'').replace(/^#/,'');if(h.indexOf('portal-')!==0)return false;if(h==='portal-overview'){el('kq-pt-v1').checked=true;return true}
-var m=h.slice(11),i=keys.indexOf(m);if(m==='walmart'||m==='target-plus'){el('kq-pt-v2').checked=true;el('kq-pt-c-'+m).checked=true;return true}
+var m=h.slice(11),v=/^advertising-(campaigns|keywords|placements)$/.exec(m),i;if(v){m='advertising';v=v[1].charAt(0);if(av()!==v){el('kq-pt-av-'+v).checked=true;say.textContent=''}}i=keys.indexOf(m);if(m==='walmart'||m==='target-plus'){el('kq-pt-v2').checked=true;el('kq-pt-c-'+m).checked=true;return true}
 if(i<0)return false;el('kq-pt-v2').checked=true;el('kq-pt-c-amazon').checked=true;pick(i);return true}
 tabs.forEach(function(t,i){t.addEventListener('click',function(){pick(i);mark()});t.addEventListener('keydown',function(e){var k=e.key,n=k==='ArrowRight'?i+1:k==='ArrowLeft'?i-1:k==='Home'?0:k==='End'?tabs.length-1:null;if(n===null)return;e.preventDefault();pick((n+tabs.length)%tabs.length,1);mark()})});
-all('input[type=radio]').forEach(function(r){r.addEventListener('change',function(){mark()})});
+all('input[type=radio]').forEach(function(r){r.addEventListener('change',function(){if(r.name==='kq-pt-av')say.textContent='';mark()})});
 window.addEventListener('popstate',function(){if(!go(location.hash)&&!location.hash)go('#portal-overview')});
 function apply(){var on=flt.getAttribute('aria-pressed')==='true',s=qi.value.toLowerCase().replace(/^\s+|\s+$/g,''),n=0,rows=all('tbody tr',panes[0]);box.style.minHeight=box.offsetHeight+'px';rows.forEach(function(r){r.hidden=(on&&!r.hasAttribute('data-step'))||(s&&r.cells[0].textContent.toLowerCase().indexOf(s)<0);if(!r.hidden)n++});none.hidden=n>0;say.textContent='Showing '+n+' of '+rows.length+' products'}
 flt.addEventListener('click',function(){flt.setAttribute('aria-pressed',flt.getAttribute('aria-pressed')!=='true');apply()});qi.addEventListener('input',apply);
@@ -534,7 +586,15 @@ b.addEventListener('click',function(){set(p.hidden)});w.addEventListener('keydow
 document.addEventListener('click',function(e){if(!p.hidden&&!w.contains(e.target))set(false)});w.addEventListener('focusout',function(e){if(e.relatedTarget&&!w.contains(e.relatedTarget))set(false)})});
 var mm=function(q){return window.matchMedia?window.matchMedia(q):{matches:false}},mq=mm('(max-width: 760px)'),mq2=mm('(max-width: 380px)');
 all('.kq-pt-dfb').forEach(function(b){var p=el(b.getAttribute('aria-controls'));function set(o){b.setAttribute('aria-expanded',o);p.classList.toggle('open',o)}set(!(b.hasAttribute('data-narrow')?mq2:mq).matches);b.addEventListener('click',function(){set(b.getAttribute('aria-expanded')!=='true')})});
-var tip=f.querySelector('.kq-pt-bars .tip'),cl=['c0','c1','c2'];if(tip){var bars=tip.parentNode;bars.addEventListener('mouseover',function(e){var c=e.target;while(c&&c!==bars&&!c.hasAttribute('data-tip'))c=c.parentNode;if(!c||c===bars)return;var t=c.getAttribute('data-tip').split('|');tip.innerHTML='';t.forEach(function(x,i){var s=document.createElement(i?'span':'b'),m=/^(\d) /.exec(x);if(m){var k=document.createElement('i');k.className=cl[+m[1]];s.appendChild(k);x=x.slice(2)}s.appendChild(document.createTextNode(x));tip.appendChild(s)});tip.hidden=false;var l=c.offsetLeft+c.offsetWidth/2-tip.offsetWidth/2;tip.style.left=Math.max(0,Math.min(l,bars.offsetWidth-tip.offsetWidth))+'px'});bars.addEventListener('mouseleave',function(){tip.hidden=true})}
+var tip=f.querySelector('.kq-pt-bars .tip'),cl=['c0','c1','c2'];if(tip){var bars=tip.parentNode,cs=all('.col',bars),day=cs.length-1;
+function words(c){return c.getAttribute('data-tip').split('|').map(function(x){return x.replace(/^\d /,'')})}
+function show(c){var t=c.getAttribute('data-tip').split('|');tip.innerHTML='';t.forEach(function(x,i){var s=document.createElement(i?'span':'b'),m=/^(\d) /.exec(x);if(m){var k=document.createElement('i');k.className=cl[+m[1]];s.appendChild(k);x=x.slice(2)}s.appendChild(document.createTextNode(x));tip.appendChild(s)});tip.hidden=false;var l=c.offsetLeft+c.offsetWidth/2-tip.offsetWidth/2;tip.style.left=Math.max(0,Math.min(l,bars.offsetWidth-tip.offsetWidth))+'px'}
+function at(d){day=d;cs.forEach(function(c,j){c.classList.toggle('cur',j===d)});var w=words(cs[d]);bars.setAttribute('aria-valuenow',d+1);bars.setAttribute('aria-valuetext',w[0]+': '+w.slice(1).join(', '));show(cs[d])}
+bars.parentNode.removeAttribute('aria-hidden');bars.setAttribute('role','slider');bars.tabIndex=0;bars.setAttribute('aria-label','Sales by day, Oct 1 to '+cs.length+': left and right arrows move a day');bars.setAttribute('aria-valuemin',1);bars.setAttribute('aria-valuemax',cs.length);bars.setAttribute('aria-valuenow',cs.length);bars.setAttribute('aria-valuetext',words(cs[day])[0]+': '+words(cs[day]).slice(1).join(', '));
+bars.addEventListener('mouseover',function(e){var c=e.target;while(c&&c!==bars&&!c.hasAttribute('data-tip'))c=c.parentNode;if(!c||c===bars)return;show(c)});bars.addEventListener('mouseleave',function(){if(document.activeElement===bars)show(cs[day]);else tip.hidden=true});
+bars.addEventListener('click',function(e){var c=e.target;while(c&&c!==bars&&!c.hasAttribute('data-tip'))c=c.parentNode;if(c&&c!==bars){bars.focus();at(cs.indexOf(c))}});
+bars.addEventListener('focus',function(){at(day)});bars.addEventListener('blur',function(){tip.hidden=true;cs.forEach(function(c){c.classList.remove('cur')})});
+bars.addEventListener('keydown',function(e){var k=e.key,n=k==='ArrowRight'||k==='ArrowUp'?day+1:k==='ArrowLeft'||k==='ArrowDown'?day-1:k==='Home'?0:k==='End'?cs.length-1:k==='PageUp'?day+7:k==='PageDown'?day-7:null;if(n===null)return;e.preventDefault();at(Math.max(0,Math.min(cs.length-1,n)))})}
 window.addEventListener('resize',function(){box.style.minHeight=''});
 all('button[disabled],input[disabled]').forEach(function(b){b.disabled=false});f.className+=' is-live';
 if(go(location.hash))window.addEventListener('load',function(){var s=document.getElementById('portal')||f;if(s.scrollIntoView)s.scrollIntoView()})})();`;
@@ -542,7 +602,7 @@ if(go(location.hash))window.addEventListener('load',function(){var s=document.ge
 export const PORTAL_CSS = String.raw`/* the client portal example, in the portal mockups' own type sizes and colours */
 /* the example is far down the page: the browser skips laying it out until it comes near the screen, holding its measured height */
 .kq-pt-fig{margin:clamp(32px,4vw,56px) 0 0;contain:layout style}
-.kq-pt{content-visibility:auto;contain-intrinsic-block-size:auto 1150px}
+.kq-pt{content-visibility:auto;contain-intrinsic-block-size:auto 1170px}
 .kq-pt-sw{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:0 0 16px;font-size:16px;color:#262524}
 .kq-pt-sw>span:first-child{margin-right:6px}
 .kq-pt-sw .o,.kq-pt-chsw .o{position:relative;display:inline-flex}
@@ -580,21 +640,23 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-scope{display:inline-block;height:32px;line-height:30px;padding:0 10px;border:1px solid #CFD5D9;border-radius:8px;background:#FFFFFF;white-space:nowrap}
 /* screens, channels and tab panels each share one cell: the page keeps one height whichever is showing */
 .kq-pt-views,.kq-pt-chans{display:grid;min-width:0}.kq-pt-views{flex:1}
-/* each tab panel is as tall as its own content; the Overview, the taller screen, sets the figure height */
-.kq-pt-pane{min-width:0}.kq-pt-pane:not(.on){display:none}
+/* the tab panels share one cell too, so the cards below them never move when the tab changes */
+.kq-pt-panes,.kq-pt-avs,.kq-pt-pers{display:grid;grid-template-columns:minmax(0,1fr)}
+.kq-pt-pane,.kq-pt-av,.kq-pt-per{grid-area:1/1;min-width:0}.kq-pt-pane:not(.on),.kq-pt-per-q{visibility:hidden}
 .kq-pt-sheet{grid-area:1/1;background:#FFFFFF;border:1px solid #E3E8EB;border-radius:16px;margin:0 8px 8px 0;padding:16px 24px 20px;min-width:0}
 .kq-pt-v2,.kq-pt-k2,.kq-pt-k3{visibility:hidden}
 .kq-pt-chan{grid-area:1/1;min-width:0}
-/* the three Advertising views, each as tall as its own content */
-.kq-pt-av{display:none;min-width:0}
-.kq-pt-fig:has(#kq-pt-av-c:checked) .kq-pt-av-c,.kq-pt-fig:has(#kq-pt-av-k:checked) .kq-pt-av-k,.kq-pt-fig:has(#kq-pt-av-p:checked) .kq-pt-av-p{display:block}
+/* the three Advertising views and the two periods by channel, one cell each: the choice shows one */
+.kq-pt-av{visibility:hidden}
+.kq-pt-fig:has(#kq-pt-av-c:checked) .kq-pt-av-c,.kq-pt-fig:has(#kq-pt-av-k:checked) .kq-pt-av-k,.kq-pt-fig:has(#kq-pt-av-p:checked) .kq-pt-av-p,.kq-pt-fig:has(#kq-pt-pq:checked) .kq-pt-per-q{visibility:inherit}
+.kq-pt-fig:has(#kq-pt-pq:checked) .kq-pt-per-m{visibility:hidden}
 .kq-pt-fig:has(#kq-pt-v2:checked) .kq-pt-v1{visibility:hidden}
 .kq-pt-fig:has(#kq-pt-v2:checked) .kq-pt-v2{visibility:visible}
 .kq-pt-fig:has(#kq-pt-c-walmart:checked) .kq-pt-k1,.kq-pt-fig:has(#kq-pt-c-target-plus:checked) .kq-pt-k1{visibility:hidden}
 .kq-pt-fig:has(#kq-pt-v2:checked):has(#kq-pt-c-walmart:checked) .kq-pt-k2,.kq-pt-fig:has(#kq-pt-v2:checked):has(#kq-pt-c-target-plus:checked) .kq-pt-k3{visibility:visible}
 .kq-pt-fig:has(#kq-pt-v2:checked) .kq-pt-nv.n1{background:none;color:var(--muted)}
 .kq-pt-fig:has(#kq-pt-v2:checked) .kq-pt-nv.n2{background:#E1E7EA;color:#262524}
-@supports not selector(:has(a)){.kq-pt-sw,.kq-pt-chsw,.kq-pt-seg{display:none}.kq-pt-av-c{display:block}}
+@supports not selector(:has(a)){.kq-pt-sw,.kq-pt-chsw,.kq-pt-seg{display:none}.kq-pt-av-c{visibility:inherit}}
 .kq-pt-crumb{color:var(--muted);margin-bottom:2px!important}
 .kq-pt-trow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 24px}
 .kq-pt-frow{display:flex;justify-content:space-between;align-items:flex-start;gap:6px 32px;margin-top:4px}
@@ -612,6 +674,7 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-ctl span{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:#EEF2F4;color:#3D4449;white-space:nowrap;font-size:13px}
 .kq-pt-chsw,.kq-pt-seg{display:flex;flex-wrap:wrap;gap:6px}.kq-pt-seg .o{position:relative;display:inline-flex}.kq-pt-seg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}.kq-pt-seg label{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;color:var(--muted);cursor:pointer;white-space:nowrap}.kq-pt-seg input:checked+label{background:#E1E7EA;color:#262524;font-weight:500}.kq-pt-seg input:hover+label{color:#262524}.kq-pt-seg input:focus-visible+label{outline:3px solid #00618D;outline-offset:2px}.kq-pt-sums{flex:1 1 16em;min-width:0}.kq-pt-sums p{font-size:12px;line-height:16px;color:var(--muted);align-self:center}
 .kq-pt-v2 .kq-pt-trow{justify-content:flex-start}
+.kq-pt .kq-pt-perseg{flex-wrap:nowrap;gap:2px;margin:-6px 0}.kq-pt .kq-pt-perseg input{inset:-6px 0;height:auto}.kq-pt .kq-pt-perseg label{min-height:32px;min-width:48px;justify-content:center;padding:0 10px}
 .kq-pt-chsw label{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid #CFD5D9;border-radius:8px;background:#FFFFFF;cursor:pointer;white-space:nowrap}
 
 .kq-pt-chsw input:checked+label{background:#E1E7EA;border-color:#AEBAC1;font-weight:500}
@@ -680,7 +743,7 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-bars .cols{position:absolute;left:0;right:0;top:0;bottom:20px;display:flex;align-items:flex-end;gap:2px}
 .kq-pt-bars .col{position:relative;flex:1 1 0;max-width:24px;height:100%;display:flex;flex-direction:column-reverse;align-items:stretch;gap:2px;margin:0 auto}
 .kq-pt-bars .col>i{display:block;min-height:1px}.kq-pt-bars .col>i:last-of-type{border-radius:4px 4px 0 0}
-.kq-pt-bars .col:hover>i{filter:brightness(.92)}
+.kq-pt-bars .col:hover>i,.kq-pt-bars .col.cur>i{filter:brightness(.88)}.kq-pt-bars .cols:focus{outline:none}.kq-pt-bars .cols:focus-visible{outline:3px solid var(--acc);outline-offset:4px;border-radius:4px}
 .kq-pt-bars .tip{display:flex;position:absolute;bottom:calc(100% + 6px);z-index:2;flex-direction:column;gap:2px;padding:8px 10px;background:#FFFFFF;border:1px solid #CFD5D9;border-radius:8px;box-shadow:0 8px 20px -8px rgba(10,28,54,.3);font-size:12px;line-height:16px;white-space:nowrap}
 .kq-pt-bars .tip[hidden]{display:none}
 .kq-pt-bars .tip i{display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:2px}
@@ -744,12 +807,12 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-points{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px 32px;font-size:17px;line-height:1.5}
 .kq-pt-points li{padding-top:14px;border-top:2px solid #102A4C}
 .kq-pt-points strong{display:block;font-weight:500;color:#102A4C}
-@media (max-width:1100px){.kq-pt{contain-intrinsic-block-size:auto 1480px}.kq-pt-dec .dm{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"w w" "a g";gap:4px 8px}.kq-pt-dec .dw{grid-area:w}.kq-pt-dec .ans{grid-area:a}.kq-pt-dec .dm .go{grid-area:g;justify-self:end}.kq-pt-two{grid-template-columns:1fr;gap:12px}.kq-pt{grid-template-columns:1fr}.kq-pt-side{display:none}.kq-pt-top{padding:0 12px}.kq-pt-sheet{margin:0 8px 8px}.kq-pt-hint{display:block}.kq-pt-hint.ph,.kq-pt-pane:last-child .kq-pt-hint{display:none}
-.kq-pt table.prod{min-width:900px}.kq-pt-pane table:not(.plain){min-width:780px}
+@media (max-width:1100px){.kq-pt{contain-intrinsic-block-size:auto 1530px}.kq-pt-dec .dm{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"w w" "a g";gap:4px 8px}.kq-pt-dec .dw{grid-area:w}.kq-pt-dec .ans{grid-area:a}.kq-pt-dec .dm .go{grid-area:g;justify-self:end}.kq-pt-two{grid-template-columns:1fr;gap:12px}.kq-pt{grid-template-columns:1fr}.kq-pt-side{display:none}.kq-pt-top{padding:0 12px}.kq-pt-sheet{margin:0 8px 8px}.kq-pt-hint{display:block}.kq-pt-hint.ph,.kq-pt-pane:last-child .kq-pt-hint{display:none}
+.kq-pt table.prod{min-width:900px}.kq-pt-pane table:not(.plain){min-width:780px}.kq-pt table.chan{min-width:900px}.kq-pt table.chan tbody th{white-space:nowrap}
 .kq-pt tbody th{position:sticky;left:0;z-index:1;background:#FFFFFF;padding-right:12px;box-shadow:1px 0 0 var(--rule)}
 .kq-pt-kstrip{grid-template-columns:repeat(3,minmax(0,1fr))}.kq-pt-kstrip>li:nth-child(n+4){border-top:1px solid var(--border)}.kq-pt-kstrip>li:nth-child(4){border-left:0}.kq-pt-kstrip>li:nth-child(5){grid-column:span 2}}
 @media (max-width:900px){.kq-pt-cols,.kq-pt-cols.ops,.kq-pt-cols.eq{grid-template-columns:1fr}.kq-pt-two{gap:12px}.kq-pt-two table,.kq-pt-k2 table{min-width:640px}.kq-pt-two td,.kq-pt table.plain tbody th{white-space:nowrap}.kq-pt-pane:last-child .kq-pt-hint{display:block}.kq-pt-frow{flex-wrap:wrap}.kq-pt-stamp{align-items:flex-start;text-align:left}.kq-pt-pop{right:auto;left:0}}
-@media (max-width:760px){.kq-pt{contain-intrinsic-block-size:auto 2100px}.kq-pt .w{display:none}.kq-pt .n,.kq-pt-tabs .n{display:inline}.kq-pt-search{display:none}.kq-pt-top{justify-content:space-between}.kq-pt-sheet{padding:14px 14px 16px}
+@media (max-width:760px){.kq-pt{contain-intrinsic-block-size:auto 2000px}.kq-pt .w{display:none}.kq-pt .n,.kq-pt-tabs .n{display:inline}.kq-pt-search{display:none}.kq-pt-top{justify-content:space-between}.kq-pt-sheet{padding:14px 14px 16px}
 .kq-pt-fig.is-live .kq-pt-df:not(.open){display:none}.kq-pt-fig:not(.is-live) .kq-pt-stamp>span{display:block}.kq-pt-fig.is-live .kq-pt-dfb{display:inline-flex}.kq-pt-fig.is-live .fh{display:none}.kq-pt-fig.is-live .kq-pt-dfb.nw{display:none}.kq-pt-fig.is-live .fh.nw{display:inline}.kq-pt-fig.is-live .kq-pt-daily:has(.kq-pt-df:not(.open)) .kq-pt-leg{display:none}
 .kq-pt-kstrip{grid-template-columns:repeat(2,minmax(0,1fr))}.kq-pt-kstrip>li{padding:5px 12px 6px}.kq-pt-kstrip>li:nth-child(odd){border-left:0}.kq-pt-kstrip>li:nth-child(even){border-left:1px solid var(--border)}.kq-pt-kstrip>li:nth-child(n+3){border-top:1px solid var(--border)}.kq-pt-kstrip>li:nth-child(5){grid-column:span 2}.kq-pt .kv{font-size:20px;line-height:26px}.kq-pt-kstrip .kq-pt-spark{display:none}.kq-pt-kstrip>li:nth-child(5) .kq-pt-spark{display:block;max-width:none;height:26px}
 .kq-pt-card{padding:10px 14px}.kq-pt-leg{gap:2px 12px}
@@ -759,12 +822,12 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt table.plain tbody tr{height:32px}.kq-pt-bar{gap:0 10px}.kq-pt-tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:0;flex-basis:100%}.kq-pt-tabs button{padding:0 4px}.kq-pt-say{flex-basis:100%}
 .kq-pt-tool>p{flex-basis:100%}.kq-pt-tr{flex:1 1 100%}.kq-pt-q{flex:1 1 100%}.kq-pt-q input{width:100%;height:36px;font-size:16px}.kq-pt .kq-pt-btn{height:36px}
 .kq-pt-trow{gap:6px 12px}.kq-pt-log li{grid-template-columns:1fr}
-.kq-pt-chead{display:grid;grid-template-columns:1fr auto;align-items:center}.kq-pt-chead .kq-pt-leg{grid-column:1/-1;grid-row:2}
-.kq-pt-dec li{padding:8px 0}.kq-pt-log{margin-top:8px}
-.kq-pt-kkey{margin-top:10px!important;font-size:12px;line-height:16px;color:var(--muted)}.kq-pt-kkey+.kq-pt-card{margin-top:4px}.kq-pt .kd{display:inline}.kq-pt table.chan{min-width:820px}.kq-pt table.chan tbody th .sp{display:block;margin-top:3px}.kq-pt table.chan tbody th small{display:none}.kq-pt .kq-pt-btn::after{inset:-4px 0}.kq-pt-v2 .kq-pt-frow{margin-bottom:10px}.kq-pt .kq-pt-asof{display:inline-block;padding:7px 0}.kq-pt .kq-pt-asof::before{inset:-7px -4px}.kq-pt-tool{padding-bottom:6px}.kq-pt table.chan tbody th{min-width:108px;max-width:116px}.kq-pt-stamp>span{display:none}
+.kq-pt-chead{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 8px}.kq-pt-chead .kq-pt-leg{grid-column:1/-1;grid-row:2}.kq-pt-chead .kq-pt-perseg+.kq-pt-leg{grid-column:1}.kq-pt-chead .kq-pt-perseg~.kq-pt-btn{grid-column:2;grid-row:2;justify-self:end}.kq-pt-dec li{padding:6px 0}.kq-pt-att.wide li{padding:5px 0}.kq-pt .ad{line-height:19px}.kq-pt-card{margin-top:10px}.kq-pt-chead .kq-pt-leg{gap:2px 8px}.kq-pt-dec li:last-child{border-bottom:0;padding-bottom:2px}.kq-pt-find{line-height:21px}.kq-pt-leg>span{gap:4px}
+.kq-pt-log{margin-top:8px}
+.kq-pt-kkey{margin-top:6px!important;font-size:12px;line-height:16px;color:var(--muted)}.kq-pt-kkey+.kq-pt-card{margin-top:4px}.kq-pt .kd{display:inline}.kq-pt table.chan{min-width:900px}.kq-pt table.chan tbody th .sp{display:block;margin-top:3px}.kq-pt table.chan tbody th small{display:none}.kq-pt .kq-pt-btn::after{inset:-4px 0}.kq-pt-v2 .kq-pt-frow{margin-bottom:10px}.kq-pt .kq-pt-asof{display:inline-block;padding:7px 0}.kq-pt .kq-pt-asof::before{inset:-7px -4px}.kq-pt-tool{padding-bottom:6px}.kq-pt table.chan tbody th{min-width:108px;max-width:116px}.kq-pt-stamp>span{display:none}
 .kq-pt-bars{height:76px}.kq-pt .kq-pt-hint{display:inline-block;margin-right:14px}.kq-pt-chsw label{padding:0 10px}
 .kq-pt-sw{font-size:15px}.kq-pt-sw>span:first-child{flex-basis:100%}.kq-pt-sw label{padding:0 14px}.kq-pt-empty{padding:16px}}
-@media (max-width:380px){.kq-pt-fig.is-live .kq-pt-dfb.nw{display:inline-flex}.kq-pt-fig.is-live .fh.nw{display:none}.kq-pt{contain-intrinsic-block-size:auto 2380px}.kq-pt-bars{height:64px}.kq-pt-card{padding:10px 12px}.kq-pt .xw{display:none}.kq-pt .kv{font-size:18px}.kq-pt-kstrip>li{padding:8px 10px}.kq-pt-tabs{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}.kq-pt-tabs button{font-size:13px}}
+@media (max-width:380px){.kq-pt-fig.is-live .kq-pt-dfb.nw{display:inline-flex}.kq-pt-fig.is-live .fh.nw{display:none}.kq-pt{contain-intrinsic-block-size:auto 2330px}.kq-pt-bars{height:64px}.kq-pt-card{padding:10px 12px}.kq-pt .xw{display:none}.kq-pt .kv{font-size:18px}.kq-pt-kstrip>li{padding:8px 10px}.kq-pt-tabs{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}.kq-pt-tabs button{font-size:13px}}
 @media (forced-colors:active){.kq-pt .gb,.kq-pt .gb i,.kq-pt .cb,.kq-pt .cb i,.kq-pt .cb b,.kq-pt-bars .col>i,.kq-pt-leg i,.kq-pt-pop li::before,.kq-pt-list li::before{forced-color-adjust:none}}
 /* end of the client portal example */
 `;
