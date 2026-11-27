@@ -46,11 +46,13 @@ const TYPES = {
 };
 const typeOf = (route) => (/^\/perspectives\/news\//.test(route) ? "news" : /^\/perspectives\/press-releases\//.test(route) ? "press" : "article");
 const typeUrl = (t) => `/perspectives?type=${TYPES[t].slug}`;
+// the archive hub pages (site-archive.mjs) list pieces; they are not pieces themselves
+const HUB = /^\/perspectives\/(news|press-releases|\d{4})$/;
 
 // ---------------------------------------------------------------- every piece: words, title, date
 const pieces = [];
 for (const { route, file } of routes) {
-  if (!/^\/perspectives\/./.test(route)) continue;
+  if (!/^\/perspectives\/./.test(route) || HUB.test(route)) continue;
   const f = path.join(ROOT, "public", file), html = fs.readFileSync(f, "utf8");
   const body = html.match(/<article\b[^>]*data-art="body"[^>]*>([\s\S]*?)<\/article>/);
   const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/);
@@ -231,7 +233,12 @@ tabs.forEach(function(b){b.addEventListener('click',function(){var v=b.getAttrib
 function chip(text,name,undo){var li=d.createElement('li'),b=d.createElement('button');b.type='button';b.textContent=text+' ';
 b.setAttribute('aria-label',T('Remove filter')+': '+name);
 b.insertAdjacentHTML('beforeend','<svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg>');
-b.addEventListener('click',function(){undo();months();fire();(chips.querySelector('button')||q).focus();});li.appendChild(b);chips.appendChild(li);}
+b.addEventListener('click',function(){refocus=[].indexOf.call(chips.querySelectorAll('button'),b);undo();months();fire();});li.appendChild(b);chips.appendChild(li);}
+/* the chips are redrawn after every change, so keyboard focus is put back once they are: on the chip that took
+   the removed one's place (or the one before it), or on the search field when none is left, and after
+   "Clear filters" on the search field (WCAG 2.4.3; before, focus fell to the top of the page) */
+var refocus=null;if(clr)clr.addEventListener('click',function(){refocus=-1;});
+function restore(){if(refocus===null)return;var bs=chips.querySelectorAll('button'),t=refocus>=0&&bs.length?bs[Math.min(refocus,bs.length-1)]:q;refocus=null;t.focus();}
 
 /* runs after the export's filter: the year filter, the count, the chips, the tabs and the address */
 function pass(){var yr=y.value,term=q.value.trim();
@@ -251,6 +258,7 @@ if(t.selectedIndex>0)chip(label(t),T('Topic')+', '+label(t),function(){t.selecte
 if(c.selectedIndex>0)chip(label(c),T('Channel')+', '+label(c),function(){c.selectedIndex=0;});
 if(a.selectedIndex>0)chip(label(a),T('Author')+', '+label(a),function(){a.selectedIndex=0;});
 if(yr){var when=(mo.value?label(mo)+' ':'')+yr;chip(when,T('Date')+', '+when,function(){y.selectedIndex=0;mo.selectedIndex=0;});}
+restore();
 var p=[];function add(k,v){if(v)p.push(k+'='+encodeURIComponent(v));}
 add('q',term);add('type',ty.selectedIndex>0?SLUG[ty.value]:'');add('topic',t.selectedIndex>0?t.value:'');add('channel',c.selectedIndex>0?c.value:'');add('author',a.selectedIndex>0?a.value:'');add('year',yr);add('month',yr?mo.value:'');
 try{var url=location.pathname+(p.length?'?'+p.join('&'):'')+location.hash;if(url!==location.pathname+location.search+location.hash)history.replaceState(history.state,'',url);}catch(_){}}
