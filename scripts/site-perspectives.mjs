@@ -49,6 +49,16 @@ html = html.replace(/(<article\b[^>]*data-pg-item[\s\S]*?<\/article>)/g, (a) => 
 const data = { "latest-grid": cards(articles.moved), "news-list": news.moved };
 for (const list of Object.values(data)) for (const item of list) if (/<img\b(?![^>]*loading="lazy")/.test(item)) fail("a moved card image is not lazy-loaded");
 
+// Every item on the index must open its page from anywhere on the card or row: picture, title,
+// summary and date line. That works through one link per item whose click area covers the item
+// (data-kq-row on the item, class kq-sl on its link; see site-fixes.mjs).
+{
+  const inPage = [...html.matchAll(/<(article|li)\b[^>]*data-date=[\s\S]*?<\/\1>/g)].map((m) => m[0]);
+  const all = inPage.concat(...Object.values(data));
+  const bad = all.filter((x) => !/^<(article|li)\b[^>]*data-kq-row/.test(x) || (x.match(/<a\b[^>]*class="[^"]*\bkq-sl\b[^"]*"[^>]*href="\/perspectives\//g) || x.match(/<a\b[^>]*href="\/perspectives\/[^>]*class="[^"]*\bkq-sl\b/g) || []).length !== 1);
+  if (bad.length) fail(`${bad.length} of ${all.length} index items are not clickable as a whole, for example: ${bad[0].replace(/<[^>]+>/g, " ").trim().slice(0, 80)}`);
+  console.log(`site-perspectives: all ${all.length} index items open their page from picture, title, summary or date line`);
+}
 const json = JSON.stringify(data);
 const name = `perspectives-more-${crypto.createHash("sha256").update(json).digest("hex").slice(0, 12)}.json`;
 for (const f of fs.readdirSync(path.join(ROOT, "public/assets"))) if (/^perspectives-more-.*\.json$/.test(f)) fs.unlinkSync(path.join(ROOT, "public/assets", f));

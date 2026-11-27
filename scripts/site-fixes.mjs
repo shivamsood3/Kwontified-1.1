@@ -270,14 +270,19 @@ for (const [line, kw] of [["Sales growth for a clinical skincare brand after it 
   sub("about.html", new RegExp(`(<p[^>]*>)${reEsc(line)}(<\\/p>)`, "g"), (_, a, b) => a + link(find(kw).url, line, "kq-il kq-ul") + b);
 
 // ---- 6. whole-card links, article meta, shared styles ------------------------------------
-const CSS = `<style>/* site-fixes */[data-kq-row]{position:relative}a.kq-sl::after{content:"";position:absolute;inset:0;z-index:1}a.kq-il{color:inherit;text-decoration:none}a.kq-il:hover,a.kq-ul{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}[data-kq-row]:focus-within{outline:2px solid currentColor;outline-offset:4px}[data-kq-row] a.kq-sl:focus{outline:none}</style>`;
+const CSS = `<style>/* site-fixes */[data-kq-row]{position:relative}a.kq-sl::after{content:"";position:absolute;inset:0;z-index:1}a.kq-il{color:inherit;text-decoration:none}a.kq-il:hover,a.kq-ul{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}[data-kq-row]:focus-within{outline:2px solid currentColor;outline-offset:4px}[data-kq-row] a.kq-sl:focus{outline:none}[data-kq-row]:hover a.kq-sl{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}</style>`;
 const MONTH = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
 let stretched = 0, metas = 0;
 for (const f of Object.keys(P)) {
   P[f] = P[f].replace(/<article\b([^>]*)>([\s\S]*?)<\/article>/g, (all, attrs, body) => {
     const as = body.match(/<a\b[^>]*>/g) || [];
-    if (!body.includes("<img") || attrs.includes("data-kq-row")) return all;
-    if (as.length !== 1 || !/href="\/(perspectives|work|capabilities|channels)\//.test(as[0])) { if (as.length === 1) log.push(`${f}: card with an image and ${as.length} links left as is`); return all; }
+    if (attrs.includes("data-kq-row")) return all;
+    // a card whose only link goes to a Perspectives item is clickable as a whole, with or without
+    // a picture (image, title, summary and date line all open it); other cards need a picture
+    const one = as.length === 1, toPost = one && /href="\/perspectives\//.test(as[0]);
+    if (!toPost && !body.includes("<img")) return all;
+    if (/<(button|input|select|textarea|details|video|audio|iframe)\b/.test(body)) return all; // the link overlay would cover these
+    if (!one || !/href="\/(perspectives|work|capabilities|channels)\//.test(as[0])) { if (one) log.push(`${f}: card with an image and ${as.length} links left as is`); return all; }
     stretched++;
     const a = /class="/.test(as[0]) ? as[0].replace(/class="/, 'class="kq-sl ') : as[0].replace(/^<a/, '<a class="kq-sl"');
     return `<article data-kq-row${attrs}>${body.replace(as[0], () => a)}</article>`;

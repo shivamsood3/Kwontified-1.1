@@ -53,6 +53,12 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - `next start`: all 1,083 routes return 200; the 21 redirects land on 200 pages; unknown addresses return the 404 page; the sitemap lists 1,080 URLs (1,018 with a real publication date).
 - Cookie banner and tag loading: nine visitor scenarios passed in the chat session (not changed since).
 
+## Whole-card links (checked and completed 2026-11-27)
+
+- Every article, news item and press release opens from anywhere on its card or row: picture, title, summary and date line. This works through one link per item whose click area covers the item (`data-kq-row` on the item, class `kq-sl` on its link; `scripts/site-fixes.mjs` section 6 and the rows written by `scripts/site-archive.mjs`).
+- On 2026-11-27 the rule was widened to cards without a picture (the article lists on the two leadership profiles), hovering a card now underlines its title, and `scripts/site-perspectives.mjs` stops the build if any of the 1,018 index items is not clickable as a whole.
+- Tested in a browser at desktop and phone widths: the Perspectives index on its first and later pages, with a type filter and with a search; the home page; profile pages; related blocks on article, news and press release pages.
+
 ## The copy pass (done 2026-11-26)
 
 - All site copy was scored, refined and rescored; see `COPY-PASS.md` for the rubric, the before and after scores, what changed and five questions for Jordan.
