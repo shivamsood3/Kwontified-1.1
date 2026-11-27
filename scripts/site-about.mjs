@@ -86,6 +86,19 @@ const clients = (id, more, after) =>
 need("/capabilities/retail-media", "/capabilities/creative-studio", "/capabilities/marketplace-operations", "/capabilities/analytics-forecasting", "/capabilities/agentic-commerce", "/capabilities/revenue-recovery",
   "/work", "/work/shortage-claims", "/work/sales-up-22-while-tacos-fell-3-7-points", "/about/careers", "/about/leadership", "/contact", "/client-sign-in", "/why-kwontified", "/about", "/perspectives");
 
+// The categories Kwontified works in (Jordan, 2026-11-27: the site must not read as niche; "we
+// will work with pretty much any product type that can be sold on these ecommerce and social
+// channels"). One list, used on Why Kwontified and in About's answer about categories.
+const CATEGORIES = [
+  ["Fashion and accessories", "Apparel, footwear, handbags, swimwear, intimates, watches, jewelry, luggage and accessories"],
+  ["Beauty and personal care", "Beauty, skincare, hair care and personal hygiene"],
+  ["Health, food and consumables", "Health and wellness, supplements, consumer packaged goods, consumables, food and beverages"],
+  ["Baby and pet", "Baby products and pet products"],
+  ["Home and garden", "Home goods, housewares, household products, home appliances, and lawn and garden equipment"],
+  ["Electronics", "Consumer electronics and small appliances"],
+];
+const lower = (t) => t.charAt(0).toLowerCase() + t.slice(1);
+
 // =====================================================================================
 // About
 // =====================================================================================
@@ -107,6 +120,7 @@ const CAPS = [
 ];
 if (!who.includes("Reputation management</li></ul>")) fail('About: the "What we do" list changed');
 who = who.replace(/(<h3 style="[^"]*">What we do<\/h3><ul style="[^"]*">)[\s\S]*?(<\/ul>)/, (_, o, c) => o + CAPS.map(([href, name, line]) => `<li style="padding: 14px 0; border-top: 1px solid #D3D9DF"><a href="${href}" style="color: #102A4C; font-weight: 500">${name}</a><br><span style="font-size: 16px; color: #626366">${line}</span></li>`).join("") + c);
+who = once(who, "Kwontified runs marketplace businesses for premium consumer brands, with beauty, fashion and consumables at the core.", "Kwontified runs marketplace businesses for consumer brands in almost every category, from apparel, beauty and consumer packaged goods to consumer electronics, home goods and pet products.", "About: the Who we are opening sentence");
 who = withId(who, "who");
 
 // Our story: three short paragraphs and three dates; the city photographs move to Offices
@@ -151,11 +165,17 @@ for (const [i, c] of ["Atlanta", "New York", "Seattle"].entries()) if (!cities[i
 
 const aboutClients = clients("clients", "", "");
 const results = withId(A.by["Results from recent engagements"], "results");
+// About's answer about categories: the same list, in a sentence
+let aboutFaq = withId(A.by["Questions people ask about Kwontified"], "questions");
+{
+  const old = aboutFaq.match(/Kwontified focuses on premium consumer brands in beauty, fashion and consumables[^<]*/) || fail("About: the answer about product categories changed");
+  aboutFaq = aboutFaq.replace(old[0], () => "Kwontified works with consumer brands in almost every category that sells on marketplaces and social channels: " + CATEGORIES.map(([, items]) => lower(items)).join("; ") + ". If a product can be sold on these channels, we will most likely work with it.");
+}
 const aboutMain = [
   A.by["Built by marketplace operators."],
   onPage([["#story", "Our story"], ["#leadership", "Leadership"], ["#values", "Values"], ["#clients", "Clients"], ["#credentials", "Credentials"], ["#press", "Press"], ["#offices", "Offices"], ["/about/careers", "Careers"]]),
   who, story, A.by["Leadership"], values, aboutClients, results, creds, press, offices,
-  withId(A.by["Questions people ask about Kwontified"], "questions"), A.by["Get a first read on your marketplace business."],
+  aboutFaq, A.by["Get a first read on your marketplace business."],
 ].join("\n");
 
 // =====================================================================================
@@ -163,7 +183,8 @@ const aboutMain = [
 // =====================================================================================
 const fit = section("fit", "fit", "#E1E9F1", two(
   `<h2 id="fit-title" style="${H2}">Who we are the right fit for</h2><p style="margin: 24px 0 0; max-width: 26em">Kwontified is an agency. Our team runs your marketplace accounts from inside them; we do not sell software.</p>`,
-  `<ul class="kq-ab-fit"><li>Premium consumer brands, with beauty, fashion and consumables at the core.</li><li>Brands selling through vendor accounts, seller accounts or both, on one marketplace or several.</li><li>Teams that want one partner accountable for advertising, creative, operations and reporting, working to a plan they approve.</li></ul>`,
+  `<ul class="kq-ab-fit"><li>Consumer brands in almost any category that sells on marketplaces and social channels.</li><li>Sellers and vendors alike: seller accounts, vendor accounts or both, on one marketplace or several.</li><li>Brands at every stage, from launch to established.</li><li>Teams that want one partner accountable for advertising, creative, operations and reporting, working to a plan they approve.</li></ul>` +
+  `<h3 class="kq-ab-sub kq-ab-catsh">Categories we work in</h3><dl class="kq-ab-cats">${CATEGORIES.map(([g, items]) => `<div><dt>${g}</dt><dd>${items}</dd></div>`).join("")}</dl><p class="kq-ab-catnote">Not on the list? If a product can be sold on these marketplaces and social channels, we will most likely work with it.</p>`,
 ) + `<h3 class="kq-ab-sub" id="compare-title">Compared with the alternatives</h3><p style="margin: 10px 0 0; max-width: 40em">How the three usually differ.</p>
 <table class="kq-ab-cmp" aria-labelledby="compare-title"><thead><tr><td></td><th scope="col">An in-house team alone</th><th scope="col">Several specialist agencies</th><th scope="col">Kwontified</th></tr></thead><tbody>
 <tr><th scope="row">Who owns the plan</th><td data-th="An in-house team alone">Your team, alongside everything else it runs</td><td data-th="Several specialist agencies">Each agency, for its own channel or service</td><td data-th="Kwontified">One team, to one plan you approve across every marketplace</td></tr>
@@ -261,6 +282,12 @@ main>section:not(.kq-hero):not(.kq-close):not(.kq-ab-mid){padding-top:clamp(56px
 .kq-ab-fit{list-style:none;margin:0;padding:0;font-size:clamp(18px,1.53vw,22px);line-height:1.45}
 .kq-ab-fit li{padding:16px 0;border-top:1px solid #C5CCD3;max-width:34em}
 .kq-ab-fit li:last-child{border-bottom:1px solid #C5CCD3}
+.kq-ab-catsh{margin-top:40px}
+.kq-ab-cats{margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:0 40px;max-width:52em}
+.kq-ab-cats>div{padding:14px 0;border-top:1px solid #C5CCD3}
+.kq-ab-cats dt{font-weight:500;font-size:17px;color:#102A4C}
+.kq-ab-cats dd{margin:4px 0 0;font-size:17px;line-height:1.45}
+.kq-ab-catnote{margin:18px 0 0;font-size:17px;line-height:1.5;max-width:34em}
 .kq-ab-cmp{width:100%;margin:28px 0 0;border-collapse:collapse;font-size:17px;line-height:1.45;background:#FDFCFA}
 .kq-ab-cmp th,.kq-ab-cmp td{padding:18px 20px;text-align:left;vertical-align:top;border-bottom:1px solid #D3D9DF}
 .kq-ab-cmp thead th{font-weight:500;font-size:16px;color:#262524;background:#F8F6F1}
