@@ -7,30 +7,20 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Repository: `shivamsood3/kwontified-1.1`. All changes in this handover were made on top of commit `b57b91ceaddd662586d20faf5f9301c2e9810e22` (branch `v1.2-perspectives-and-new-pages`). Check whether the branch has moved before applying.
 - The work is on branch `site-fixes-archive` (pushed 2026-11-26), based on `v1.2-perspectives-and-new-pages` at `b57b91c`. It supersedes the earlier `kwontified-site-fixes.patch` and `kwontified-site-fixes-v2.patch` files.
 - Nothing in the patch is live. Pre-launch preview: https://kwontified-11.vercel.app (Vercel team `kwontified`).
-- Build: `npm run build:site` runs these steps in order (`npm run build` adds `next build` at the end):
-  1. `scripts/build-site.mjs` (the developer's): turns the HTML exports in `site-src/pages` into `public/_kq` and writes `site-routes.json`. Now also merges `site-src/archive/*.json`.
-  2. `scripts/site-fixes.mjs`: case study pages, link fixes, homepage finder and video button, article meta tags; since the QA pass also narrow-screen grid columns, font preloads and the home page `<main>`.
-  3. `scripts/site-content.mjs`: Accessibility page, newsletter confirmation page, omni-channel copy, press release renames.
-  4. `scripts/site-archive.mjs`: lists the imported archive on the Perspectives index.
-  5. `scripts/site-errors.mjs` (added 2026-11-27): builds the 404 and 403 pages from the 404 shell `build-site.mjs` makes. See "Error pages" below.
-  6. `scripts/site-contact.mjs` (added 2026-11-27): rebuilds the top of the Contact page (form on the first screen, six required fields, optional detail, other routes) and defines the function that sends the form. See "Contact page" below.
-  7. `scripts/site-about.mjs` (added 2026-11-27): gives About and Why Kwontified one job each by moving and adding sections, puts the values on Careers in short, and links Why Kwontified from the capability, channel and case study pages. See "About and Why Kwontified" below.
-  8. `scripts/site-capchan.mjs` (added 2026-11-27): capability and channel pages: case cards linked to their own case studies, the review button on the phone's first screen, "Where this applies" rows and the capability-by-channel table, client logo bands (no quotes), Temu as a marketplace, "Problems we solve" folded into the first section on the seven thin channel pages. Run again with `--check` at the very end of the build. See "Capabilities and Channels" below.
-  9. `scripts/site-channel-content.mjs` (added 2026-11-27): new copy on the capability and channel pages: marketplace facts, rewritten "How we work" and questions on the seven thin channel pages, "How we measure it" on three capability pages, related reading. See "Capability and channel content" below.
-  10. `scripts/site-filters.mjs` (added 2026-11-27): the Work page filter and pager, the creative gallery filter, links from case study labels to the filtered list, and Creative Studio's links to the gallery. See "Filters" below.
-  11. `scripts/site-home.mjs` (added 2026-11-27): rebuilds the home page's order and sections. See "Home page" below.
-  12. `scripts/site-charts.mjs` (added 2026-11-27): every data chart redrawn as one accessible component, readable diagrams and maps on phones, keyboard-reachable tables. See "Charts" below.
-  13. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
-  14. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
-  15. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
-  16. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
-  17. `scripts/site-perspectives-ux.mjs` (added 2026-11-27): reading time, linked type / topic / channel, previous / next between pieces, and the Perspectives index's tabs, year and month filters, filter chips and shareable addresses. Runs before the next step so the cards it moves already carry the reading time. See "Perspectives reading and filters" below.
-  18. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
-  19. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
-  20. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
-  21. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
-  22. `next build`.
-  The full build takes about a minute; most of it is the site-images step making the WebP copies.
+- Build: one runner, `scripts/build-all.mjs`. Its `STEPS` list is the only place the order lives: `npm run build:site` runs it, `npm run build` runs it and then `next build`, `npm run dev` runs it and then `next dev`. To add a step, add a line to `STEPS`; never to `package.json`. `node scripts/build-all.mjs --list` prints the order. The runner stops at the first step that fails. A full build takes about three minutes, most of it the image step. Steps, in order:
+  1. `build-site.mjs` (the developer's): the HTML exports in `site-src/pages` and `site-src/archive/*.json` into `public/_kq`, assets into `public/assets`, and `site-routes.json`.
+  2. `site-fixes.mjs`: case study pages, link fixes, home page case finder and hero video button, article meta tags, whole-card links, narrow-screen grids, font preloads.
+  3. `site-content.mjs`: Accessibility page, newsletter confirmation page, omni-channel copy, press release renames.
+  4. `site-archive.mjs`: the archive on the Perspectives index, the archive hubs (`/perspectives/news`, `/perspectives/press-releases`, one per year) and the closing band of every piece.
+  5. `site-errors.mjs`: the 404 and 403 pages. 6. `site-contact.mjs`: the Contact page and Thank-you page. 7. `site-about.mjs`: About and Why Kwontified. 8. `site-capchan.mjs`: capability and channel pages. 9. `site-channel-content.mjs`: their new copy. 10. `site-filters.mjs`: Work filter, creative gallery, case study labels. 11. `site-home.mjs`: the home page. 12. `site-charts.mjs`: charts, maps and tables.
+  13. `site-seo.mjs`: JSON-LD, share images, titles (`SHORT_TITLES`), `site-lastmod.json` for the sitemap, job postings (`JOBS`).
+  14. `site-images.mjs`: WebP copies of every photo at the widths its slot needs (400, 800, 1200, 1600 and the original; 2x and 3x for fixed-width slots), `srcset`, `sizes`, `width`/`height`, lazy loading below the first section, and a preload for the page's hero. Needs `sharp` (a dependency in `package.json`); `SKIP_IMAGES=1` skips it for a quick local build that must not be deployed. About 4,500 WebP files; `public/assets` is about 390 MB.
+  15. `site-tags.mjs`: Google Tag Manager and the Google Ads tag, loaded only after cookie consent.
+  16. `site-logos.mjs`: client and press logos into content-hashed SVG files. 17. `site-perspectives-ux.mjs`: reading time, kicker links, previous / next, Perspectives tabs and filters. 18. `site-perspectives.mjs`: the first page of the index in the HTML, the rest in `perspectives-more-*.json`. 19. `site-nav.mjs`: header menus, phone menu, search. 20. `site-effects.mjs`: the UX details (`kq-fx-*.js`). 21. `site-i18n.mjs`: translated previews (see `TRANSLATION.md`).
+  22. `site-capchan.mjs --check`: final checks on case cards, logos, FAQ structured data and internal links.
+  23. `site-llms.mjs`: `public/llms.txt` and `public/feed.xml` from the finished pages, and the structured-data, title and description gates.
+  24. `site-bundle.mjs` (always last): moves the CSS and JavaScript that every earlier step writes inline into content-hashed files, and writes `site-csp.json`. See "Shared CSS and JavaScript" below.
+  Steps 5 to 12, 16, 17, 19, 20 and 24 have their own sections below.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
 ## The archive import (done in the chat session)
@@ -63,13 +53,15 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 
 - Full QA pass on 2026-11-26: see `QA-REPORT.md` for what was checked, what was fixed and what is still open.
 - Build, `npx tsc --noEmit` and `npm run lint` all pass.
-- `next start`: all 1,083 routes return 200; the 21 redirects land on 200 pages; unknown addresses return the 404 page; the sitemap lists 1,080 URLs (1,018 with a real publication date).
+- `next start`: every route returns 200 (1,094 English routes plus 16 translated previews as of 2026-11-27); redirects land on 200 pages; unknown addresses return the 404 page with status 404; every sitemap URL carries a real last-change date (publication date, the last commit to the page's sources, or for the Perspectives index and archive hubs the newest piece they list; never the build date).
+- `npx next build --webpack` works in a git worktree; the default Turbopack build does not (symlinked `node_modules`).
 - Cookie banner and tag loading: nine visitor scenarios passed in the chat session (not changed since).
 
 ## Newsletter confirmation page (rebuilt 2026-11-27)
 
 - `/subscribe/thank-you` is built in `scripts/site-content.mjs` (section 2) from the Thank-you layout. It confirms the sign-up, says what arrives, how often, from where and how to unsubscribe, shows the three newest articles (`scripts/latest-cards.mjs`; `site-archive.mjs` refreshes them once the archive is listed) and replaces the footer sign-up form with a prompt to request a review. It is noindex, disallowed in robots.txt and not in the sitemap.
-- Double opt-in: `/api/subscribe` answers `confirm: true` when Mailchimp has sent a confirmation email (double opt-in on, or someone rejoining after unsubscribing). The footer form then opens the page with `?confirm=1`, and the page reads "One step left" instead of "You’re subscribed".
+- Opt-in: **single by default** (the owner's choice): a sign-up is subscribed at once. `MAILCHIMP_DOUBLE_OPT_IN=true` switches on double opt-in. The team is emailed about each new subscriber at `NEWSLETTER_TO` (default `CONTACT_TO`; `off` stops it, recommended once the list grows). Details in `FORMS-SETUP.md`.
+- With double opt-in on: `/api/subscribe` answers `confirm: true` when Mailchimp has sent a confirmation email (double opt-in on, or someone rejoining after unsubscribing). The footer form then opens the page with `?confirm=1`, and the page reads "One step left" instead of "You’re subscribed".
 - `app/api/_lib/sinks.ts`: the Mailchimp call no longer sets a status on people who are already in the audience unless the sign-up changes something, so an existing subscriber is never moved back to pending. Nine cases tested against a mocked API.
 - The briefing is sent from newsletter@kwontified.com (Jordan, 2026-11-27). The confirmation page names that address and `MAILCHIMP-SETUP.md` sets it as the audience's From address; it must be a mailbox or alias that receives mail. The confirmation page also sends questions about the briefing there, and `/subscribe` (quoted in the newsletter press release) redirects to the sign-up field.
 
@@ -79,7 +71,7 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Creative gallery: the shampoo display piece no longer carries the baby food Walmart result (no haircare case study exists); the tumbler video now carries the drinkware TikTok case it shows. The other pieces link to their case studies; links are written as `href="Work.html" data-case="<keyword>"` in `Gallery.html` and resolved by keyword in `site-fixes.mjs`, so a renamed case cannot leave a broken link.
 - Value name: "We Raise the Bar Together" (recommended to Jordan; the original export had a dash).
 - Search descriptions: 15 case studies get their own (146 to 158 characters, `CASE_DESC` in `site-fixes.mjs`; the build fails on any over 160); the two renamed press releases get full descriptions (`site-content.mjs`); the 404 page has one (`build-site.mjs` and `app/not-found.tsx`).
-- Security headers on every response: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin` (`next.config.ts`).
+- Security headers: see "Security headers" below.
 
 ## Navigation (added 2026-11-27, `scripts/site-nav.mjs`)
 
@@ -96,7 +88,7 @@ A navigation review scored the site 68 out of 100 on a ten-point rubric (reach, 
 
 ## Error pages (added 2026-11-27, `scripts/site-errors.mjs`)
 
-- 404: served by `app/not-found.tsx` with status 404. Search is the main action; a script offers up to three pages whose address or title is closest to the address asked for (useful for old links into the archive); six starting points; the three newest articles; a "tell us" link that carries the broken address.
+- 404: every unknown address is answered by `app/[...missing]/route.ts` with status 404 and the built `404.html` as it is (a missing file under `/assets` gets a short plain-text 404 instead). `app/not-found.tsx` is only a fallback for a "not found" Next.js raises itself. Search is the main action; a script offers up to three pages whose address or title is closest to the address asked for (useful for old links into the archive); six starting points; the three newest articles; a "tell us" link that carries the broken address.
 - 403: served at `/403` by `app/403/route.ts` with status 403 and noindex. Nothing on the public site refuses a visitor today. Point the client portal or a host rule at `/403` when a request is turned away. `next.config.ts` makes sure the built file ships with the route.
 - Images (replaced 2026-11-27): both heroes are original and **AI-generated** (Higgsfield, model GPT Image 2.6, 21:9, 2K, high quality), made to match the site's still-life photography. They are not photographs of a real place or product. Files: `site-src/assets/error-404-e1d78729.jpg` (three stone plinths, the middle one empty) and `site-src/assets/error-403-0ee5006a.jpg` (a closed navy door, a key on a hook beside it). 2000 x 848, about 160 KB each.
   - Workspace: Kwontified Team. Spend: 14 credits (8 drafts at 0.75, 4 finals at 2); the balance went from 14,667.5 to 14,653.5. Approved limit was 22.
@@ -135,7 +127,7 @@ Jordan asked for the charts and graphs across the site to be improved. An audit 
 - Decisions applied as defaults (Jordan, 2026-11-27): the International "1x to 2x" chart is removed (it repeated the figure above it); the shortage chart reads "H1 2024 / H1 2025" everywhere; Creative Studio's two pairs are indexed to 100 before, with the dollar labels kept; no periods are added where the site states none.
 - The client portal's chart script (32 KB) is dropped from every page that has no `.pt` element (none today).
 
-, `scripts/site-channel-content.mjs`)
+## Capability and channel content (added 2026-11-27, `scripts/site-channel-content.mjs`)
 
 Jordan asked for the content each page needs, with special attention to the seven thin channel pages (Amazon brand programs, Target Plus, Zalando, Mercado Libre, Temu, TikTok Shop, Instagram Shop). Helper's scores on its 100-point rubric: capability pages averaged 69 before and 80 after, channel pages 60 and 80 (thin pages 52 to 61 before, 73 to 86 after).
 
@@ -173,7 +165,7 @@ Reviewed (About 53 / 100, Why Kwontified 48 / 100) and approved by Jordan the sa
 
 ## Contact page (rebuilt 2026-11-27, `scripts/site-contact.mjs`, `app/api/contact/route.ts`)
 
-Reviewed and approved by Jordan the same day. Decisions: a personal email address is accepted; the phone number is shown as a secondary route; the copy says "A managing partner reads every request"; no booking link yet (planned).
+Reviewed and approved by Jordan the same day. Decisions: a personal email address is accepted; the phone number is shown as a secondary route; the copy says "A senior team member reads your request" (never "managing partner", except as a founder's job title); no booking link yet (planned).
 
 - Layout: headline and three assurances on the left, the form in a card on the right, "What happens next" beside it and three linked results under it. On a phone: headline, form, what happens next, results. Below: "Other ways to reach us" (email and phone, existing clients, press, careers, the three offices) and the four questions.
 - Fields: first name, last name, work email, company, website and "What do you want to achieve?" are required. Job title, channels, revenue (no default) and "What you need help with" (several allowed, named after the capabilities) are in a closed "Add detail" block. A personal address shows a one-line nudge and is accepted. The website field accepts `brand.com` with or without `https://`.
@@ -239,6 +231,28 @@ Not done on purpose: parallax, scroll-jacking, auto-rotating carousels, custom c
 - `scripts/site-content.mjs` and `scripts/build-site.mjs` quote page sentences. If page copy changes again, the build stops with the sentence it could not find; update the quoted text there.
 - The published text differs from `site-src/pages` in about 30 sentences that `site-content.mjs` rewrites for the "one agile omni-channel strategy" wording. Read `public/_kq` after a build to see the final text.
 
+## Security headers (`next.config.ts`, `proxy.ts`)
+
+- Every response: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy` (no camera, microphone, location, payment, USB), `Strict-Transport-Security: max-age=63072000` (add `includeSubDomains` only once every subdomain, `clients.kwontified.com` included, is HTTPS).
+- Content-Security-Policy: **report-only** until the owner has checked the Google Tag Manager container against it (owner decision, 2026-11-27). The policy sent now is the one that would be enforced: `script-src 'self'`, the sha256 of each script still inline, and the Google hosts for GA4 and Google Ads; no `'unsafe-inline'` for scripts (`style-src` keeps it, for style attributes); `frame-ancestors 'none'`; reports go to `/api/csp-report`, which logs one `[csp-report]` line per violation in the Vercel logs.
+- How the hashes stay right: `scripts/site-bundle.mjs` (last build step) moves the site's scripts into `/assets` files and writes the sha256 of every script left inline (four small single-page scripts and the speculation rules today) to `site-csp.json` (generated, git-ignored), which `next.config.ts` reads on every build. A step that adds an inline script needs no manual change. The build fails if a page has an inline event handler (`onclick=`) or a `javascript:` link, which the policy would block.
+- **To enforce:** in `next.config.ts` set `const CSP_ENFORCE = true;` (one line). The header becomes `Content-Security-Policy` and `upgrade-insecure-requests` is added. Before that: (1) read two weeks of `[csp-report]` lines with consent granted and refused, (2) in the GTM container, check each tag: GA4 and Google Ads tags load from hosts already listed; a **Custom HTML tag or a Custom JavaScript variable will be blocked** (they need `'unsafe-inline'` / `'unsafe-eval'`, which defeats the policy) and should be replaced with a template tag, or its script moved into the site; a tag that loads from another host needs that host added to `google` in `next.config.ts`; GTM Preview mode needs `https://tagmanager.google.com` and `https://www.gstatic.com` while it is used.
+- `app/not-found.tsx` (a fallback only) is rendered by React with Next.js's own inline scripts; under an enforced policy it still shows, without them.
+- Pages answer GET and HEAD only: `proxy.ts` answers any other method on a page address with 405 (`Allow: GET, HEAD`). No form posts to a page: the contact form posts to `/api/contact`, the footer form to `/api/subscribe`. `proxy.ts` also sends any address with a capital letter to its lower-case form (308).
+- Caching: files under `/assets` whose name carries a 12-hex content hash (`kq-css-…`, `kq-js-…`, `kq-fx-…`, `abc123def456-800.webp`) are `immutable` for a year; every other file there (`archive-A0002-1200.webp`, `leadership-*.jpg`, `*.i18n.js`) revalidates daily.
+
+## Shared CSS and JavaScript (added 2026-11-27, `scripts/site-bundle.mjs`)
+
+- Every earlier step writes its CSS and JavaScript into the pages inline. The last step moves them into content-hashed files: the `<style>` blocks in `<head>` become `<link rel="stylesheet">` to `/assets/kq-css-<hash>.css` (neighbouring blocks that are almost always on the same pages share a file, so an article loads two CSS files), and every inline script that is on more than one page or is 1 KB or more becomes `<script src="/assets/kq-js-<hash>.js">` at the same place, without `defer`, so it runs at the same moment and in the same order. Smaller single-page code stays inline.
+- Result (2026-11-27): 64 CSS and 33 JS files; average page 177 KB to 96 KB raw (52 to 31 KB gzipped); at most 2.9 KB of inline CSS and JS left on any page. The second article a visitor opens costs 31 KB gzipped instead of 52. Screenshots of 13 routes at 1440px and iPhone 13 were pixel-identical before and after, axe found no violations, no script errors.
+- The step checks each page: same markup once code is taken out, same code in the same order once each file is read back. It stops the build on a difference, on more than 10 KB of inline code left on a page, or if run twice on the same pages (run the whole build).
+- Do not edit the files in `public/assets`; change the step that writes the code. Read a page's code in `public/_kq` before this step by running the build without it (`node scripts/<step>.mjs` one by one) or in the step's source.
+
+## Old addresses and redirects
+
+- `site-src/redirects.json`: permanent (308) redirects from the live kwontified.com this site replaces (`paths`, section `patterns`, other `domains`). **OWNER TODO:** add every URL from the live-site export (old sitemap, Search Console, GA4 landing pages, Squarespace URL mappings, backlinks) to `paths`, then check them against a running server: `node scripts/check-redirects.mjs <base-url> <file with one URL per line>` (also within 48 hours of launch).
+- `site-src/archive/moved.json`: old to new Perspectives addresses where an article's slug changed (written by the archive import). `next.config.ts` reads both files and the `moved` list in it; the build fails if a destination is not a route, a key is a live page, one key has two destinations, or redirects loop. Chains are followed so every visitor gets one hop.
+
 ## Decisions Jordan has made (do not undo)
 
 - Google Tag Manager `GTM-NCKGHDXW` and Google Ads `AW-857530176` load only after cookie consent, through the existing banner. The Ads tag uses the `gtag/js` path, not `gtm.js`.
@@ -262,7 +276,14 @@ Not done on purpose: parallax, scroll-jacking, auto-rotating carousels, custom c
   - TODO (owner): the real luggage main-image set for the creative gallery. The "Main image set, travel luggage" piece is held back by `HIDDEN_PIECES` in `scripts/site-filters.mjs` (its picture repeated the sleep brand bedroom); no image file was deleted. To restore it: replace the picture in `site-src/pages/Gallery.html`, remove its id from `HIDDEN_PIECES` and add it to `GALLERY_PIECES`; the gallery check then compares it with every other piece.
   - TODO (owner): the pet-supplements Sponsored Brands video or a true frame of it. Until then the gallery and home page show the case study's own still, and the three video pieces say "Shown here as a still." (chip "Video work").
   - TODO (owner): pay ranges and benefits for the five job postings (pay-transparency rules in states such as CO, CA, WA and NY apply to remote US roles; confirm with counsel). The "At a glance" blocks have no pay row yet.
-  - TODO (owner): the real posting date for each job, needed for JobPosting structured data (never the build date).
+  - TODO (owner): the real posting date for each job, needed for JobPosting structured data (never the build date). Put them in `JOBS` in `scripts/site-seo.mjs` (`datePosted`, and `validThrough` if the role closes; applicant country `JOB_APPLICANT_COUNTRY`, "US", to confirm); a role without a date carries no JobPosting.
+- Owner items open after the QA fixes (2026-11-27), none decided in the code:
+  - Content-Security-Policy: review the GTM container, then enforce (see "Security headers").
+  - The live-site URL export for `site-src/redirects.json` (see "Old addresses and redirects").
+  - Newsletter: single opt-in is the default (`MAILCHIMP_DOUBLE_OPT_IN=true` for double); whether to keep the per-subscriber team email (`NEWSLETTER_TO=off` to stop it).
+  - The basis for the summary figures and the case-study detail (records or a labelled version); Mexico "nearly 2x", Mercado Libre +33% period, Temu 99% period; the Zalando map's countries.
+  - Wording: "eight channels: six marketplaces and two social commerce channels" (llms.txt fails the build on "eight marketplaces"); the GeekWire wording.
+  - Legal: cookie wording and the privacy policy's retention sentence.
 - Google Ads conversions: after go-live (Jordan's decision).
 - Contact form, before go-live: confirm `RESEND_API_KEY` is set in Vercel and send one real request from the deployed site (the team email, the visitor's receipt and the Thank-you page). The form now reports a failed send instead of hiding it, so a missing key is visible to visitors. A booking link on the Thank-you page is planned for later (Jordan, 2026-11-27).
 - Jordan is handling: link sharing on the Google Drive folders, and the 2019 and 2020 archive sheets.

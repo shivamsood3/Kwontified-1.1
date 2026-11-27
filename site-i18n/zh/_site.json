@@ -413,9 +413,9 @@
    "t": "请检查邮箱地址，格式应类似 name@company.com。"
   },
   {
-   "k": "ab90d9d736",
-   "src": "This field is required.",
-   "t": "此项为必填项。"
+   "k": "dab410f1c5",
+   "src": "Fill in “{f}”.",
+   "t": "请填写“{f}”。"
   },
   {
    "k": "c020d2b492",

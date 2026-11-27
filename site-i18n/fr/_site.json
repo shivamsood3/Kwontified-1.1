@@ -413,9 +413,9 @@
    "t": "Vérifiez l’adresse e-mail. Elle doit ressembler à nom@entreprise.com."
   },
   {
-   "k": "ab90d9d736",
-   "src": "This field is required.",
-   "t": "Ce champ est obligatoire."
+   "k": "dab410f1c5",
+   "src": "Fill in “{f}”.",
+   "t": "Remplissez « {f} »."
   },
   {
    "k": "c020d2b492",

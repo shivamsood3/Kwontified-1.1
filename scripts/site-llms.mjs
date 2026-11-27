@@ -1,6 +1,7 @@
 // llms.txt, the Perspectives feed, and the final checks on every page's metadata.
-// The LAST step of the site build (after site-capchan.mjs --check), so it reads the pages
-// exactly as they will be served.
+// Runs after every step that changes what a page says (after site-capchan.mjs --check), so it
+// reads the pages' words and data as they will be served. Only site-bundle.mjs runs after it,
+// and that step only moves each page's CSS and JavaScript into files.
 //
 //   1. public/llms.txt: an index of the site for AI answer engines (https://llmstxt.org).
 //      A short summary and checked facts first, then every indexable English page: core pages

@@ -239,7 +239,7 @@ fs.writeFileSync(PAGE, html);
 // for the <title>; its H1, og:title and structured data keep the full headline.
 {
   const CLOSE_P = "Tell us where you sell and what you want to grow. A member of our team will reply within one business day.";
-  const REPLY = "A member of our team will reply within one business day to set up a call; your written first read follows it.";
+  const REPLY = "A member of our team will reply within one business day to suggest times for a discovery call; your written first read follows the call.";
   const entries = {};
   for (const f of ["Post", "PostNews", "PostPressRelease"]) {
     const tpl = fs.readFileSync(path.join(ROOT, "site-src/pages", `${f}.html`), "utf8");

@@ -271,8 +271,10 @@ if('MutationObserver' in w&&!b.kqWatch){b.kqWatch=1;new MutationObserver(functio
 w.addEventListener('pageshow',function(e){if(!e.persisted)return;[].slice.call(d.querySelectorAll('form[data-kq-form] button[data-kq-label]')).forEach(function(b){b.disabled=false;rest(b);});});
 function text(el){var v=el.validity;
 if(el.type==='email'){if(v.valueMissing)return T('Enter your work email address.');if(v.typeMismatch)return T('Check the email address. It should look like name@company.com.');}
-if(v.valueMissing)return MISSING[el.name]||T('This field is required.');if(v.patternMismatch&&el.title)return el.title;return el.validationMessage||T('Check this field.');}
-/* a required field that is empty says what it needs (the visible words are looked up through T for translated pages) */
+if(v.valueMissing)return MISSING[el.name]||need(el);if(v.patternMismatch&&el.title)return el.title;return el.validationMessage||T('Check this field.');}
+/* a required field that is empty says what it needs (the visible words are looked up through T for translated pages);
+   a field not listed here is named by its label */
+function need(el){var l=el.labels&&el.labels[0],t=(l?l.textContent:el.getAttribute('aria-label')||el.name||'').trim();if(t.slice(-1)==='*')t=t.slice(0,-1).trim();return T('Fill in “{f}”.').replace('{f}',t);}
 var MISSING={first_name:T('Enter your first name.'),last_name:T('Enter your last name.'),company:T('Enter your company or brand.'),website:T('Enter your brand website, for example brand.com.'),notes:T('Tell us what you want to achieve.'),password:T('Enter your password.')};
 function slot(el){var id=el.id||(el.id='kq-f'+(n++)),m=d.getElementById(id+'-err');if(m)return m;
 m=d.createElement('p');m.id=id+'-err';m.className='kq-ferr';m.setAttribute('aria-live','polite');

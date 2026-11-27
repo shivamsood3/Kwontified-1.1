@@ -461,6 +461,18 @@ for (const r of routes) {
 // the index changes whenever a piece is published
 const newest = Object.entries(lastmod).filter(([r]) => r.startsWith("/perspectives/")).map(([, d]) => d).sort().pop();
 if (newest) { lastmod["/perspectives"] = newest; counts.core++; }
+// the archive hubs (site-archive.mjs) change when a piece they list is published: the newest
+// news item, press release or piece of that year
+{
+  const pieces = Object.entries(lastmod).filter(([r]) => /^\/perspectives\/./.test(r) && !routes.some((x) => x.route === r && /archive hub/.test(x.source || "")));
+  const newestOf = (test) => pieces.filter(test).map(([, d]) => d).sort().pop();
+  for (const r of routes.filter((x) => /archive hub/.test(x.source || ""))) {
+    const y = /^\/perspectives\/(\d{4})$/.exec(r.route);
+    const d = y ? newestOf(([, d]) => d.startsWith(y[1])) : r.route === "/perspectives/news" ? newestOf(([p]) => p.startsWith("/perspectives/news/")) : r.route === "/perspectives/press-releases" ? newestOf(([p]) => p.startsWith("/perspectives/press-releases/")) : null;
+    if (!d) fail(`${r.route}: an archive hub with no dated piece to take its date from`);
+    lastmod[r.route] = d; counts.core++;
+  }
+}
 
 // error pages are not routes, but have titles too
 for (const f of ["404.html", "403.html"]) {

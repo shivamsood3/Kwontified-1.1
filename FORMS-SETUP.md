@@ -86,7 +86,7 @@ The contact form tells the visitor a request did not send unless the team email 
 
 Full step-by-step guide: `MAILCHIMP-SETUP.md`. In short, use one audience for both forms and set:
 
-- `MAILCHIMP_API_KEY` (Profile > Extras > API keys; it ends in the data centre, e.g. `-us21`)
+- `MAILCHIMP_API_KEY` (Profile > Extras > API keys; it ends in the data center, e.g. `-us21`)
 - `MAILCHIMP_NEWSLETTER_LIST_ID` and `MAILCHIMP_CONTACT_LIST_ID` (Audience > Settings > Audience name and defaults > Audience ID; the same ID for both)
 - optionally `MAILCHIMP_DOUBLE_OPT_IN=true` to send a confirmation email first (off by default: single opt-in, the owner's choice)
 

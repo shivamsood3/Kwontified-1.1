@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 import siteRoutes from "./site-routes.json";
 import i18n from "./site-i18n/config.json";
 import liveSite from "./site-src/redirects.json";
+import siteCsp from "./site-csp.json";
 
 // Pages are the client's HTML exports, built by scripts/build-site.mjs into
 // public/_kq and served unchanged at their canonical routes.
@@ -170,13 +171,18 @@ const redirectRules = buildRedirects();
 
 // ---------------------------------------------------------------------------
 // Security headers.
-// The Content-Security-Policy ships report-only first (OWNER TODO, F091): check the reports
-// (Vercel logs, "csp-report") against the Google Tag Manager container's tags for about two
-// weeks, then rename the header to Content-Security-Policy and add upgrade-insecure-requests
-// (ignored in report-only). Pages use inline scripts, so script-src needs 'unsafe-inline' until
-// the inline scripts are hashed at build time. Google hosts are the ones Google documents for
-// GA4 and Google Ads through Tag Manager; tags added to the container later may need more.
+// Content-Security-Policy: REPORT-ONLY until the owner has reviewed the Google Tag Manager
+// container against it (OWNER TODO, F091). To enforce it, set CSP_ENFORCE to true; nothing else
+// changes. The policy sent now is exactly the one that would be enforced, so the reports
+// ("csp-report" lines in the Vercel logs, app/api/csp-report) show what enforcing would block.
+// script-src has no 'unsafe-inline': the site's scripts are files under /assets (moved there by
+// scripts/site-bundle.mjs, the last build step), and the few scripts still inline are allowed by
+// their sha256, which that step writes to site-csp.json on every build. Google hosts are the
+// ones Google documents for GA4 and Google Ads through Tag Manager; tags added to the container
+// later may need more (Custom HTML tags need 'unsafe-inline' or a nonce: see HANDOVER.md).
+// style-src keeps 'unsafe-inline' (the pages use style attributes throughout).
 // ---------------------------------------------------------------------------
+const CSP_ENFORCE = false;
 const google = {
   script: "https://*.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com",
   img: "https://*.google-analytics.com https://*.googletagmanager.com https://googleads.g.doubleclick.net https://*.g.doubleclick.net https://www.google.com https://pagead2.googlesyndication.com",
@@ -186,7 +192,7 @@ const google = {
 };
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' ${google.script}`,
+  `script-src 'self' ${siteCsp.scriptHashes.map((h) => `'${h}'`).join(" ")} ${google.script}`,
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: ${google.img}`,
   "font-src 'self'",
@@ -197,6 +203,7 @@ const csp = [
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'none'",
+  ...(CSP_ENFORCE ? ["upgrade-insecure-requests"] : []), // ignored, with a console warning, in a report-only policy
   "report-uri /api/csp-report",
 ].join("; ");
 
@@ -238,7 +245,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
           { key: "Strict-Transport-Security", value: "max-age=63072000" },
-          { key: "Content-Security-Policy-Report-Only", value: csp },
+          { key: CSP_ENFORCE ? "Content-Security-Policy" : "Content-Security-Policy-Report-Only", value: csp },
         ],
       },
       // the built files are only meant to be reached through their routes

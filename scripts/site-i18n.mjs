@@ -62,9 +62,17 @@ const CSS = `<style data-kq-i18n>
 // Switching language keeps the visitor's place: the filter in the address (?topic=…) and the
 // section they were reading (#…). Read at the moment of the click, since filters change the address.
 const KEEP_PLACE_JS = `<script>/* language links keep the query and the #section */
-(function(){function keep(e){var a=e.target&&e.target.closest&&e.target.closest('a[hreflang]');if(!a||!a.closest('.kq-lang,.kq-dd-lang,.kq-mlang'))return;
-var base=a.getAttribute('href').split(/[?#]/)[0];a.setAttribute('href',base+location.search+location.hash);}
-['pointerdown','focusin','click'].forEach(function(t){document.addEventListener(t,keep,true);});})();</script>`;
+(function(){var M='.kq-lang,.kq-dd-lang,.kq-mlang',Q0=location.search,used=false;
+/* runs in <head>, before the page's filter script may drop a filter this language's page does not
+   offer (?topic=Operations): until the visitor changes something, the address they arrived with is kept */
+['input','change'].forEach(function(t){document.addEventListener(t,function(e){if(e.isTrusted)used=true;},true);});
+function fix(a){var base=a.getAttribute('href').split(/[?#]/)[0];a.setAttribute('href',base+(location.search||(used?'':Q0))+location.hash);}
+function keep(e){var a=e.target&&e.target.closest&&e.target.closest('a[hreflang]');if(a&&a.closest(M))fix(a);}
+/* on load and when the address changes, so the links are right before anyone reaches them */
+function all(){[].forEach.call(document.querySelectorAll('a[hreflang]'),function(a){if(a.closest(M))fix(a);});}
+['pointerdown','focusin','click'].forEach(function(t){document.addEventListener(t,keep,true);});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',all);else all();
+window.addEventListener('popstate',all);window.addEventListener('hashchange',all);})();</script>`;
 
 // The language menu, three times: header (wide screens), phone menu, footer.
 // The header button shows the language code; its accessible name starts with that code
@@ -88,7 +96,7 @@ function switcher(html, here, versions) {
   const cookie = '<button type="button" data-kq-ck-open="footer"';
   if (html.split(cookie).length === 2) html = html.replace(cookie, () => `<span class="kq-lang">${GLOBE}${links("")}</span> ` + cookie);
   if (html.split("</body>").length !== 2) fail("expected one </body>");
-  return html.replace("</head>", () => CSS + "</head>").replace("</body>", () => KEEP_PLACE_JS + "</body>");
+  return html.replace("</head>", () => CSS + "</head>").replace("</head>", () => KEEP_PLACE_JS + "</head>");
 }
 const hreflang = (versions, enHref) => versions.map((v) => `<link rel="alternate" hreflang="${v.tag}" href="${BASE}${v.href === "/" ? "" : v.href}">`).join("") + `<link rel="alternate" hreflang="x-default" href="${BASE}${enHref === "/" ? "" : enHref}">`;
 
@@ -198,7 +206,8 @@ for (const L of cfg.languages) {
         });
       }
       const tabs = html.split("data-kq-type=").length - 1;
-      html = html.replace(/<button\b([^>]*)\sdata-kq-type="([^"]+)"/g, (b, pre, t) => (shownTypes.has(t) ? b : `<button hidden${pre} data-kq-type="${t}"`));
+      // a type with nothing on this page gets no tab (a tab that can only show "no results")
+      html = html.replace(/<button\b[^>]*\sdata-kq-type="([^"]+)"[^>]*>[\s\S]*?<\/button>/g, (b, t) => (shownTypes.has(t) ? b : ""));
       if (!tabs) fail(`${file}: expected the type tabs (data-kq-type)`);
       html = html.replace("</head>", () => `<style>.kq-ptabs [hidden]{display:none!important}</style></head>`);
       // the pager's "1–9 of 12" and "No results", which the page's script writes in English

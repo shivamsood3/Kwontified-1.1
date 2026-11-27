@@ -225,11 +225,18 @@ def first_sentences(h, limit=DESC_MAX):
     return s
 def crumb(t): return t if len(t) <= 44 else t[:42].rsplit(" ", 1)[0].rstrip(",;:") + "…"
 
+# US spellings (the site is in US English); quotations keep the speaker's spelling
+US = {"cancelled": "canceled", "cancelling": "canceling", "fulfil": "fulfill", "fulfils": "fulfills", "fulfilment": "fulfillment",
+      "ageing": "aging", "catalogue": "catalog", "catalogues": "catalogs", "travelled": "traveled", "travelling": "traveling",
+      "colour": "color", "colours": "colors", "coloured": "colored", "colourful": "colorful", "grey": "gray", "jewellery": "jewelry"}
+US_RE = re.compile(r"\b(" + "|".join(US) + r")\b", re.I)
+def us(x): return US_RE.sub(lambda m: (US[m.group(1).lower()].capitalize() if m.group(1)[0].isupper() else US[m.group(1).lower()]), x)
+
 def house(body):
     def node(m):
         t = m.group(1)
         parts = re.split(r"(“[^”]*”)", t)
-        return ">" + "".join(x if x.startswith("“") else re.sub(r"(?<![\w-])ecommerce\b", "e-commerce", x).replace("A+ content", "A+ Content") for x in parts) + "<"
+        return ">" + "".join(x if x.startswith("“") else us(re.sub(r"(?<![\w-])ecommerce\b", "e-commerce", x).replace("A+ content", "A+ Content")) for x in parts) + "<"
     return re.sub(r">([^<>]+)<", node, ">" + body + "<")[1:-1]
 
 def main():
@@ -354,7 +361,7 @@ def main():
     #     Each one is {id, old, new}; "all": true replaces every occurrence. An edit whose
     #     old text is no longer in the sheet's version is listed in report.txt.
     # House spelling, applied to text only (never inside a tag, so links are untouched) and
-    # never inside quotation marks: "e-commerce" and Amazon's own "A+ Content".
+    # never inside quotation marks: "e-commerce", Amazon's own "A+ Content" and US spellings.
     EDITS = os.path.join(OUT, "copy-edits.json")
     copy_edits = json.load(open(EDITS, encoding="utf8")) if os.path.exists(EDITS) else []
     for tpl, d in entries.items():
