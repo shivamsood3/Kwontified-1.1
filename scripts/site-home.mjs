@@ -20,7 +20,16 @@
 // the inner pages' 30px, the six capabilities and the creative pieces are each one row to
 // swipe, and the channels picture is left out.
 //
-// What this step does not touch: the hero's markup, video and headline (phones only get a
+// The hero video (2026-11-27 QA, F107/F112/F059): the export put autoplay and both <source>
+// elements in the HTML, so a visitor who prefers reduced motion often downloaded 3 to 4 MB
+// before the pause script ran. This step takes the sources out of the HTML; a small script
+// right after the <video> adds them only when the visitor has no reduced-motion preference
+// and Save-Data is off (with Save-Data the still stays and the button offers Play, which then
+// loads the video). Phones (up to 760px, where the hero is a 2.39:1 band) get their own
+// encode of that band, about 2 MB instead of 5; tablets keep the 1152x648 file and desktops
+// the 1920x1080 one. The pause button gets a navy disc so it holds 3:1 on every frame, and
+// the hero still is marked decorative (the video carries the description).
+// What this step does not touch otherwise: the hero's headline and text (phones only get a
 // shorter picture and tighter spacing, in CSS); anything inside #finder (moved whole, checked
 // byte for byte); the two logo lists (site-logos.mjs still finds 15 inline logos in each); the
 // header and footer.
@@ -71,6 +80,36 @@ const S = {};
   const expected = "top clients results disciplines interlude channels work perspectives press quotes finder faq-title contact";
   if (names.join(" ") !== expected) fail(`the sections changed.\n   expected: ${expected}\n   found:    ${names.join(" ")}`);
 }
+
+// =====================================================================================
+// Hero video: sources from script only, a phone encode, a visible pause button
+// =====================================================================================
+// [media query, file]: the first that matches is played. 968e153cd060.mp4 is the desktop
+// file cropped to the phone band (1152x482, H.264, about 290 kb/s, 2.0 MB, made with ffmpeg
+// from 8ae56daa0556.mp4); the two export files are kept as they are.
+const HERO_SOURCES = [["(max-width: 760px)", "/assets/968e153cd060.mp4"], ["(max-width: 1199px)", "/assets/53d76f5a7f45.mp4"], ["", "/assets/8ae56daa0556.mp4"]];
+for (const [, src] of HERO_SOURCES) if (!fs.existsSync(path.join(ROOT, "public", src))) fail(`hero video: ${src} is missing`);
+let top = S.top;
+top = once(top, '<video autoplay="" muted="" loop="" playsinline="" poster=', '<video muted="" loop="" playsinline="" poster=', "hero video: the <video> attributes");
+top = once(top, '<source media="(max-width: 1199px)" src="/assets/53d76f5a7f45.mp4" type="video/mp4"><source src="/assets/8ae56daa0556.mp4" type="video/mp4"></video>', "</video>", "hero video: the two sources");
+top = once(top, `<script>(function(){var v=document.currentScript.previousElementSibling,m=v.parentNode;if(!v.paused&&v.readyState>2)return;m.classList.add('kq-wait');v.addEventListener('playing',function(){m.classList.remove('kq-wait')},{once:true});})();</script>`,
+  `<script>/* hero video sources (scripts/site-home.mjs): added only without reduced motion, and with Save-Data only on Play */
+(function(){var v=document.currentScript.previousElementSibling,m=v.parentNode,d=document,S=${JSON.stringify(HERO_SOURCES)};
+var mm=function(q){return !!(window.matchMedia&&matchMedia(q).matches);};
+if(mm('(prefers-reduced-motion: reduce)'))return;
+function load(auto){if(v.querySelector('source'))return;S.forEach(function(s){var e=d.createElement('source');if(s[0])e.media=s[0];e.src=s[1];e.type='video/mp4';v.appendChild(e);});
+m.classList.add('kq-wait');v.addEventListener('playing',function(){m.classList.remove('kq-wait');},{once:true});v.autoplay=auto;v.load();}
+var c=navigator.connection;if(!(c&&c.saveData)){load(true);return;}
+/* Save-Data: the still stays; the button shows Play and loads the video when pressed */
+m.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('button'))load(false);},true);
+d.addEventListener('DOMContentLoaded',function(){try{v.dispatchEvent(new Event('pause'));}catch(_){}});
+})();</script>`, "hero video: the export's fade-in script");
+top = once(top, '<button type="button" aria-label="Pause video" style="position: absolute; right: 12px; bottom: 10px; width: 44px; height: 44px; background: none; border: 0; color: #F8F6F1;',
+  '<button type="button" aria-label="Pause video" class="kq-fh-pause" style="position: absolute; right: 12px; bottom: 10px; width: 44px; height: 44px; background: rgba(16,42,76,0.78); border: 0; border-radius: 50%; color: #F8F6F1;', "hero video: the pause button");
+top = once(top, '<svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M6 3.5V12.5M10 3.5V12.5"></path></svg></button>',
+  '<svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M6 3.5V12.5M10 3.5V12.5"></path></svg></button>', "hero video: the pause icon");
+if (!top.includes('alt="" aria-hidden="true" fetchpriority="high"><video')) fail("hero: the still is no longer marked decorative");
+if (/<source\b|autoplay=/.test(top.replace(/<script>[\s\S]*?<\/script>/g, ""))) fail("hero video: a source or autoplay is still in the HTML");
 
 // ---- shared markup, in the export's own style ----
 const ARROW = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M3 8H13M9 4L13 8L9 12"></path></svg>';
@@ -204,8 +243,8 @@ ${more("/capabilities/analytics-forecasting", "How we report across channels")}
 const gallery = read("work--creative.html");
 const figures = [...gallery.matchAll(/<figure\b[^>]*\sdata-gc="[^"]*"[^>]*>[\s\S]*?<\/figure>/g)].map((m) => m[0]);
 if (figures.length < 8) fail(`the creative gallery has ${figures.length} pieces; expected at least 8`);
-// [picture, width / height of the file]: a Storefront, an A+ module, a video and display ads
-const PIECES = [["188df53f3859", 1.6], ["d9e37a300be1", 1], ["6de1dc61cd86", 0.8], ["b00b2ab212e1", 1]];
+// [picture, width / height of the file]: a Storefront, an A+ module, a video (shown as a still) and display ads
+const PIECES = [["188df53f3859", 1.6], ["d9e37a300be1", 1], ["2135aa770230", 1.5], ["b00b2ab212e1", 1]];
 const pieces = PIECES.map(([id, ratio]) => {
   const f = figures.find((x) => x.includes(`src="/assets/${id}.jpg"`)) || fail(`the creative gallery no longer shows /assets/${id}.jpg`);
   const alt = (f.match(/<img\b[^>]*\salt="([^"]+)"/) || fail(`gallery piece ${id} has no description`))[1];
@@ -269,6 +308,8 @@ const CSS = `<style data-kq-home>
    pinning an element, and it cannot pin the hero text (its entrance animation rules that out), so it
    is told to pin the next thing down instead. Without this a jump straight past the picture moved
    the page by the header's 24px. */
+/* the hero video's pause button: a navy disc behind the icon, and a visible focus ring */
+.kq-fh-pause:focus-visible{outline:2px solid #DCBF85!important;outline-offset:2px}
 @media (max-width:760px){.kq-fh .kq-fh-media{aspect-ratio:2.39/1!important}.kq-fh .kq-fh-text{padding-top:18px!important;padding-bottom:36px!important;overflow-anchor:none}.kq-fh .kq-fh-text,.kq-fh .kq-fh-text>div{gap:14px!important}}
 .kq-hm-label{margin:0 0 20px;font-size:15px;line-height:1.5;font-weight:500;color:#775812}
 .kq-hm-quote{margin:0;display:flex;flex-direction:column;gap:18px}
@@ -333,7 +374,7 @@ section[aria-labelledby="faq-title"] summary{font-size:19px!important;line-heigh
 </style>`;
 
 // ---- put it together ----
-const order = [S.top, S.clients, results, oneTeam, channels, work, press, S.finder, S.perspectives, faq, S.contact];
+const order = [top, S.clients, results, oneTeam, channels, work, press, S.finder, S.perspectives, faq, S.contact];
 const newMain = "\n\n" + order.join("\n\n") + "\n";
 let out = html.slice(0, start) + newMain + html.slice(b);
 out = once(out, "</head>", CSS + "</head>", "the end of <head>");
@@ -354,7 +395,7 @@ out = once(out, "</head>", CSS + "</head>", "the end of <head>");
 
 // ---- checks on the result ----
 if (!out.includes(S.finder)) fail("the case finder changed while being moved");
-if (!out.includes(S.top) || !out.includes(S.perspectives) || !out.includes(S.contact) || !out.includes(S.clients)) fail("a section that should be untouched changed");
+if (!out.includes(top) || !out.includes(S.perspectives) || !out.includes(S.contact) || !out.includes(S.clients)) fail("a section that should be untouched changed");
 for (const l of ["Selected clients", "Publications that have featured Kwontified"]) {
   const at = out.indexOf(`<ul aria-label="${l}"`), list = out.slice(at, out.indexOf("</ul>", at));
   if (at < 0 || count(list, '<svg role="img"') !== 15 || !list.slice(0, list.indexOf(">")).includes("color: #262524")) fail(`the list "${l}" no longer has its 15 logos`);

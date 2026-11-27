@@ -107,7 +107,7 @@ const W = page("why-kwontified.html", ["Why brands choose Kwontified.", "Built b
 
 // Who we are: facts in the tiles, the six capabilities by their own names
 let who = A.by["Who we are"];
-const tiles = [["2016", "Founded, in Atlanta"], ["8", "Marketplaces we manage"], ["3", "Offices: Atlanta, New York and Seattle"], ["1P and 3P", "Vendor and seller accounts"]];
+const tiles = [["2016", "Founded, in Atlanta"], ["8", "Channels we manage: six marketplaces and two social commerce channels"], ["3", "Offices: Atlanta, New York and Seattle"], ["1P and 3P", "Vendor and seller accounts"]];
 const tile = who.match(/<li style="background: #FDFCFA; padding: 24px 28px"><p style="([^"]*)">Since 2016<\/p><p style="([^"]*)">[^<]*<\/p><\/li>/) || fail("About: the three tiles changed");
 who = who.replace(/(<ul style="margin: 48px 0 0;[^"]*">)[\s\S]*?(<\/ul>)/, (_, o, c) => o.replace("<ul ", '<ul class="kq-ab-tiles" ') + tiles.map(([n, l]) => `<li style="background: #FDFCFA; padding: 24px 28px"><p style="${tile[1]}">${n}</p><p style="${tile[2]}">${l}</p></li>`).join("") + c);
 const CAPS = [
@@ -129,10 +129,10 @@ const cities = [...story.matchAll(/<figure\b[\s\S]*?<\/figure>/g)].map((m) => m[
 if (cities.length !== 3) fail("About: expected three city photographs in Our story");
 const storyH2 = (story.match(/<h2 id="story-title"[^>]*>Our story<\/h2>/) || fail("About: no Our story heading"))[0];
 story = section("story", "Our story", "#F8F6F1", two(
-  `${storyH2}<dl class="kq-ab-dates"><div><dt>2016</dt><dd>Founded in Atlanta</dd></div><div><dt>2017</dt><dd>First quoted in the national press</dd></div><div><dt>Today</dt><dd>Eight marketplaces, three offices</dd></div></dl>`,
+  `${storyH2}<dl class="kq-ab-dates"><div><dt>2016</dt><dd>Founded in Atlanta</dd></div><div><dt>2017</dt><dd>First quoted in the national press</dd></div><div><dt>Today</dt><dd>Eight channels, three offices</dd></div></dl>`,
   `<p style="${P}">Kwontified started in 2016 on one observation: brands that make excellent products often run marketplace businesses well below what those products could earn.</p>` +
   `<p style="${P}; margin-top: 20px">The people who started it had run these businesses themselves: Amazon Fashion’s luxury goods P&amp;L across 150+ brands, and digital marketing teams serving 11,000+ clients. So we built one team that runs advertising, creative and operations to one agile omni-channel strategy, to close that gap.</p>` +
-  `<p style="${P}; margin-top: 20px">Today we manage eight marketplaces for premium consumer brands from our headquarters in Atlanta, Georgia, and offices in New York and Seattle, and we prepare those brands for the AI assistants that now sit between the shopper and the purchase.</p>`,
+  `<p style="${P}; margin-top: 20px">Today we manage eight channels for premium consumer brands, six marketplaces and two social commerce channels, from our headquarters in Atlanta, Georgia, and offices in New York and Seattle. We also prepare those brands for the AI assistants that now sit between the shopper and the purchase.</p>`,
 )).replace(' aria-labelledby="story-title-title"', ' aria-labelledby="story-title"');
 
 // Values: the whole section from Why Kwontified
@@ -312,7 +312,7 @@ ${PORTAL_CSS}
 #values ol>li>p:first-of-type{display:none}#values ol>li>h3{margin-top:0!important}
 #leadership div[style*="grid-template-columns"]{grid-template-columns:1fr 1fr!important;gap:24px 16px!important;margin-top:32px!important}
 #leadership article img{width:min(150px,100%)!important}
-.kq-press-card{padding:18px!important}.kq-press-card>span:last-child{font-size:18px!important}
+.kq-press-card{padding:18px!important}.kq-press-card>span:nth-child(2){font-size:18px!important}
 .kq-ab-offices{gap:24px!important}.kq-ab-offices img{aspect-ratio:16 / 7!important}
 .kq-ab-quotes{margin-top:32px;gap:32px}
 /* on a phone the still lifes beside each argument add length and no information */

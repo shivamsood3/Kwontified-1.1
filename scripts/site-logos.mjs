@@ -55,6 +55,15 @@ fs.writeFileSync(FILE, html);
 // site-capchan.mjs) leaves a marker where a list goes, because the logo files do not exist
 // until this step has written them. Every page is looked at, so a new step only has to leave
 // the marker; a marker this step does not know stops the build.
+// On phones those bands use the home page's rule (QA F009, 2026-11-27): three logos to a row, each
+// at its own drawn size and only shrunk to fit its column. The About, capability and channel
+// styles capped every logo at 24px tall, so square marks shrank to 24px and wide wordmarks to
+// 10px, half their size on the home page. This step runs after those steps, so its rule wins.
+const EVEN = `<style data-kq-logos>@media (max-width:760px){
+div.kq-ab-logowrap.kq-logos>ul{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 14px!important}
+div.kq-ab-logowrap.kq-logos>ul>li{min-width:0;min-height:48px!important;flex:none!important}
+div.kq-ab-logowrap.kq-logos>ul>li>img{max-width:100%!important;max-height:none!important;height:auto!important}
+}</style>`;
 const MARKS = { "<!--kq-logos:clients-->": "Selected clients", "<!--kq-logos:press-->": "Publications that have featured Kwontified" };
 let placed = 0;
 const on = [];
@@ -65,9 +74,11 @@ for (const f of fs.readdirSync(path.join(ROOT, "public/_kq")).filter((x) => x.en
   for (const [mark, label] of Object.entries(MARKS)) {
     const n = page.split(mark).length - 1;
     if (!n) continue;
-    page = page.split(mark).join(`<div class="kq-ab-logowrap">${lists[label]}</div>`);
+    page = page.split(mark).join(`<div class="kq-ab-logowrap kq-logos">${lists[label]}</div>`);
     placed += n;
   }
+  if (page.split("</head>").length !== 2) fail(`${f}: expected one </head>`);
+  page = page.replace("</head>", () => EVEN + "</head>");
   if (page.includes("<!--kq-logos:")) fail(`${f}: a logo marker was not filled`);
   fs.writeFileSync(file, page);
   on.push(f);

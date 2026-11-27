@@ -24,7 +24,10 @@
 // Work page filtered to that value.
 // Creative gallery (/work/creative): counts on the chips, a result line ("3 of 11 pieces")
 // announced politely, the choice in the address (#kind=video, restored on load and on Back), and on
-// phones one sideways-scrolling chip row that stays in view.
+// phones one sideways-scrolling chip row that stays in view. On short screens (under 501px tall,
+// such as 200% zoom on a laptop) neither filter bar stays in view (QA F005). Pieces listed in
+// HIDDEN_PIECES are left out, and a gallery check stops the build on drawing markup in a piece,
+// two pieces showing one photograph, or a caption that no longer matches its picture (QA F115).
 // Creative Studio (/capabilities/creative-studio): each service the gallery has a filter for links
 // to that filtered view. Nothing else on that page changes.
 //
@@ -33,6 +36,7 @@
 // step's scripts set.
 import fs from "node:fs";
 import path from "node:path";
+import sharp from "sharp";
 
 const ROOT = process.cwd();
 const fail = (m) => { throw new Error("site-filters: " + m); };
@@ -163,8 +167,10 @@ const WCSS = `<style data-kq-filters>
 .kq-fpanel .kq-fchips button[aria-disabled="true"]::before{opacity:.45}
 .kq-fpills button{min-height:36px}
 .kq-fsent{height:1px;margin-bottom:-1px}
-@media (max-width:760px){
+@media (max-width:760px) and (min-height:501px){
 .kq-wf.is-live .kq-fctl{position:sticky;top:var(--kq-hh,64px);z-index:15}
+}
+@media (max-width:760px){
 .kq-fctl.is-stuck{padding-top:10px!important;padding-bottom:10px!important;border-radius:0 0 16px 16px!important}
 .kq-fctl.is-stuck .kq-fsearch,.kq-fctl.is-stuck .kq-fpills{display:none!important}
 .kq-fctl.is-stuck .kq-factive{margin-top:8px;padding-top:8px;min-height:0}
@@ -236,7 +242,7 @@ w.addEventListener('hashchange',function(){fromAddress(true);});
 /* the header's height, for the bar that stays in view on phones; the bar shrinks once it is stuck */
 var hd=d.querySelector('.kq-head');function hh(){if(hd)wf.style.setProperty('--kq-hh',Math.round(hd.getBoundingClientRect().height)+'px');}
 hh();w.addEventListener('resize',hh);if(hd&&'ResizeObserver' in w)new ResizeObserver(hh).observe(hd);
-var sent=wf.querySelector('.kq-fsent'),stuck=false,mq=w.matchMedia('(max-width:760px)');
+var sent=wf.querySelector('.kq-fsent'),stuck=false,mq=w.matchMedia('(max-width:760px) and (min-height:501px)');
 function stick(){var on=mq.matches&&sent.getBoundingClientRect().top<(parseFloat(getComputedStyle(wf).getPropertyValue('--kq-hh'))||64)-4&&wf.getBoundingClientRect().bottom>w.innerHeight*0.5;
 if(on===stuck)return;stuck=on;var h0=ctl.offsetHeight;ctl.classList.toggle('is-stuck',on);ctl.style.marginBottom='';if(on)ctl.style.marginBottom=(h0-ctl.offsetHeight)+'px';}
 w.addEventListener('scroll',function(){stick();},{passive:true});w.addEventListener('resize',stick);
@@ -248,10 +254,79 @@ w = w.replace(/<\/body>(?![\s\S]*<\/body>)/, () => WJS + "</body>");
 fs.writeFileSync(WORK, w);
 
 // ---- creative gallery -----------------------------------------------------------------------------
+// Pieces held back until the owner supplies the right picture: one line each, by picture file.
+// The figure is taken out of the built page (not just hidden), so the chip counts, the result
+// line and the home page's creative strip never see it. No image file is deleted; delete the
+// line to show the piece again (and add it back to GALLERY_PIECES below).
+//   1293ca5e0d10  "Main image set, travel luggage" (QA F115, 2026-11-27): the picture is a bedroom
+//                 that repeats the sleep brand piece, and its alt text describes suitcases. TODO
+//                 (owner): supply the real luggage main-image set; the owner asked to be consulted
+//                 before anything is deleted.
+const HIDDEN_PIECES = ["1293ca5e0d10"];
+// Every piece the gallery shows, by picture file, with the caption title and kind it was reviewed
+// with (QA 2026-11-27). The build stops if a picture, its title or its kind changes without this
+// list changing too, so a caption cannot drift away from its picture.
+const GALLERY_PIECES = {
+  "188df53f3859": ["Storefront hero, fine jewelry", "storefronts"],
+  "d9e37a300be1": ["Premium A+ comparison module, clinical skincare", "aplus"],
+  "b00b2ab212e1": ["Display creative, haircare", "display"],
+  "2135aa770230": ["Sponsored Brands Video, pet supplements", "video"],
+  "4df476822928": ["AI-generated lifestyle scene, bedding", "ai"],
+  "1cc0fdc57b5f": ["Storefront wireframe and refreshed hero, cashmere", "storefronts"],
+  "69989c933705": ["Lifestyle photography, outerwear", "photography"],
+  "997a9e60ba2e": ["Detail-page image set, sleep brand", "photography"],
+  "5f5c4cb4cb4c": ["TikTok Shop creator video, drinkware", "social video"],
+  "174c55447ce8": ["Shoppable Instagram Reel", "social video"],
+};
 const GAL = fileOf("/work/creative");
 let g = fs.readFileSync(GAL, "utf8");
-const figs = [...g.matchAll(/<figure\b[^>]*\sdata-gc="([^"]+)"/g)].map((m) => m[1].split(/\s+/));
-if (figs.length !== 11) fail(`creative gallery: expected 11 pieces, found ${figs.length}`);
+const FIG_RE = /<figure\b[^>]*\sdata-gc="[^"]+"[^>]*>[\s\S]*?<\/figure>/g;
+for (const id of HIDDEN_PIECES) {
+  const hit = [...g.matchAll(FIG_RE)].filter((m) => m[0].includes(`src="/assets/${id}.`));
+  if (hit.length !== 1) fail(`creative gallery: hidden piece ${id} found ${hit.length} times`);
+  g = g.replace(hit[0][0], () => "");
+}
+// the gallery check: drawings, shared pictures, captions and video wording
+const pieces = [...g.matchAll(FIG_RE)].map((m) => {
+  const f = m[0], kind = f.match(/\sdata-gc="([^"]+)"/)[1];
+  const imgs = [...f.matchAll(/<img\b[^>]*\ssrc="\/assets\/([0-9a-f]{12})\.(?:jpg|png|webp)"[^>]*>/g)];
+  if (imgs.length !== 1) fail(`creative gallery: a piece has ${imgs.length} pictures`);
+  const id = imgs[0][1], alt = (imgs[0][0].match(/\salt="([^"]*)"/) || [, ""])[1];
+  if (/<(svg|rect|circle|path|polygon|ellipse|line|g)\b/.test(f)) fail(`creative gallery: piece ${id} holds drawing markup outside its picture`);
+  if (!alt.trim()) fail(`creative gallery: piece ${id} has no description`);
+  const title = (f.match(/<figcaption\b[^>]*><span [^>]*>([^<]+)<\/span>/) || fail(`creative gallery: piece ${id} has no caption title`))[1];
+  const want = GALLERY_PIECES[id] || fail(`creative gallery: piece ${id} ("${title}") is not in GALLERY_PIECES; review the picture and its caption, then add it`);
+  if (want[0] !== title) fail(`creative gallery: piece ${id} is captioned "${title}"; it was reviewed as "${want[0]}"`);
+  if (want[1] !== kind) fail(`creative gallery: piece ${id} is filed as "${kind}"; it was reviewed as "${want[1]}"`);
+  if (/\bvideo\b/.test(kind) && !/<video\b/.test(f) && !/Shown here as a still\./.test(f)) fail(`creative gallery: video piece ${id} shows a still but its caption does not say so`);
+  return { id, kind: kind.split(/\s+/) };
+});
+for (const id of Object.keys(GALLERY_PIECES)) if (!pieces.some((p) => p.id === id)) fail(`creative gallery: ${id} is in GALLERY_PIECES but not on the page`);
+if (new Set(pieces.map((p) => p.id)).size !== pieces.length) fail("creative gallery: two pieces use the same picture file");
+{
+  // two different files can still hold the same photograph (the luggage piece repeated the sleep
+  // brand's bed in its top 60%): compare 16x16 average hashes of the whole picture and six crops
+  const CROPS = [[0, 0, 1, 1], [0, 0, 1, 0.6], [0, 0, 1, 0.5], [0, 0.5, 1, 0.5], [0, 0, 0.5, 1], [0.5, 0, 0.5, 1], [0, 0, 0.6, 0.6]];
+  const hashes = {};
+  for (const { id } of pieces) {
+    const file = path.join(ROOT, "public/assets", `${id}.jpg`);
+    const { width: W, height: H } = await sharp(file).metadata();
+    hashes[id] = [];
+    for (const [x, y, w, h] of CROPS) {
+      const px = await sharp(file).extract({ left: Math.floor(x * W), top: Math.floor(y * H), width: Math.floor(w * W), height: Math.floor(h * H) }).greyscale().resize(16, 16, { fit: "fill" }).raw().toBuffer();
+      const mean = px.reduce((a, b) => a + b, 0) / px.length;
+      hashes[id].push([...px].map((v) => v > mean));
+    }
+  }
+  for (let i = 0; i < pieces.length; i++) for (let j = i + 1; j < pieces.length; j++) {
+    const a = hashes[pieces[i].id], b = hashes[pieces[j].id];
+    let best = 256;
+    for (const p of a) for (const q of b) best = Math.min(best, p.reduce((n, v, k) => n + (v !== q[k]), 0));
+    if (best <= 16) fail(`creative gallery: ${pieces[i].id} and ${pieces[j].id} show the same photograph (hash distance ${best} of 256)`);
+  }
+}
+const figs = pieces.map((p) => p.kind);
+if (figs.length !== 11 - HIDDEN_PIECES.length) fail(`creative gallery: expected ${11 - HIDDEN_PIECES.length} pieces, found ${figs.length}`);
 const kinds = [];
 g = g.replace(/<button type="button" data-gf="([a-z]+)" aria-pressed="(true|false)"([^>]*)>([^<]+)<\/button>/g, (_, v, p, rest, label) => {
   const n = v === "all" ? figs.length : figs.filter((k) => k.includes(v)).length;
@@ -259,7 +334,7 @@ g = g.replace(/<button type="button" data-gf="([a-z]+)" aria-pressed="(true|fals
   kinds.push([v, label, n]);
   return `<button type="button" data-gf="${v}" aria-pressed="${p}"${v === "all" ? ' data-ready="1"' : ""}${rest} aria-label="${label}, ${n} ${n === 1 ? "piece" : "pieces"}">${label} <span class="kq-gn" aria-hidden="true">${n}</span></button>`;
 });
-if (kinds.length !== 7 || kinds[0][0] !== "all") fail(`creative gallery: expected All and six kinds of work, found ${kinds.length} chips`);
+if (kinds.length !== 8 || kinds[0][0] !== "all") fail(`creative gallery: expected All and seven kinds of work, found ${kinds.length} chips`);
 g = once(g, '<div role="group" aria-label="Filter the gallery" style="display: flex; flex-wrap: wrap; gap: 10px">',
   '<div class="kq-gbar"><div class="kq-gchips" role="group" aria-label="Filter the gallery" style="display: flex; flex-wrap: wrap; gap: 10px">', "the gallery chips");
 {
@@ -275,8 +350,10 @@ const GCSS = `<style data-kq-filters>
 .kq-gcount{margin:0;font-size:15px;color:#626366}
 figure[data-gc][hidden]{display:none!important}
 .kq-ggrid{scroll-margin-top:calc(var(--kq-hh,64px) + 120px)}
+/* short screens (200% zoom on a laptop, phones held sideways): the bar scrolls with the page */
+@media (max-width:760px) and (min-height:501px){.kq-gbar{position:sticky;top:var(--kq-hh,64px);z-index:15}}
 @media (max-width:760px){
-.kq-gbar{position:sticky;top:var(--kq-hh,64px);z-index:15;display:block;margin:0 calc(-1 * clamp(20px,4.4vw,64px));padding:10px clamp(20px,4.4vw,64px) 8px;background:#FDFCFA;box-shadow:0 8px 16px -12px rgba(16,42,76,.35)}
+.kq-gbar{display:block;margin:0 calc(-1 * clamp(20px,4.4vw,64px));padding:10px clamp(20px,4.4vw,64px) 8px;background:#FDFCFA;box-shadow:0 8px 16px -12px rgba(16,42,76,.35)}
 .kq-gchips{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;scroll-padding:0 20px;margin:0 calc(-1 * clamp(20px,4.4vw,64px));padding:0 clamp(20px,4.4vw,64px)}
 .kq-gchips::-webkit-scrollbar{display:none}
 .kq-gchips button{flex:none;white-space:nowrap}
@@ -318,5 +395,5 @@ for (const [h3, kind] of SERVICES) {
 if (!s.includes(".kq-xl")) fail("Creative Studio: the kq-xl link style is missing");
 fs.writeFileSync(CS, s);
 
-console.log(`site-filters: Work page (${CH.length} channels with Temu on its own, house capability names, several choices per facet, paging follows the filter, filter bar under the introduction, ${changed.length} card tags corrected); ${caseLinks} labels linked on ${cards.length} case studies; gallery (${kinds.length} chips with counts, result line, #kind= address); ${SERVICES.length} Creative Studio services linked to the gallery`);
+console.log(`site-filters: Work page (${CH.length} channels with Temu on its own, house capability names, several choices per facet, paging follows the filter, filter bar under the introduction, ${changed.length} card tags corrected); ${caseLinks} labels linked on ${cards.length} case studies; gallery (${kinds.length} chips with counts, result line, #kind= address; ${pieces.length} pieces checked, ${HIDDEN_PIECES.length} held back: ${HIDDEN_PIECES.join(", ")}); ${SERVICES.length} Creative Studio services linked to the gallery`);
 for (const c of changed) console.log("  · " + c);
