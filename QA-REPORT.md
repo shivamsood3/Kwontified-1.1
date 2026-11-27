@@ -221,6 +221,8 @@ Scored on the same measures as the review. Neither page reaches the 95 the plan 
 | Technical basics | 9 / 10 | 10 / 10 | |
 | **Total** | **48** | **82** | |
 
+Later the same day: the portal picture was redrawn to match the Client Portal mockups' Overview screen, and client names and client quotes became two contrasting sections on both pages. Re-checked at 320, 390, 768, 1000, 1180 and 1440px (no sideways scroll, no text under 12px in the picture, no script errors); Lighthouse unchanged at 99 / 100 / 100 / 100 on both pages. With the fuller picture Why Kwontified is 13.2 desktop screens and about 26 phone screens.
+
 Checked in a browser at 1440, 390 and 320px: no sideways scroll; every page-menu link lands on a section; 30 logos on About and 15 on Why Kwontified; FAQ structured data matches the page (7 and 8 questions); the Why Kwontified link is on the capability, channel and case study pages tested; no script errors. Lighthouse (mobile): About 99 / 100 / 100 / 100, Why Kwontified 99 / 100 / 100 / 100, Careers 100 / 100 / 100 / 100. Not checked: Safari and Firefox.
 
 ## Contact page (2026-11-27)
