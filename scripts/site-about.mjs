@@ -237,6 +237,8 @@ let faq = withId(W.by["Questions executives ask"], "questions");
     else if (q(d) === keep) faq = faq.replace(d, d.replace(keep, "What is an agile omni-channel strategy, and how is it different from multi-channel?").replace(/<p style="[^"]*">[\s\S]*<\/p>/, `<p style="${pStyle}">It is one strategy that connects every place your customers shop: marketplaces and other e-commerce channels, brick-and-mortar stores and your brand website. Each channel and marketplace has its own strategy, with sales, margin, advertising and inventory targets that you approve, and each one is planned with the others in view. A traditional multi-channel strategy runs each channel on its own budget and calendar, usually set once a year. We review ours against live sales, inventory and advertising data every week and adjust it as conditions change. Budgets still belong to each channel: nothing moves between channels or marketplaces without your approval.</p>`));
   }
   if ((faq.match(/<details\b/g) || []).length !== 8) fail("Why: expected 8 questions after merging");
+  // the portal answer says what the example shows: tables export to CSV
+  faq = once(faq, "Tables export to CSV or Excel.", "Tables export to CSV.", "Why: the portal question's export sentence");
 }
 
 const whyClients = clients("clients", `<p style="margin: 32px 0 0"><a href="/work" style="font-size: 18px; color: #102A4C">See the case studies</a></p>`, midCta);
