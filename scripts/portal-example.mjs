@@ -105,7 +105,8 @@ check(CH.every((c) => c.contrib / c.sales > 0.55 && c.contrib / c.sales < 0.7), 
 // the quarter (Oct 1 to Dec 31): the October figures above, plus November and December goals, ad
 // plans and forecasts from the holiday plan, each forecast with its likely range (half-width)
 const Q4 = [
-  { goal: [1520000, 1610000], plan: [148000, 162000], fc: [1497000, 1586000], half: [52000, 68000] },
+  // Amazon's November and December forecasts are the products' sum at the stock plan's rates (asserted below)
+  { goal: [1520000, 1610000], plan: [148000, 162000], fc: [1560800, 1677200], half: [52000, 68000] },
   { goal: [385000, 425000], plan: [31000, 34000], fc: [391000, 433000], half: [16000, 20000] },
   { goal: [172000, 198000], plan: [12500, 14000], fc: [168000, 194500], half: [9000, 12000] },
 ];
@@ -115,7 +116,7 @@ const CHQ = CH.map((c, i) => { const q = Q4[i], fc = c.fc + q.fc[0] + q.fc[1], r
 const ALLQ = { ...ALL, goal: sum(CHQ, (c) => c.goal), plan: sum(CHQ, (c) => c.plan), fc: sum(CHQ, (c) => c.fc) };
 ALLQ.lo = r1k(ALLQ.fc - Math.sqrt(sum(CHQ, (c) => (c.fc - c.lo) ** 2)));
 ALLQ.hi = r1k(ALLQ.fc + Math.sqrt(sum(CHQ, (c) => (c.hi - c.fc) ** 2)));
-check(CHQ[0].goal === 4370000 && CHQ[0].fc === 4249100 && ALLQ.goal === 6000000 && ALLQ.fc === 5903800 && ALLQ.plan === 560000, "the quarter's goals, forecasts and ad plans");
+check(CHQ[0].goal === 4370000 && CHQ[0].fc === 4404100 && ALLQ.goal === 6000000 && ALLQ.fc === 6058800 && ALLQ.plan === 560000, "the quarter's goals, forecasts and ad plans");
 check([...CHQ, ALLQ].every((c) => c.lo <= c.fc && c.fc <= c.hi) && CHQ.every((c, i) => c.fc > CH[i].fc && c.spend < c.plan), "each quarter forecast inside its range");
 // November and December each run above the channel's daily rate to date (the holiday season)
 check(CH.every((c, i) => Q4[i].fc[0] / 30 > c.sales / c.days && Q4[i].fc[1] / 31 > Q4[i].fc[0] / 30), "the quarter's months rise into December");
@@ -181,8 +182,8 @@ check(near(avg(WK.roas, 1, 3), SEP.roas, 0.01) && near(avg(WK.roas, 6, 7), roas,
 // buyers %, Subscribe and Save subscriptions, and the open step if there is one
 const PRODUCTS = [
   { n: "Retinol serum", sku: "SKN-RS-30", sales: 129500, ad: 53611, units: 3083, sess: 39025, chg: 9.8, fo: 99.2, rt: 4.5, rc: 2140, rank: 1420, on: 4800, inb: 3000, wk: 938, q4: [1.25, 1.3], ret: 96, why: "Not as expected", rep: 24, sns: 610 },
-  { n: "Gift set", sku: "SKN-GS-3P", sales: 67700, ad: 31445, units: 1058, sess: 25190, chg: 38.5, fo: 78.3, rt: 4.6, rc: 380, rank: 5600, listed: 18, on: 980, inb: 7000, wk: 322, q4: [2.0, 2.6], ret: 19, why: "Arrived damaged", rep: 6, sns: 0, tag: ["bad", "Suppressed"], step: "Corrected image with Amazon", who: "Creative Studio · filed Oct 20, next check Oct 25" },
-  { n: "Mineral sunscreen", sku: "SKN-MS-50, -100", sales: 107100, ad: 41094, units: 3825, sess: 56250, chg: -3.4, fo: 87.0, rt: 4.3, rc: 1920, rank: 1860, listed: 20, on: 9800, inb: 0, wk: 1164, q4: [0.85, 0.8], ret: 61, why: "No longer needed", rep: 22, sns: 420, tag: ["bad", "Suppressed"], step: "Safety data sheet with Amazon", who: "<span class=\"w\">Marketplace </span>Operations · both sizes, filed Oct 17, next check Oct 25" },
+  { n: "Gift set", sku: "SKN-GS-3P", sales: 67700, ad: 31445, units: 1058, sess: 25190, chg: 38.5, fo: 96.0, rt: 4.6, rc: 380, rank: 5600, listed: 18, on: 980, inb: 7000, wk: 322, q4: [2.0, 2.6], ret: 19, why: "Arrived damaged", rep: 6, sns: 0, tag: ["bad", "Suppressed"], step: "Corrected image with Amazon", who: "Creative Studio · filed Oct 20, next check Oct 25" },
+  { n: "Mineral sunscreen", sku: "SKN-MS-50, -100", sales: 107100, ad: 41094, units: 3825, sess: 56250, chg: -3.4, fo: 97.8, rt: 4.3, rc: 1920, rank: 1860, listed: 20, on: 9800, inb: 0, wk: 1164, q4: [0.85, 0.8], ret: 61, why: "No longer needed", rep: 22, sns: 420, tag: ["bad", "Suppressed"], step: "Safety data sheet with Amazon", who: "<span class=\"w\">Marketplace </span>Operations · both sizes, filed Oct 17, next check Oct 25" },
   { n: "Eye cream", sku: "SKN-EC-15", sales: 54600, ad: 19847, units: 1517, sess: 24869, chg: 1.7, fo: 99.4, rt: 4.4, rc: 860, rank: 3900, on: 5200, inb: 0, wk: 462, q4: [1.2, 1.3], ret: 26, why: "Not as expected", rep: 19, sns: 280, tag: ["warn", "Listing issue"], step: "Bullet point rewrite due Oct 27", who: "<span class=\"w\">Marketplace </span>Operations · restricted claim, in progress" },
   { n: "Vitamin C serum", sku: "SKN-VC-30", sales: 262400, ad: 90083, units: 6905, sess: 75880, chg: 14.2, fo: 97.8, rt: 4.6, rc: 5310, rank: 410, on: 13100, inb: 9000, wk: 2102, q4: [1.28, 1.22], ret: 124, why: "No longer needed", rep: 31, sns: 1840 },
   { n: "Night cream", sku: "SKN-NC-50", sales: 169800, ad: 56579, units: 3691, sess: 48566, chg: 6.1, fo: 99.6, rt: 4.5, rc: 2480, rank: 1150, on: 8900, inb: 4500, wk: 1123, q4: [1.3, 1.3], ret: 89, why: "Arrived damaged", rep: 27, sns: 960 },
@@ -194,9 +195,11 @@ check(shownSales + OTHER_SALES === AMZ.sales, "product sales against the Amazon 
 check(sum(PRODUCTS, (p) => p.ad) + OTHER_AD_SALES + DSP_SALES === AMZ.adSales, "product ad sales against the Amazon total");
 check(PRODUCTS.every((p) => near(wk(p.units), p.wk, 0.01)), "weekly units follow from units sold");
 const shownShare = Math.round((100 * shownSales) / AMZ.sales);
-// the two suppressed products match the sales by day, and their Featured Offer % is the share of days
-// they were listed (holding it on every listed day)
-check(SUPP.every(([n, sl, ld]) => { const p = PRODUCTS.find((x) => x.n === n); return p.sales === sl && p.listed === ld && Math.abs(p.fo - (100 * ld) / DAYS) < 0.1; }) && PRODUCTS.filter((p) => p.listed).length === SUPP.length, "the suppressed products against Amazon's days and the Featured Offer");
+// the two suppressed products match the sales by day. Featured Offer % is a share of page views: they
+// held it on every listed day, and while suppressed their pages, still reached from links, drew 15% of
+// their listed-day page views with no offer
+const SUPP_PV = 0.15;
+check(SUPP.every(([n, sl, ld]) => { const p = PRODUCTS.find((x) => x.n === n); return p.sales === sl && p.listed === ld && Math.abs(p.fo - (100 * ld) / (ld + (DAYS - ld) * SUPP_PV)) < 0.05; }) && PRODUCTS.filter((p) => p.listed).length === SUPP.length, "the suppressed products against Amazon's days and the Featured Offer");
 const SHIPMENTS = [["Vitamin C serum", 9000, "receiving", "Oct 26", "FBA18VK2Q7", "ONT8"], ["Retinol serum", 3000, "in transit", "Oct 29", "FBA18WD41M", "PHX7"], ["Gift set", 7000, "in transit", "Oct 31", "FBA18X3NTA", "BWI2"], ["Night cream", 4500, "ready to ship", "Nov 6", "FBA18Y92LR", "CLT2"]];
 const inboundUnits = sum(SHIPMENTS, (s) => s[1]);
 check(inboundUnits === sum(PRODUCTS, (p) => p.inb) && SHIPMENTS.every(([n, u]) => PRODUCTS.find((p) => p.n === n).inb === u), "inbound units");
@@ -211,8 +214,12 @@ check(COSTS.refunds === r100(returnedValue + OTHER_RETURNED) && COSTS.refunds > 
 // Oct 31, then that times its season in November and December (Amazon's forecast, which includes the
 // booked promotions), and October's rate again from January. The products' seasons, weighted by
 // sales (the other 24 products at 1.15 and 1.2), come to Amazon's November and December forecast.
-const QF = [Q4[0].fc[0] / 30 / (AMZ.sales / DAYS), Q4[0].fc[1] / 31 / (AMZ.sales / DAYS)], OTHER_Q4 = [1.15, 1.2];
-check([0, 1].every((k) => near(sum(PRODUCTS, (p) => p.sales * p.q4[k]) + OTHER_SALES * OTHER_Q4[k], QF[k] * AMZ.sales, 0.01)), "the products' seasons against Amazon's Q4 forecast");
+const OTHER_Q4 = [1.15, 1.2], QDAYS_M = [30, 31];
+// one rate everywhere: Amazon's November and December forecasts are each product's daily sales (a
+// suppressed product: while it was listed, the rate the stock plan, "A week" and the reinstatement
+// use) times its season, plus the other 24 products at October's rate times theirs
+const monthAt = (k) => sum(PRODUCTS, (p) => (p.sales / (p.listed || DAYS)) * p.q4[k] * QDAYS_M[k]) + (OTHER_SALES / DAYS) * OTHER_Q4[k] * QDAYS_M[k];
+check([0, 1].every((k) => Q4[0].fc[k] === r100(monthAt(k))), "Amazon's November and December forecasts at the stock plan's product rates");
 const NOV1 = 8, DEC1 = 38, JAN1 = 69; // days from Oct 24
 // a suppressed product sells at its rate on the days it was listed, from the day it is expected back
 // (both cases are due Oct 25), so stock is planned as if it sells again
@@ -238,6 +245,7 @@ check(demand(retinol, 0, dayOf(due(retinol))) < retinol.on, "retinol on hand las
 check(PRODUCTS.every((p) => runDays(p) - (LEAD_WEEKS + SAFETY_WEEKS) * 7 >= 0), "no order date is already past");
 check(PRODUCTS.filter(low).length === 1 && PRODUCTS.every((p) => p === retinol || (cover(p) >= COVER[0] && cover(p) <= COVER[1])), "only the retinol serum is outside the cover target");
 const retinolWeekly = Math.round((retinol.wk * retinol.sales) / retinol.units / 100) * 100;
+const suppNovWeek = r100(sum(PRODUCTS.filter((p) => p.listed), (p) => (p.sales / p.listed) * p.q4[0] * 7));
 const weekly = (p) => r100((p.sales / (p.listed || DAYS)) * 7); // a suppressed listing: while it was listed
 check(retinolWeekly === 39400, "retinol serum weekly sales");
 const withStep = PRODUCTS.filter((p) => p.tag), suppressed = PRODUCTS.filter((p) => p.tag && p.tag[1] === "Suppressed");
@@ -337,13 +345,15 @@ const retinolDec = r100((retinol.units / DAYS) * retinol.q4[1] * 7 * (retinol.sa
 check(retinolDec === 51200 && retinolDecC === 25200, "what the retinol order protects");
 
 // ---- promotions: what ran, what is running, what is proposed or booked --------------------------------
-// Amazon's fee for the two-day Prime Big Deal Days deal, from the settlement
-const DEAL_FEE = 500;
+// Amazon's fee for the two-day Prime Big Deal Days deal
+// estimated as $70 a day plus 1% of the deal's sales
+const dealFee = (days, sales) => days * 70 + r10(0.01 * sales), DEAL_FEE = dealFee(2, 36000);
+check(DEAL_FEE === 500, "the deal fee");
 const PROMOS = [
-  { id: "kq-pt-pr-new", n: "Coupon, 10% off", what: "Vitamin C serum", when: "Oct 27 to 31", sales: `${usd(r100(coupon.sales))} est.`, sv: coupon.sales, lift: `+${SEPC.lift}% est.`, lv: SEPC.lift, cost: `${usd(coupon.cost)} est.`, cv: coupon.cost, st: ["warn", "Proposed"], note: "awaiting your decision, by Oct 25" },
-  { n: "Prime Big Deal Days, 20% off", what: "Night cream, eye cream", when: "Oct 7 to 8", sales: usd(36000), sv: 36000, lift: "+84%", lv: 84, cost: usd(7200 + DEAL_FEE), cv: 7200 + DEAL_FEE, st: ["flat", "Ended"], note: "deal on both products" },
-  { n: "Subscribe and Save, extra 5%", what: "Subscription orders, six products", when: "Oct 1 to 31", sales: usd(53200), sv: 53200, lift: "Not measured", lv: -1, cost: usd(2660), cv: 2660, st: ["good", "Running"], note: "sales and cost to Oct 23" },
-  { n: "Coupon, 10% off", what: "Vitamin C serum", when: "Sep 8 to 21", sales: usd(SEPC.sales), sv: SEPC.sales, lift: `+${SEPC.lift}%`, lv: SEPC.lift, cost: usd(SEPC.cost), cv: SEPC.cost, st: ["flat", "Ended"], note: `the basis for the proposal; ${pct(100 * SEPC.redeem, 0)}&nbsp;redeemed` },
+  { id: "kq-pt-pr-new", n: "Coupon, 10% off", what: "Vitamin C serum", when: "Oct 27 to 31", sales: `${usd(r100(coupon.sales))} est.`, sv: coupon.sales, lift: `+${SEPC.lift}% est.`, lv: SEPC.lift, cost: `${usd(coupon.cost)} est.`, cv: coupon.cost, dis: coupon.discount, fee: coupon.fee, st: ["warn", "Proposed"], note: "awaiting your decision, by Oct 25" },
+  { n: "Prime Big Deal Days, 20% off", what: "Night cream, eye cream", when: "Oct 7 to 8", sales: usd(36000), sv: 36000, lift: "+84%", lv: 84, cost: usd(7200 + DEAL_FEE), cv: 7200 + DEAL_FEE, dis: 7200, fee: DEAL_FEE, st: ["flat", "Ended"], note: "deal on both products" },
+  { n: "Subscribe and Save, extra 5%", what: "Subscription orders, six products", when: "Oct 1 to 31", sales: usd(53200), sv: 53200, lift: "Not measured", lv: -1, cost: usd(2660), cv: 2660, dis: 2660, fee: 0, st: ["good", "Running"], note: "sales and cost to Oct 23" },
+  { n: "Coupon, 10% off", what: "Vitamin C serum", when: "Sep 8 to 21", sales: usd(SEPC.sales), sv: SEPC.sales, lift: `+${SEPC.lift}%`, lv: SEPC.lift, cost: usd(SEPC.cost), cv: SEPC.cost, dis: SEPC.discount, fee: SEPC.fee, st: ["flat", "Ended"], note: `the basis for the proposal; ${pct(100 * SEPC.redeem, 0)}&nbsp;redeemed` },
   { n: "Coupon, 15% off", what: "Gift set", when: "Nov 13 to Dec 2", sales: "Not started", sv: 0, lift: "Not started", lv: -1, cost: "Not started", cv: 0, st: ["good", "Booked"], note: "in the holiday plan; starts once the listing is back" },
   { n: "Prime exclusive discount, 15% off", what: "Night cream", when: "Nov 20 to 26", sales: "Not started", sv: 0, lift: "Not started", lv: -1, cost: "Not started", cv: 0, st: ["good", "Booked"], note: "in the holiday plan" },
   { n: "Black Friday deal, 20% off", what: "Vitamin C serum, foaming cleanser", when: "Nov 27 to Dec 1", sales: "Not started", sv: 0, lift: "Not started", lv: -1, cost: "Not started", cv: 0, st: ["good", "Booked"], note: "in the holiday plan" },
@@ -377,16 +387,20 @@ check(TERMS.filter((t) => /^Moved to (exact|phrase) match$/.test(t[5])).every((t
 // sales, Buy Box win rate, listing quality score, Walmart Fulfillment Services weeks of cover (with inbound)
 const WM = [
   ["Vitamin C serum", 71400, 98.1, 92, 9.4],
-  ["Retinol serum", 46200, 96.4, 88, 3.1, "WFS inbound booked for Oct 28", 9.0],
-  ["Mineral sunscreen", 38900, 91.2, 74, 4.0, "WFS inbound booked for Oct 28", 8.8],
+  ["Retinol serum", 46200, 96.4, 88, 3.1, "WFS inbound booked for Oct 28", 2070, 350],
+  ["Mineral sunscreen", 38900, 91.2, 74, 4.0, "WFS inbound booked for Oct 28", 2120, 442],
   ["Night cream", 33100, 99.0, 90, 10.2],
   ["Foaming cleanser", 21800, 97.5, 85, 8.6],
 ];
+// Walmart weeks of cover: units on hand ÷ weekly units at October's rate (the last two fields of a low
+// item: units inbound on Oct 28 and weekly units); with the inbound, (on hand + inbound) ÷ weekly units
+const wmAfter = (w) => w[4] + w[6] / w[7];
+check(WM.filter((w) => w[6]).every((w) => near(w[7], (w[1] / 22) * 7 / (PRODUCTS.find((p) => p.n === w[0]).sales / PRODUCTS.find((p) => p.n === w[0]).units), 0.02)) && wmAfter(WM[1]).toFixed(1) === "9.0" && wmAfter(WM[2]).toFixed(1) === "8.8", "Walmart weekly units (at Amazon's average price) and cover with the inbound");
 const WMADS = [["Sponsored Products, keyword", 7810, 30460], ["Sponsored Products, automatic", 6240, 21840], ["Sponsored Brands", 2950, 8850], ["Display", 1900, 5567]];
 const WMLQ = [["Mineral sunscreen", "Score 74: three of five recommended images; SPF value missing", "Creative Studio, due Oct 30"], ["Foaming cleanser", "Score 85: title over Walmart’s 75 characters", "<span class=\"w\">Marketplace </span>Operations, due Oct 28"], ["Retinol serum", "Score 88: two attributes missing", "<span class=\"w\">Marketplace </span>Operations, due Oct 31"]];
 check(sum(WMADS, (a) => a[1]) === CH[1].spend && sum(WMADS, (a) => a[2]) === CH[1].adSales, "Walmart Connect against the Walmart totals");
 const wmWeekly = r100(sum(WM.filter((w) => w[4] < COVER[0]), (w) => (w[1] / 22) * 7)), wmShown = sum(WM, (w) => w[1]), wmShare = Math.round((100 * wmShown) / CH[1].sales), wmLow = WM.filter((w) => w[4] < COVER[0]);
-check(WMLQ.every(([n, d]) => d.startsWith("Score " + WM.find((w) => w[0] === n)[3])), "listing quality scores") ; check(wmShown < CH[1].sales && wmShare === 93 && wmLow.length === 2 && wmLow.every((w) => w[5] && w[6] >= COVER[0] && w[6] <= COVER[1]), "Walmart items: the booked inbound brings the two low items back into the target");
+check(WMLQ.every(([n, d]) => d.startsWith("Score " + WM.find((w) => w[0] === n)[3])), "listing quality scores") ; check(wmShown < CH[1].sales && wmShare === 93 && wmLow.length === 2 && wmLow.every((w) => w[5] && wmAfter(w) >= COVER[0] && wmAfter(w) <= COVER[1]), "Walmart items: the booked inbound brings the two low items back into the target");
 
 const TAB_NAMES = ["Products", "Advertising", "Search terms", "Inventory", "Returns and repeat", "Promotions", "Account health"];
 const TAB_KEYS = ["products", "advertising", "search-terms", "inventory", "returns", "promotions", "health"];
@@ -401,7 +415,25 @@ function spark(v) {
   return `<svg class="kq-pt-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true" fill="none" stroke="#00618D" stroke-linecap="round" stroke-linejoin="round"><path d="${d}" stroke-width="2" vector-effect="non-scaling-stroke"/><path d="M${last[0]} ${last[1]}h0" stroke="#FFFFFF" stroke-width="12" vector-effect="non-scaling-stroke"/><path d="M${last[0]} ${last[1]}h0" stroke-width="8" vector-effect="non-scaling-stroke"/></svg>`;
 }
 
-const ICON = { 0: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="9" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="2.5" y="9" width="4.5" height="4.5" rx="1"/><rect x="9" y="9" width="4.5" height="4.5" rx="1"/></svg>', 1: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 12.5l3.5-4 3 2.5 4.5-6"/></svg>' };
+// the side menu's icons, one per entry as in the mockups (16px, 1.5px strokes)
+const svg = (d) => `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const ICON = {
+  grid: svg('<rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="9" y="2.5" width="4.5" height="4.5" rx="1"/><rect x="2.5" y="9" width="4.5" height="4.5" rx="1"/><rect x="9" y="9" width="4.5" height="4.5" rx="1"/>'),
+  bag: svg('<path d="M3 5.5h10l-.8 8H3.8z"/><path d="M5.5 5.5V4.5a2.5 2.5 0 0 1 5 0v1"/>'),
+  list: svg('<path d="M5.5 4h8M5.5 8h8M5.5 12h8"/><path d="M2.5 4h.01M2.5 8h.01M2.5 12h.01"/>'),
+  bars: svg('<path d="M3.5 13V8M8 13V3M12.5 13V6"/>'),
+  horn: svg('<path d="M2.5 6.5v3h2.5l5 3v-9l-5 3z"/><path d="M12.5 6.5a2 2 0 0 1 0 3"/>'),
+  cloud: svg('<path d="M4.5 12.5a3 3 0 0 1-.3-6 4 4 0 0 1 7.6 1 2.5 2.5 0 0 1-.3 5z"/>'),
+  box: svg('<path d="M2.5 5 8 2.5 13.5 5v6L8 13.5 2.5 11z"/><path d="M2.5 5 8 7.5 13.5 5M8 7.5v6"/>'),
+  fees: svg('<rect x="3" y="2.5" width="10" height="11" rx="1"/><path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3"/>'),
+  star: svg('<path d="M8 2.5v11M3.2 5.2l9.6 5.6M3.2 10.8l9.6-5.6"/>'),
+  target: svg('<circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/>'),
+  doc: svg('<path d="M4 2.5h5.5L12 5v8.5H4z"/><path d="M9.5 2.5V5H12M6 8.5h4M6 11h4"/>'),
+  chat: svg('<path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"/>'),
+  bell: svg('<path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3z"/><path d="M6.8 13.5a1.3 1.3 0 0 0 2.4 0"/>'),
+  book: svg('<path d="M3 3h4a1 1 0 0 1 1 1v9.5a1 1 0 0 0-1-1H3zM13 3H9a1 1 0 0 0-1 1v9.5a1 1 0 0 1 1-1h4z"/>'),
+  team: svg('<circle cx="6" cy="6" r="2"/><circle cx="11" cy="6.5" r="1.6"/><path d="M2.5 12.5a3.5 3.5 0 0 1 7 0M9.5 12.2a3 3 0 0 1 4-1.9"/>'),
+};
 const SEARCH = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3 3" stroke-linecap="round"/></svg>';
 const RMA = `<span class="w">Retail Media and </span>Advertising`, MO = `<span class="w">Marketplace </span>Operations`;
 
@@ -432,8 +464,9 @@ const stamp = (n, line2) => `<div class="kq-pt-stamp"><span class="kq-pt-asof" d
 
 export function portalSection({ section, two, H2, P }) {
   defN = 0;
-  const NAV = [["Overview", 0, "n1"], ["Channels", "g"], ["Amazon", 0], ["Sales", 1], ["Advertising", 1], ["Marketing Cloud", 1], ["Operations", 1, "n2"], ["Walmart", 0], ["Target Plus", 0], ["Your account", "g"], ["Reports and forecasts", 0], ["Call notes and projects", 0], ["Team and access", 0]];
-  const side = `<div class="kq-pt-side" aria-hidden="true"><p class="kq-pt-brand"><b>KWONTIFIED</b><span>Client portal</span></p>${NAV.map(([label, kind, cls]) => (kind === "g" ? `<p class="kq-pt-grp">${label}</p>` : `<p class="kq-pt-nv${kind ? " sub" : ""}${cls ? " " + cls : ""}">${ICON[kind]}<span>${label}</span></p>`)).join("")}<p class="kq-pt-usr"><i>SU</i><span>Sample user</span></p></div>`;
+  // the mockups' side menu: [label, icon, a sub-entry, the entry each screen highlights]
+  const NAV = [["Overview", "grid", 0, "n1"], ["Channels"], ["Amazon", "bag"], ["Products", "list", 1], ["Sales", "bars", 1], ["Advertising", "horn", 1], ["Marketing Cloud", "cloud", 1], ["Operations", "box", 1, "n2"], ["Fees and contribution", "fees", 1], ["Walmart", "star"], ["Target Plus", "target"], ["Your account"], ["Reports and forecasts", "doc"], ["Call notes and projects", "chat"], ["Alerts and notifications", "bell"], ["Definitions", "book"], ["Team and access", "team"]];
+  const side = `<div class="kq-pt-side" aria-hidden="true"><p class="kq-pt-brand"><b>KWONTIFIED</b><span>Client portal</span></p>${NAV.map(([label, icon, sub, cls]) => (!icon ? `<p class="kq-pt-grp">${label}</p>` : `<p class="kq-pt-nv${sub ? " sub" : ""}${cls ? " " + cls : ""}">${ICON[icon]}<span>${label}</span></p>`)).join("")}<p class="kq-pt-usr"><i>SU</i><span>Sample user</span></p></div>`;
   const top = `<div class="kq-pt-top"><p class="kq-pt-search" aria-hidden="true">${SEARCH}Search dashboards, products and reports</p><p class="kq-pt-tag">Illustrative example</p><p class="kq-pt-scope">Sample<span class="xw"> skincare</span> brand</p></div>`;
 
   // ---- screen 1: Overview, for an executive ---------------------------------------------------
@@ -459,7 +492,7 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
       chHead("m"), CH.map((c) => chRow(c)).join("") + chRow(ALL, true), "plain chan", "channels-october") + `</div><div class="kq-pt-per kq-pt-per-q">`
     + tbl("kq-pt-cq", "Q4 by channel, Oct 1 to Dec 31: forecast against goal, sales and contribution to date, ad spend against plan, ROAS and TACoS",
       chHead("q"), CHQ.map((c) => chRow(c)).join("") + chRow(ALLQ, true), "plain chan", "channels-q4") + `</div></div><p class="kq-pt-hint ph">Amazon to ${AMZ.thru}, others ${CH[1].thru}<span class="w">. Scroll sideways</span>.</p>`
-    + defs(`<b>Forecast</b> to month or quarter end, made each morning: the rest of October at the last seven days’ level by day of week, with booked promotions, before the recommendations; Amazon’s leaves suppressed listings out, and November and December assume they are back. <b>Likely range</b> four times in five. <b>On goal</b> within 0.25%. <b>Plan</b> the agreed ad budget. <b>Q4</b> began Oct 1 (${pct((100 * DAYS) / QDAYS, 0)} passed), so to date is October’s. <b>Contribution</b> for Target Plus uses the weekly upload and your 3PL’s invoices. The last 14 days’ ad sales are provisional.`) + `</div>`;
+    + defs(`<b>Forecast</b> to month or quarter end, made each morning: the rest of October at the last seven days’ level by day of week, with booked promotions, before the recommendations; Amazon’s leaves suppressed listings out. <b>Likely range</b> four times in five. <b>On goal</b> within 0.25%. <b>Plan</b> the agreed ad budget. <b>Q4</b> began Oct 1 (${pct((100 * DAYS) / QDAYS, 0)} passed), so to date is October’s; November and December goals and plans are the holiday plan’s. Their forecast: Walmart and Target Plus from the holiday plan; Amazon each product’s daily sales (while listed) × its season, with booked promotions, so the suppressed listings are back by Nov 1, as in the stock plan. <b>Contribution</b> for Target Plus uses the weekly upload and your 3PL’s invoices. The last 14 days’ ad sales are provisional.`) + `</div>`;
 
   // sales by day, stacked by channel in the mockups' three blues, with a 2px gap between segments
   const MAXD = 75000, TICKS = [0, 25000, 50000, 75000];
@@ -479,7 +512,7 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
   const team = `<div class="kq-pt-team kq-pt-log">${teamHead}<ul class="kq-pt-df" id="${teamId}">${LOG.map(([dt, who, t]) => `<li><small>${dt} · ${who}</small><span>${t}</span></li>`).join("")}</ul></div>`;
   const DECISIONS = [
     { t: `Lift the budget caps on ${word(capped.length)} campaigns, Oct 25 to 31`, d: `${cappedHrs} campaign-hours lost: +${usd(lift.spend)} spend, +${usd(lift.sales)} sales, +${usd(lift.contrib)} contribution.`, who: RMA, by: "Oct 24", go: go("Campaigns", hashOf("Advertising") + "-campaigns", "kq-pt-a-capped", "that ran out of budget") },
-    { t: `Run a 10% coupon on the vitamin C serum, Oct 27 to 31`, d: `+${usd(coupon.more)} sales at September’s ${SEPC.lift}% lift, ${usd(coupon.cost)} in discounts and fees: +${usd(coupon.contrib)} contribution.`, who: MO, by: "Oct 25", go: go("Promotions", hashOf("Promotions"), "kq-pt-pr-new", "for the proposed coupon") },
+    { t: `Run a 10% coupon on the vitamin C serum, Oct 27 to 31`, d: `+${usd(coupon.more)} sales at September’s ${SEPC.lift}% lift, less ${usd(coupon.discount)} discount and ${usd(coupon.fee)} est. fee: +${usd(coupon.contrib)} contribution.`, who: MO, by: "Oct 25", go: go("Promotions", hashOf("Promotions"), "kq-pt-pr-new", "for the proposed coupon") },
     { t: `Order ${num(order(retinol))} units of retinol serum by ${orderBy(retinol)}`, d: `Out around ${runsOut(retinol)} at the Q4 forecast (${cover(retinol).toFixed(1)} weeks with ${num(retinol.inb)} inbound); a week out costs ${usd(retinolDec)} sales, ${usd(retinolDecC)} contribution.`, who: MO, by: "Oct 28", go: go("Inventory", hashOf("Inventory"), rowId(retinol), "for retinol serum") },
   ];
   const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two add about ${usd(recovered)} to Amazon’s October</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span><span class="ans js" role="group" aria-label="Your answer: ${plain(x.t)}"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="A team member calls you by ${x.by}" aria-pressed="false" disabled>Discuss</button></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note">Agree and we act; Discuss and a team member calls you before the decide-by date. Contribution here is after product cost (${pct(100 * PCOST, 0)} of price).</p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
@@ -487,7 +520,7 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
   // what the team is handling: ranked by severity, then by the weekly sales of what is affected
   const ALERTS = [
     ["High", `${suppressed.length + 1} suppressed listings`, `Sunscreen (both sizes), gift set: with Amazon; not in the forecast.`, sum(suppressed, weekly), MO, "check Oct 25", go("Account health", hashOf("Account health"), "kq-pt-issues-r", "open issues")],
-    ["Medium", `Walmart: ${word(wmLow.length)} items low in WFS`, `${wmLow.map((w) => w[0]).join(" and ").replace("Mineral", "mineral")}: ${wmLow.map((w) => w[4].toFixed(1)).join(" and ")} weeks on hand; the Oct 28 inbound brings ${wmLow.length === 2 ? "them" : "it"} to ${wmLow.map((w) => w[6].toFixed(1)).join(" and ")}.`, wmWeekly, MO, "WFS inbound booked for Oct 28", go("Walmart", "portal-ops-walmart", "kq-pt-wm-r", "items")],
+    ["Medium", `Walmart: ${word(wmLow.length)} items low in WFS`, `${wmLow.map((w) => w[0]).join(" and ").replace("Mineral", "mineral")}: ${wmLow.map((w) => w[4].toFixed(1)).join(" and ")} weeks on hand; the Oct 28 inbound brings ${wmLow.length === 2 ? "them" : "it"} to ${wmLow.map((w) => wmAfter(w).toFixed(1)).join(" and ")}.`, wmWeekly, MO, "WFS inbound booked for Oct 28", go("Walmart", "portal-ops-walmart", "kq-pt-wm-r", "items")],
     ["Medium", "Restricted claim: eye cream", "Amazon flagged a claim in its bullet points.", weekly(eye), MO, "rewrite due Oct 27", go("Products", hashOf("Products"), rowId(eye, "p"), "for the eye cream")],
     ["Low", "Policy warning: retinol serum", "Expiration dating; plan of action with Amazon.", weekly(retinol), MO, "check Oct 28", go("Account health", hashOf("Account health"), "kq-pt-issues-r", "open issues")],
   ];
@@ -499,11 +532,11 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
 
 
   const exec = `<section class="kq-pt-sheet kq-pt-v1" aria-labelledby="kq-pt-h1"><div class="kq-pt-trow"><h3 class="kq-pt-h1" id="kq-pt-h1">Overview</h3><p class="kq-pt-ctl"><span>Oct 1 to 23, 2026</span><span>vs same days last month</span><span class="w">vs same days last year</span></p></div>
-<div class="kq-pt-frow"><p class="kq-pt-find kq-pt-per-m">Your three channels reached ${usd(ALL.sales)} in October so far and are forecast ${usd(ALL.goal - ALL.fc)} short of the ${usd(ALL.goal)} goal. Amazon is ${usd(amzGap)} short without the suppressed gift set and sunscreen: back on ${BACK} they would add about ${usd(reinstate)}, and two recommendations from your team about ${usd(recovered)}.</p><p class="kq-pt-find kq-pt-per-q">For Q4, Oct 1 to Dec 31, your three channels are forecast to finish ${usd(ALLQ.goal - ALLQ.fc)} short of the ${usd(ALLQ.goal)} goal, Amazon ${usd(CHQ[0].goal - CHQ[0].fc)} short, about half of it October’s suppressed listings. November and December assume both are back and include the booked promotions; your team brings options for the rest to the Oct 28 call.</p>${stamp(1, `Amazon to ${AMZ.thru} · Walmart, Target Plus to ${CH[1].thru}`)}</div>
+<div class="kq-pt-frow"><p class="kq-pt-find kq-pt-per-m">Your three channels reached ${usd(ALL.sales)} in October so far and are forecast ${usd(ALL.goal - ALL.fc)} short of the ${usd(ALL.goal)} goal. Amazon is ${usd(amzGap)} short without the suppressed gift set and sunscreen: back on ${BACK} they would add about ${usd(reinstate)}, and two recommendations from your team about ${usd(recovered)}.</p><p class="kq-pt-find kq-pt-per-q">For Q4, Oct 1 to Dec 31, your three channels are forecast to finish ${usd(ALLQ.fc - ALLQ.goal)} above the ${usd(ALLQ.goal)} goal, Amazon ${usd(CHQ[0].fc - CHQ[0].goal)} above despite October. That assumes the suppressed gift set and sunscreen are back by Nov 1 at the rate they sold while listed; each week they stay out takes about ${usd(suppNovWeek)} off November. Target Plus is ${usd(CHQ[2].goal - CHQ[2].fc)} short; your team brings options to the Oct 28 call.</p>${stamp(1, `Amazon to ${AMZ.thru} · Walmart, Target Plus to ${CH[1].thru}`)}</div>
 ${kstrip}
 ${channels}
 <div class="kq-pt-cols eq"><div>${decisions}</div><div>${attention}${daily}</div></div></section>`;
-  check(ALL.goal - ALL.fc === 55700 && amzGap > reinstate + recovered && CH.slice(1).every((c) => c.fc > c.goal) && ALLQ.goal - ALLQ.fc === 96200 && near((amzGap - (amzGap - reinstate)) / (CHQ[0].goal - CHQ[0].fc), 0.5, 0.1), "the headlines: October and Q4 short, Amazon mostly the suppressed listings");
+  check(ALL.goal - ALL.fc === 55700 && amzGap > reinstate + recovered && CH.slice(1).every((c) => c.fc > c.goal) && ALLQ.fc - ALLQ.goal === 58800 && CHQ[0].fc - CHQ[0].goal === 34100 && CHQ[2].goal - CHQ[2].fc === 3200 && suppNovWeek === 84500, "the headlines: October short, Q4 ahead if the listings are back by Nov 1");
 
   // ---- screen 2: Operations, for the people who run the channels ---------------------------------
   const MAXWK = 16;
@@ -519,7 +552,7 @@ ${channels}
       th("Product", "", true, "", PH) + th("Sales", "vs Sep 1 to 23", true, "num", ["Sales (USD)", "Change vs Sep 1 to 23 (%)"]) + th("Sessions", "unit session %", true, "num", ["Sessions", "Unit session (%)"]) + th("Ad sales", "share of sales", true, "num", ["Ad sales (USD)", "Ad sales share (%)"]) + th("Price", "Featured Offer %", true, "num", ["Average price (USD)", "Featured Offer (%)"]) + th("Rating", "sales rank", true, "num", ["Rating", "Ratings", "Sales rank"]) + coverHead + th("Next step", "owner, status and date", true, "desc", ["Flag", "Next step", "Owner and status"]),
       PRODUCTS.map((p) => `<tr${p.tag ? " data-step" : ""}>${name(p, rowId(p, "p"))}${td(p.sales, usd(p.sales), `<span class="${p.chg > 0 ? "pos" : "neg"}">${p.chg > 0 ? "+" : "−"}${Math.abs(p.chg).toFixed(1)}%</span>`, "num", [p.sales, f1(p.chg)])}${td(p.sess, num(p.sess), pct((100 * p.units) / p.sess), "num", [p.sess, f1((100 * p.units) / p.sess)])}${td(p.ad, usd(p.ad), pct((100 * p.ad) / p.sales), "num", [p.ad, f1((100 * p.ad) / p.sales)])}${td(p.sales / p.units, usd2(p.sales / p.units), pct(p.fo), "num", [f2(p.sales / p.units), f1(p.fo)])}${td(p.rt * 1e5 + p.rc, `${p.rt.toFixed(1)} <span class="mut">(${num(p.rc)})</span>`, `#${num(p.rank)}`, "num", [f1(p.rt), p.rc, p.rank])}${coverCell(cover(p))}<td class="nx" data-v="${(p.tag ? (p.tag[0] === "bad" ? 2 : 1) : 0) * 1e7 + p.sales}"${attr("data-c", p.tag ? [p.tag[1], p.step, p.who] : ["", "", ""])}>${p.tag ? `${pill(p.tag[0], p.tag[1])} <span class="at">${p.step}</span><small>${p.who}</small>` : `<span class="mut">No open step</span>`}</td></tr>`).join(""), "prod", "products")
     + `<p class="kq-pt-none" hidden>No product matches. Clear the search or the filter to see all ${word(PRODUCTS.length)}.</p>`
-    + defs(`<b>Sessions</b> visits to the product’s pages; repeat visits within 24 hours count once. <b>Unit session %</b> units ordered ÷ sessions. <b>Ad sales</b> Sponsored ads only. <b>Price</b> average selling price. <b>Featured Offer %</b> share of page views where your offer held the Featured Offer (Buy Box). <b>Rating</b> average stars (ratings). <b>Sales rank</b> Best Sellers Rank in Beauty and Personal Care, Oct 23. <b>Weeks of cover</b> how long units on hand and inbound last at the Q4 forecast (Inventory tab); under ${COVER[0]} is low.`);
+    + defs(`<b>Sessions</b> visits to the product’s pages; repeat visits within 24 hours count once. <b>Unit session %</b> units ordered ÷ sessions. <b>Ad sales</b> Sponsored ads only. <b>Price</b> average selling price. <b>Featured Offer %</b> share of page views where your offer held the Featured Offer (Buy Box); a suppressed listing’s pages show no offer. <b>Rating</b> average stars (ratings). <b>Sales rank</b> Best Sellers Rank in Beauty and Personal Care, Oct 23. <b>Weeks of cover</b> how long units on hand and inbound last at the Q4 forecast (Inventory tab); under ${COVER[0]} is low.`);
 
   const AV = [["c", "Campaigns"], ["k", "Keywords"], ["p", "Placements"]];
   const seg = `<div class="kq-pt-seg js" role="radiogroup" aria-label="Advertising view">${AV.map(([k, t], i) => `<span class="o"><input type="radio" name="kq-pt-av" id="kq-pt-av-${k}" value="${k}"${i ? "" : " checked"}><label for="kq-pt-av-${k}">${t}</label></span>`).join("")}</div>`;
@@ -559,9 +592,9 @@ ${channels}
 
   const promos = tool(`October promotions cost ${usd(COSTS.promotions)}, counted in contribution`, "", "kq-pt-c5-t")
     + tbl("kq-pt-c5", "Promotions: proposed, running, ended and booked",
-      th("Promotion", "", true, "") + th("Products", "", false, "") + th("Dates", "", false, "", ["Start", "End"]) + th("Sales during", "", true, "num", ["Sales during (USD)"]) + th("Lift", "", true, "num", ["Lift (%)"]) + th("Cost to you", "", true, "num", ["Cost to you (USD)"]) + th("Status", "", false, "", ["Status", "Note"]),
-      PROMOS.map((x, i) => `<tr><th scope="row" data-v="${i}"${x.id ? ` id="${x.id}" tabindex="-1"` : ""}>${x.n}</th><td>${x.what}</td><td class="dt"${attr("data-c", PROMO_DATES[i].map(iso))}>${x.when}</td>${td(x.sv, x.sales, undefined, "num", [x.sv ? (x.id ? r100(x.sv) : x.sv) : ""])}${td(x.lv, x.lift, undefined, "num", [x.lv >= 0 ? x.lv : ""])}${td(x.cv, x.cost, undefined, "num", [x.cv || ""])}<td${attr("data-c", [x.st[1], x.note + (x.id ? "; figures are estimates" : "")])}>${pill(x.st[0], x.st[1])}<small>${x.note}</small></td></tr>`).join(""), "", "promotions")
-    + defs(`<b>Sales during</b> all sales of the products on the promotion’s days, before the discount; for Subscribe and Save, the subscription orders it applies to. <b>Lift</b> against the same products’ average daily sales on the month’s other days. <b>Cost to you</b> the discount you fund plus Amazon’s coupon or deal fee, from settlements. The proposal applies September’s lift and redemption to October’s daily average.`);
+      th("Promotion", "", true, "") + th("Products", "", false, "") + th("Dates", "", false, "", ["Start", "End"]) + th("Sales during", "", true, "num", ["Sales during (USD)"]) + th("Lift", "", true, "num", ["Lift (%)"]) + th("Cost to you", "discount + Amazon fee", true, "num", ["Cost to you (USD)", "Discount (USD)", "Amazon fee, est. (USD)"]) + th("Status", "", false, "", ["Status", "Note"]),
+      PROMOS.map((x, i) => `<tr><th scope="row" data-v="${i}"${x.id ? ` id="${x.id}" tabindex="-1"` : ""}>${x.n}</th><td>${x.what}</td><td class="dt"${attr("data-c", PROMO_DATES[i].map(iso))}>${x.when}</td>${td(x.sv, x.sales, undefined, "num", [x.sv ? (x.id ? r100(x.sv) : x.sv) : ""])}${td(x.lv, x.lift, undefined, "num", [x.lv >= 0 ? x.lv : ""])}${td(x.cv, x.cost, x.dis === undefined ? undefined : x.fee ? `${usd(x.dis)} + ${usd(x.fee)} fee est.` : "no fee", "num", [x.cv || "", x.dis === undefined ? "" : x.dis, x.dis === undefined ? "" : x.fee])}<td${attr("data-c", [x.st[1], x.note + (x.id ? "; figures are estimates" : "")])}>${pill(x.st[0], x.st[1])}<small>${x.note}</small></td></tr>`).join(""), "", "promotions")
+    + defs(`<b>Sales during</b> all sales of the products on the promotion’s days, before the discount; for Subscribe and Save, the subscription orders it applies to. <b>Lift</b> against the same products’ average daily sales on the month’s other days. <b>Cost to you</b> the discount you fund (from settlements) plus Amazon’s fee, estimated here: a coupon $5 + 2.5% of the sales that used it, a deal $70 a day + 1% of its sales. The proposal applies September’s lift and redemption to October’s daily average.`);
 
   const health = `<div class="kq-pt-tool"><p>Account health as of ${INV_ASOF}</p><div class="kq-pt-tr">${exportBtn("kq-pt-c6-t", "Export measures")}${exportBtn("kq-pt-issues-t", "Export issues")}</div></div><div class="kq-pt-two">` + tbl("kq-pt-c6", "Performance against Amazon’s targets",
     th("Measure", "", false, "") + th("Current", "", false, "num", ["Current", "Unit"]) + th("Target", "", false, "") + th("Status", "", false, ""),
@@ -592,8 +625,8 @@ ${panes}
   const walmart = `<div class="kq-pt-chan kq-pt-k2"><div class="kq-pt-frow"><p class="kq-pt-find">${cap(word(WM.length))} items make up ${wmShare}% of Walmart sales, Oct 1 to 22. ${cap(word(wmLow.length))} are low in Walmart Fulfillment Services, with inbound stock booked for Oct 28.</p><div class="kq-pt-stamp"><span>Walmart to ${CH[1].thru}</span></div></div>
 <div class="kq-pt-card"><div class="kq-pt-tool"><p>Walmart items, Oct 1 to 22 <span class="kq-pt-say" role="status" id="kq-pt-wsay"></span></p><div class="kq-pt-tr">${exportBtn("kq-pt-wm-t")}</div></div>${tbl("kq-pt-wm", "Walmart items, Oct 1 to 22",
     th("Item", "", true, "", ["Item"]) + th("Sales", "Oct 1 to 22", true, "num", ["Sales (USD)"]) + th("Buy Box win rate", "", true, "num", ["Buy Box win rate (%)"]) + th("Listing quality", "score of 100", true, "num", ["Listing quality score"]) + th("WFS weeks of cover", `on hand, before inbound, target ${COVER[0]} to ${COVER[1]}`, true, "", ["WFS weeks of cover on hand at October rate"]) + th("Next step", "", false, "", ["Next step", "Owner"]),
-    WM.map(([n, sl, bb, lq, c, step, after], i) => `<tr><th scope="row" data-v="${[...WM].map((w) => w[0]).sort().indexOf(n)}">${n}</th>${td(sl, usd(sl))}${td(bb, pct(bb), undefined, "num", [f1(bb)])}${td(lq, lq)}${coverCell(c)}<td${attr("data-c", step ? [`${step}: ${after.toFixed(1)} weeks after`, "Marketplace Operations"] : ["", ""])}>${step ? `<span class="at">${step}: ${after.toFixed(1)} weeks after</span><small>${MO}</small>` : `<span class="mut">No open step</span>`}</td></tr>`).join(""), "plain", "walmart-items")}${HINT}
-<p class="kq-pt-note"><b>Buy Box win rate</b> share of page views where your offer won the Buy Box. <b>Listing quality</b> Walmart’s score for content, offer and reviews. Walmart does not send sessions by day, item forecasts or seller performance standards to the data warehouse yet, so this view leaves them out rather than estimate them, and WFS cover counts units on hand at October’s rate, before the inbound booked for Oct 28.</p></div>
+    WM.map(([n, sl, bb, lq, c, step, inb], i) => `<tr><th scope="row" data-v="${[...WM].map((w) => w[0]).sort().indexOf(n)}">${n}</th>${td(sl, usd(sl))}${td(bb, pct(bb), undefined, "num", [f1(bb)])}${td(lq, lq)}${coverCell(c)}<td${attr("data-c", step ? [`${step}: ${inb} units, ${wmAfter(WM[i]).toFixed(1)} weeks with it`, "Marketplace Operations"] : ["", ""])}>${step ? `<span class="at">${step}: ${num(inb)} units, ${wmAfter(WM[i]).toFixed(1)} weeks with it</span><small>${MO}</small>` : `<span class="mut">No open step</span>`}</td></tr>`).join(""), "plain", "walmart-items")}${HINT}
+<p class="kq-pt-note"><b>Buy Box win rate</b> share of page views where your offer won the Buy Box. <b>Listing quality</b> Walmart’s score for content, offer and reviews. Walmart does not send sessions by day, item forecasts or seller performance standards to the data warehouse yet, so this view leaves them out rather than estimate them, and WFS cover is units on hand ÷ weekly units at October’s rate; “with it” adds the inbound booked for Oct 28.</p></div>
 <div class="kq-pt-cols eq"><div class="kq-pt-card"><h4 class="kq-pt-h2">Walmart Connect <small>Oct 1 to 22</small></h4><ul class="kq-pt-att two">${WMADS.map(([n, sp, sa]) => `<li><div><p class="at">${n}</p><p class="ad">${usd(sp)} spend</p></div><div class="av"><span><strong>${(sa / sp).toFixed(2)}x</strong></span><small>${usd(sa)} ad sales</small></div></li>`).join("")}</ul><p class="kq-pt-note">All: ${usd(CH[1].spend)} spend, ${usd(CH[1].adSales)} ad sales, ${(CH[1].adSales / CH[1].spend).toFixed(2)}x, 14-day attribution.</p></div>
 <div class="kq-pt-card"><h4 class="kq-pt-h2">What lowers listing quality</h4><ul class="kq-pt-att two">${WMLQ.map(([n, d, st]) => `<li><div><p class="at">${n}</p><p class="ad">${d}</p></div><div class="av"><small>${st}</small></div></li>`).join("")}</ul></div></div></div>`;
 
@@ -628,7 +661,7 @@ function pick(i,focus){cur=i;box.style.minHeight='';tabs.forEach(function(t,j){v
 function sayFor(b){return up(b,'kq-pt-v1')?osay:up(b,'kq-pt-k2')?el('kq-pt-wsay'):say}
 var AVN={c:'campaigns',k:'keywords',p:'placements'};function av(){var r=f.querySelector('[name=kq-pt-av]:checked');return r?r.value:'c'}
 function now(){if(el('kq-pt-v1').checked)return 'portal-overview'+(el('kq-pt-pq').checked?'-q4':'');var c=f.querySelector('[name=kq-pt-ch]:checked').value;return 'portal-ops-'+(c==='amazon'?keys[cur]+(keys[cur]==='advertising'?'-'+AVN[av()]:''):c)}
-function mark(push){var h='#'+now();if(location.hash===h)return;try{history[push?'pushState':'replaceState'](history.state,'',h)}catch(e){}}
+function mark(push){if(typeof fit==='function')fit();var h='#'+now();if(location.hash===h)return;try{history[push?'pushState':'replaceState'](history.state,'',h)}catch(e){}}
 function go(h){h=(h||'').replace(/^#/,'');if(h.indexOf('portal-')!==0)return false;if(h==='portal-overview'||h==='portal-overview-q4'){el('kq-pt-v1').checked=true;el(h==='portal-overview'?'kq-pt-pm':'kq-pt-pq').checked=true;return true}
 var m=h.slice(11),v=/^advertising-(campaigns|keywords|placements)$/.exec(m),i;if(v){m='advertising';v=v[1].charAt(0);if(av()!==v){el('kq-pt-av-'+v).checked=true;say.textContent=''}}i=keys.indexOf(m);if(m==='walmart'||m==='target-plus'){el('kq-pt-v2').checked=true;el('kq-pt-c-'+m).checked=true;return true}
 if(i<0)return false;el('kq-pt-v2').checked=true;el('kq-pt-c-amazon').checked=true;pick(i);return true}
@@ -637,7 +670,7 @@ all('input[type=radio]').forEach(function(r){r.addEventListener('change',functio
 var lastF=null;f.addEventListener('focusin',function(e){lastF=e.target});
 function refocus(){var a=document.activeElement;if(!lastF||!f.contains(lastF)||(a!==document.body&&a!==lastF))return;if(lastF.getClientRects().length&&!(lastF.getAttribute('role')==='tab'&&lastF.getAttribute('aria-selected')!=='true'))return;
 var c=f.querySelector('[name=kq-pt-ch]:checked').value,t=el('kq-pt-v1').checked?el('kq-pt-v1'):c==='amazon'?tabs[cur]:el('kq-pt-c-'+c);if(t)t.focus()}
-window.addEventListener('popstate',function(){if(!go(location.hash)&&!location.hash)go('#portal-overview');refocus()});
+window.addEventListener('popstate',function(){if(!go(location.hash)&&!location.hash)go('#portal-overview');fit();refocus()});
 function apply(){var on=flt.getAttribute('aria-pressed')==='true',s=qi.value.toLowerCase().replace(/^\s+|\s+$/g,''),n=0,rows=all('tbody tr',panes[0]);box.style.minHeight=box.offsetHeight+'px';rows.forEach(function(r){r.hidden=(on&&!r.hasAttribute('data-step'))||(s&&r.cells[0].textContent.toLowerCase().indexOf(s)<0);if(!r.hidden)n++});none.hidden=n>0;say.textContent='Showing '+n+' of '+rows.length+' products'}
 flt.addEventListener('click',function(){flt.setAttribute('aria-pressed',flt.getAttribute('aria-pressed')!=='true');apply()});qi.addEventListener('input',apply);
 all('thead button').forEach(function(b){b.addEventListener('click',function(){var th=b.parentNode,i=[].indexOf.call(th.parentNode.children,th),c=th.getAttribute('aria-sort'),d=c==='descending'?'ascending':c==='ascending'||/num|desc/.test(th.className)?'descending':'ascending',tb=th.parentNode.parentNode.parentNode.tBodies[0];
@@ -671,12 +704,15 @@ bars.addEventListener('click',function(e){var c=e.target;while(c&&c!==bars&&!c.h
 bars.addEventListener('focus',function(){at(day)});bars.addEventListener('blur',function(){tip.hidden=true;cs.forEach(function(c){c.classList.remove('cur')})});
 bars.addEventListener('keydown',function(e){var k=e.key,n=k==='ArrowRight'||k==='ArrowUp'?day+1:k==='ArrowLeft'||k==='ArrowDown'?day-1:k==='Home'?0:k==='End'?cs.length-1:k==='PageUp'?day+7:k==='PageDown'?day-7:null;if(n===null)return;e.preventDefault();at(Math.max(0,Math.min(cs.length-1,n)))})}
 var views=f.querySelector('.kq-pt-views'),pt=f.querySelector('.kq-pt');
-function steady(){views.style.minHeight='';var cv=pt.style.contentVisibility;pt.style.contentVisibility='visible';var v1=el('kq-pt-v1').checked,ch=f.querySelector('[name=kq-pt-ch]:checked'),pr=f.querySelector('[name=kq-pt-per]:checked'),ar=f.querySelector('[name=kq-pt-av]:checked'),c0=cur,m=0;
+var held=0,wide=window.matchMedia?window.matchMedia('(min-width: 1101px)'):{matches:true},lastW=0;
+// on a wide screen, hold the figure at its tallest state unless what shows is much shorter (then it is as tall as itself)
+function fit(){if(!held){views.style.minHeight='';return}views.style.minHeight='';views.style.minHeight=views.offsetHeight>=held-300?held+'px':''}
+function steady(){lastW=window.innerWidth;held=0;views.style.minHeight='';if(!wide.matches)return;var cv=pt.style.contentVisibility;pt.style.contentVisibility='visible';var v1=el('kq-pt-v1').checked,ch=f.querySelector('[name=kq-pt-ch]:checked'),pr=f.querySelector('[name=kq-pt-per]:checked'),ar=f.querySelector('[name=kq-pt-av]:checked'),c0=cur,m=0;
 function h(){m=Math.max(m,views.offsetHeight)}el('kq-pt-v1').checked=true;el('kq-pt-pq').checked=true;h();el('kq-pt-pm').checked=true;h();el('kq-pt-v2').checked=true;el('kq-pt-c-amazon').checked=true;
 panes.forEach(function(p,i){panes.forEach(function(q,j){q.classList.toggle('on',i===j)});h();if(keys[i]==='advertising')['k','p','c'].forEach(function(x){el('kq-pt-av-'+x).checked=true;h()})});
 ['walmart','target-plus'].forEach(function(c){el('kq-pt-c-'+c).checked=true;h()});
-el(v1?'kq-pt-v1':'kq-pt-v2').checked=true;ch.checked=true;pr.checked=true;ar.checked=true;panes.forEach(function(q,j){q.classList.toggle('on',j===c0)});pt.style.contentVisibility=cv;views.style.minHeight=m+'px'}
-var rt;window.addEventListener('resize',function(){box.style.minHeight='';clearTimeout(rt);rt=setTimeout(steady,150)});window.addEventListener('load',steady);
+el(v1?'kq-pt-v1':'kq-pt-v2').checked=true;ch.checked=true;pr.checked=true;ar.checked=true;panes.forEach(function(q,j){q.classList.toggle('on',j===c0)});pt.style.contentVisibility=cv;held=m;fit()}
+var rt;window.addEventListener('resize',function(){if(window.innerWidth===lastW)return;box.style.minHeight='';clearTimeout(rt);rt=setTimeout(steady,150)});window.addEventListener('load',steady);
 all('button[disabled],input[disabled]').forEach(function(b){b.disabled=false});f.className+=' is-live';steady();
 if(go(location.hash))window.addEventListener('load',function(){var s=document.getElementById('portal')||f;if(s.scrollIntoView)s.scrollIntoView()})})();`;
 
@@ -710,7 +746,7 @@ export const PORTAL_CSS = String.raw`/* the client portal example, in the portal
 .kq-pt-grp{margin:14px 10px 4px!important;font-size:12px;color:var(--muted)}
 .kq-pt-nv{display:flex;align-items:center;gap:10px;height:31px;padding:0 10px;border-radius:8px;color:var(--muted);white-space:nowrap}
 .kq-pt-nv svg{flex:none;color:#6B7378}
-.kq-pt-nv.sub{height:28px;padding-left:36px}
+.kq-pt-nv.sub{height:28px;padding-left:22px}
 .kq-pt-nv.n1{background:#E1E7EA;color:#262524}
 .kq-pt-usr{margin-top:auto!important;display:flex;align-items:center;gap:10px;padding:12px 10px 0}
 .kq-pt-usr i{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:500;background:#102A4C;color:#F8F6F1}
