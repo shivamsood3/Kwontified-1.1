@@ -5,7 +5,7 @@
     "patterns: whole old sections, checked after every exact path. source uses Next.js path syntax (:slug for one segment, :slug+ for one or more).",
     "domains: other domains that point at this deployment and should send visitors to kwontified.com, same path (e.g. \"kwontified.net\"). Each must also be added to the Vercel project; a domain set up in Vercel as a redirect domain needs no entry here.",
     "The build fails if a value is not a route, if a key is already a live page, if one key has two values, or if redirects loop.",
-    "OWNER TODO (F062): add every URL from the live-site export (old sitemap.xml, Search Console Pages and Performance for 16 months, GA4 landing pages, Squarespace URL mappings, backlinks) to paths, then run: node scripts/check-redirects.mjs <base-url> <file with one URL per line>"
+    "Live-site export status (2026-11-27): Squarespace domains received from the owner. The 25 active domains that forward to kwontified.com (amazonads.co, amazonadvertising.co, amazongrowth.co, amazongrowth.solutions, amazoninternational.co, amazonmarketing.co, amazonpricing.co, amazonreviews.co, amazonsalesgrowth.com, amazonseller.co, amazonseller.reviews, amazonsellerhelp.co, amazonsupport.co, amazonvendor.co, amazonvendor.reviews, amazonvendorcentral.co, amazonvendorhelp.co, amazonvendorhelp.com, kwontified.co.uk, kwontified.io, kwontified.jp, kwontified.mx, kwontified.net, kwontified.org, kwontisoft.com; kwontified.co has expired) forward at Squarespace to the home page and keep working when kwontified.com moves to Vercel, so they need no entry in domains. Old page paths from Search Console or GA4 landing pages can still be added to paths; then run: node scripts/check-redirects.mjs <base-url> <file with one URL per line>"
   ],
   "paths": {
     "/services/amazon": "/channels/amazon",
@@ -18,13 +18,45 @@
     "/careers": "/about/careers",
     "/services": "/capabilities",
     "/what-we-do": "/capabilities",
-    "/solutions": "/capabilities"
+    "/solutions": "/capabilities",
+    "/blog": "/perspectives",
+    "/about-us": "/about",
+    "/contact-us": "/contact",
+    "/team": "/about/leadership",
+    "/our-team": "/about/leadership",
+    "/case-studies": "/work",
+    "/privacy-policy": "/privacy",
+    "/terms-of-service": "/terms",
+    "/terms-and-conditions": "/terms",
+    "/home": "/",
+    "/news": "/perspectives/news",
+    "/press": "/perspectives/press-releases"
   },
   "patterns": [
-    { "source": "/services/:slug+", "destination": "/channels" },
-    { "source": "/what-we-do/:slug+", "destination": "/channels" },
-    { "source": "/solutions/:slug+", "destination": "/capabilities" },
-    { "source": "/careers/:slug+", "destination": "/about/careers" }
+    {
+      "source": "/services/:slug+",
+      "destination": "/channels"
+    },
+    {
+      "source": "/what-we-do/:slug+",
+      "destination": "/channels"
+    },
+    {
+      "source": "/solutions/:slug+",
+      "destination": "/capabilities"
+    },
+    {
+      "source": "/careers/:slug+",
+      "destination": "/about/careers"
+    },
+    {
+      "source": "/blog/:slug+",
+      "destination": "/perspectives"
+    },
+    {
+      "source": "/news/:slug+",
+      "destination": "/perspectives/news"
+    }
   ],
   "domains": []
 }

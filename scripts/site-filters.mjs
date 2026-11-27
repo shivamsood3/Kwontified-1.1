@@ -266,7 +266,7 @@ fs.writeFileSync(WORK, w);
 //                 that repeats the sleep brand piece, and its alt text describes suitcases. TODO
 //                 (owner): supply the real luggage main-image set; the owner asked to be consulted
 //                 before anything is deleted.
-const HIDDEN_PIECES = ["1293ca5e0d10"];
+const HIDDEN_PIECES = ["1293ca5e0d10"]; // owner decision 2026-11-27: no replacement set will be supplied; kept out of the gallery
 // Every piece the gallery shows, by picture file, with the caption title and kind it was reviewed
 // with (QA 2026-11-27). The build stops if a picture, its title or its kind changes without this
 // list changing too, so a caption cannot drift away from its picture.
