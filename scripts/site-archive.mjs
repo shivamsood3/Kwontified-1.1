@@ -145,7 +145,7 @@ const HUBS = [
     desc: "Every Kwontified news item on marketplace and retail media changes, newest first, grouped by year." },
   { route: "/perspectives/press-releases", name: "Press releases", title: "Press releases and announcements", h1: "Press releases", items: all.filter((x) => x.kind === "Press release"), by: "year",
     intro: "Company announcements from Kwontified, newest first. Press inquiries: <a href=\"mailto:press@kwontified.com\">press@kwontified.com</a>.",
-    desc: "Company announcements from Kwontified, newest first." },
+    desc: "Every Kwontified press release and company announcement, newest first, grouped by year. Press inquiries: press@kwontified.com." },
   ...years.map((y) => ({ route: `/perspectives/${y}`, name: y, title: `Perspectives from ${y}: articles, news and releases`, h1: `Perspectives from ${y}`, items: all.filter((x) => x.date.startsWith(y)), by: "month",
     intro: `Everything we published in ${y}: articles, news and press releases, newest first.`,
     desc: `Kwontified articles, news and press releases published in ${y}, newest first, grouped by month.` })),
