@@ -17,7 +17,8 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
   7. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
   8. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
   9. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
-  10. `next build`.
+  10. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
+  11. `next build`.
   The full build takes about a minute; most of it is step 6 making the WebP copies.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
@@ -68,6 +69,23 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Value name: "We Raise the Bar Together" (recommended to Jordan; the original export had a dash).
 - Search descriptions: 15 case studies get their own (146 to 158 characters, `CASE_DESC` in `site-fixes.mjs`; the build fails on any over 160); the two renamed press releases get full descriptions (`site-content.mjs`); the 404 page has one (`build-site.mjs` and `app/not-found.tsx`).
 - Security headers on every response: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin` (`next.config.ts`).
+
+## UX effects (added 2026-11-27, `scripts/site-effects.mjs`)
+
+Jordan approved ten enhancements after a review of what the site already did. The inner pages' motion came with the export; this step fills gaps with the same timings and easing, and all movement is off under reduced motion.
+
+1. Home page motion. The home page is a separate export and had none of the inner pages' motion. It now has the headline reveal, the hero text rising in, sections rising in on scroll, a count-up on the three results and the page cross-fade. The home page also lacked the timing tokens (`--ease-out`, `--t-ui`) its own FAQ rules refer to, so its FAQ now opens and closes smoothly like the others. The reveal marks are removed from each block once shown, so buttons keep their own hover transitions.
+2. Hover feedback on links that had none: FAQ questions, footer social icons and legal links, breadcrumbs, text links with an inline colour, the case finder and gallery filter buttons. The rules match on the export's inline styles; classed links (buttons, cards) keep the export's own transitions.
+3. Faster page changes. Speculation rules fetch a same-site page when the pointer rests on its link (Chrome, Edge). It is fetch only, not prerender, so the next page's scripts, video and tags do not run until the visitor goes there. Firefox gets a prefetch link and Safari a plain request from the shared script. `/api/*` and `/subscribe` are excluded.
+4. Form feedback. The button reads "Sending…" or "Subscribing…" while the request runs and is restored on failure and on Back. A field with an error is outlined and explains itself below (contact) or under the form (newsletter); the browser's own bubble is suppressed for these two forms only.
+5. "Skip to main content" link, first in the tab order; `<main>` now has `id="main" tabindex="-1"`.
+6. Back-to-top button on pages longer than three screens, after two screens of scrolling. At 1200px and wider it stays (it sits in the page margin). Narrower, it shows when the visitor scrolls back up or reaches the end, so it never covers text being read. It lifts above the footer's legal row and hides while the phone menu is open.
+7. Reading progress line (gold, 3px, bottom edge of the header) on the 1,018 articles, news items and press releases.
+8. Phones: "Request a review" stays in the header while scrolling, as it already did on tablets and desktop. The wordmark shortens to the K to make room (the logo link keeps its 44px touch target). At the top of a page the full wordmark shows as before. Fits a 320px screen.
+9. Tap highlight in the brand colours (navy tint on light, gold tint on navy) and a press state on the home page buttons.
+10. A 280ms fade when a filter, search or pager changes a list (Work, Perspectives, creative gallery, Channels, home case finder). It runs only after a real interaction, not when the Perspectives archive finishes loading.
+
+Not done on purpose: parallax, scroll-jacking, auto-rotating carousels, custom cursors, loading screens, pop-ups.
 
 ## Whole-card links (checked and completed 2026-11-27)
 

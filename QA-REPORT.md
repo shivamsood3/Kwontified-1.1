@@ -123,10 +123,47 @@ Patch scores (rubric: correctness, completeness, accuracy against sources, consi
 | Security headers | 100 | Served on pages and assets |
 | Home logos | 99 | 30 of 30 load; visual match; performance 94 to 98–99 |
 
+## UX effects (2026-11-27)
+
+Ten enhancements added by `scripts/site-effects.mjs` (list and reasoning in `HANDOVER.md`). Tested in Chromium at 1440, 1100, 390, 360 and 320px wide, with and without reduced motion.
+
+Lighthouse, mobile, after the change:
+
+| Page | Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|
+| Home | 97–99 | 100 | 100 | 100 | 2.1–2.3 s | 10–100 ms | 0 |
+| Perspectives index | 97–98 | 100 | 100 | 100 | 2.4–2.5 s | 0–20 ms | 0 |
+| Creative gallery | 99 | 100 | 100 | 100 | 2.3 s | 0 ms | 0 |
+| Case study | 99 | 100 | 100 | 100 | 2.0 s | 0 ms | 0 |
+| Contact | 99 | 100 | 100 | 100 | 2.0 s | 0 ms | 0 |
+| Why Kwontified | 99 | 100 | 100 | 100 | 2.2 s | 0 ms | 0 |
+| Capabilities | 99 | 100 | 100 | 100 | 2.3 s | 10 ms | 0 |
+| Amazon | 99 | 100 | 100 | 100 | 2.0 s | 20 ms | 0 |
+| International | 99 | 100 | 100 | 100 | 2.1 s | 30 ms | 0 |
+| Article | 99 | 100 | 100 | 100 | 2.0 s | 20 ms | 0 |
+| About | 99 | 100 | 100 | 100 | 2.2 s | 0 ms | 0 |
+
+The Perspectives index measured 98, 98 with the effects removed and 98, 98 with them in back-to-back runs, so the 97 readings are run-to-run variation. The shared script is 8.1 KB, deferred and cached for a year.
+
+| Effect | Score | Evidence |
+|---|---|---|
+| 1 Home page motion | 99 | 75 blocks reveal and none stays hidden after a full scroll; results count to +64%, 6.8x, $781K and screen readers get the final figure throughout; CLS 0; off under reduced motion |
+| 2 Hover feedback | 99 | Hover audit on 17 page types: every link and button changes on hover except the current-page link, form labels, native selects and disabled pager buttons; card and button transitions from the export unchanged |
+| 3 Faster page changes | 98 | Chrome prefetches on hover (request seen with `Sec-Purpose: prefetch`); Firefox and Safari fallbacks exercised by simulation only, not in those browsers |
+| 4 Form feedback | 99 | Empty, mistyped, corrected, sending, failed and Back-button cases pass on contact and newsletter, desktop and phone |
+| 5 Skip link | 100 | First tab stop; Enter moves focus to main; next Tab lands in the page content |
+| 6 Back to top | 99 | Correct at 390, 1100 and 1440px; hidden on short pages and while the phone menu is open; keyboard use returns focus to the logo |
+| 7 Reading progress | 99 | 0, 30, 60 and 100% of the article body map to the same share of the line |
+| 8 Phone header button | 99 | Fits at 320, 360 and 390px with no sideways scroll; header 64–66px tall while scrolling (the home header was 90px) |
+| 9 Tap feedback | 98 | Highlight colours and the pressed states of cards, FAQ questions and buttons confirmed under phone emulation; not seen on a physical phone |
+| 10 List fade | 99 | Fires on search, filters and pagers on five pages; does not fire when the archive loads or on scroll reveals |
+
+All 1,083 routes return 200, the redirects and 404 page work, and build, type check and lint pass.
+
 ## Copy pass (2026-11-26)
 
 All copy scored, refined and rescored; details in `COPY-PASS.md`. Built core pages: 66, none with a strong AI-writing tell (the two press-release datelines keep their dash). Archive: 1,013 items, none with a strong tell after 66 edits in 34 articles. All 1,083 routes return 200 after the changes.
 
 ## Not checked
 
-- Field Core Web Vitals (no live traffic yet), geo-optimizer score (see above), live status of external links, the client portal behind sign-in, form submission end to end (covered in `FORMS-SETUP.md`), and how the site renders in Safari and Firefox (Chromium only).
+- Field Core Web Vitals (no live traffic yet), geo-optimizer score (see above), live status of external links, the client portal behind sign-in, form submission end to end (covered in `FORMS-SETUP.md`), and how the site renders in Safari and Firefox (Chromium only; this includes the Safari and Firefox prefetch fallbacks and the tap highlight on a physical phone).
