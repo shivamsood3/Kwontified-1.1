@@ -19,8 +19,13 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 13 | What results have you delivered on Target Plus? | Target Plus (first entry) | Live 2026-11-27 |
 | 14 | What results have you delivered on Zalando? | Zalando (first entry) | Live 2026-11-27; fix 2 done: duplicate "Can we use our own fulfillment on Zalando?" removed |
 | 15 | What results have you delivered on Temu? | Temu (first entry) | Live 2026-11-27 |
-| 16–20 | Results on TikTok Shop, Instagram, Mercado Libre, brand programs, agentic commerce | | Sent for approval (batch 4) |
-| 21–33, fix 1 | See the workbook | | Not yet sent |
+| 16 | What results have you delivered on TikTok Shop? | TikTok Shop (first entry) | Live 2026-11-27 |
+| 17 | What results have you delivered on Instagram? | Instagram Shop (first entry) | Live 2026-11-27 |
+| 18 | What results have you delivered on Mercado Libre? | Mercado Libre (first entry) | Live 2026-11-27 |
+| 19 | What results have brand programs delivered? | Amazon brand programs (first entry) | Live 2026-11-27 |
+| 20 | What results have you delivered in agentic commerce? | Agentic Commerce (first entry) | Live 2026-11-27 |
+| 21–25 | Results for Creative Studio, Marketplace Operations, Analytics; recovery fees; recovery on Walmart or Target | | Sent for approval (batch 5) |
+| 26–33, fix 1 | See the workbook | | Not yet sent |
 
 Notes
 - Results questions on channel pages go first and open by default, with a "See the case studies" link, as on the Amazon page.
