@@ -91,6 +91,38 @@ Medium:
 - **26 template images without width and height attributes:** no measured layout shift (CLS 0), so no action needed.
 - **Audit storage:** rows were not added to `seo_geo_ops` because this was a pre-launch local audit; the first live-site audit should be the baseline.
 
+## Final QA (2026-11-27)
+
+Build, `npx tsc --noEmit` and `npm run lint` pass. Served with `next start`: all 1,083 routes return 200; all 19 redirects (including the renamed sleep-brand case study and `/subscribe`) land on 200 pages; sitemap (1,080 URLs), robots.txt and llms.txt serve. Across 1,084 built pages: no broken internal links, no invalid JSON-LD, and every FAQ's visible questions match its FAQPage data. No strong AI-writing tells on any core page. Every article, news and press listing tested opens its item from picture, title, summary or date line; every linked gallery piece opens its case study.
+
+Lighthouse 13.6.0, mobile, lab data:
+
+| Page | Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|
+| Home (three runs) | 98–99 | 100 | 100 | 100 | 2.1–2.3 s | 0 ms | 0 |
+| Perspectives index | 98 | 100 | 100 | 100 | 2.5 s | 20 ms | 0 |
+| Creative gallery | 98 | 100 | 100 | 100 | 2.3 s | 0 ms | 0 |
+| Case study (sleep brand) | 99 | 100 | 100 | 100 | 2.0 s | 0 ms | 0 |
+| Contact | 99 | 100 | 100 | 100 | 2.0 s | 30 ms | 0 |
+| Why Kwontified | 99 | 100 | 100 | 100 | 2.2 s | 0 ms | 0 |
+| Capabilities | 99 | 100 | 100 | 100 | 2.3 s | 20 ms | 0 |
+| Amazon | 99 | 100 | 100 | 100 | 2.1 s | 10 ms | 0 |
+| International | 99 | 100 | 100 | 100 | 2.1 s | 10 ms | 0 |
+| Article | 99 | 100 | 100 | 100 | 2.0 s | 0 ms | 0 |
+
+Home page: the 30 client and press logos were inline SVG (373 KB of the 545 KB page). `scripts/site-logos.mjs` moves each to its own file with the list colour written in, lazy-loaded, brand name as alt text; the page is now 165 KB and Lighthouse performance went from 94 to 98–99. Screenshots before and after at 2x match in position (zero offset); the only pixel differences are anti-aliasing at logo edges.
+
+Patch scores (rubric: correctness, completeness, accuracy against sources, consistency with the rest of the site, regression safety):
+
+| Patch | Score | Evidence |
+|---|---|---|
+| Alexa for Shopping | 99 | No current-tense "Rufus" left; history kept; old case address redirects (308) |
+| Creative gallery | 99 | 2 captions corrected against their images; 10 links resolve by keyword, build fails if one cannot |
+| Value name | 99 | Matches the other seven value names; one-line change if Jordan prefers the original dash |
+| Search descriptions | 99 | 18 pages now 141–158 characters; meta, Open Graph and JSON-LD agree; build fails above 160 |
+| Security headers | 100 | Served on pages and assets |
+| Home logos | 99 | 30 of 30 load; visual match; performance 94 to 98–99 |
+
 ## Copy pass (2026-11-26)
 
 All copy scored, refined and rescored; details in `COPY-PASS.md`. Built core pages: 66, none with a strong AI-writing tell (the two press-release datelines keep their dash). Archive: 1,013 items, none with a strong tell after 66 edits in 34 articles. All 1,083 routes return 200 after the changes.
