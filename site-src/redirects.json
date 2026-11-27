@@ -1,0 +1,30 @@
+{
+  "_about": [
+    "Permanent (308) redirects from addresses of the live kwontified.com (the site this one replaces) to their pages on this site. next.config.ts reads this file.",
+    "paths: one old address -> one page here. Keys may be a path (/services/amazon) or a full URL (https://kwontified.com/services/amazon); the host, query string, trailing slash and letter case are ignored. Values are a route of this site (an anchor such as /perspectives#newsletter-email is allowed) or a full https:// URL.",
+    "patterns: whole old sections, checked after every exact path. source uses Next.js path syntax (:slug for one segment, :slug+ for one or more).",
+    "domains: other domains that point at this deployment and should send visitors to kwontified.com, same path (e.g. \"kwontified.net\"). Each must also be added to the Vercel project; a domain set up in Vercel as a redirect domain needs no entry here.",
+    "The build fails if a value is not a route, if a key is already a live page, if one key has two values, or if redirects loop.",
+    "OWNER TODO (F062): add every URL from the live-site export (old sitemap.xml, Search Console Pages and Performance for 16 months, GA4 landing pages, Squarespace URL mappings, backlinks) to paths, then run: node scripts/check-redirects.mjs <base-url> <file with one URL per line>"
+  ],
+  "paths": {
+    "/services/amazon": "/channels/amazon",
+    "/what-we-do/walmart-services": "/channels/walmart",
+    "/services/target": "/channels/target-plus",
+    "/services/temu": "/channels/temu",
+    "/services/mercado-libre": "/channels/mercado-libre",
+    "/solutions/marketplace-management": "/capabilities/marketplace-operations",
+    "/solutions/ai-shopping": "/capabilities/agentic-commerce",
+    "/careers": "/about/careers",
+    "/services": "/capabilities",
+    "/what-we-do": "/capabilities",
+    "/solutions": "/capabilities"
+  },
+  "patterns": [
+    { "source": "/services/:slug+", "destination": "/channels" },
+    { "source": "/what-we-do/:slug+", "destination": "/channels" },
+    { "source": "/solutions/:slug+", "destination": "/capabilities" },
+    { "source": "/careers/:slug+", "destination": "/about/careers" }
+  ],
+  "domains": []
+}
