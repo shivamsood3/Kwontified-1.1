@@ -63,6 +63,8 @@ const EVEN = `<style data-kq-logos>@media (max-width:760px){
 div.kq-ab-logowrap.kq-logos>ul{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 14px!important}
 div.kq-ab-logowrap.kq-logos>ul>li{min-width:0;min-height:48px!important;flex:none!important}
 div.kq-ab-logowrap.kq-logos>ul>li>img{max-width:100%!important;max-height:none!important;height:auto!important}
+/* press wordmarks are wide: two to a row on phones so the widest (WSJ, LA Times) stay legible (QA visual-14) */
+div.kq-ab-logowrap.kq-logos>ul[aria-label^="Publications"]{grid-template-columns:repeat(2,minmax(0,1fr))}
 }</style>`;
 const MARKS = { "<!--kq-logos:clients-->": "Selected clients", "<!--kq-logos:press-->": "Publications that have featured Kwontified" };
 let placed = 0;
