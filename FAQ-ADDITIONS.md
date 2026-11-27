@@ -37,9 +37,9 @@ Source: `kwontified-faq-additions.xlsx` in Jordan's Google Drive (33 new questio
 | 31 | How do you train new hires? | Careers | Omitted by Jordan 2026-11-27 |
 | 32 | What is the hiring process, and what benefits do you offer? | Careers | Omitted by Jordan 2026-11-27 |
 | 33 | How do I subscribe to the newsletter, and how often does it arrive? | Perspectives | Omitted by Jordan 2026-11-27 |
-| Fix 1 | Fee answers differ on Why Kwontified and Capabilities | Why Kwontified | Awaiting Jordan's decision |
+| Fix 1 | Fee answers differ on Why Kwontified and Capabilities | Why Kwontified | Done 2026-11-27: Why Kwontified uses the Capabilities answer |
 
-Totals: 24 questions live, 9 omitted; fix 2 done (Zalando duplicate removed), fix 1 awaiting a decision.
+Totals: 24 questions live, 9 omitted; both fixes done (Zalando duplicate removed; Why Kwontified fee answer matches Capabilities).
 
 Notes
 - Results questions on channel pages go first and open by default, with a "See the case studies" link, as on the Amazon page.
