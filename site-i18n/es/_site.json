@@ -446,6 +446,61 @@
    "k": "6d234a17fe",
    "src": "Press release",
    "t": "Comunicado de prensa"
+  },
+  {
+   "k": "97f6a406e5",
+   "src": "Remove filter",
+   "t": "Quitar filtro"
+  },
+  {
+   "k": "82478a0a5e",
+   "src": "Searching the full archive…",
+   "t": "Buscando en todo el archivo…"
+  },
+  {
+   "k": "37a5301a88",
+   "src": "result",
+   "t": "resultado"
+  },
+  {
+   "k": "cdf7e925f5",
+   "src": "results",
+   "t": "resultados"
+  },
+  {
+   "k": "701b13ec1c",
+   "src": "No results. Try fewer filters or a different keyword.",
+   "t": "Sin resultados. Pruebe con menos filtros o con otra palabra clave."
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "Tema"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "Canal"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "Autor"
+  },
+  {
+   "k": "eb9a4bc1c0",
+   "src": "Date",
+   "t": "Fecha"
+  },
+  {
+   "k": "56cf601c5c",
+   "src": "{n} result",
+   "t": "{n} resultado"
+  },
+  {
+   "k": "b210019daa",
+   "src": "{n} results",
+   "t": "{n} resultados"
   }
  ]
 }

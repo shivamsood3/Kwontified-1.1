@@ -33,9 +33,9 @@
    "t": "<1>Inicio</1> / <2>Perspectives</2> / <3>Temporada navideña 2026</3>"
   },
   {
-   "k": "b515f16237",
-   "src": "Article. Event playbooks. All channels",
-   "t": "Artículo. Guías de eventos. Todos los canales"
+   "k": "9793081232",
+   "src": "<1>Article</1>. <2>Event playbooks</2>. All channels",
+   "t": "<1>Artículo</1>. <2>Guías de eventos</2>. Todos los canales"
   },
   {
    "k": "dfe890b074",
@@ -43,9 +43,9 @@
    "t": "Temporada navideña 2026: ahora empieza en octubre"
   },
   {
-   "k": "74fd1f4ea0",
-   "src": "By <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Published Nov 5, 2026.",
-   "t": "Por <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Publicado el 5 de noviembre de 2026."
+   "k": "f70e5cca95",
+   "src": "By <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Published Nov 5, 2026. 4-minute read.",
+   "t": "Por <1>Elaine Kwon</1>, Co-Founder and Managing Partner. Publicado el 5 de noviembre de 2026. Lectura de 4 minutos."
   },
   {
    "k": "6d788cc730",
@@ -186,6 +186,21 @@
    "k": "65361a21e8",
    "src": "What Prime Big Deal Days 2026 actually added for brands",
    "t": "Lo que Prime Big Deal Days 2026 realmente aportó a las marcas"
+  },
+  {
+   "k": "4e067a0449",
+   "src": "More articles",
+   "t": "Más artículos"
+  },
+  {
+   "k": "d0e1749a55",
+   "src": "<1>Previous article</1><2><3/>What Prime Big Deal Days 2026 actually added for brands</2>",
+   "t": "<1>Artículo anterior</1><2><3/>Lo que Prime Big Deal Days 2026 realmente aportó a las marcas</2>"
+  },
+  {
+   "k": "91570fb542",
+   "src": "All articles",
+   "t": "Todos los artículos"
   },
   {
    "k": "3f03ad6c8e",

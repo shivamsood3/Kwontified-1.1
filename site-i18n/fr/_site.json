@@ -1,0 +1,506 @@
+{
+ "lang": "fr",
+ "about": "Text every page shares: header, menus, footer, search, cookie notice.",
+ "segments": [
+  {
+   "k": "be504f616f",
+   "src": "Skip to main content",
+   "t": "Aller au contenu principal"
+  },
+  {
+   "k": "a9a96ec019",
+   "src": "Primary",
+   "t": "Principale"
+  },
+  {
+   "k": "c454a868b8",
+   "src": "Kwontified home",
+   "t": "Accueil Kwontified"
+  },
+  {
+   "k": "ca09c54bff",
+   "src": "Capabilities",
+   "t": "Expertises"
+  },
+  {
+   "k": "747e2c0ce9",
+   "src": "Capabilities: show pages",
+   "t": "Expertises : afficher les pages"
+  },
+  {
+   "k": "cd2556b7f4",
+   "src": "Retail Media and Advertising",
+   "t": "Retail media et publicité"
+  },
+  {
+   "k": "745a9e9f8c",
+   "src": "Creative Studio",
+   "t": "Studio créatif"
+  },
+  {
+   "k": "3b59c7186b",
+   "src": "Marketplace Operations",
+   "t": "Opérations marketplace"
+  },
+  {
+   "k": "e46d7997f3",
+   "src": "Analytics and Forecasting",
+   "t": "Analyse et prévisions"
+  },
+  {
+   "k": "3532e859e4",
+   "src": "Agentic Commerce",
+   "t": "Commerce agentique"
+  },
+  {
+   "k": "26b5aa7a7a",
+   "src": "Revenue Recovery",
+   "t": "Récupération de revenus"
+  },
+  {
+   "k": "f69c71b523",
+   "src": "All capabilities <1/>",
+   "t": "Toutes les expertises <1/>"
+  },
+  {
+   "k": "18e03e2a37",
+   "src": "Channels",
+   "t": "Canaux"
+  },
+  {
+   "k": "3da8b1119b",
+   "src": "Channels: show pages",
+   "t": "Canaux : afficher les pages"
+  },
+  {
+   "k": "c16254309d",
+   "src": "Amazon brand programs",
+   "t": "Programmes de marque Amazon"
+  },
+  {
+   "k": "bc440f645c",
+   "src": "International",
+   "t": "International"
+  },
+  {
+   "k": "c275df4e71",
+   "src": "All channels <1/>",
+   "t": "Tous les canaux <1/>"
+  },
+  {
+   "k": "00040bab8a",
+   "src": "Work",
+   "t": "Réalisations"
+  },
+  {
+   "k": "a1955cfdb3",
+   "src": "Work: show pages",
+   "t": "Réalisations : afficher les pages"
+  },
+  {
+   "k": "2bdc7788ce",
+   "src": "Case studies",
+   "t": "Études de cas"
+  },
+  {
+   "k": "41771bfa85",
+   "src": "Creative gallery",
+   "t": "Galerie créative"
+  },
+  {
+   "k": "d3d70c6ee9",
+   "src": "Why Kwontified",
+   "t": "Pourquoi Kwontified"
+  },
+  {
+   "k": "42e3b2e953",
+   "src": "Perspectives",
+   "t": "Perspectives"
+  },
+  {
+   "k": "6b21fb791a",
+   "src": "About",
+   "t": "À propos"
+  },
+  {
+   "k": "bc51eacfd7",
+   "src": "About: show pages",
+   "t": "À propos : afficher les pages"
+  },
+  {
+   "k": "a681196cbe",
+   "src": "About Kwontified",
+   "t": "À propos de Kwontified"
+  },
+  {
+   "k": "f5427e8f6f",
+   "src": "Leadership",
+   "t": "Direction"
+  },
+  {
+   "k": "68d70e596c",
+   "src": "Careers",
+   "t": "Carrières"
+  },
+  {
+   "k": "5bbcc92e55",
+   "src": "Search the site",
+   "t": "Rechercher sur le site"
+  },
+  {
+   "k": "a81aecaaaa",
+   "src": "<1/>Search",
+   "t": "<1/>Rechercher"
+  },
+  {
+   "k": "ecc722051b",
+   "src": "Client sign-in",
+   "t": "Espace client"
+  },
+  {
+   "k": "7ccfb0e5c2",
+   "src": "Request a review",
+   "t": "Demander une analyse"
+  },
+  {
+   "k": "57f5f5efbc",
+   "src": "Menu",
+   "t": "Menu"
+  },
+  {
+   "k": "a866fadf4d",
+   "src": "Get our marketplace briefing once a month.",
+   "t": "Recevez notre briefing sur les marketplaces une fois par mois."
+  },
+  {
+   "k": "b60eea94e7",
+   "src": "The marketplace changes that matter, what they mean for your brand and our latest guides. Unsubscribe in one click.",
+   "t": "Les évolutions des marketplaces qui comptent, ce qu’elles impliquent pour votre marque et nos derniers guides. Désabonnement en un clic."
+  },
+  {
+   "k": "43205764a6",
+   "src": "Work email",
+   "t": "E-mail professionnel"
+  },
+  {
+   "k": "d6981f7476",
+   "src": "Subscribe",
+   "t": "S’abonner"
+  },
+  {
+   "k": "6d2a02a560",
+   "src": "Follow Kwontified",
+   "t": "Suivre Kwontified"
+  },
+  {
+   "k": "0322c17784",
+   "src": "Kwontified on LinkedIn",
+   "t": "Kwontified sur LinkedIn"
+  },
+  {
+   "k": "9f0e415b54",
+   "src": "Kwontified on Substack",
+   "t": "Kwontified sur Substack"
+  },
+  {
+   "k": "9590d9132e",
+   "src": "Kwontified on YouTube",
+   "t": "Kwontified sur YouTube"
+  },
+  {
+   "k": "940bc7514c",
+   "src": "Kwontified on Instagram",
+   "t": "Kwontified sur Instagram"
+  },
+  {
+   "k": "1cad30080a",
+   "src": "Kwontified on X",
+   "t": "Kwontified sur X"
+  },
+  {
+   "k": "e5aad7f741",
+   "src": "Kwontified on Threads",
+   "t": "Kwontified sur Threads"
+  },
+  {
+   "k": "943e004124",
+   "src": "Kwontified on Bluesky",
+   "t": "Kwontified sur Bluesky"
+  },
+  {
+   "k": "a22a755c51",
+   "src": "Kwontified on Facebook",
+   "t": "Kwontified sur Facebook"
+  },
+  {
+   "k": "15ff4b492e",
+   "src": "Kwontified on TikTok",
+   "t": "Kwontified sur TikTok"
+  },
+  {
+   "k": "7a1994999d",
+   "src": "Company",
+   "t": "Entreprise"
+  },
+  {
+   "k": "b37456c453",
+   "src": "Contact",
+   "t": "Contact"
+  },
+  {
+   "k": "559f5fabcd",
+   "src": "Offices",
+   "t": "Bureaux"
+  },
+  {
+   "k": "61ed7388ca",
+   "src": "<1>Atlanta (headquarters)</1><2/>7000 Central Parkway, Suite 1100<3/>Atlanta, GA 30328",
+   "t": "<1>Atlanta (siège)</1><2/>7000 Central Parkway, Suite 1100<3/>Atlanta, GA 30328"
+  },
+  {
+   "k": "e16838adef",
+   "src": "<1>New York</1><2/>175 Greenwich Street, 38th Floor<3/>New York, NY 10007",
+   "t": "<1>New York</1><2/>175 Greenwich Street, 38th Floor<3/>New York, NY 10007"
+  },
+  {
+   "k": "842b149b4f",
+   "src": "<1>Seattle</1><2/>1201 Third Avenue, Suite 2200<3/>Seattle, WA 98101",
+   "t": "<1>Seattle</1><2/>1201 Third Avenue, Suite 2200<3/>Seattle, WA 98101"
+  },
+  {
+   "k": "fb146d8c72",
+   "src": "© 2026 Kwontified LLC",
+   "t": "© 2026 Kwontified LLC"
+  },
+  {
+   "k": "cf01481f62",
+   "src": "Privacy",
+   "t": "Confidentialité"
+  },
+  {
+   "k": "a55a275aa6",
+   "src": "Terms",
+   "t": "Conditions d’utilisation"
+  },
+  {
+   "k": "d660049bc1",
+   "src": "Accessibility",
+   "t": "Accessibilité"
+  },
+  {
+   "k": "e7d3061b5e",
+   "src": "Cookie preferences",
+   "t": "Préférences cookies"
+  },
+  {
+   "k": "3ddf90fd31",
+   "src": "Cookie choices",
+   "t": "Choix des cookies"
+  },
+  {
+   "k": "99f823777f",
+   "src": "Cookies on this site",
+   "t": "Cookies sur ce site"
+  },
+  {
+   "k": "0f5b084c48",
+   "src": "We use necessary cookies to run the site. With your permission, we also use analytics cookies to see how the site is used and advertising cookies to measure and show our ads. Read our <1>Privacy Policy</1>.",
+   "t": "Nous utilisons des cookies nécessaires au fonctionnement du site. Avec votre accord, nous utilisons aussi des cookies de mesure d’audience pour voir comment le site est utilisé, et des cookies publicitaires pour mesurer et diffuser nos publicités. Consultez notre <1>Politique de confidentialité</1>."
+  },
+  {
+   "k": "2796e71f48",
+   "src": "Cookie types",
+   "t": "Types de cookies"
+  },
+  {
+   "k": "af2165189c",
+   "src": "<1>Necessary</1><2>Keep the site and client portal secure and working. Always on.</2>",
+   "t": "<1>Nécessaires</1><2>Assurent la sécurité et le fonctionnement du site et du portail client. Toujours actifs.</2>"
+  },
+  {
+   "k": "b5d0ec0b4d",
+   "src": "<1>Functional</1><2>Remember preferences such as filters and display settings.</2>",
+   "t": "<1>Fonctionnels</1><2>Mémorisent des préférences telles que les filtres et les paramètres d’affichage.</2>"
+  },
+  {
+   "k": "da3b44a99b",
+   "src": "<1>Analytics</1><2>Measure visits and pages viewed, using Google Analytics.</2>",
+   "t": "<1>Mesure d’audience</1><2>Mesurent les visites et les pages vues, avec Google Analytics.</2>"
+  },
+  {
+   "k": "d6469ca696",
+   "src": "<1>Advertising</1><2>Measure our advertising and show our ads on Google, LinkedIn and Meta.</2>",
+   "t": "<1>Publicité</1><2>Mesurent notre publicité et diffusent nos annonces sur Google, LinkedIn et Meta.</2>"
+  },
+  {
+   "k": "9946554fca",
+   "src": "Your browser sends a Global Privacy Control signal, so advertising cookies stay off.",
+   "t": "Votre navigateur envoie un signal Global Privacy Control : les cookies publicitaires restent donc désactivés."
+  },
+  {
+   "k": "821d1f7909",
+   "src": "Accept all",
+   "t": "Tout accepter"
+  },
+  {
+   "k": "d6505b0abc",
+   "src": "Reject non-essential",
+   "t": "Refuser les non essentiels"
+  },
+  {
+   "k": "1f9fc0cf07",
+   "src": "Choose cookies",
+   "t": "Choisir les cookies"
+  },
+  {
+   "k": "956fa7c245",
+   "src": "Save choices",
+   "t": "Enregistrer mes choix"
+  },
+  {
+   "k": "bce0641417",
+   "src": "Search",
+   "t": "Rechercher"
+  },
+  {
+   "k": "1f7a4f9e2f",
+   "src": "Esc",
+   "t": "Échap"
+  },
+  {
+   "k": "36f9fcfb3b",
+   "src": "Search pages, case studies and articles",
+   "t": "Rechercher des pages, études de cas et articles"
+  },
+  {
+   "k": "612e12d292",
+   "src": "Results",
+   "t": "Résultats"
+  },
+  {
+   "k": "4624f45243",
+   "src": "↑ ↓ to move",
+   "t": "↑ ↓ pour naviguer"
+  },
+  {
+   "k": "4683f69158",
+   "src": "Enter to open",
+   "t": "Entrée pour ouvrir"
+  },
+  {
+   "k": "5329571c06",
+   "src": "Esc to close",
+   "t": "Échap pour fermer"
+  },
+  {
+   "k": "9cf8ee2d09",
+   "src": "Subscribing…",
+   "t": "Abonnement en cours…"
+  },
+  {
+   "k": "cf765512cc",
+   "src": "Sending…",
+   "t": "Envoi en cours…"
+  },
+  {
+   "k": "239bd07fc4",
+   "src": "Enter your work email address.",
+   "t": "Saisissez votre adresse e-mail professionnelle."
+  },
+  {
+   "k": "b66b301ef1",
+   "src": "Check the email address. It should look like name@company.com.",
+   "t": "Vérifiez l’adresse e-mail. Elle doit ressembler à nom@entreprise.com."
+  },
+  {
+   "k": "ab90d9d736",
+   "src": "This field is required.",
+   "t": "Ce champ est obligatoire."
+  },
+  {
+   "k": "c020d2b492",
+   "src": "Check this field.",
+   "t": "Vérifiez ce champ."
+  },
+  {
+   "k": "d9c883a905",
+   "src": "Back to top",
+   "t": "Haut de page"
+  },
+  {
+   "k": "af9e3eb3ee",
+   "src": "Search Perspectives for",
+   "t": "Rechercher dans Perspectives"
+  },
+  {
+   "k": "4360c2dcd4",
+   "src": "Article",
+   "t": "Article"
+  },
+  {
+   "k": "34c808d0a6",
+   "src": "News",
+   "t": "Actualités"
+  },
+  {
+   "k": "6d234a17fe",
+   "src": "Press release",
+   "t": "Communiqué de presse"
+  },
+  {
+   "k": "97f6a406e5",
+   "src": "Remove filter",
+   "t": "Retirer le filtre"
+  },
+  {
+   "k": "82478a0a5e",
+   "src": "Searching the full archive…",
+   "t": "Recherche dans toutes les archives…"
+  },
+  {
+   "k": "37a5301a88",
+   "src": "result",
+   "t": "résultat"
+  },
+  {
+   "k": "cdf7e925f5",
+   "src": "results",
+   "t": "résultats"
+  },
+  {
+   "k": "701b13ec1c",
+   "src": "No results. Try fewer filters or a different keyword.",
+   "t": "Aucun résultat. Essayez avec moins de filtres ou un autre mot-clé."
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "Thème"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "Canal"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "Auteur"
+  },
+  {
+   "k": "eb9a4bc1c0",
+   "src": "Date",
+   "t": "Date"
+  },
+  {
+   "k": "56cf601c5c",
+   "src": "{n} result",
+   "t": "{n} résultat"
+  },
+  {
+   "k": "b210019daa",
+   "src": "{n} results",
+   "t": "{n} résultats"
+  }
+ ]
+}

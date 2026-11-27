@@ -1,6 +1,7 @@
 [
  {
   "lang": "es",
+  "tag": "es",
   "route": "/es/perspectives/holiday-season-starts-october",
   "en": "/perspectives/holiday-season-starts-october",
   "file": "/_kq/es--perspectives--holiday-season-starts-october.html",
@@ -8,6 +9,7 @@
  },
  {
   "lang": "es",
+  "tag": "es",
   "route": "/es/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
   "en": "/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
   "file": "/_kq/es--perspectives--press-releases--kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter.html",
@@ -15,6 +17,7 @@
  },
  {
   "lang": "es",
+  "tag": "es",
   "route": "/es/perspectives/prime-big-deal-days-what-it-added",
   "en": "/perspectives/prime-big-deal-days-what-it-added",
   "file": "/_kq/es--perspectives--prime-big-deal-days-what-it-added.html",
@@ -22,9 +25,106 @@
  },
  {
   "lang": "es",
+  "tag": "es",
   "route": "/es/perspectives",
   "en": "/perspectives",
   "file": "/_kq/es--perspectives.html",
+  "live": false
+ },
+ {
+  "lang": "fr",
+  "tag": "fr",
+  "route": "/fr/perspectives/holiday-season-starts-october",
+  "en": "/perspectives/holiday-season-starts-october",
+  "file": "/_kq/fr--perspectives--holiday-season-starts-october.html",
+  "live": false
+ },
+ {
+  "lang": "fr",
+  "tag": "fr",
+  "route": "/fr/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "en": "/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "file": "/_kq/fr--perspectives--press-releases--kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter.html",
+  "live": false
+ },
+ {
+  "lang": "fr",
+  "tag": "fr",
+  "route": "/fr/perspectives/prime-big-deal-days-what-it-added",
+  "en": "/perspectives/prime-big-deal-days-what-it-added",
+  "file": "/_kq/fr--perspectives--prime-big-deal-days-what-it-added.html",
+  "live": false
+ },
+ {
+  "lang": "fr",
+  "tag": "fr",
+  "route": "/fr/perspectives",
+  "en": "/perspectives",
+  "file": "/_kq/fr--perspectives.html",
+  "live": false
+ },
+ {
+  "lang": "ko",
+  "tag": "ko",
+  "route": "/ko/perspectives/holiday-season-starts-october",
+  "en": "/perspectives/holiday-season-starts-october",
+  "file": "/_kq/ko--perspectives--holiday-season-starts-october.html",
+  "live": false
+ },
+ {
+  "lang": "ko",
+  "tag": "ko",
+  "route": "/ko/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "en": "/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "file": "/_kq/ko--perspectives--press-releases--kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter.html",
+  "live": false
+ },
+ {
+  "lang": "ko",
+  "tag": "ko",
+  "route": "/ko/perspectives/prime-big-deal-days-what-it-added",
+  "en": "/perspectives/prime-big-deal-days-what-it-added",
+  "file": "/_kq/ko--perspectives--prime-big-deal-days-what-it-added.html",
+  "live": false
+ },
+ {
+  "lang": "ko",
+  "tag": "ko",
+  "route": "/ko/perspectives",
+  "en": "/perspectives",
+  "file": "/_kq/ko--perspectives.html",
+  "live": false
+ },
+ {
+  "lang": "zh",
+  "tag": "zh-Hans",
+  "route": "/zh/perspectives/holiday-season-starts-october",
+  "en": "/perspectives/holiday-season-starts-october",
+  "file": "/_kq/zh--perspectives--holiday-season-starts-october.html",
+  "live": false
+ },
+ {
+  "lang": "zh",
+  "tag": "zh-Hans",
+  "route": "/zh/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "en": "/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "file": "/_kq/zh--perspectives--press-releases--kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter.html",
+  "live": false
+ },
+ {
+  "lang": "zh",
+  "tag": "zh-Hans",
+  "route": "/zh/perspectives/prime-big-deal-days-what-it-added",
+  "en": "/perspectives/prime-big-deal-days-what-it-added",
+  "file": "/_kq/zh--perspectives--prime-big-deal-days-what-it-added.html",
+  "live": false
+ },
+ {
+  "lang": "zh",
+  "tag": "zh-Hans",
+  "route": "/zh/perspectives",
+  "en": "/perspectives",
+  "file": "/_kq/zh--perspectives.html",
   "live": false
  }
 ]

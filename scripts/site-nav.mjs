@@ -15,7 +15,8 @@
 //   5. Capability and channel pages end with previous / next links to their sibling pages.
 //   6. The Perspectives and Work lists remember their page when the visitor comes back with
 //      the Back button and the browser has not kept the page in memory.
-//   7. Small things: /perspectives?q=term opens the archive search with that term; the footer
+//   7. Small things: search hands a query to /perspectives?q=term (read by
+//      site-perspectives-ux.mjs); the footer
 //      lists the creative gallery; the header button is marked as the current page on /contact.
 //
 // One list (NAV, below) feeds the header panels, the phone menu and the previous / next
@@ -132,6 +133,8 @@ const CSS = `<style data-kq-nav>
 .kq-sib-next{text-align:right;align-items:flex-end!important}
 .kq-sib-all{align-self:center;font-size:15px;color:#102A4C!important;text-decoration:underline!important;text-underline-offset:4px;text-decoration-thickness:1px;padding:12px 0;white-space:nowrap}
 .kq-sib :focus-visible{outline:3px solid #00618D;outline-offset:4px}
+.kq-sib-art .kq-sib-a>strong{font-size:clamp(17px,1.35vw,20px);max-width:24em}
+.kq-sib-art .kq-sib-next>strong{text-align:right}
 @media (hover:hover){
 .kq-sib-a:hover>strong{color:#00618D}
 .kq-sib-next:hover svg{transform:translateX(4px)}
@@ -196,13 +199,6 @@ fetch(dlg.getAttribute('data-kq-articles')).then(function(r){if(!r.ok)throw 0;re
 var G=[T('Article'),T('News'),T('Press release')];rows.forEach(function(r){w.kqSearch.push({t:r[0],g:G[r[2]]||G[0],h:r[1],k:''});});
 if(dlg.open&&input.value)input.dispatchEvent(new Event('input',{bubbles:true}));}).catch(function(){got=0;});}
 if('MutationObserver' in w)new MutationObserver(function(){if(dlg.open){load();hint();}}).observe(dlg,{attributes:true,attributeFilter:['open']});
-})();
-
-/* Perspectives: /perspectives?q=term opens the archive search with that term */
-(function(){var f=d.querySelector('form[aria-label="Search Perspectives"]'),box=d.getElementById('ps-q');if(!f||!box)return;
-var q='';try{q=new URLSearchParams(location.search).get('q')||'';}catch(_){}
-if(!q)return;box.value=q.slice(0,80);box.dispatchEvent(new Event('input',{bubbles:true}));
-w.addEventListener('load',function(){var y=f.getBoundingClientRect().top+w.scrollY-96;w.scrollTo({top:Math.max(0,y),behavior:'auto'});});
 })();
 
 /* lists with a pager: come back to the same page with the Back button when the browser has not kept the page in memory */

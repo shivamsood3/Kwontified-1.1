@@ -1,0 +1,506 @@
+{
+ "lang": "zh",
+ "about": "Text every page shares: header, menus, footer, search, cookie notice.",
+ "segments": [
+  {
+   "k": "be504f616f",
+   "src": "Skip to main content",
+   "t": "跳至主要内容"
+  },
+  {
+   "k": "a9a96ec019",
+   "src": "Primary",
+   "t": "主导航"
+  },
+  {
+   "k": "c454a868b8",
+   "src": "Kwontified home",
+   "t": "Kwontified 首页"
+  },
+  {
+   "k": "ca09c54bff",
+   "src": "Capabilities",
+   "t": "服务能力"
+  },
+  {
+   "k": "747e2c0ce9",
+   "src": "Capabilities: show pages",
+   "t": "服务能力：显示子页面"
+  },
+  {
+   "k": "cd2556b7f4",
+   "src": "Retail Media and Advertising",
+   "t": "零售媒体与广告"
+  },
+  {
+   "k": "745a9e9f8c",
+   "src": "Creative Studio",
+   "t": "创意工作室"
+  },
+  {
+   "k": "3b59c7186b",
+   "src": "Marketplace Operations",
+   "t": "电商平台运营"
+  },
+  {
+   "k": "e46d7997f3",
+   "src": "Analytics and Forecasting",
+   "t": "数据分析与预测"
+  },
+  {
+   "k": "3532e859e4",
+   "src": "Agentic Commerce",
+   "t": "智能体电商"
+  },
+  {
+   "k": "26b5aa7a7a",
+   "src": "Revenue Recovery",
+   "t": "收入追回"
+  },
+  {
+   "k": "f69c71b523",
+   "src": "All capabilities <1/>",
+   "t": "全部服务能力 <1/>"
+  },
+  {
+   "k": "18e03e2a37",
+   "src": "Channels",
+   "t": "渠道"
+  },
+  {
+   "k": "3da8b1119b",
+   "src": "Channels: show pages",
+   "t": "渠道：显示子页面"
+  },
+  {
+   "k": "c16254309d",
+   "src": "Amazon brand programs",
+   "t": "Amazon 品牌计划"
+  },
+  {
+   "k": "bc440f645c",
+   "src": "International",
+   "t": "国际市场"
+  },
+  {
+   "k": "c275df4e71",
+   "src": "All channels <1/>",
+   "t": "全部渠道 <1/>"
+  },
+  {
+   "k": "00040bab8a",
+   "src": "Work",
+   "t": "案例"
+  },
+  {
+   "k": "a1955cfdb3",
+   "src": "Work: show pages",
+   "t": "案例：显示子页面"
+  },
+  {
+   "k": "2bdc7788ce",
+   "src": "Case studies",
+   "t": "客户案例"
+  },
+  {
+   "k": "41771bfa85",
+   "src": "Creative gallery",
+   "t": "创意作品集"
+  },
+  {
+   "k": "d3d70c6ee9",
+   "src": "Why Kwontified",
+   "t": "为何选择 Kwontified"
+  },
+  {
+   "k": "42e3b2e953",
+   "src": "Perspectives",
+   "t": "Perspectives"
+  },
+  {
+   "k": "6b21fb791a",
+   "src": "About",
+   "t": "关于我们"
+  },
+  {
+   "k": "bc51eacfd7",
+   "src": "About: show pages",
+   "t": "关于我们：显示子页面"
+  },
+  {
+   "k": "a681196cbe",
+   "src": "About Kwontified",
+   "t": "关于 Kwontified"
+  },
+  {
+   "k": "f5427e8f6f",
+   "src": "Leadership",
+   "t": "领导团队"
+  },
+  {
+   "k": "68d70e596c",
+   "src": "Careers",
+   "t": "加入我们"
+  },
+  {
+   "k": "5bbcc92e55",
+   "src": "Search the site",
+   "t": "站内搜索"
+  },
+  {
+   "k": "a81aecaaaa",
+   "src": "<1/>Search",
+   "t": "<1/>搜索"
+  },
+  {
+   "k": "ecc722051b",
+   "src": "Client sign-in",
+   "t": "客户登录"
+  },
+  {
+   "k": "7ccfb0e5c2",
+   "src": "Request a review",
+   "t": "申请评估"
+  },
+  {
+   "k": "57f5f5efbc",
+   "src": "Menu",
+   "t": "菜单"
+  },
+  {
+   "k": "a866fadf4d",
+   "src": "Get our marketplace briefing once a month.",
+   "t": "每月一次，获取我们的电商平台简报。"
+  },
+  {
+   "k": "b60eea94e7",
+   "src": "The marketplace changes that matter, what they mean for your brand and our latest guides. Unsubscribe in one click.",
+   "t": "值得关注的电商平台变化、这些变化对您品牌的影响，以及我们的最新指南。一键即可退订。"
+  },
+  {
+   "k": "43205764a6",
+   "src": "Work email",
+   "t": "工作邮箱"
+  },
+  {
+   "k": "d6981f7476",
+   "src": "Subscribe",
+   "t": "订阅"
+  },
+  {
+   "k": "6d2a02a560",
+   "src": "Follow Kwontified",
+   "t": "关注 Kwontified"
+  },
+  {
+   "k": "0322c17784",
+   "src": "Kwontified on LinkedIn",
+   "t": "Kwontified 的 LinkedIn 主页"
+  },
+  {
+   "k": "9f0e415b54",
+   "src": "Kwontified on Substack",
+   "t": "Kwontified 的 Substack 主页"
+  },
+  {
+   "k": "9590d9132e",
+   "src": "Kwontified on YouTube",
+   "t": "Kwontified 的 YouTube 频道"
+  },
+  {
+   "k": "940bc7514c",
+   "src": "Kwontified on Instagram",
+   "t": "Kwontified 的 Instagram 主页"
+  },
+  {
+   "k": "1cad30080a",
+   "src": "Kwontified on X",
+   "t": "Kwontified 的 X 主页"
+  },
+  {
+   "k": "e5aad7f741",
+   "src": "Kwontified on Threads",
+   "t": "Kwontified 的 Threads 主页"
+  },
+  {
+   "k": "943e004124",
+   "src": "Kwontified on Bluesky",
+   "t": "Kwontified 的 Bluesky 主页"
+  },
+  {
+   "k": "a22a755c51",
+   "src": "Kwontified on Facebook",
+   "t": "Kwontified 的 Facebook 主页"
+  },
+  {
+   "k": "15ff4b492e",
+   "src": "Kwontified on TikTok",
+   "t": "Kwontified 的 TikTok 主页"
+  },
+  {
+   "k": "7a1994999d",
+   "src": "Company",
+   "t": "公司"
+  },
+  {
+   "k": "b37456c453",
+   "src": "Contact",
+   "t": "联系我们"
+  },
+  {
+   "k": "559f5fabcd",
+   "src": "Offices",
+   "t": "办公地点"
+  },
+  {
+   "k": "61ed7388ca",
+   "src": "<1>Atlanta (headquarters)</1><2/>7000 Central Parkway, Suite 1100<3/>Atlanta, GA 30328",
+   "t": "<1>Atlanta（总部）</1><2/>7000 Central Parkway, Suite 1100<3/>Atlanta, GA 30328"
+  },
+  {
+   "k": "e16838adef",
+   "src": "<1>New York</1><2/>175 Greenwich Street, 38th Floor<3/>New York, NY 10007",
+   "t": "<1>New York</1><2/>175 Greenwich Street, 38th Floor<3/>New York, NY 10007"
+  },
+  {
+   "k": "842b149b4f",
+   "src": "<1>Seattle</1><2/>1201 Third Avenue, Suite 2200<3/>Seattle, WA 98101",
+   "t": "<1>Seattle</1><2/>1201 Third Avenue, Suite 2200<3/>Seattle, WA 98101"
+  },
+  {
+   "k": "fb146d8c72",
+   "src": "© 2026 Kwontified LLC",
+   "t": "© 2026 Kwontified LLC"
+  },
+  {
+   "k": "cf01481f62",
+   "src": "Privacy",
+   "t": "隐私"
+  },
+  {
+   "k": "a55a275aa6",
+   "src": "Terms",
+   "t": "条款"
+  },
+  {
+   "k": "d660049bc1",
+   "src": "Accessibility",
+   "t": "无障碍"
+  },
+  {
+   "k": "e7d3061b5e",
+   "src": "Cookie preferences",
+   "t": "Cookie 偏好设置"
+  },
+  {
+   "k": "3ddf90fd31",
+   "src": "Cookie choices",
+   "t": "Cookie 选项"
+  },
+  {
+   "k": "99f823777f",
+   "src": "Cookies on this site",
+   "t": "本网站使用的 Cookie"
+  },
+  {
+   "k": "0f5b084c48",
+   "src": "We use necessary cookies to run the site. With your permission, we also use analytics cookies to see how the site is used and advertising cookies to measure and show our ads. Read our <1>Privacy Policy</1>.",
+   "t": "我们使用必要 Cookie 来保障网站运行。经您同意，我们还会使用分析 Cookie 了解网站的使用情况，并使用广告 Cookie 衡量和展示我们的广告。请阅读我们的<1>隐私政策</1>。"
+  },
+  {
+   "k": "2796e71f48",
+   "src": "Cookie types",
+   "t": "Cookie 类型"
+  },
+  {
+   "k": "af2165189c",
+   "src": "<1>Necessary</1><2>Keep the site and client portal secure and working. Always on.</2>",
+   "t": "<1>必要</1><2>保障网站和客户门户的安全与正常运行。始终开启。</2>"
+  },
+  {
+   "k": "b5d0ec0b4d",
+   "src": "<1>Functional</1><2>Remember preferences such as filters and display settings.</2>",
+   "t": "<1>功能</1><2>记住筛选条件、显示设置等偏好。</2>"
+  },
+  {
+   "k": "da3b44a99b",
+   "src": "<1>Analytics</1><2>Measure visits and pages viewed, using Google Analytics.</2>",
+   "t": "<1>分析</1><2>通过 Google Analytics 统计访问量和页面浏览量。</2>"
+  },
+  {
+   "k": "d6469ca696",
+   "src": "<1>Advertising</1><2>Measure our advertising and show our ads on Google, LinkedIn and Meta.</2>",
+   "t": "<1>广告</1><2>衡量我们的广告效果，并在 Google、LinkedIn 和 Meta 上展示我们的广告。</2>"
+  },
+  {
+   "k": "9946554fca",
+   "src": "Your browser sends a Global Privacy Control signal, so advertising cookies stay off.",
+   "t": "您的浏览器发出了 Global Privacy Control（全球隐私控制）信号，因此广告 Cookie 保持关闭。"
+  },
+  {
+   "k": "821d1f7909",
+   "src": "Accept all",
+   "t": "全部接受"
+  },
+  {
+   "k": "d6505b0abc",
+   "src": "Reject non-essential",
+   "t": "拒绝非必要 Cookie"
+  },
+  {
+   "k": "1f9fc0cf07",
+   "src": "Choose cookies",
+   "t": "选择 Cookie"
+  },
+  {
+   "k": "956fa7c245",
+   "src": "Save choices",
+   "t": "保存选择"
+  },
+  {
+   "k": "bce0641417",
+   "src": "Search",
+   "t": "搜索"
+  },
+  {
+   "k": "1f7a4f9e2f",
+   "src": "Esc",
+   "t": "Esc"
+  },
+  {
+   "k": "36f9fcfb3b",
+   "src": "Search pages, case studies and articles",
+   "t": "搜索页面、客户案例和文章"
+  },
+  {
+   "k": "612e12d292",
+   "src": "Results",
+   "t": "搜索结果"
+  },
+  {
+   "k": "4624f45243",
+   "src": "↑ ↓ to move",
+   "t": "↑ ↓ 移动"
+  },
+  {
+   "k": "4683f69158",
+   "src": "Enter to open",
+   "t": "Enter 打开"
+  },
+  {
+   "k": "5329571c06",
+   "src": "Esc to close",
+   "t": "Esc 关闭"
+  },
+  {
+   "k": "9cf8ee2d09",
+   "src": "Subscribing…",
+   "t": "正在订阅…"
+  },
+  {
+   "k": "cf765512cc",
+   "src": "Sending…",
+   "t": "正在发送…"
+  },
+  {
+   "k": "239bd07fc4",
+   "src": "Enter your work email address.",
+   "t": "请输入您的工作邮箱地址。"
+  },
+  {
+   "k": "b66b301ef1",
+   "src": "Check the email address. It should look like name@company.com.",
+   "t": "请检查邮箱地址，格式应类似 name@company.com。"
+  },
+  {
+   "k": "ab90d9d736",
+   "src": "This field is required.",
+   "t": "此项为必填项。"
+  },
+  {
+   "k": "c020d2b492",
+   "src": "Check this field.",
+   "t": "请检查此项。"
+  },
+  {
+   "k": "d9c883a905",
+   "src": "Back to top",
+   "t": "返回顶部"
+  },
+  {
+   "k": "af9e3eb3ee",
+   "src": "Search Perspectives for",
+   "t": "在 Perspectives 中搜索"
+  },
+  {
+   "k": "4360c2dcd4",
+   "src": "Article",
+   "t": "文章"
+  },
+  {
+   "k": "34c808d0a6",
+   "src": "News",
+   "t": "新闻"
+  },
+  {
+   "k": "6d234a17fe",
+   "src": "Press release",
+   "t": "新闻稿"
+  },
+  {
+   "k": "97f6a406e5",
+   "src": "Remove filter",
+   "t": "移除筛选条件"
+  },
+  {
+   "k": "82478a0a5e",
+   "src": "Searching the full archive…",
+   "t": "正在搜索全部存档…"
+  },
+  {
+   "k": "37a5301a88",
+   "src": "result",
+   "t": "条结果"
+  },
+  {
+   "k": "cdf7e925f5",
+   "src": "results",
+   "t": "条结果"
+  },
+  {
+   "k": "701b13ec1c",
+   "src": "No results. Try fewer filters or a different keyword.",
+   "t": "未找到结果。请减少筛选条件，或换一个关键词。"
+  },
+  {
+   "k": "7e13bd176f",
+   "src": "Topic",
+   "t": "主题"
+  },
+  {
+   "k": "879f0b1bef",
+   "src": "Channel",
+   "t": "渠道"
+  },
+  {
+   "k": "5fda23d620",
+   "src": "Author",
+   "t": "作者"
+  },
+  {
+   "k": "eb9a4bc1c0",
+   "src": "Date",
+   "t": "日期"
+  },
+  {
+   "k": "56cf601c5c",
+   "src": "{n} result",
+   "t": "{n} 条结果"
+  },
+  {
+   "k": "b210019daa",
+   "src": "{n} results",
+   "t": "{n} 条结果"
+  }
+ ]
+}

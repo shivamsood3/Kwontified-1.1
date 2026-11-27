@@ -224,6 +224,6 @@ export const hooks = (code) => code.replace(/\[aria-label(?=[*^$~|]?=)/g, "[data
 // T('…') in the scripts; the build hands each translated page a small dictionary for them.
 export function runtimeStrings() {
   const out = new Set(), dir = path.join(ROOT, "public/assets");
-  for (const f of fs.readdirSync(dir)) if (/^kq-(fx|nav)-[0-9a-f]{12}\.js$/.test(f)) for (const m of fs.readFileSync(path.join(dir, f), "utf8").matchAll(/\bT\('((?:[^'\\]|\\.)*)'\)/g)) out.add(JSON.parse('"' + m[1].replace(/\\'/g, "'").replace(/"/g, '\\"') + '"'));
+  for (const f of fs.readdirSync(dir)) if (/^kq-(fx|nav|px)-[0-9a-f]{12}\.js$/.test(f)) for (const m of fs.readFileSync(path.join(dir, f), "utf8").matchAll(/\bT\('((?:[^'\\]|\\.)*)'\)/g)) out.add(JSON.parse('"' + m[1].replace(/\\'/g, "'").replace(/"/g, '\\"') + '"'));
   return [...out];
 }

@@ -186,6 +186,15 @@ Every page is within two clicks of the home page (unchanged). Lighthouse after t
 - A mistyped article address (`/perspectives/prime-day-2026-result`) offers three matching articles; a meaningless address offers none and still shows search and six starting points.
 - Lighthouse on the built files: performance 99, accessibility 100, best practices 100 (SEO is marked down only because the pages are noindex, as intended).
 
+## Error page images and Perspectives filters (2026-11-27, later the same day)
+
+- The 404 and 403 heroes are now original AI-generated images (Higgsfield GPT Image 2.6; provenance in `HANDOVER.md`). Checked at 1440px and 390px: the text column stays clear of the subject on both, and both pages still return 404 and 403.
+- Perspectives index, tested in a browser: tabs, topic, channel, author, year alone, year plus month, search, chips, Clear, the pager after each change, Back from an article, a fresh load of a filtered address, a filtered address on a phone, and the first click on a fresh load while the archive is still arriving. All pass. Year alone: 2025 gives 121 results, paged 1 to 9 of 101 articles and 1 to 12 of 18 news items.
+- Found and fixed while testing: a year chosen on its own did not narrow the list; the pager kept its old page counts after the year was applied; the featured article dropped out of results (Articles showed 874 under a tab that says 875); the first tab click after a clean load or after Clear was ignored.
+- Lighthouse (mobile): index 98 / 100 / 100 / 100, article 98 / 100 / 100 / 100, a filtered address (`?type=news&year=2025`) 94 / 100 / 100 / 100 (the list is filtered after the archive file loads, which moves the largest element later), 404 page 99 / 100 / 100.
+- Earlier tests re-run after the change: effects (skip link, progress bar, phone header), navigation (menus, search, pager restore, phone menu) and error pages. No failures and no script errors.
+- `npx tsc --noEmit` passes; `npm run lint` reports the same single warning as before.
+
 ## Translation (2026-11-27)
 
 - All 1,085 built pages can be split into text entries and reassembled byte for byte, and an "identity" translation reproduces every page.
@@ -193,7 +202,9 @@ Every page is within two clicks of the home page (unchanged). Lighthouse after t
 - On the Spanish pages: language, canonical address, structured data and internal links are correct; menus, search, filters, pager, forms, reading progress and back-to-top work; form messages appear in Spanish; the header fits at 320, 390, 1024, 1180, 1280 and 1440px.
 - Preview mode: noindex, absent from the sitemap, no language menu on English pages. Live mode was switched on for one build to check it: hreflang links on both versions, sitemap entries with alternates, language menu on the four English pages; then switched back.
 - Lighthouse on a Spanish article: performance 99, accessibility 100, best practices 100.
-- Not checked: the Spanish wording by a native speaker; Safari and Firefox.
+- French, Korean and Simplified Chinese added as previews later the same day: 395 entries each in 5 files, all translated, 0 problems; 16 translated pages build in all (four per language). Each loads with its own language tag (`fr`, `ko`, `zh-Hans`), canonical address, noindex and translated structured data; filters, counts ("2 résultats", "결과 2건", "2 条结果") and month names are in the language; the header fits at 1024, 1180, 1280 and 1440px and the pages have no sideways scroll at 390px. Korean and Chinese use the system typeface for the language with normal letter-spacing and taller lines.
+- English default: with the browser set to Spanish (US), Korean, Chinese or French, `/perspectives/...` returns the English page with no redirect and no language links. `/fr/about` and `/ko` (not translated) return 404. The sitemap lists no preview language.
+- Not checked: any of the four translations by a native speaker; Safari and Firefox; Korean and Chinese on Windows and Android (the typeface names are set for them but only Linux was tested).
 
 ## Copy pass (2026-11-26)
 

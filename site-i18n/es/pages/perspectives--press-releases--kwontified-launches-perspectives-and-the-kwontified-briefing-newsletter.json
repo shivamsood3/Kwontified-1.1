@@ -23,14 +23,14 @@
    "t": "Ruta de navegación"
   },
   {
-   "k": "29fea4b94c",
-   "src": "<1>Home</1> / <2>Perspectives</2> / Press releases / <3>Kwontified launches Perspectives and the…</3>",
-   "t": "<1>Inicio</1> / <2>Perspectives</2> / Comunicados de prensa / <3>Kwontified lanza Perspectives y el…</3>"
+   "k": "aa25eb138e",
+   "src": "<1>Home</1> / <2>Perspectives</2> / <3>Press releases</3> / <4>Kwontified launches Perspectives and the…</4>",
+   "t": "<1>Inicio</1> / <2>Perspectives</2> / <3>Comunicados de prensa</3> / <4>Kwontified lanza Perspectives y el…</4>"
   },
   {
-   "k": "7c8fce55b9",
-   "src": "Press release. For immediate release",
-   "t": "Comunicado de prensa. Para publicación inmediata"
+   "k": "0ccea4aa09",
+   "src": "<1>Press release</1>. For immediate release",
+   "t": "<1>Comunicado de prensa</1>. Para publicación inmediata"
   },
   {
    "k": "557b40cdae",
@@ -106,6 +106,16 @@
    "k": "401b3184bd",
    "src": "More press releases",
    "t": "Más comunicados de prensa"
+  },
+  {
+   "k": "c872cdc7f6",
+   "src": "<1>Previous press release</1><2><3/>Kwontified to attend Amazon Ads unBoxed 2026 in San Francisco</2>",
+   "t": "<1>Comunicado anterior</1><2><3/>Kwontified to attend Amazon Ads unBoxed 2026 in San Francisco</2>"
+  },
+  {
+   "k": "1c3b64a73c",
+   "src": "All press releases",
+   "t": "Todos los comunicados de prensa"
   },
   {
    "k": "87b898e7bd",

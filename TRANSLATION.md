@@ -2,14 +2,25 @@
 
 The site can publish any page in other languages. Translated pages are real pages on kwontified.com with their own addresses (`/es/perspectives/...`), so search engines and AI assistants can find and cite them in that language.
 
-Spanish is set up as a **preview**: the Perspectives index, two articles and a press release. Preview pages can be opened and reviewed but are hidden from search engines and are not linked from the English pages.
+Four languages are set up as **previews**: Spanish, French, Korean and Simplified Chinese. Each has the Perspectives index, two articles and a press release. Preview pages can be opened and reviewed but are hidden from search engines and are not linked from the English pages.
 
-- `/es/perspectives`
-- `/es/perspectives/holiday-season-starts-october`
-- `/es/perspectives/prime-big-deal-days-what-it-added`
-- `/es/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter`
+| Language | Address | Language tag |
+|---|---|---|
+| Spanish | `/es/perspectives` | `es` |
+| French | `/fr/perspectives` | `fr` |
+| Korean | `/ko/perspectives` | `ko` |
+| Chinese (Simplified) | `/zh/perspectives` | `zh-Hans` |
 
-The Spanish in the preview was written by Claude and has not been read by a native speaker. Have it reviewed before it goes live.
+The same four pages exist in each: the index, `/perspectives/holiday-season-starts-october`, `/perspectives/prime-big-deal-days-what-it-added` and `/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter`.
+
+All four translations were written by Claude and have not been read by a native speaker. Have each reviewed before it goes live.
+
+## English is the default, everywhere
+
+- Every address without a language prefix is English: `kwontified.com/perspectives` is always the English page, in the United States and anywhere else.
+- Nothing switches language automatically. The site does not read the browser's language or the visitor's country, and there is no redirect. A visitor sees another language only by choosing it in the language menu or by following a link to a `/es/`, `/fr/`, `/ko/` or `/zh/` address (for example from a search result in that language).
+- For search engines, each translated page names the English page as the default version (`hreflang="x-default"`), so a searcher whose language has no version is sent to English.
+- If you later want to offer a language to visitors outside the United States (for example a one-line "Lire en français ?" notice for a browser set to French), that is a separate, small addition. It should be an offer, never a redirect, and it should stay off for United States visitors. It is not built.
 
 ## How it works
 
@@ -57,6 +68,10 @@ npm run build
 
 To add a language, add it to `site-i18n/config.json` (`{ "code": "de", "name": "Deutsch", "english": "German", "live": false }`) and run `extract de ...`. A new language needs no code or routing change.
 
+`code` is the short name used in the address. If browsers and search engines need a more exact name, add `tag`: Chinese uses `"code": "zh", "tag": "zh-Hans"` (Simplified); Traditional Chinese would be a second language, `"code": "zh-tw", "tag": "zh-Hant"`.
+
+Korean, Chinese and Japanese pages get their own type settings automatically, because the site's typeface has no characters for them: the visitor's system typeface for that language (Apple SD Gothic Neo or Malgun Gothic; PingFang SC or Microsoft YaHei), no tightened letter-spacing, taller lines in headings and articles, and line breaks that follow each language's rules. Latin words and figures on those pages stay in the site's typeface.
+
 ```bash
 node scripts/i18n.mjs status es
 ```
@@ -72,6 +87,18 @@ Three ways, which can be mixed:
 - **A person,** editing the `t` values directly. This is also how a reviewer corrects a translation.
 
 An unattended option (translate each new article automatically when it is published, through the Claude API) is not built. It needs an API key and a decision on review.
+
+## Notes for the reviewer of each language
+
+Choices the first draft made that a native reviewer should confirm or change (edit the `t` values; nothing else depends on them):
+
+- **Spanish:** "Guías de eventos" for Event playbooks; job titles left in English.
+- **French:** "Demander une analyse" for Request a review ("audit" was avoided in case it names a separate offer); "Expertises" for Capabilities, "Réalisations" for Work, "Espace client" for Client sign-in; "Guides des temps forts" for Event playbooks; "Auteur" as the filter label (a generic masculine; "Signature" is the neutral alternative); job titles left in English; "1900 marques" written without a space because the figure check does not accept a space inside a number.
+- **Korean:** "아티클" for Article (so it stays distinct from 뉴스); "검토 요청" for Request a review ("진단 요청" is a common agency alternative); "포트폴리오" for Work, "역량" for Capabilities, "글로벌" for International; Black Friday and Cyber Monday in Hangul; author links use full names.
+- **Chinese (Simplified):** "大促打法" for Event playbooks ("大促策略" is the more formal alternative); "案例" for Work, "客户案例" for Case studies; "智能体电商" for Agentic commerce, "收入追回" for Revenue Recovery; card and kicker lines use " · " between parts where English uses a full stop.
+- **All four:** brand, marketplace, city and people's names stay in English letters. Titles of pieces that are not translated yet stay in English, because the link opens the English page.
+
+Two things the translators noticed in the English that are worth a look: the holiday article says "a ten-week season" for early October to late December (about twelve weeks), and the newsletter press release's search description is cut off mid-sentence ("…its articles on…").
 
 ## Going live
 
@@ -96,6 +123,6 @@ In `site-i18n/config.json`, set `"live": true` for the language and rebuild. The
 
 ## Decisions for Jordan
 
-1. Which languages, and in what order. Spanish is the preview only because Kwontified already works in Mercado Libre and Amazon Mexico.
-2. Who reviews each language before it goes live. Machine-translated pages published at scale without review can hurt a site's standing with search engines, and job titles and names need a human decision (the preview leaves "Co-Founder and Managing Partner" in English because Spanish titles are gendered).
+1. Which language goes live first, and which Chinese. Spanish, French, Korean and Simplified Chinese are previews (decided 2026-11-27). Simplified was chosen because it reaches the most readers; say if Traditional (Taiwan, Hong Kong) is wanted as well.
+2. Who reviews each language before it goes live. Machine-translated pages published at scale without review can hurt a site's standing with search engines, and job titles and names need a human decision (the Spanish and French previews leave "Co-Founder and Managing Partner" in English because titles in those languages are gendered; Korean and Chinese translate it). Brand, marketplace and city names stay in English letters in every language, including Korean and Chinese.
 3. How much to translate: Perspectives only, or the main pages as well. A Spanish reader who clicks from an article to Capabilities currently lands on the English page.

@@ -9,12 +9,12 @@ const base = "https://kwontified.com";
 // Not for search: the form confirmation and the client portal sign-in.
 const skip = new Set(["/contact/thank-you", "/subscribe/thank-you", "/client-sign-in"]);
 const url = (route: string) => `${base}${route === "/" ? "" : route}`;
-const live = (translated as { lang: string; route: string; en: string; live: boolean }[]).filter((t) => t.live && !skip.has(t.en));
+const live = (translated as { lang: string; tag?: string; route: string; en: string; live: boolean }[]).filter((t) => t.live && !skip.has(t.en));
 // every language a page exists in, so search engines can show each reader the right one
 const versions = (en: string) => {
   const others = live.filter((t) => t.en === en);
   if (!others.length) return {};
-  return { alternates: { languages: Object.fromEntries([["en", url(en)], ...others.map((t) => [t.lang, url(t.route)])]) } };
+  return { alternates: { languages: Object.fromEntries([["en", url(en)], ...others.map((t) => [t.tag || t.lang, url(t.route)])]) } };
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {

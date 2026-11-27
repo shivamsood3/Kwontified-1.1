@@ -15,9 +15,11 @@
 //        refused). Say so, offer the client sign-in, say who to ask. Served at /403 by
 //        app/403/route.ts with status 403.
 //
-// Photographs are from the site's own library, chosen for the subject: a pallet with one
-// carton missing (404) and parcels waiting at a closed navy door (403). Each already appears
-// once on the site, so no new picture had to be made.
+// Each page has its own picture, made for it on 2026-11-27 in the site's still-life style
+// (AI-generated with Higgsfield, GPT Image 2.6; prompts and job IDs are in HANDOVER.md):
+// three plinths with the middle one empty (404) and a closed navy door with its key hanging
+// beside it (403). The files are in site-src/assets; their names end in the first eight
+// characters of their hash, so replace a picture by adding a new file and changing PHOTO below.
 import fs from "node:fs";
 import path from "node:path";
 import { latestCards } from "./latest-cards.mjs";
@@ -33,8 +35,8 @@ const index = fs.readFileSync(path.join(DIR, "perspectives.html"), "utf8");
 if ((shell.match(/<main\b/g) || []).length !== 1 || !shell.includes("</main>")) fail("the 404 shell has no single <main>");
 
 const PHOTO = {
-  404: { file: "f98439cb09f6.jpg", alt: "A pallet of cartons with one missing from the top row against a sunlit sage green plaster wall, beside a delivery note showing 12 shipped and 11 received" },
-  403: { file: "a6b3196d384b.jpg", alt: "Three delivery parcels stacked on a stone step at a closed navy front door in a sunlit white wall, beside an olive tree" },
+  404: { file: "error-404-e1d78729.jpg", alt: "Three pale stone plinths against a sunlit steel blue plaster wall: the two outer ones each hold a parcel tied with string, and the middle one is empty" },
+  403: { file: "error-403-0ee5006a.jpg", alt: "A closed navy door in a sunlit pale blue plaster wall, with a brass key hanging on a hook beside it and a closed carton on an oak bench" },
 };
 for (const p of Object.values(PHOTO)) if (!fs.existsSync(path.join(ASSETS, p.file))) fail(`photograph ${p.file} is not in public/assets`);
 
@@ -140,7 +142,7 @@ const pages = {
     title: "Page not found | Kwontified",
     desc: "The page you were looking for has moved or no longer exists. Use Search in the menu, or start from Kwontified’s case studies or the homepage.",
     main: hero(404, {
-      label: "Page not found", crumb: "Page not found", x: "62%",
+      label: "Page not found", crumb: "Page not found", x: "100%",
       h1: "We can’t find that page.",
       lead: "The address may be mistyped, or the page may have moved or been retired. Search the site, or start from one of the pages below.",
       body: `<button type="button" class="kq-es kq-load" style="--d: 460ms" data-cmdk>${SEARCH_ICON}<span>Search pages, case studies and articles</span><kbd aria-hidden="true">/</kbd></button>` +
@@ -155,7 +157,7 @@ const pages = {
     title: "Access restricted | Kwontified",
     desc: "This page is restricted. If you are a Kwontified client, sign in to the client portal; otherwise start from the homepage.",
     main: hero(403, {
-      label: "Access restricted", crumb: "Access restricted", x: "86%",
+      label: "Access restricted", crumb: "Access restricted", x: "100%",
       h1: "You don’t have access to this page.",
       lead: "This page is restricted, usually to clients who are signed in. If you are a client, sign in and open the link again.",
       body: `<div class="kq-eh-act kq-load" style="--d: 460ms"><a class="kq-btn" href="/client-sign-in" style="background: #102A4C; color: #F8F6F1; text-decoration: none; padding: 16px 28px; min-height: 52px; font-size: 18px; box-sizing: border-box; display: inline-flex; align-items: center">Client sign-in</a><a href="/">Back to the homepage</a></div>` +

@@ -48,19 +48,14 @@
    "t": "Buscar en Perspectives"
   },
   {
-   "k": "7fb0b859f5",
-   "src": "Search by keyword",
-   "t": "Buscar por palabra clave"
+   "k": "d97d1ee339",
+   "src": "Show",
+   "t": "Mostrar"
   },
   {
-   "k": "3deb745651",
-   "src": "Type",
-   "t": "Tipo"
-  },
-  {
-   "k": "30c8a0fc9c",
-   "src": "All types",
-   "t": "Todos los tipos"
+   "k": "6a72085653",
+   "src": "All",
+   "t": "Todo"
   },
   {
    "k": "7c422841b7",
@@ -76,6 +71,21 @@
    "k": "cc5ad30c24",
    "src": "Press releases",
    "t": "Comunicados de prensa"
+  },
+  {
+   "k": "7fb0b859f5",
+   "src": "Search by keyword",
+   "t": "Buscar por palabra clave"
+  },
+  {
+   "k": "3deb745651",
+   "src": "Type",
+   "t": "Tipo"
+  },
+  {
+   "k": "30c8a0fc9c",
+   "src": "All types",
+   "t": "Todos los tipos"
   },
   {
    "k": "7e13bd176f",
@@ -698,6 +708,81 @@
    "t": "Enero de 2018"
   },
   {
+   "k": "879e32326c",
+   "src": "Year",
+   "t": "Año"
+  },
+  {
+   "k": "0977c76f66",
+   "src": "All years",
+   "t": "Todos los años"
+  },
+  {
+   "k": "7a22d73d33",
+   "src": "January",
+   "t": "Enero"
+  },
+  {
+   "k": "5c3a35ef85",
+   "src": "February",
+   "t": "Febrero"
+  },
+  {
+   "k": "433632ea5c",
+   "src": "March",
+   "t": "Marzo"
+  },
+  {
+   "k": "a0393902db",
+   "src": "April",
+   "t": "Abril"
+  },
+  {
+   "k": "c94f479833",
+   "src": "May",
+   "t": "Mayo"
+  },
+  {
+   "k": "a9db906761",
+   "src": "June",
+   "t": "Junio"
+  },
+  {
+   "k": "df97a42549",
+   "src": "July",
+   "t": "Julio"
+  },
+  {
+   "k": "69d97c5797",
+   "src": "August",
+   "t": "Agosto"
+  },
+  {
+   "k": "1c542e79c9",
+   "src": "September",
+   "t": "Septiembre"
+  },
+  {
+   "k": "87206ae236",
+   "src": "October",
+   "t": "Octubre"
+  },
+  {
+   "k": "3c5bf776f5",
+   "src": "November",
+   "t": "Noviembre"
+  },
+  {
+   "k": "65640c6577",
+   "src": "December",
+   "t": "Diciembre"
+  },
+  {
+   "k": "15363eb576",
+   "src": "Active filters",
+   "t": "Filtros activos"
+  },
+  {
    "k": "412226715c",
    "src": "Clear filters",
    "t": "Borrar filtros"
@@ -708,9 +793,9 @@
    "t": "Destacado"
   },
   {
-   "k": "0b4aa9c583",
-   "src": "Article. Event playbooks. All channels. Elaine Kwon. Nov 5, 2026",
-   "t": "Artículo. Guías de eventos. Todos los canales. Elaine Kwon. 5 de noviembre de 2026"
+   "k": "3ba6f5e340",
+   "src": "Article. Event playbooks. All channels. Elaine Kwon. Nov 5, 2026. 4-minute read",
+   "t": "Artículo. Guías de eventos. Todos los canales. Elaine Kwon. 5 de noviembre de 2026. Lectura de 4 minutos"
   },
   {
    "k": "dfe890b074",
@@ -753,9 +838,9 @@
    "t": "Paquetes apilados en los escalones entre tres puertas de casas adosadas, con hojas de otoño en la acera"
   },
   {
-   "k": "f11719d1f3",
-   "src": "Article. Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026",
-   "t": "Artículo. Guías de eventos. Amazon. Jordan Taylor. 3 de noviembre de 2026"
+   "k": "e13df141bb",
+   "src": "Article. Event playbooks. Amazon. Jordan Taylor. Nov 3, 2026. 4-minute read",
+   "t": "Artículo. Guías de eventos. Amazon. Jordan Taylor. 3 de noviembre de 2026. Lectura de 4 minutos"
   },
   {
    "k": "65361a21e8",

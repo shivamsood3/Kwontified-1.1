@@ -33,9 +33,9 @@
    "t": "<1>Inicio</1> / <2>Perspectives</2> / <3>Prime Big Deal Days 2026</3>"
   },
   {
-   "k": "3ee49e5c4d",
-   "src": "Article. Event playbooks. Amazon",
-   "t": "Artículo. Guías de eventos. Amazon"
+   "k": "6b8130b077",
+   "src": "<1>Article</1>. <2>Event playbooks</2>. <3>Amazon</3>",
+   "t": "<1>Artículo</1>. <2>Guías de eventos</2>. <3>Amazon</3>"
   },
   {
    "k": "65361a21e8",
@@ -43,9 +43,9 @@
    "t": "Lo que Prime Big Deal Days 2026 realmente aportó a las marcas"
   },
   {
-   "k": "117ab82c34",
-   "src": "By <1>Jordan Taylor</1>, Co-Founder and Managing Partner. Published Nov 3, 2026.",
-   "t": "Por <1>Jordan Taylor</1>, Co-Founder and Managing Partner. Publicado el 3 de noviembre de 2026."
+   "k": "be7bcca6a4",
+   "src": "By <1>Jordan Taylor</1>, Co-Founder and Managing Partner. Published Nov 3, 2026. 4-minute read.",
+   "t": "Por <1>Jordan Taylor</1>, Co-Founder and Managing Partner. Publicado el 3 de noviembre de 2026. Lectura de 4 minutos."
   },
   {
    "k": "ee3405a9dc",
@@ -186,6 +186,26 @@
    "k": "dfe890b074",
    "src": "Holiday 2026: the season now starts in October",
    "t": "Temporada navideña 2026: ahora empieza en octubre"
+  },
+  {
+   "k": "4e067a0449",
+   "src": "More articles",
+   "t": "Más artículos"
+  },
+  {
+   "k": "2e89848f24",
+   "src": "<1>Previous article</1><2><3/>Unauthorized resellers and the distribution decisions behind them</2>",
+   "t": "<1>Artículo anterior</1><2><3/>Unauthorized resellers and the distribution decisions behind them</2>"
+  },
+  {
+   "k": "91570fb542",
+   "src": "All articles",
+   "t": "Todos los artículos"
+  },
+  {
+   "k": "507decd893",
+   "src": "<1>Next article</1><2>Holiday 2026: the season now starts in October<3/></2>",
+   "t": "<1>Artículo siguiente</1><2>Temporada navideña 2026: ahora empieza en octubre<3/></2>"
   },
   {
    "k": "bffbe41f18",

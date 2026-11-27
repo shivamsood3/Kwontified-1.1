@@ -1,6 +1,9 @@
 {
   "languages": [
-    { "code": "es", "name": "Español", "english": "Spanish", "live": false }
+    { "code": "es", "name": "Español", "english": "Spanish", "live": false },
+    { "code": "fr", "name": "Français", "english": "French", "live": false },
+    { "code": "ko", "name": "한국어", "english": "Korean", "live": false },
+    { "code": "zh", "name": "简体中文", "english": "Chinese (Simplified)", "tag": "zh-Hans", "live": false }
   ],
   "keep": [
     "Kwontified", "Amazon", "Walmart", "Target", "Target Plus", "Roundel", "Walmart Connect", "Zalando", "Mercado Libre", "Temu",

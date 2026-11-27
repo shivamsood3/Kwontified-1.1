@@ -33,6 +33,7 @@ const routes = siteRoutes();
 const routeOfFile = new Map(routes.map((r) => [path.basename(r.file), r.route]));
 const fileOfRoute = new Map(routes.map((r) => [r.route, path.basename(r.file)]));
 for (const l of cfg.languages) if (!/^[a-z]{2}(-[a-z]{2})?$/.test(l.code) || l.code === "en") fail(`language code "${l.code}" must be two letters (optionally a region, as in pt-br) and not "en"`);
+for (const l of cfg.languages) if (l.tag && !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(l.tag)) fail(`language tag "${l.tag}" is not a valid language tag (examples: zh-Hans, pt-BR)`);
 const loc = (lang, route) => `/${lang}${route === "/" ? "" : route}`;
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 
@@ -57,7 +58,7 @@ const CSS = `<style data-kq-i18n>
 function switcher(html, here, versions) {
   if (versions.length < 2) return html;
   const cur = versions.find((v) => v.code === here);
-  const links = (cls) => versions.map((v) => `<a${cls ? ` class="${cls}"` : ""} href="${v.href}" lang="${v.code}" hreflang="${v.code}"${v.code === here ? ' aria-current="true"' : ""}>${v.name}</a>`).join("");
+  const links = (cls) => versions.map((v) => `<a${cls ? ` class="${cls}"` : ""} href="${v.href}" lang="${v.tag}" hreflang="${v.tag}"${v.code === here ? ' aria-current="true"' : ""}>${v.name}</a>`).join("");
   const head = `<span class="kq-dd kq-dd-lang"><button type="button" class="kq-ddb kq-ddb-lang" aria-expanded="false" aria-controls="kq-dd-lang" aria-label="Language: ${cur.name}">${here.toUpperCase()}${CHEVRON}</button><div class="kq-ddp" id="kq-dd-lang">${links("")}</div></span>`;
   const a = html.indexOf("<header"), b = html.indexOf("</header>", a);
   let h = html.slice(a, b);
@@ -73,7 +74,7 @@ function switcher(html, here, versions) {
   if (html.split(cookie).length === 2) html = html.replace(cookie, () => `<span class="kq-lang">${GLOBE}${links("")}</span> ` + cookie);
   return html.replace("</head>", () => CSS + "</head>");
 }
-const hreflang = (versions, enHref) => versions.map((v) => `<link rel="alternate" hreflang="${v.code}" href="${BASE}${v.href === "/" ? "" : v.href}">`).join("") + `<link rel="alternate" hreflang="x-default" href="${BASE}${enHref === "/" ? "" : enHref}">`;
+const hreflang = (versions, enHref) => versions.map((v) => `<link rel="alternate" hreflang="${v.tag}" href="${BASE}${v.href === "/" ? "" : v.href}">`).join("") + `<link rel="alternate" hreflang="x-default" href="${BASE}${enHref === "/" ? "" : enHref}">`;
 
 // The site's two shared scripts, with their hooks pointed at the English values kept on the page.
 // One copy serves every language.
@@ -83,7 +84,7 @@ function neutral(name) {
   if (!neutralDone.has(out)) { neutralDone.add(out); fs.writeFileSync(path.join(ASSETS, out), hooks(fs.readFileSync(path.join(ASSETS, name + ".js"), "utf8"))); }
   return out;
 }
-for (const f of fs.readdirSync(ASSETS)) if (/^kq-(fx|nav)-[0-9a-f]{12}\.i18n\.js$/.test(f)) fs.unlinkSync(path.join(ASSETS, f));
+for (const f of fs.readdirSync(ASSETS)) if (/^kq-(fx|nav|px)-[0-9a-f]{12}\.i18n\.js$/.test(f)) fs.unlinkSync(path.join(ASSETS, f));
 const runtime = runtimeStrings();
 
 // Words in another language are often longer. If the header no longer fits on one line, it
@@ -108,12 +109,32 @@ function run(){S.forEach(function(c){html.classList.remove(c);});for(var i=0;i<S
 run();addEventListener('resize',run);addEventListener('load',run);if(d.fonts&&d.fonts.ready)d.fonts.ready.then(run);
 if('MutationObserver' in window){var was=head.classList.contains('is-stuck');new MutationObserver(function(){var now=head.classList.contains('is-stuck');if(now!==was){was=now;run();}}).observe(head,{attributes:true,attributeFilter:['class']});}})();</script>`;
 
+// Korean, Chinese and Japanese: the site's typeface has no glyphs for them, so name the system
+// faces to use (in the order Apple, Windows, Android / Linux), and undo the settings that only
+// suit Latin type: tightened letter-spacing and very tight heading line-height.
+const SCRIPT = {
+  ko: { faces: "'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR','Noto Sans CJK KR'", wrap: "word-break:keep-all;overflow-wrap:anywhere" },
+  zh: { faces: "'PingFang SC','Microsoft YaHei','Noto Sans SC','Noto Sans CJK SC','Hiragino Sans GB'", wrap: "line-break:strict" },
+  ja: { faces: "'Hiragino Sans','Yu Gothic','Meiryo','Noto Sans JP','Noto Sans CJK JP'", wrap: "line-break:strict" },
+};
+function scriptCss(lang) {
+  const s = SCRIPT[lang.slice(0, 2)];
+  if (!s) return "";
+  return `<style data-kq-script>
+html,body,body *{font-family:'Neue Haas Grotesk Display Pro','Neue Haas Grotesk Text Pro','Helvetica Neue',Helvetica,Arial,${s.faces},sans-serif!important}
+body{${s.wrap}}
+h1,h2,h3,h4,blockquote,[style*="letter-spacing: -"],[style*="letter-spacing:-"]{letter-spacing:0!important}
+h1,h2,h3{line-height:1.3!important}
+article[data-art="body"] p,article[data-art="body"] li{line-height:1.8!important}
+</style>`;
+}
+
 const built = [];           // every translated page: { lang, route, en, file, live }
 const versionsOf = new Map(); // English route -> [{ code, name, href, live }]
 let checked = 0;
 
 for (const L of cfg.languages) {
-  const lang = L.code, mem = memory(lang);
+  const lang = L.code, tag = L.tag || lang, mem = memory(lang);
   const pages = mem.files.filter((f) => f.json.route).map((f) => f.json.route);
   for (const r of pages) if (!fileOfRoute.has(r)) fail(`${lang}: ${r} has a translation file but is not a page any more`);
   const available = new Set(pages);
@@ -129,6 +150,8 @@ for (const L of cfg.languages) {
       // the index lists only what exists in this language
       const keepItem = (it) => { const h = (it.match(/<a\b[^>]*class="[^"]*\bkq-sl\b[^"]*"[^>]*href="([^"#?]+)/) || it.match(/<a\b[^>]*href="(\/perspectives\/[^"#?]+)"[^>]*class="[^"]*\bkq-sl\b/) || [])[1]; return h && available.has(h); };
       html = html.replace(/<(article|li)\b[^>]*data-date="[^"]*"[\s\S]*?<\/\1>/g, (it) => (keepItem(it) ? it : ""));
+      // the counts on the tabs and filters are the English archive's; a partly translated index shows none
+      html = html.replace(/ data-n="\d+"/g, "");
       const name = (html.match(/data-kq-more="\/assets\/([^"]+)"/) || [])[1];
       if (name) { const j = JSON.parse(fs.readFileSync(path.join(ASSETS, name), "utf8")); more = {}; for (const [id, list] of Object.entries(j)) more[id] = list.filter(keepItem); }
       // a list with nothing in this language is not shown
@@ -151,7 +174,7 @@ for (const L of cfg.languages) {
 
     // language, address, links
     if (!/<html lang="en">/.test(html)) fail(`${file}: expected <html lang="en">`);
-    html = html.replace('<html lang="en">', `<html lang="${lang}">`);
+    html = html.replace('<html lang="en">', `<html lang="${tag}">`);
     const enUrl = BASE + (route === "/" ? "" : route), myUrl = BASE + loc(lang, route);
     html = html.replace(/(<link rel="canonical" href=")[^"]*/, (_, a) => a + myUrl).replace(/(<meta property="og:url" content=")[^"]*/, (_, a) => a + myUrl);
     html = html.replace(/(<a\b[^>]*\shref=")(\/[^"#?]*)/g, (m, a, h) => (available.has(h) ? a + loc(lang, h) : m));
@@ -169,24 +192,24 @@ for (const L of cfg.languages) {
             else if (/^(headline|name|description|text|alternativeHeadline)$/.test(k) && tr(v)) o[k] = tr(v).replace(/<\/?\d+\/?>/g, "");
           } else walk(v);
         }
-        if (own && /^(BlogPosting|NewsArticle|Article|WebPage|CollectionPage|AboutPage|ContactPage)$/.test(String(o["@type"]))) o.inLanguage = lang;
+        if (own && /^(BlogPosting|NewsArticle|Article|WebPage|CollectionPage|AboutPage|ContactPage)$/.test(String(o["@type"]))) o.inLanguage = tag;
       })(j);
       return a + JSON.stringify(j) + z;
     });
     // styles and scripts find elements by the English label or address kept in data-kq-label / data-kq-href
     html = html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, hooks)
       .replace(/<script\b(?![^>]*\b(?:src=|type="application\/(?:ld\+)?json"|type="speculationrules"))[^>]*>[\s\S]*?<\/script>/g, hooks)
-      .replace(/(<script defer src="\/assets\/)(kq-(?:fx|nav)-[0-9a-f]{12})\.js(")/g, (_, a, name, z) => a + neutral(name) + z);
+      .replace(/(<script defer src="\/assets\/)(kq-(?:fx|nav|px)-[0-9a-f]{12})\.js(")/g, (_, a, name, z) => a + neutral(name) + z);
     // the words the site's scripts show, in this language
     const dict = Object.fromEntries(runtime.map((str) => [str, mem.map.get(key(str))]).filter(([, t]) => t));
-    html = html.replace("</head>", () => `<script>window.kqT=${JSON.stringify(dict).replace(/</g, "\\u003c")}</script>` + hooks(FIT_CSS) + FEW_CSS + "</head>");
+    html = html.replace("</head>", () => `<script>window.kqT=${JSON.stringify(dict).replace(/</g, "\\u003c")}</script>` + hooks(FIT_CSS) + FEW_CSS + scriptCss(lang) + "</head>");
     if (html.split("</header>").length !== 2) fail(`${file}: expected one header`);
     html = html.replace("</header>", () => "</header>" + FIT_JS);
     const out = `${lang}--${file}`;
     fs.writeFileSync(path.join(DIR, out), html);
-    built.push({ lang, route: loc(lang, route), en: route, file: "/_kq/" + out, live: !!L.live, done: res.done, missing: res.missing });
-    if (!versionsOf.has(route)) versionsOf.set(route, [{ code: "en", name: "English", href: route, live: true }]);
-    versionsOf.get(route).push({ code: lang, name: L.name, href: loc(lang, route), live: !!L.live });
+    built.push({ lang, tag, route: loc(lang, route), en: route, file: "/_kq/" + out, live: !!L.live, done: res.done, missing: res.missing });
+    if (!versionsOf.has(route)) versionsOf.set(route, [{ code: "en", tag: "en", name: "English", href: route, live: true }]);
+    versionsOf.get(route).push({ code: lang, tag, name: L.name, href: loc(lang, route), live: !!L.live });
   }
 }
 
@@ -209,7 +232,7 @@ for (const [route, all] of versionsOf) {
   }
 }
 
-fs.writeFileSync(path.join(ROOT, "site-i18n-routes.json"), JSON.stringify(built.map(({ lang, route, en, file, live }) => ({ lang, route, en, file, live })), null, 1) + "\n");
+fs.writeFileSync(path.join(ROOT, "site-i18n-routes.json"), JSON.stringify(built.map(({ lang, tag, route, en, file, live }) => ({ lang, tag, route, en, file, live })), null, 1) + "\n");
 if (englishPages().length < 1000) fail("the English pages are missing; run the whole build");
 const by = {}; for (const b of built) (by[b.lang] ||= []).push(b);
 console.log(`site-i18n: ${built.length} translated page${built.length === 1 ? "" : "s"}` + Object.entries(by).map(([l, p]) => ` | ${l}${cfg.languages.find((x) => x.code === l).live ? "" : " (preview)"}: ${p.length} pages, ${p.reduce((n, x) => n + x.done, 0)} entries translated, ${p.reduce((n, x) => n + x.missing, 0)} still in English`).join("") + ` | ${checked} translations checked | language menu added to ${english} English pages`);
