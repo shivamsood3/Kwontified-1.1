@@ -88,12 +88,12 @@ check(CH.every((c) => c.lo <= c.fc && c.fc <= c.hi) && AMZ.hi < AMZ.goal, "each 
 check((AMZ.adSales / AMZ.spend).toFixed(2) === "4.65" && ((100 * CH[1].spend) / CH[1].sales).toFixed(1) === "8.3", "the mockup's channel table");
 const ON_GOAL = 0.0025; // within 0.25% of goal reads "On goal"
 
-// contribution by channel: sales less refunds, the marketplace's fees, promotions, fulfilment and ad
+// contribution by channel: sales less refunds, the marketplace's fees, promotions, fulfillment and ad
 // spend (no product cost). Amazon and Walmart from their settlements; Target Plus from the weekly
 // upload (Target's commission and refunds) and the brand's own 3PL invoices for shipping its orders.
 // Amazon refunds are filled in below from the units returned (Returns tab) at their selling prices
-const COSTS = { refunds: 18500, referral: 133950, fulfilment: 109040, storage: 7410, promotions: 10360 };
-const CCOSTS = [COSTS, { refunds: 3650, referral: 34220, fulfilment: 31940, storage: 1060, promotions: 0 }, { refunds: 1520, referral: 15240, fulfilment: 9860, storage: 0, promotions: 0 }];
+const COSTS = { refunds: 18500, referral: 133950, fulfillment: 109040, storage: 7410, promotions: 10360 };
+const CCOSTS = [COSTS, { refunds: 3650, referral: 34220, fulfillment: 31940, storage: 1060, promotions: 0 }, { refunds: 1520, referral: 15240, fulfillment: 9860, storage: 0, promotions: 0 }];
 CH.forEach((c, i) => { c.contrib = c.sales - sum(Object.values(CCOSTS[i]), (v) => v) - c.spend; });
 ALL.contrib = sum(CH, (c) => c.contrib);
 const contribution = AMZ.contrib, contribShare = ((100 * contribution) / AMZ.sales).toFixed(1), allShare = ((100 * ALL.contrib) / ALL.sales).toFixed(1);
@@ -253,7 +253,7 @@ check(withStep.length === 4 && suppressed.length === 2, "open steps");
 const byName = PRODUCTS.map((p) => p.n).sort();
 // FBA reimbursements this month: product, units, what happened, amount. Each is paid per unit at
 // about 65% of the product's average selling price, to the cent, so a unit comes to $24.70 to $41.59.
-const REIMB = [["Night cream", 12, "lost in a warehouse"], ["Vitamin C serum", 8, "lost in a warehouse"], ["Retinol serum", 6, "damaged in fulfilment"], ["Gift set", 2, "damaged in fulfilment"]]
+const REIMB = [["Night cream", 12, "lost in a warehouse"], ["Vitamin C serum", 8, "lost in a warehouse"], ["Retinol serum", 6, "damaged in fulfillment"], ["Gift set", 2, "damaged in fulfillment"]]
   .map(([n, u, why]) => { const p = PRODUCTS.find((x) => x.n === n); return [n, u, why, Math.round(u * Math.round(65 * p.sales / p.units) / 100)]; });
 const reimbTotal = sum(REIMB, (r) => r[3]);
 check(reimbTotal === 804 && REIMB.every(([, u, , v]) => v / u >= 24 && v / u <= 60), "reimbursements: four cases, $804, $24 to $60 a unit");
@@ -335,7 +335,7 @@ check(coupon.more === 8000 && coupon.discount === 2000 && coupon.fee === 490 && 
 // each decision in contribution after product cost: extra sales less Amazon's fees and refunds (their
 // share of Amazon sales) and product cost (22% of selling price, from the brand's cost file), less the
 // extra ad spend or discounts
-const PCOST = 0.22, margin = 1 - (COSTS.referral + COSTS.fulfilment + COSTS.refunds) / AMZ.sales - PCOST;
+const PCOST = 0.22, margin = 1 - (COSTS.referral + COSTS.fulfillment + COSTS.refunds) / AMZ.sales - PCOST;
 lift.contrib = r100(lift.sales * margin - lift.spend); coupon.contrib = r100(coupon.more * margin - coupon.cost);
 check(Math.round(100 * margin) === 49 && (100 * (1 - PCOST - margin)).toFixed(1) === "28.8" && margin.toFixed(3) === "0.492" && lift.contrib === 400 && coupon.contrib === 1400, "the decisions in contribution");
 const recovered = lift.sales + coupon.more;
@@ -482,7 +482,7 @@ export function portalSection({ section, two, H2, P }) {
     ["Contribution", usd(ALL.contrib), ["+7.4%", "pos"], ["+20.3%", "pos"], WK.contrib],
   ];
   const kstrip = `<p class="kq-pt-kkey n">Change vs Sep 1 to 23 · vs 2025</p><ul class="kq-pt-card kq-pt-kstrip">${KPIS.map(([l, v, a, b, s]) => `<li><p class="kl">${l}</p><div class="kr"><p class="kv">${v}</p>${spark(s)}</div><p class="kd"><span class="${a[1]}">${a[0]}</span> <span class="mut w">vs Sep 1 to 23</span></p><p class="kd"><span class="n mut">· </span><span class="${b[1]}">${b[0]}</span> <span class="mut w">vs Oct 1 to 23, 2025</span></p></li>`).join("")}</ul>
-${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon ads and DSP, Walmart Connect, Target Roundel. <b>ROAS</b> ad-attributed sales ÷ ad spend. <b>TACoS</b> ad spend ÷ total sales. <b>Contribution</b> sales less refunds, marketplace fees, promotions, fulfilment and ad spend, before product cost (${allShare}% of sales; by channel below). Lines: the eight weeks to Oct 19.<span class="n"> <b>A week</b> (Needs attention) average weekly sales, Oct 1 to 23, of what is affected (a suppressed listing: while it was listed).</span>`, "kq-pt-defs")}`;
+${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon ads and DSP, Walmart Connect, Target Roundel. <b>ROAS</b> ad-attributed sales ÷ ad spend. <b>TACoS</b> ad spend ÷ total sales. <b>Contribution</b> sales less refunds, marketplace fees, promotions, fulfillment and ad spend, before product cost (${allShare}% of sales; by channel below). Lines: the eight weeks to Oct 19.<span class="n"> <b>A week</b> (Needs attention) average weekly sales, Oct 1 to 23, of what is affected (a suppressed listing: while it was listed).</span>`, "kq-pt-defs")}`;
 
   const SCALE = 1.1; // the bars run to 110% of goal, so a forecast above goal still fits
   const status = (c) => { const gap = c.fc - c.goal; return Math.abs(gap) / c.goal < ON_GOAL ? pill("flat", "On goal") : gap < 0 ? pill("warn", `${usd(-gap)} short`) : pill("good", `${usd(gap)} ahead`); };
@@ -521,7 +521,7 @@ ${defs(`<b>Total sales</b> ordered sales before refunds. <b>Ad spend</b> Amazon 
     { t: `Run a 10% coupon on the vitamin C serum, Oct 27 to 31`, d: `+${usd(coupon.more)} sales at September’s ${SEPC.lift}% lift, less ${usd(coupon.discount)} discount and ${usd(coupon.fee)} est. fee: +${usd(coupon.contrib)} contribution.`, who: MO, by: "Oct 25", go: go("Promotions", hashOf("Promotions"), "kq-pt-pr-new", "for the proposed coupon") },
     { t: `Order ${num(order(retinol))} units of retinol serum by ${orderBy(retinol)}`, d: `Out around ${runsOut(retinol)} at the Q4 forecast (${cover(retinol).toFixed(1)} weeks with ${num(retinol.inb)} inbound); a week out costs ${usd(retinolDec)} sales, ${usd(retinolDecC)} contribution.`, who: MO, by: "Oct 28", go: go("Inventory", hashOf("Inventory"), rowId(retinol), "for retinol serum") },
   ];
-  const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two add about ${usd(recovered)} to Amazon’s October</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span><span class="ans js" role="group" aria-label="Your answer: ${plain(x.t)}"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="A team member calls you by ${x.by}" aria-pressed="false" disabled>Discuss</button></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note">Agree and we act; Discuss and a team member calls you before the decide-by date. Contribution here: each extra dollar of sales less Amazon’s fees, fulfilment and refunds (${pct(100 * (1 - PCOST - margin), 1)}) and product cost (${pct(100 * PCOST, 0)}), so ${Math.round(100 * margin)} cents, less any extra spend, discount or fee.</p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
+  const decisions = `<div class="kq-pt-card rec" id="kq-pt-dec" tabindex="-1"><h4 class="kq-pt-h2">Decisions for you <small class="w">the first two add about ${usd(recovered)} to Amazon’s October</small></h4><ul class="kq-pt-dec">${DECISIONS.map((x) => `<li><p class="at">${x.t}</p><p class="ad">${x.d}</p><p class="dm"><span class="dw"><b>${x.who}</b> · <span class="st" data-by="Decide by ${x.by}">Decide by ${x.by}</span></span><span class="ans js" role="group" aria-label="Your answer: ${plain(x.t)}"><button type="button" class="hit" data-ans="You agreed Oct 24" aria-pressed="false" disabled>Agree</button><button type="button" class="hit" data-ans="A team member calls you by ${x.by}" aria-pressed="false" disabled>Discuss</button></span>${x.go}</p></li>`).join("")}</ul><p class="kq-pt-note">Agree and we act; Discuss and a team member calls you before the decide-by date. Contribution here: each extra dollar of sales less Amazon’s fees, fulfillment and refunds (${pct(100 * (1 - PCOST - margin), 1)}) and product cost (${pct(100 * PCOST, 0)}), so ${Math.round(100 * margin)} cents, less any extra spend, discount or fee.</p><p class="sr" role="status" id="kq-pt-osay"></p>${team}</div>`;
 
   // what the team is handling: ranked by severity, then by the weekly sales of what is affected
   const ALERTS = [
@@ -593,7 +593,7 @@ ${channels}
     + tbl("kq-pt-c4", "Returns and repeat purchase by product, Oct 1 to 23",
       th("Product", "", true, "", PH) + th("Units ordered") + th("Returned") + th("Return rate", "", true, "num", ["Return rate (%)"]) + th("Top return reason", "", false, "") + th("Repeat buyers", "share of customers", true, "num", ["Repeat buyers (%)"]) + th("Subscribe and Save", "active subscriptions", true, "num", ["Subscribe and Save subscriptions"]),
       PRODUCTS.map((p) => `<tr>${name(p)}${td(p.units, num(p.units))}${td(p.ret, num(p.ret))}${td(((100 * p.ret) / p.units).toFixed(2), pct((100 * p.ret) / p.units), undefined, "num", [f1((100 * p.ret) / p.units)])}<td>${p.why}</td>${td(p.rep, `${p.rep}%`)}${td(p.sns, p.sns ? num(p.sns) : "Not enrolled")}</tr>`).join(""), "", "returns")
-    + `<p class="kq-pt-note">Reimbursements this month: ${word(REIMB.length)} cases, ${num(sum(REIMB, (r) => r[1]))} units, ${usd(reimbTotal)}, filed by Revenue Recovery. ${["lost in a warehouse", "damaged in fulfilment"].map((why, i) => (i ? why : cap(why)) + ": " + REIMB.filter((r) => r[2] === why).map(([n, u, , v]) => `${u} ${(u > 1 && n === "Gift set" ? "gift sets" : n.replace(/^./, (c) => c.toLowerCase()))} (${usd(v)})`).join(" and ")).join("; ")}.</p>`
+    + `<p class="kq-pt-note">Reimbursements this month: ${word(REIMB.length)} cases, ${num(sum(REIMB, (r) => r[1]))} units, ${usd(reimbTotal)}, filed by Revenue Recovery. ${["lost in a warehouse", "damaged in fulfillment"].map((why, i) => (i ? why : cap(why)) + ": " + REIMB.filter((r) => r[2] === why).map(([n, u, , v]) => `${u} ${(u > 1 && n === "Gift set" ? "gift sets" : n.replace(/^./, (c) => c.toLowerCase()))} (${usd(v)})`).join(" and ")).join("; ")}.</p>`
     + defs(`<b>Return rate</b> units returned ÷ units ordered. <b>Repeat buyers</b> customers who bought the product more than once, from Brand Analytics, to Oct 17. Subscriptions as of ${INV_ASOF}.`);
 
   const promos = tool(`October promotions cost ${usd(COSTS.promotions)}, counted in contribution`, "", "kq-pt-c5-t")
