@@ -331,7 +331,7 @@ const page = (route) => { if (!PAGES.has(route)) PAGES.set(route, open(route)); 
   steps(P, ["Set up each country", "Price for installments", "Write for each country", "Advertise by country"], [
     ["Choose the route in", "Global Selling to test demand in Mexico, Brazil, Chile and Colombia from one account, or a local account in each country where you are ready to register and hold stock. From you: your target countries."],
     ["Set up each country", "Registration, tax, payments and shipping configured one country at a time, with Spanish and Portuguese listings written from each country’s search terms."],
-    ["Price for installments", "Clásica or Premium listing type and the installment plan chosen per product, so the price shoppers see still clears your margin after fees and financing costs. A personal care brand nearly doubled its margin from 9% this way." + caseLink("/work/margin-nearly-doubled-by-choosing-listing-types-product")],
+    ["Price for installments", "Clásica or Premium listing type and the installment plan chosen per product, so the price shoppers see still clears your margin after fees and financing costs. A personal care brand nearly doubled its margin from 9% this way." + caseLink("/work/mercado-libre-margin-nearly-doubled")],
     ["Stock and advertise by country", "Full where it is available and volume supports its storage charge, Mercado Envios elsewhere, and Mercado Ads budgeted by country and category. We report sales, fees and margin country by country."],
   ]);
   report.questions.push(["Mercado Libre", questions(P, {

@@ -187,6 +187,7 @@ for (const [name, p] of Object.entries(pages)) {
   if (n < 1) fail(`${name}: no description to set`);
   h = h.replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*/g, (_, x) => x + p.title);
   if (!/<meta name="robots" content="noindex">/.test(h)) fail(`${name}: the shell is not marked noindex`);
+  { let k = 0; h = h.replace(/<meta name="robots" content="noindex">/g, (m) => (k++ ? "" : m)); } // one robots tag (QA seo-r2-06)
   if (h.split("</head>").length !== 2) fail(`${name}: expected one </head>`);
   h = h.replace("</head>", () => CSS + "</head>");
   if (p.tail) h = h.replace(/<\/body>(?![\s\S]*<\/body>)/, () => p.tail + "</body>");

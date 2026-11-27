@@ -378,7 +378,7 @@ for (const f of files) {
   html = html.replace(/<dialog class="kq-cmdk" id="kq-cmdk"/, (x) => `${x} data-kq-articles="/assets/${search.name}"`);
   const footRow = '<div class="kq-foot">';
   if (html.split(footRow).length !== 2) fail(`${f}: the search dialog changed shape`);
-  html = html.replace(footRow, () => '<a class="kq-cmdk-more" href="/perspectives"></a><p class="kq-cmdk-st" role="status" aria-live="polite" aria-atomic="true"></p>' + footRow);
+  html = html.replace(footRow, () => '<a class="kq-cmdk-more" href="/perspectives">All Perspectives</a><p class="kq-cmdk-st" role="status" aria-live="polite" aria-atomic="true"></p>' + footRow);
   // search list: the Perspectives index is "Perspectives"; the "Perspectives post" entry (one fixed article,
   // already in the archive results) is dropped
   {

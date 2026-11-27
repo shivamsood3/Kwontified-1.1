@@ -157,6 +157,8 @@ for (const file of fs.readdirSync(DIR).filter((f) => f.endsWith(".html"))) {
     if (ck.split(find).length !== 2) throw new Error(`site-tags: ${file}: the cookie notice changed ("${find.slice(0, 40)}")`);
     ck = ck.replace(find, () => put);
   }
+  // snippet generators and text extractors must not read the notice as the page's opening text (QA seo-r2-02)
+  ck = ck.replace('<aside class="kq-ck"', '<aside class="kq-ck" data-nosnippet');
   html = html.replace(aside[0], "");
   const root = /<body[^>]*>\s*<div\b[^>]*>/;
   if (!root.test(html)) throw new Error(`site-tags: ${file}: no page wrapper to put the cookie notice in`);

@@ -51,7 +51,9 @@ const slugify = (t) => {
 // a year", which read as full-year totals. The new title goes on every page that names the case
 // (cards, slide, site search); its address stays the same so existing links keep working.
 const RETITLE = [["Affiliate sales from $380K to $2.3M in a year", "First-half affiliate sales from $380K to $2.3M"]];
-const KEEP_URL = { "first-half affiliate sales from $380k to $2.3m": "/work/affiliate-sales-from-380k-to-2-3m-in-a-year" };
+// fixed addresses: the TikTok case keeps its old one; the Mercado Libre margin case gets a whole-phrase
+// address instead of one cut mid-phrase (QA seo-r2-04; the cut form redirects via site-src/redirects.json)
+const KEEP_URL = { "first-half affiliate sales from $380k to $2.3m": "/work/affiliate-sales-from-380k-to-2-3m-in-a-year", "margin nearly doubled by choosing listing types product by product": "/work/mercado-libre-margin-nearly-doubled" };
 for (const [was, now] of RETITLE) {
   let n = 0;
   for (const f of Object.keys(P)) {
