@@ -176,10 +176,12 @@ var d=document,w=window,html=d.documentElement;
 var reduce=!!(w.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 var skip=d.querySelector('.kq-skip'),root=skip?skip.parentNode:d.body;
 function raf(fn){var t=0;return function(){if(!t)t=requestAnimationFrame(function(){t=0;fn();});};}
+/* words shown to the visitor; a translated page supplies its own in window.kqT */
+function T(s){return (w.kqT&&w.kqT[s])||s;}
 
 /* forms: the button says what is happening; a field explains its own error */
 (function(){
-var WAIT={newsletter:'Subscribing\\u2026',contact:'Sending\\u2026'},n=0;
+var WAIT={newsletter:T('Subscribing\\u2026'),contact:T('Sending\\u2026')},n=0;
 function btn(f){return f.querySelector('button[type="submit"],button:not([type])');}
 function rest(b){if(!b||!b.hasAttribute('data-kq-label'))return;b.textContent=b.getAttribute('data-kq-label');b.removeAttribute('data-kq-label');b.removeAttribute('aria-busy');}
 w.addEventListener('submit',function(e){var f=e.target;if(!f||!f.matches||!f.matches('form[data-kq-form]'))return;
@@ -189,8 +191,8 @@ if('MutationObserver' in w&&!b.kqWatch){b.kqWatch=1;new MutationObserver(functio
 },true);
 w.addEventListener('pageshow',function(e){if(!e.persisted)return;[].slice.call(d.querySelectorAll('form[data-kq-form] button[data-kq-label]')).forEach(function(b){b.disabled=false;rest(b);});});
 function text(el){var v=el.validity;
-if(el.type==='email'){if(v.valueMissing)return 'Enter your work email address.';if(v.typeMismatch)return 'Check the email address. It should look like name@company.com.';}
-if(v.valueMissing)return 'This field is required.';return el.validationMessage||'Check this field.';}
+if(el.type==='email'){if(v.valueMissing)return T('Enter your work email address.');if(v.typeMismatch)return T('Check the email address. It should look like name@company.com.');}
+if(v.valueMissing)return T('This field is required.');return el.validationMessage||T('Check this field.');}
 function slot(el){var id=el.id||(el.id='kq-f'+(n++)),m=d.getElementById(id+'-err');if(m)return m;
 m=d.createElement('p');m.id=id+'-err';m.className='kq-ferr';m.setAttribute('aria-live','polite');
 var f=el.form,nl=f&&f.getAttribute('data-kq-form')==='newsletter';
@@ -207,7 +209,7 @@ d.addEventListener('input',function(e){var el=e.target;if(ours(el)&&el.validity.
 
 /* back to top: on long pages, after two screens of scrolling */
 (function(){if(d.querySelector('.kq-top'))return;
-var b=d.createElement('button');b.type='button';b.className='kq-top';b.setAttribute('aria-label','Back to top');
+var b=d.createElement('button');b.type='button';b.className='kq-top';b.setAttribute('aria-label',T('Back to top'));
 b.innerHTML='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 19V6M6 11l6-6 6 6"/></svg>';
 root.appendChild(b);
 var foot=d.querySelector('footer'),box=foot&&foot.firstElementChild,last=box&&box.lastElementChild,on=false;

@@ -158,6 +158,8 @@ const CSS = `<style data-kq-nav>
 const JS = `/* Kwontified: navigation (see scripts/site-nav.mjs) */
 (function(){'use strict';
 var d=document,w=window,html=d.documentElement;html.classList.add('kq-nav-js');
+/* words shown to the visitor; a translated page supplies its own in window.kqT */
+function T(s){return (w.kqT&&w.kqT[s])||s;}
 
 /* header menus: open on hover (mouse), on the arrow button, and with the keyboard */
 (function(){var dds=[].slice.call(d.querySelectorAll('.kq-dd')),openDd=null,tIn=0,tOut=0;if(!dds.length)return;
@@ -187,11 +189,11 @@ d.addEventListener('pointerdown',function(e){if(det.open&&!det.contains(e.target
 (function(){var dlg=d.getElementById('kq-cmdk');if(!dlg)return;var input=dlg.querySelector('input'),opener=d.querySelector('[data-cmdk]'),more=dlg.querySelector('.kq-cmdk-more'),got=0;
 d.addEventListener('keydown',function(e){if(e.key!=='/'||e.metaKey||e.ctrlKey||e.altKey||dlg.open)return;var t=e.target;
 if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;if(opener){e.preventDefault();opener.click();}});
-function hint(){if(!more)return;var q=input.value.trim();more.classList.toggle('is-on',q.length>1);more.href='/perspectives?q='+encodeURIComponent(q);more.textContent='Search Perspectives for \\u201c'+q+'\\u201d';}
+function hint(){if(!more)return;var q=input.value.trim();more.classList.toggle('is-on',q.length>1);more.href='/perspectives?q='+encodeURIComponent(q);more.textContent=T('Search Perspectives for')+' \\u201c'+q+'\\u201d';}
 input.addEventListener('input',hint);
 function load(){if(got||!w.kqSearch||!dlg.getAttribute('data-kq-articles'))return;got=1;
 fetch(dlg.getAttribute('data-kq-articles')).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(rows){
-var G=['Article','News','Press release'];rows.forEach(function(r){w.kqSearch.push({t:r[0],g:G[r[2]]||G[0],h:r[1],k:''});});
+var G=[T('Article'),T('News'),T('Press release')];rows.forEach(function(r){w.kqSearch.push({t:r[0],g:G[r[2]]||G[0],h:r[1],k:''});});
 if(dlg.open&&input.value)input.dispatchEvent(new Event('input',{bubbles:true}));}).catch(function(){got=0;});}
 if('MutationObserver' in w)new MutationObserver(function(){if(dlg.open){load();hint();}}).observe(dlg,{attributes:true,attributeFilter:['open']});
 })();

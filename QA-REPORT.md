@@ -160,6 +160,41 @@ The Perspectives index measured 98, 98 with the effects removed and 98, 98 with 
 
 All 1,083 routes return 200, the redirects and 404 page work, and build, type check and lint pass.
 
+## Navigation review (2026-11-27)
+
+Measured with a link-graph analysis of all 1,083 pages and browser tests at 320 to 1536px. Scores are out of 10 per line, on our own rubric.
+
+| | Before | After | What changed |
+|---|---|---|---|
+| Reaching pages from the header | 6 | 10 | 21 pages below Capabilities, Channels, Work and About are one step from the header; before, only from the section page or footer |
+| Header on laptop screens | 5 | 9.5 | Full header from 1180px (was 1340px, so a 1280px laptop got the Menu button); 1024 to 1179px still uses Menu |
+| Knowing where you are | 8.5 | 9.5 | Current page marked in panels and phone menu; Perspectives and the three legal pages still have no breadcrumb line |
+| Moving between sibling pages | 5 | 10 | Previous / next on 16 capability and channel pages (they linked to 0 or 1 of their siblings) |
+| Search | 7 | 10 | Finds the 1,018 archive items as well as 63 pages; "/" opens it; hands a query to the archive search |
+| Phone menu | 5 | 10 | Sections expand; panel scrolls (last items were cut off on a 568px-tall phone); Escape and outside tap close it |
+| Back button keeps your place | 7 | 10 | Pager page restored when the browser has not kept the page; Work filters already did |
+| Keyboard | 9 | 10 | Skip link, arrow keys and Escape in panels, focus returns to the button |
+| Same behaviour on home and inner pages | 8 | 9.5 | Same menus and behaviour; the home header's logo and Menu button still look slightly different |
+| Recovering from a dead end | 7 | 10 | 404 with search and closest-page suggestions; 403 page |
+| **Total** | **68** | **98** | |
+
+Every page is within two clicks of the home page (unchanged). Lighthouse after the change: performance 97 to 99, accessibility, best practices and SEO 100 on home, About, Perspectives and Walmart.
+
+## Error pages (2026-11-27)
+
+- `/no-such-page` returns 404 and `/403` returns 403; both render the full site header and footer.
+- A mistyped article address (`/perspectives/prime-day-2026-result`) offers three matching articles; a meaningless address offers none and still shows search and six starting points.
+- Lighthouse on the built files: performance 99, accessibility 100, best practices 100 (SEO is marked down only because the pages are noindex, as intended).
+
+## Translation (2026-11-27)
+
+- All 1,085 built pages can be split into text entries and reassembled byte for byte, and an "identity" translation reproduces every page.
+- Spanish preview: 358 entries in 5 files, all translated, 0 problems from the placeholder, figure and protected-name checks. Four pages build and load at `/es/...`; `/es/about` (not translated) returns 404.
+- On the Spanish pages: language, canonical address, structured data and internal links are correct; menus, search, filters, pager, forms, reading progress and back-to-top work; form messages appear in Spanish; the header fits at 320, 390, 1024, 1180, 1280 and 1440px.
+- Preview mode: noindex, absent from the sitemap, no language menu on English pages. Live mode was switched on for one build to check it: hreflang links on both versions, sitemap entries with alternates, language menu on the four English pages; then switched back.
+- Lighthouse on a Spanish article: performance 99, accessibility 100, best practices 100.
+- Not checked: the Spanish wording by a native speaker; Safari and Firefox.
+
 ## Copy pass (2026-11-26)
 
 All copy scored, refined and rescored; details in `COPY-PASS.md`. Built core pages: 66, none with a strong AI-writing tell (the two press-release datelines keep their dash). Archive: 1,013 items, none with a strong tell after 66 edits in 34 articles. All 1,083 routes return 200 after the changes.

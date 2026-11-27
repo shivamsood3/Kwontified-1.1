@@ -12,14 +12,17 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
   2. `scripts/site-fixes.mjs`: case study pages, link fixes, homepage finder and video button, article meta tags; since the QA pass also narrow-screen grid columns, font preloads and the home page `<main>`.
   3. `scripts/site-content.mjs`: Accessibility page, newsletter confirmation page, omni-channel copy, press release renames.
   4. `scripts/site-archive.mjs`: lists the imported archive on the Perspectives index.
-  5. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
-  6. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
-  7. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
-  8. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
-  9. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
-  10. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
-  11. `next build`.
-  The full build takes about a minute; most of it is step 6 making the WebP copies.
+  5. `scripts/site-errors.mjs` (added 2026-11-27): builds the 404 and 403 pages from the 404 shell `build-site.mjs` makes. See "Error pages" below.
+  6. `scripts/site-seo.mjs`: JSON-LD on every page, article share images, title length, `site-lastmod.json` for the sitemap.
+  7. `scripts/site-images.mjs`: 800 px WebP copies and `srcset` for phones (needs `sharp`, which Next.js installs; skips itself if missing).
+  8. `scripts/site-tags.mjs`: Google Tag Manager and Google Ads tag, loaded only after cookie consent.
+  9. `scripts/site-logos.mjs` (added 2026-11-27): moves the 30 home page client and press logos out of the HTML into content-hashed SVG files with the list colour written in (the page went from 545 KB to 165 KB). Fails the build if a list, its logo count or its colour changes.
+  10. `scripts/site-perspectives.mjs`: keeps the first page of Articles (9) and News (12) in the Perspectives index HTML and moves the rest to a content-hashed `public/assets/perspectives-more-*.json`, which the page loads when the lists come near the screen, on first use of search, filters or pager, or four seconds after load. It also lets the site script re-read the lists, so paging, filters and search cover the whole archive. If the developer's site script changes, this step stops the build with a clear message rather than leaving the page broken.
+  11. `scripts/site-nav.mjs` (added 2026-11-27): header menus, the full header from 1180px, the phone menu's sections, search over the archive, previous / next links. See "Navigation" below.
+  12. `scripts/site-effects.mjs` (added 2026-11-27): the interaction details from the UX review, added to every page as one small style block, one shared script (`public/assets/kq-fx-*.js`, deferred, content-hashed) and a speculation-rules block. See "UX effects" below. Fails the build if a page lacks its wrapper or `<main>`, if the home page hero or its three results change shape, or if the articles lose `data-art="body"`.
+  13. `scripts/site-i18n.mjs` (added 2026-11-27): translated copies of the pages that have a translation file. See `TRANSLATION.md`.
+  14. `next build`.
+  The full build takes about a minute; most of it is the site-images step making the WebP copies.
 - `public/_kq` is generated and git-ignored. Do not edit files there.
 
 ## The archive import (done in the chat session)
@@ -69,6 +72,37 @@ Read this first. It carries over the state of a long chat session with Jordan Ta
 - Value name: "We Raise the Bar Together" (recommended to Jordan; the original export had a dash).
 - Search descriptions: 15 case studies get their own (146 to 158 characters, `CASE_DESC` in `site-fixes.mjs`; the build fails on any over 160); the two renamed press releases get full descriptions (`site-content.mjs`); the 404 page has one (`build-site.mjs` and `app/not-found.tsx`).
 - Security headers on every response: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin` (`next.config.ts`).
+
+## Navigation (added 2026-11-27, `scripts/site-nav.mjs`)
+
+A navigation review scored the site 68 out of 100 on a ten-point rubric (reach, header on laptops, wayfinding, sibling pages, search, phone menu, Back button, keyboard, consistency, recovery); after this step and the error pages it scores 98. Details and evidence in `QA-REPORT.md`.
+
+- One list (`NAV` in the script) feeds the header panels, the phone menu and the previous / next links. Add or rename a page there. The build fails if a listed page is not a route.
+- Header: Capabilities, Channels, Work and About each open a panel (hover with a mouse, the arrow button, or the keyboard: Enter, arrow keys, Escape). The label is still a link to the section page. Without JavaScript the panels open on hover and focus.
+- The full header shows from 1180px. Between 1180 and 1279px the search label is hidden and the icon remains. Below 1180px the header is the Menu button, as before.
+- Phone and tablet menu: sections expand to their pages (the current section starts open), the panel scrolls inside the screen, and it closes on Escape or a tap outside.
+- Search: the 1,018 Perspectives titles are in `public/assets/kq-search-*.json` (123 KB, loaded the first time search opens). "/" opens search. A row under the results hands the query to `/perspectives?q=...`, which the Perspectives search now reads.
+- Capability and channel pages (16) end with previous / next links, placed before the closing section (`id="review"`).
+- Lists with a pager remember their page in `sessionStorage` and return to it on Back when the browser has not kept the page in memory.
+- The client sign-in page keeps its own plain header by design and is skipped.
+
+## Error pages (added 2026-11-27, `scripts/site-errors.mjs`)
+
+- 404: served by `app/not-found.tsx` with status 404. Search is the main action; a script offers up to three pages whose address or title is closest to the address asked for (useful for old links into the archive); six starting points; the three newest articles; a "tell us" link that carries the broken address.
+- 403: served at `/403` by `app/403/route.ts` with status 403 and noindex. Nothing on the public site refuses a visitor today. Point the client portal or a host rule at `/403` when a request is turned away. `next.config.ts` makes sure the built file ships with the route.
+- Both use photographs already in the site's library (a pallet with one carton missing; parcels at a closed navy door). No image was generated.
+- Lighthouse cannot audit a page that answers 404 or 403; audit `/_kq/404.html` and `/_kq/403.html` instead.
+
+## Translation (added 2026-11-27)
+
+See `TRANSLATION.md` for how it works, the commands and the decisions still open. In short: `scripts/i18n.mjs` extracts a page's text into `site-i18n/<language>/pages/*.json`; `scripts/site-i18n.mjs` builds translated copies at `/<language>/...`; four rewrite patterns in `next.config.ts` serve every language. Spanish is a preview (`"live": false`): four pages, noindex, not in the sitemap, not linked from English pages.
+
+Things a developer should know:
+
+- Translated pages are made from the finished English pages, so every other build step applies to them automatically.
+- Scripts and styles that find elements by `aria-label` or by a link's address keep working after translation: each labelled element and internal link also carries the English value (`data-kq-label`, `data-kq-href`), and the translated page's inline code and its copies of the two shared scripts (`*.i18n.js`) look for those.
+- Words the shared scripts show are written `T('...')`; a translated page supplies them in `window.kqT`.
+- Longer words can overflow the header, so translated pages (and English pages once they show the language menu) run a small fit script: tighten the gaps, hide the sign-in link, shrink search to its icon, then fall back to the Menu button.
 
 ## UX effects (added 2026-11-27, `scripts/site-effects.mjs`)
 

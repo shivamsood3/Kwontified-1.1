@@ -1,0 +1,30 @@
+[
+ {
+  "lang": "es",
+  "route": "/es/perspectives/holiday-season-starts-october",
+  "en": "/perspectives/holiday-season-starts-october",
+  "file": "/_kq/es--perspectives--holiday-season-starts-october.html",
+  "live": false
+ },
+ {
+  "lang": "es",
+  "route": "/es/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "en": "/perspectives/press-releases/kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter",
+  "file": "/_kq/es--perspectives--press-releases--kwontified-launches-perspectives-and-the-kwontified-briefing-newsletter.html",
+  "live": false
+ },
+ {
+  "lang": "es",
+  "route": "/es/perspectives/prime-big-deal-days-what-it-added",
+  "en": "/perspectives/prime-big-deal-days-what-it-added",
+  "file": "/_kq/es--perspectives--prime-big-deal-days-what-it-added.html",
+  "live": false
+ },
+ {
+  "lang": "es",
+  "route": "/es/perspectives",
+  "en": "/perspectives",
+  "file": "/_kq/es--perspectives.html",
+  "live": false
+ }
+]

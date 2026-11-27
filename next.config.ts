@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import siteRoutes from "./site-routes.json";
+import i18n from "./site-i18n/config.json";
 
 // Pages are the client's HTML exports, built by scripts/build-site.mjs into
 // public/_kq and served unchanged at their canonical routes.
@@ -16,6 +17,18 @@ const articleRewrites = [
   { source: "/perspectives/press-releases/:slug", destination: "/_kq/perspectives--press-releases--:slug.html" },
   { source: "/perspectives/:slug", destination: "/_kq/perspectives--:slug.html" },
 ];
+
+// Translated pages (see scripts/site-i18n.mjs): /es/about/careers is /_kq/es--about--careers.html.
+// Four patterns cover every language and page; an address with no translated file is a 404.
+const langs = i18n.languages.map((l) => l.code).join("|");
+const langRewrites = langs
+  ? [
+      { source: `/:lang(${langs})`, destination: "/_kq/:lang--index.html" },
+      { source: `/:lang(${langs})/:a`, destination: "/_kq/:lang--:a.html" },
+      { source: `/:lang(${langs})/:a/:b`, destination: "/_kq/:lang--:a--:b.html" },
+      { source: `/:lang(${langs})/:a/:b/:c`, destination: "/_kq/:lang--:a--:b--:c.html" },
+    ]
+  : [];
 
 // URLs from the previous build of the site that moved or were merged.
 const moved: Record<string, string> = {
@@ -52,7 +65,7 @@ const nextConfig: NextConfig = {
   // app/403/route.ts reads the built 403 page at run time; make sure the file ships with it
   outputFileTracingIncludes: { "/403": ["./public/_kq/403.html"] },
   async rewrites() {
-    return { beforeFiles: [...pageRewrites, ...articleRewrites], afterFiles: [], fallback: [] };
+    return { beforeFiles: [...pageRewrites, ...articleRewrites, ...langRewrites], afterFiles: [], fallback: [] };
   },
   async redirects() {
     return [

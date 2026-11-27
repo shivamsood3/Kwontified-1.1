@@ -1,0 +1,12 @@
+{
+  "languages": [
+    { "code": "es", "name": "Español", "english": "Spanish", "live": false }
+  ],
+  "keep": [
+    "Kwontified", "Amazon", "Walmart", "Target", "Target Plus", "Roundel", "Walmart Connect", "Zalando", "Mercado Libre", "Temu",
+    "TikTok Shop", "TikTok", "Instagram", "Instagram Shop", "Meta", "Alexa", "Rufus", "ChatGPT", "Claude", "Gemini", "Sparky",
+    "Vendor Central", "Seller Central", "Prime Day", "Prime Big Deal Days", "Buy Box", "A+ Content", "Storefront",
+    "ROAS", "TACoS", "ACoS", "DSP", "LinkedIn", "Substack", "YouTube", "Bluesky", "Threads", "Facebook",
+    "Elaine Kwon", "Jordan Taylor", "Atlanta", "New York", "Seattle"
+  ]
+}
