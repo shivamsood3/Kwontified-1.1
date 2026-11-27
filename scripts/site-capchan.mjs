@@ -114,9 +114,12 @@ const h3s = (s) => [...s.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g)].map((m) => te
 const same = (got, want, what) => { if (got.join(" | ") !== want.join(" | ")) fail(`${what} changed.\n   expected: ${want.join(" | ")}\n   found:    ${got.join(" | ")}`); };
 
 // the questions in the page's structured data follow the questions on the page
+// an answer that ends in a link with no sentence of its own ("See the case studies") keeps the
+// link on the page but not in the structured answer, where it read as a fragment (QA F055)
+const answerOf = (h) => text(h.replace(/\s*<a\b[^>]*>[^<.]*<\/a>(\s*<\/p>\s*)$/, "$1"));
 function faqOf(html) {
   const main = html.slice(html.indexOf("<main"), html.indexOf("</main>"));
-  return [...main.matchAll(/<details\b[^>]*>\s*<summary\b[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)].map((m) => ({ "@type": "Question", name: text(m[1]), acceptedAnswer: { "@type": "Answer", text: text(m[2]) } }));
+  return [...main.matchAll(/<details\b[^>]*>\s*<summary\b[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)].map((m) => ({ "@type": "Question", name: text(m[1]), acceptedAnswer: { "@type": "Answer", text: answerOf(m[2]) } }));
 }
 function faqData(html, file) {
   const qa = faqOf(html);
@@ -250,8 +253,9 @@ main a[href="/work/creative"]{min-height:44px;display:inline-flex;align-items:ce
 .kq-cc-chn{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto}
 }
 @media (max-width:600px){
-/* the review button on a phone's first screen: a shorter picture and closer spacing */
-.kq-hero .kq-hero-img{aspect-ratio:3 / 1;margin-bottom:8px}
+/* closer spacing above the review button; the picture keeps the 3:2 crop the other pages use
+   (260px tall on a 390px phone), so its subject stays visible (QA F036) */
+.kq-hero .kq-hero-img{margin-bottom:8px}
 .kq-hero nav[aria-label="Breadcrumb"]{margin-bottom:10px!important}
 .kq-hero h1+div{margin-top:18px!important}
 .kq-hero [data-kq-cta]{margin-top:22px!important}
@@ -275,7 +279,7 @@ main a[href="/work/creative"]{min-height:44px;display:inline-flex;align-items:ce
 const PAGES = new Map(FILES.map((f) => [f, open(f)]));
 for (const P of PAGES.values()) if (P.html.includes("data-kq-capchan")) fail(`${P.file}: already applied; run the whole build`);
 const pageOf = (route) => PAGES.get(fileOf(route));
-const report = { cards: 0, matched: 0, unmatched: [], renamed: 0, questions: 0 };
+const report = { cards: 0, matched: 0, unmatched: [], renamed: 0, questions: 0, applies: 0 };
 
 for (const P of PAGES.values()) {
   // the hero: mark the review button's row so the phone layout can close the gap above it
@@ -291,6 +295,9 @@ for (const P of PAGES.values()) {
 if (report.renamed !== 5) fail(`expected 5 links named "Retail Media" to rename, found ${report.renamed}`);
 
 // ---- the hero figure: on the five capability pages without one, and a link on all of them
+const HERO_BOX = "background: #102A4C; color: #F8F6F1; padding: clamp(28px, 3.4vw, 44px); box-sizing: border-box; margin-top: 44px; max-width: 520px";
+const HERO_FIG = "margin: 0; font-size: clamp(50px, 6vw, 92px); line-height: 0.92; letter-spacing: -0.045em; color: #DCBF85; font-variant-numeric: tabular-nums";
+const HERO_LINE = "margin: 24px 0 0; font-size: 18px; max-width: 26em";
 const figBox = (c) => `<div class="kq-cc-herofig" style="background: #E1E9F1; padding: 28px 32px; margin-top: 48px"><p style="margin: 0; font-size: clamp(30px, 2.8vw, 40px); line-height: 1; letter-spacing: -0.04em; color: #102A4C; font-variant-numeric: tabular-nums"><span data-roll>${c.fig}</span></p><p style="margin: 14px 0 0; font-size: 18px; max-width: 30em">${c.label}</p></div>`;
 for (const c of CAPS) {
   const P = pageOf(c.route);
@@ -302,9 +309,18 @@ for (const c of CAPS) {
   else P.parts[0] = once(P.parts[0], "</a></div></div></div></div></section>", `</a></div>${figBox(c)}</div></div></div></section>`, `${c.file}: the end of the hero`);
   P.parts[0] = P.parts[0].replace(/(<div(?: class="kq-cc-herofig")? style="background: #E1E9F1; padding: 28px 32px; margin-top: 48px">[\s\S]*?)<\/div>/, (_, box) => `${box}<a class="kq-cc-figlink" href="${c.work}" style="color: #102A4C">Read the case study</a></div>`);
   if (count(P.parts[0], `href="${c.work}"`) !== 1) fail(`${c.file}: the hero figure was not linked`);
+  // one hero result box on capability and channel pages: the channel pages' navy box, at most
+  // 520px wide, so it no longer runs the width of the hero and covers its picture (QA F014, F029)
+  let boxes = 0;
+  P.parts[0] = P.parts[0].replace(/<div(?: class="kq-cc-herofig")? style="background: #E1E9F1; padding: 28px 32px; margin-top: 48px"><p style="margin: 0; font-size: clamp\(30px, 2\.8vw, 40px\); line-height: 1; letter-spacing: -0\.04em; color: #102A4C; font-variant-numeric: tabular-nums">(<span data-roll(?:="")?>[^<]*<\/span>)<\/p><p style="margin: 14px 0 0; font-size: 18px; max-width: 30em">([^<]*)<\/p><a class="kq-cc-figlink" (href="[^"]*") style="color: #102A4C">/g, (_, fig, line, href) => {
+    boxes++;
+    return `<div class="kq-cc-herofig" style="${HERO_BOX}"><p style="${HERO_FIG}">${fig}</p><p style="${HERO_LINE}">${line}</p><a class="kq-cc-figlink" ${href} style="color: #F8F6F1">`;
+  });
+  if (boxes !== 1) fail(`${c.file}: expected one hero result box to restyle, found ${boxes}`);
 }
 for (const c of CHANNELS) {
   const P = pageOf(c.route);
+  if (!P.parts[0].includes(`<div style="${HERO_BOX}"><p style="${HERO_FIG}">`)) fail(`${c.file}: the channel hero box no longer has the style the capability pages copy`);
   const box = /(<div style="background: #102A4C; color: #F8F6F1; padding: clamp\(28px, 3\.4vw, 44px\); box-sizing: border-box; margin-top: 44px; max-width: 520px"><p style="[^"]*">)([^<]*)(<\/p><p style="[^"]*">)([^<]*)(<\/p>)<\/div>/;
   const m = P.parts[0].match(box) || fail(`${c.file}: the hero figure changed`);
   if (m[2] !== c.fig) fail(`${c.file}: the hero figure is ${m[2]}, expected ${c.fig}`);
@@ -565,9 +581,23 @@ for (const c of CAPS) {
   const chans = where(c);
   const note = c.route === "/capabilities/revenue-recovery" ? "<p>Vendor Central and Seller Central accounts.</p>" : "";
   if (note && (chans.length !== 1 || !text(P.parts.join(" ")).includes("Vendor Central and Seller Central accounts"))) fail(`${c.file}: the note on where Revenue Recovery applies no longer holds`);
+  // the line under "Questions executives ask" names the same channels (QA F092)
+  {
+    const fi = at(P, 'id="faq-title"', "the questions");
+    const line = /(<p style="margin: 20px 0 0; font-size: 15px; color: #626366">)Applies (?:on|to) [^<]*(<\/p>)/;
+    if (line.test(P.parts[fi])) {
+      const names = chans.map((ch) => ch.name);
+      const list = names.length === CHANNELS.length ? "every channel we run" : names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names[0];
+      const own = c.route === "/capabilities/agentic-commerce" ? ", and to your brand’s own site" : "";
+      P.parts[fi] = P.parts[fi].replace(line, (_, a, b) => `${a}Applies on ${list}${own}.${b}`);
+      report.applies++;
+    }
+  }
   P.parts.splice(1, 0, `<nav class="kq-cc-where" aria-labelledby="applies-title"><div><h2 id="applies-title">Where this applies</h2><ul>${chans.map((ch) => `<li><a href="${ch.route}#capabilities">${ch.name}</a></li>`).join("")}</ul>${note}</div></nav>`);
   P.parts.splice(at(P, 'id="faq-title"'), 0, LOGOS);
 }
+
+if (report.applies !== 4) fail(`expected 4 capability pages with an "Applies on" line, found ${report.applies}`);
 
 // =====================================================================================
 // /capabilities
